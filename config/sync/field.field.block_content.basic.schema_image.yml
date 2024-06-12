@@ -1,0 +1,27 @@
+uuid: 5d0804de-d139-4aaa-af9f-db17115ab828
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.basic
+    - field.storage.block_content.schema_image
+    - media.type.image
+id: block_content.basic.schema_image
+field_name: schema_image
+entity_type: block_content
+bundle: basic
+label: Image
+description: 'An image of the item.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'schemadotorg:media'
+  handler_settings:
+    target_type: media
+    schema_types:
+      ImageObject: ImageObject
+    target_bundles:
+      image: image
+field_type: entity_reference

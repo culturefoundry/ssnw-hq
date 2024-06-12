@@ -1,0 +1,10 @@
+_core:
+  default_config_hash: _pnMB1AWLVL1JxwTXOmPBR9okOYrTyJHfRCaw5xJWuY
+scheduled_types:
+  Article:
+    - publish
+  Event:
+    - publish
+    - unpublish
+  Episode:
+    - publish

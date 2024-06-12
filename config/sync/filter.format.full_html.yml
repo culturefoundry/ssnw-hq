@@ -1,13 +1,11 @@
-uuid: a49f0de8-457c-4307-9c20-a407364b2f72
+uuid: 94824e6d-2df1-4cde-aff9-38e8741a5d24
 langcode: en
 status: true
 dependencies:
   module:
     - editor
-    - linkit
-    - media
 _core:
-  default_config_hash: YGu9J4dsZIMPK-B86AaWlX_TCEHfF-I8oE97Iocw1AQ
+  default_config_hash: vpZysv3RHJjhYzq7O_q5q8mVlHdrSzKELmXyiX6RtV0
 name: 'Full HTML'
 format: full_html
 weight: 2
@@ -42,19 +40,3 @@ filters:
     status: true
     weight: 15
     settings: {  }
-  linkit:
-    id: linkit
-    provider: linkit
-    status: true
-    weight: 0
-    settings:
-      title: true
-  media_embed:
-    id: media_embed
-    provider: media
-    status: true
-    weight: 100
-    settings:
-      default_view_mode: default
-      allowed_view_modes: {  }
-      allowed_media_types: {  }

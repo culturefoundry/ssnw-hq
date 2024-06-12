@@ -1,9 +1,10 @@
-uuid: 1a0381ed-898a-4d20-bdce-d495b1117081
+uuid: 88827124-f925-412d-8879-53937bb225b8
 langcode: en
 status: true
 dependencies:
   config:
     - core.entity_view_mode.media.media_library
+    - field.field.media.video.field_media_oembed_video
     - field.field.media.video.field_media_video_file
     - image.style.thumbnail
     - media.type.video
@@ -20,8 +21,8 @@ content:
     type: image
     label: hidden
     settings:
-      image_style: thumbnail
       image_link: ''
+      image_style: thumbnail
       image_loading:
         attribute: lazy
     third_party_settings: {  }
@@ -29,6 +30,8 @@ content:
     region: content
 hidden:
   created: true
+  field_media_oembed_video: true
   field_media_video_file: true
+  langcode: true
   name: true
   uid: true

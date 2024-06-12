@@ -1,4 +1,4 @@
-uuid: 1b1e61a4-a0fd-4f92-a6a1-25ec1b6bf93a
+uuid: 64b4316f-b5bb-456e-ad2e-43f4456a3c05
 langcode: en
 status: true
 dependencies:
@@ -17,7 +17,7 @@ mode: default
 content:
   created:
     type: datetime_timestamp
-    weight: 10
+    weight: 200
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -28,22 +28,29 @@ content:
     settings:
       progress_indicator: throbber
     third_party_settings: {  }
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
   path:
     type: path
-    weight: 30
+    weight: 210
     region: content
     settings: {  }
     third_party_settings: {  }
   status:
     type: boolean_checkbox
-    weight: 100
+    weight: 200
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
   uid:
     type: entity_reference_autocomplete
-    weight: 5
+    weight: 200
     region: content
     settings:
       match_operator: CONTAINS
@@ -53,3 +60,5 @@ content:
     third_party_settings: {  }
 hidden:
   name: true
+  publish_on: true
+  unpublish_on: true

@@ -1,14 +1,14 @@
-uuid: 596c299d-5806-429f-9013-4f49b3469c78
+uuid: 9e39b40d-baae-4533-9e98-c2bbc6237ee3
 langcode: en
 status: true
 dependencies:
   config:
     - core.entity_form_mode.media.media_library
     - field.field.media.image.field_media_image
-    - image.style.media_library
+    - image.style.thumbnail
     - media.type.image
   module:
-    - focal_point
+    - image
 _core:
   default_config_hash: BMLrK4zKp8-FFnMseBdT_6h6YipUsKRfbDf_3WUB5HA
 id: media.image.media_library
@@ -17,14 +17,19 @@ bundle: image
 mode: media_library
 content:
   field_media_image:
-    type: image_focal_point
-    weight: 1
+    type: image_image
+    weight: 0
     region: content
     settings:
       progress_indicator: throbber
-      preview_image_style: media_library
-      preview_link: true
-      offsets: '50,50'
+      preview_image_style: thumbnail
+    third_party_settings: {  }
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
     third_party_settings: {  }
 hidden:
   created: true

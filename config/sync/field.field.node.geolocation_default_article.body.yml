@@ -1,0 +1,29 @@
+uuid: 82e9277f-9801-4be4-a5c0-26aee53d22c0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - node.type.geolocation_default_article
+  module:
+    - text
+  enforced:
+    module:
+      - geolocation_demo
+_core:
+  default_config_hash: Hrs0_EputIuzWJFbcSBFp6LXTrHBIgi_LcUwAs3E8SA
+id: node.geolocation_default_article.body
+field_name: body
+entity_type: node
+bundle: geolocation_default_article
+label: Body
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: true
+  required_summary: false
+  allowed_formats: {  }
+field_type: text_with_summary

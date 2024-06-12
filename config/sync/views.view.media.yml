@@ -1,7 +1,9 @@
-uuid: b1bf6d30-e6b9-496b-b778-7e8fed90bd26
+uuid: 24de4765-8cf4-4440-842e-3a57b981b1df
 langcode: en
 status: true
 dependencies:
+  config:
+    - image.style.thumbnail
   module:
     - image
     - media

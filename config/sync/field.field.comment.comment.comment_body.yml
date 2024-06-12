@@ -1,4 +1,4 @@
-uuid: 11283220-063d-4a8e-ba28-fa3aea035a60
+uuid: 19c65fa6-bae2-4bfd-b27d-f7cb8b493ed9
 langcode: en
 status: true
 dependencies:
@@ -8,7 +8,7 @@ dependencies:
   module:
     - text
 _core:
-  default_config_hash: TmAKjNrJ7RR60YpqvJq_QqEewYe_S8Kd23n8VRCqiWs
+  default_config_hash: 62rlTOx3sPVrYhBnSBHZStXwiO02v1UpHSMrhWDsuG8
 id: comment.comment.comment_body
 field_name: comment_body
 entity_type: comment

@@ -1,5 +1,6 @@
+_core:
+  default_config_hash: TgohPSKQv6vKfToguTCvb8Wp899q7b2l_Rh4sVKDmBs
 enabled_sources:
-  - drupalorg_mockapi
-  - local_recipes
+  - drupal_core
 allow_ui_install: false
 disable_add_new_module: true

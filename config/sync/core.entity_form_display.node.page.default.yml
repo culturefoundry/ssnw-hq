@@ -1,18 +1,15 @@
-uuid: 83e9f612-8f42-4142-a2e4-a7c2c479c409
+uuid: 61d5f9f6-66d8-4901-93a2-c5f08824f04a
 langcode: en
 status: true
 dependencies:
   config:
     - field.field.node.page.body
-    - field.field.node.page.field_meta_tags
     - node.type.page
   module:
-    - content_moderation
     - path
-    - scheduler
     - text
 _core:
-  default_config_hash: AF0ya6thl7RYLv4xtsjM17cxe_ezPb1xseKBuj7CvMQ
+  default_config_hash: SfpLhPExzvR0MgFp0Wp7CrmgEnhcqQ-fXIWFhbf4ue0
 id: node.page.default
 targetEntityType: node
 bundle: page
@@ -34,11 +31,12 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  moderation_state:
-    type: moderation_state_default
-    weight: 100
+  langcode:
+    type: language_select
+    weight: 2
     region: content
-    settings: {  }
+    settings:
+      include_locked: true
     third_party_settings: {  }
   path:
     type: path
@@ -53,14 +51,8 @@ content:
     settings:
       display_label: true
     third_party_settings: {  }
-  publish_on:
-    type: datetime_timestamp_no_default
-    weight: 14
-    region: content
-    settings: {  }
-    third_party_settings: {  }
-  scheduler_settings:
-    weight: 13
+  simple_sitemap:
+    weight: 10
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -96,13 +88,11 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  unpublish_on:
-    type: datetime_timestamp_no_default
-    weight: 15
+  url_redirects:
+    weight: 50
     region: content
     settings: {  }
     third_party_settings: {  }
 hidden:
-  field_meta_tags: true
-  simple_sitemap: true
-  url_redirects: true
+  publish_on: true
+  unpublish_on: true

@@ -1,16 +1,16 @@
-uuid: d80b7ad0-a632-420d-a18b-904bae69fc93
+uuid: 4e02188f-69a1-4115-9062-9fa94d8356dd
 langcode: en
 status: true
 dependencies:
   config:
     - field.field.media.image.field_media_image
-    - image.style.thumbnail
+    - image.style.medium
     - media.type.image
   module:
-    - image
+    - focal_point
     - path
 _core:
-  default_config_hash: N2Imq6kLhAPzzFt_VZQCkWItt-UfqPOkcQlyC-3yTgM
+  default_config_hash: JSY4-JPyNZBiYYo6imdRYF6_SdtWQexPndrLvn3-vw4
 id: media.image.default
 targetEntityType: media
 bundle: image
@@ -18,34 +18,43 @@ mode: default
 content:
   created:
     type: datetime_timestamp
-    weight: 10
+    weight: 200
     region: content
     settings: {  }
     third_party_settings: {  }
   field_media_image:
-    type: image_image
+    type: image_focal_point
     weight: 0
     region: content
     settings:
       progress_indicator: throbber
-      preview_image_style: thumbnail
+      preview_image_style: medium
+      preview_link: true
+      offsets: '50,50'
+    third_party_settings: {  }
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
     third_party_settings: {  }
   path:
     type: path
-    weight: 30
+    weight: 210
     region: content
     settings: {  }
     third_party_settings: {  }
   status:
     type: boolean_checkbox
-    weight: 100
+    weight: 200
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
   uid:
     type: entity_reference_autocomplete
-    weight: 5
+    weight: 200
     region: content
     settings:
       match_operator: CONTAINS

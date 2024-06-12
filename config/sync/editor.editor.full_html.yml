@@ -1,4 +1,4 @@
-uuid: 80e851a2-957d-4d68-b96f-caf86078b709
+uuid: 073379a0-032d-4ef2-8963-5f900535c492
 langcode: en
 status: true
 dependencies:
@@ -7,7 +7,7 @@ dependencies:
   module:
     - ckeditor5
 _core:
-  default_config_hash: cf3OD2-sh_V35WL2Zk6MEt4S4j6anE1d7C3Jk0rosBo
+  default_config_hash: lurcn8yf33g3Dkzdc55cTfJa9salGp9ytSYyG1s7QMI
 format: full_html
 editor: ckeditor5
 settings:
@@ -26,7 +26,7 @@ settings:
       - numberedList
       - '|'
       - blockQuote
-      - drupalMedia
+      - drupalInsertImage
       - insertTable
       - horizontalLine
       - '|'
@@ -95,11 +95,6 @@ settings:
       multiBlock: true
     ckeditor5_sourceEditing:
       allowed_tags: {  }
-    linkit_extension:
-      linkit_enabled: true
-      linkit_profile: default
-    media_media:
-      allow_view_mode_override: false
 image_upload:
   status: true
   scheme: public

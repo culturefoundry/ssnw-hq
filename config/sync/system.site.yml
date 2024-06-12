@@ -1,9 +1,9 @@
 _core:
-  default_config_hash: HlN7eAN2N4JIHsYv56V4E7sqC9bS609KwvGFjyD_mgk
+  default_config_hash: ijfbzDTN4CbE7Sr-6ubWzy_t1vH4OtU1doNCLssVz-4
 langcode: en
-uuid: e61ff19b-20c5-4635-b1cd-17bde0a9795b
-name: Drupal
-mail: drupal@localhost
+uuid: fa9872a1-26af-4be3-9fb8-32ed3f3ec179
+name: 'Drush Site-Install'
+mail: admin@example.com
 slogan: ''
 page:
   403: ''

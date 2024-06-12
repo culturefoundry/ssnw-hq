@@ -1,0 +1,19 @@
+_core:
+  default_config_hash: LFl_1Pm8sg-yXCOSEYO6a6nzfLkMoh2lfw88CbhBR6M
+default_types:
+  - AdministrativeArea
+  - Article
+  - CivicStructure
+  - EducationalOrganization
+  - Event
+  - FoodEstablishment
+  - LocalBusiness
+  - MedicalOrganization
+  - MedicalBusiness
+  - Organization
+  - WebPage
+default_allowed_values:
+  WebPage:
+    AboutPage: 'About Page'
+    ContactPage: 'Contact Page'
+    MedicalWebPage: 'Medical Web Page'

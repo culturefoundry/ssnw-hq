@@ -1,12 +1,14 @@
-uuid: e1265f7e-14ba-41bc-9a37-5116820e4cac
+uuid: 31663c37-1503-40a2-93de-b31c47d50c59
 langcode: en
 status: true
 dependencies:
   config:
+    - field.field.media.video.field_media_oembed_video
     - field.field.media.video.field_media_video_file
     - media.type.video
   module:
     - file
+    - media
     - path
 _core:
   default_config_hash: 0kIIaDTt6dixXy8TZkat2MNGZJ6vkRG8TaBWTy3E1bM
@@ -17,9 +19,17 @@ mode: default
 content:
   created:
     type: datetime_timestamp
-    weight: 10
+    weight: 200
     region: content
     settings: {  }
+    third_party_settings: {  }
+  field_media_oembed_video:
+    type: oembed_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
   field_media_video_file:
     type: file_generic
@@ -28,22 +38,29 @@ content:
     settings:
       progress_indicator: throbber
     third_party_settings: {  }
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
   path:
     type: path
-    weight: 30
+    weight: 210
     region: content
     settings: {  }
     third_party_settings: {  }
   status:
     type: boolean_checkbox
-    weight: 100
+    weight: 200
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
   uid:
     type: entity_reference_autocomplete
-    weight: 5
+    weight: 200
     region: content
     settings:
       match_operator: CONTAINS

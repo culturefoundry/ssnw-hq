@@ -1,10 +1,11 @@
-uuid: d2eec562-74bb-4c5e-9ec9-0a9ad78ab53f
+uuid: 8e6009e2-b5da-4ba3-be80-ff9c119afef0
 langcode: en
 status: true
 dependencies:
   config:
     - block_content.type.basic
     - field.field.block_content.basic.body
+    - field.field.block_content.basic.schema_image
   module:
     - text
 _core:
@@ -19,6 +20,16 @@ content:
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    weight: 0
+    weight: 13
     region: content
-hidden: {  }
+  schema_image:
+    type: entity_reference_entity_view
+    label: hidden
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+    weight: 5
+    region: content
+hidden:
+  langcode: true

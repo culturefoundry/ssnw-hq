@@ -1,0 +1,57 @@
+uuid: 68e0dd95-adc4-45d4-a698-bdbd60effcdd
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.geolocation_default_article.body
+    - field.field.node.geolocation_default_article.field_geolocation_demo_multiple
+    - field.field.node.geolocation_default_article.field_geolocation_demo_single
+    - field.field.node.geolocation_default_article.field_geolocation_demo_taxonomy
+    - node.type.geolocation_default_article
+  module:
+    - geolocation
+    - text
+    - user
+  enforced:
+    module:
+      - geolocation_demo
+_core:
+  default_config_hash: pHsIMacqVvg01Af3DG-3pqncTp7QQCVAorH0BjYFQmE
+id: node.geolocation_default_article.teaser
+targetEntityType: node
+bundle: geolocation_default_article
+mode: teaser
+content:
+  body:
+    type: text_summary_or_trimmed
+    label: hidden
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_geolocation_demo_single:
+    type: geolocation_latlng
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_geolocation_demo_taxonomy:
+    type: entity_reference_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  field_geolocation_demo_multiple: true
+  langcode: true

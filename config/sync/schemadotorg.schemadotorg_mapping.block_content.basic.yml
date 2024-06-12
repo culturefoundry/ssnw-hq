@@ -1,0 +1,21 @@
+uuid: 8631d3b3-c7bb-489b-8fe8-99edc24a9b77
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.basic
+    - field.field.block_content.basic.body
+    - field.field.block_content.basic.schema_image
+  module:
+    - block_content
+id: block_content.basic
+target_entity_type_id: block_content
+target_bundle: basic
+schema_type: WebContent
+schema_properties:
+  changed: dateModified
+  schema_image: image
+  langcode: inLanguage
+  info: name
+  body: text
+additional_mappings: {  }

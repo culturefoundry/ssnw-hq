@@ -1,4 +1,4 @@
-uuid: ac48b5fe-68a9-4048-99c8-69779919dd7d
+uuid: 562338fa-5a2c-43ea-9883-eda10200b250
 langcode: en
 status: true
 dependencies:
@@ -6,13 +6,13 @@ dependencies:
     - filter.format.restricted_html
   module:
     - comment
+    - contact
     - filter
     - media
-    - media_entity_download
     - search
     - system
 _core:
-  default_config_hash: j5zLMOdJBqC0bMvSdth5UebkprJB8g_2FXHqhfpJzow
+  default_config_hash: 6WavjUYXIegP9AAg2zXGx54MWIVoomC3SZhNiqe-Dyk
 id: anonymous
 label: 'Anonymous user'
 weight: 0
@@ -20,8 +20,7 @@ is_admin: false
 permissions:
   - 'access comments'
   - 'access content'
-  - 'download media'
+  - 'access site-wide contact form'
   - 'search content'
-  - 'use advanced search'
   - 'use text format restricted_html'
   - 'view media'

@@ -1,7 +1,9 @@
-uuid: 81ad3887-54a4-4dce-a4eb-bcdff0d63827
+uuid: b1c59e25-0fea-46d3-a603-cf8319d39e3a
 langcode: en
 status: true
 dependencies:
+  module:
+    - help
   theme:
     - gin
 _core:

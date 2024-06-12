@@ -1,1 +1,15 @@
+_core:
+  default_config_hash: c-knKQdQwnCtY9cwzSHofxLIkpZdYUGi13uCGVEFCHc
+categories:
+  common: Common
+  web: Web
+  content: Content
+  organization: Organization
+  hospitality: Hospitality
+  education: Education
+  food: Food
+  podcast: Podcast
+  tv: TV
+  medical_organization: 'Medical organization'
+  medical_information: 'Medical information'
 fallback_label: Uncategorized

@@ -1,11 +1,7 @@
-uuid: 421a90f5-5503-499f-b2f5-e4d312f9cefc
+uuid: 6d76ffa1-bf06-4b83-8d06-f667730d4512
 langcode: en
 status: true
 dependencies:
-  config:
-    - node.type.blog
-    - node.type.event
-    - node.type.page
   module:
     - content_moderation
 _core:
@@ -63,9 +59,5 @@ type_settings:
         - published
       to: published
       weight: 1
-  entity_types:
-    node:
-      - blog
-      - event
-      - page
+  entity_types: {  }
   default_moderation_state: draft
