@@ -1,0 +1,38 @@
+'schemadotorg.schemadotorg_mapping.*.*':
+  type: config_entity
+  label: 'Schema.org mapping'
+  mapping:
+    id:
+      type: string
+      label: ID
+    target_entity_type_id:
+      type: string
+      label: 'Target entity type'
+    target_bundle:
+      type: string
+      label: 'Target bundle'
+    schema_type:
+      type: string
+      label: 'Schema.org type'
+    schema_properties:
+      type: sequence
+      label: 'Schema.org properties'
+      sequence:
+        type: string
+        label: 'Schema.org property'
+    additional_mappings:
+      type: sequence
+      label: 'Additional mapping'
+      sequence:
+        type: mapping
+        label: 'Additional mapping'
+        mapping:
+          schema_type:
+            type: string
+            label: 'Schema.org type'
+          schema_properties:
+            type: sequence
+            label: 'Schema.org properties'
+            sequence:
+              type: string
+              label: 'Schema.org property'

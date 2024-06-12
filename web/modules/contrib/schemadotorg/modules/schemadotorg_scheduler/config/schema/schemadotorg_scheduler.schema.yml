@@ -1,0 +1,13 @@
+schemadotorg_scheduler.settings:
+  type: config_entity
+  label: 'Schema.org Scheduler settings'
+  mapping:
+    scheduled_types:
+      type: sequence
+      label: 'Scheduled Schema.org types'
+      sequence:
+        type: sequence
+        label: 'Scheduled Schema.org type'
+        sequence:
+          type: string
+          label: Publish/Unpublish

@@ -1,0 +1,37 @@
+default_field_groups:
+  taxonomy: 'Categories and Services'
+default_vocabularies: {  }
+schema_property_vocabularies:
+  alumniOf:
+    id: alumni
+    label: Alumni
+  amenityFeature:
+    id: amenity
+    label: Amenity
+  availableService:
+    id: medical_service
+    label: 'Medical service'
+  epidemiology:
+    id: epidemiology
+    label: Epidemiology
+  cookingMethod:
+    id: cooking_method
+    label: 'Cooking method'
+  keywords:
+    id: keywords
+    label: Keywords
+  medicalAudience:
+    id: medical_audience
+    label: 'Medical audience'
+  medicalSpecialty:
+    id: medical_specialty
+    label: 'Medical specialty'
+  recipeCategory:
+    id: recipe_category
+    label: 'Recipe category'
+  recipeCuisine:
+    id: recipe_cuisine
+    label: 'Recipe cuisine'
+  targetPopulation:
+    id: target_population
+    label: 'Target population'

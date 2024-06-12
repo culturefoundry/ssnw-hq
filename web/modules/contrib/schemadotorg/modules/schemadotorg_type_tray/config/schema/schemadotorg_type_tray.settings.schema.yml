@@ -1,0 +1,23 @@
+schemadotorg_type_tray.settings:
+  type: config_object
+  label: 'Schema.org Type tray settings'
+  mapping:
+    schema_types:
+      type: sequence
+      label: 'Schema.org types'
+      sequence:
+        type: mapping
+        label: 'Schema.org type'
+        mapping:
+          label:
+            type: string
+            label: Label
+          types:
+            type: sequence
+            label: Types
+            sequence:
+              type: string
+              label: Type
+    existing_nodes_link_text:
+      type: string
+      label: 'Text to be used when building links to existing content'

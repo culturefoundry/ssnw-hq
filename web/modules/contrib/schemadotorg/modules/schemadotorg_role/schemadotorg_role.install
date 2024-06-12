@@ -1,0 +1,25 @@
+<?php
+
+/**
+ * @file
+ * Installation hooks for the Schema.org Blueprints WebPage module.
+ */
+
+declare(strict_types=1);
+
+/**
+ * Change 'schema_types' to 'field_instances' in 'schemadotorg_role.settings'.
+ */
+function schemadotorg_role_update_10001(): void {
+  $config = \Drupal::configFactory()
+    ->getEditable('schemadotorg_role.settings');
+  $schema_types = $config->get('schema_types');
+  $field_instances = [];
+  foreach ($schema_types as $type => $fields) {
+    [$schema_type, $schema_property] = explode('--', $type);
+    $field_instances[$schema_type] = [$schema_property => $fields];
+  }
+  $config->set('field_instances', $field_instances);
+  $config->clear('schema_types');
+  $config->save();
+}

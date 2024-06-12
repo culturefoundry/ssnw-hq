@@ -1,0 +1,6 @@
+schemadotorg.mapping_sets:
+  title: 'Mapping sets'
+  parent: schemadotorg.overview
+  description: 'List of  mapping sets that can be set up and managed using the below admin UI or Drush.'
+  route_name: schemadotorg_mapping_set.overview
+  weight: 20

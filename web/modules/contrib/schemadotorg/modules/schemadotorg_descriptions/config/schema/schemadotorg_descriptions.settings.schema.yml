@@ -1,0 +1,13 @@
+schemadotorg_descriptions.settings:
+  type: config_object
+  label: 'Schema.org Descriptions settings'
+  mapping:
+    custom_descriptions:
+      type: sequence
+      label: 'Custom Schema.org type and property descriptions'
+      sequence:
+        type: string
+        label: 'Schema.org type and property description'
+    help_descriptions:
+      type: boolean
+      label: 'Set explanation or submission guidelines to Schema.org type description (Only applies to nodes).'

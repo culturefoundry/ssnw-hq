@@ -1,0 +1,15 @@
+name: 'Schema.org Blueprints Custom Field'
+type: module
+description: 'Allows a Custom field to be used to create Schema.org relationships within an entity type/bundle Schema.org mapping.'
+package: 'Schema.org Blueprints Fields'
+core_version_requirement: ^10.2
+configure: schemadotorg.settings.properties
+schemadotorg_production: true
+dependencies:
+  - 'schemadotorg:schemadotorg'
+  - 'custom_field:custom_field'
+
+# Information added by Drupal.org packaging script on 2024-05-20
+version: '1.0.0-alpha24'
+project: 'schemadotorg'
+datestamp: 1716237079

@@ -1,0 +1,13 @@
+schemadotorg_address.settings:
+  type: config_object
+  label: 'Schema.org Address settings'
+  mapping:
+    field_overrides:
+      type: sequence
+      label: 'Field overrides'
+      sequence:
+        type: sequence
+        label: 'Field override'
+        sequence:
+          type: string
+          label: 'Address property'

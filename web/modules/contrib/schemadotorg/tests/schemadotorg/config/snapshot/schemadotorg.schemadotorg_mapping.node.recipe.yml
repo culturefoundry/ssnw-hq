@@ -1,0 +1,45 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.recipe.body
+    - field.field.node.recipe.schema_cook_time
+    - field.field.node.recipe.schema_cooking_method
+    - field.field.node.recipe.schema_image
+    - field.field.node.recipe.schema_is_family_friendly
+    - field.field.node.recipe.schema_nutrition
+    - field.field.node.recipe.schema_prep_time
+    - field.field.node.recipe.schema_recipe_category
+    - field.field.node.recipe.schema_recipe_cuisine
+    - field.field.node.recipe.schema_recipe_ingredient
+    - field.field.node.recipe.schema_recipe_instructions
+    - field.field.node.recipe.schema_recipe_yield
+    - field.field.node.recipe.schema_suitable_for_diet
+    - field.field.node.recipe.schema_total_time
+    - node.type.recipe
+  module:
+    - node
+id: node.recipe
+target_entity_type_id: node
+target_bundle: recipe
+schema_type: Recipe
+schema_properties:
+  schema_cooking_method: cookingMethod
+  schema_cook_time: cookTime
+  created: dateCreated
+  changed: dateModified
+  schema_image: image
+  langcode: inLanguage
+  schema_is_family_friendly: isFamilyFriendly
+  title: name
+  schema_nutrition: nutrition
+  schema_prep_time: prepTime
+  schema_recipe_category: recipeCategory
+  schema_recipe_cuisine: recipeCuisine
+  schema_recipe_ingredient: recipeIngredient
+  schema_recipe_instructions: recipeInstructions
+  schema_recipe_yield: recipeYield
+  schema_suitable_for_diet: suitableForDiet
+  body: text
+  schema_total_time: totalTime
+additional_mappings: {  }

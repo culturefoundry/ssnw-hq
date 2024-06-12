@@ -1,0 +1,22 @@
+schemadotorg_existing_values_autocomplete_widget.settings:
+  type: config_object
+  label: 'Schema.org Existing values autocomplete widget settings'
+  mapping:
+    default_schema_properties:
+      type: sequence
+      label: 'Schema.org default properties'
+      sequence:
+        type: string
+        label: 'Schema.org default property'
+    default_form_displays:
+      type: sequence
+      label: 'Default Schema.org type form displays'
+      sequence:
+        type: string
+        label: 'Default Schema.org type form display'
+    default_form_display_components:
+      type: sequence
+      label: 'Default form display components'
+      sequence:
+        type: string
+        label: 'Default form display component'

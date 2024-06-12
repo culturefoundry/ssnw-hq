@@ -1,0 +1,136 @@
+schema_property_allowed_values:
+  difficulty:
+    easy: Easy
+    medium: Medium
+    hard: Hard
+  dosageForm:
+    Aerosol: Aerosol
+    Bead: Bead
+    Capsule: Capsule
+    'Chewable Gel': 'Chewable Gel'
+    Cloth: Cloth
+    Concentrate: Concentrate
+    Cream: Cream
+    Crystal: Crystal
+    Disc: Disc
+    Douche: Douche
+    Dressing: Dressing
+    Elixir: Elixir
+    Emulsion: Emulsion
+    Enema: Enema
+    Extract: Extract
+    Film: Film
+    Gas: Gas
+    Gel: Gel
+    Globule: Globule
+    Granule: Granule
+    'Gum, Chewing': 'Gum, Chewing'
+    Implant: Implant
+    Inhalant: Inhalant
+    Injection: Injection
+    Jelly: Jelly
+    Kit: Kit
+    Liniment: Liniment
+    Lipstick: Lipstick
+    Liquid: Liquid
+    Lotion: Lotion
+    Lozenge: Lozenge
+    Mouthwash: Mouthwash
+    Oil: Oil
+    Ointment: Ointment
+    Paste: Paste
+    Pastille: Pastille
+    Patch: Patch
+    Pellet: Pellet
+    Pill: Pill
+    Plaster: Plaster
+    Poultice: Poultice
+    Powder: Powder
+    Ring: Ring
+    Rinse: Rinse
+    Salve: Salve
+    Shampoo: Shampoo
+    Soap: Soap
+    Solution: Solution
+    Sponge: Sponge
+    Spray: Spray
+    Stick: Stick
+    Strip: Strip
+    Suppository: Suppository
+    Suspension: Suspension
+    Swab: Swab
+    Syrup: Syrup
+    System: System
+    Tablet: Tablet
+    Tampon: Tampon
+    Tape: Tape
+    Tincture: Tincture
+    Troche: Troche
+    Wafer: Wafer
+  doseUnit:
+    gram: gram
+    milligram: milligram
+  contactType:
+    Home: Home
+    Work: Work
+    Cell: Cell
+  frequency:
+    Daily: Daily
+    '2 times a day': '2 times a day'
+    '3 times a day': '3 times a day'
+    '4 times a day': '4 times a day'
+    '5 times a day': '5 times a day'
+    'Every 3 hours': 'Every 3 hours'
+    'Every 6 hours': 'Every 6 hours'
+    'Every 8 hours': 'Every 8 hours'
+    'Every 12 hours': 'Every 12 hours'
+    'Every 24 hours': 'Every 24 hours'
+    'Bedtime': 'Bedtime'
+  gender:
+    Male: Male
+    Female: Female
+    Unspecified: Unspecified
+  honorificPrefix:
+    Dr: Dr
+    Mrs: Mrs
+    Miss: Miss
+    Mr: Mr
+    Mx: Mx
+  honorificSuffix:
+    MD: M.D.
+    PHD: PhD
+    MSCSW: MSCSW
+  priceRange:
+    '$': $
+    '$$': $$
+    '$$$': $$$
+    '$$$$': $$$$
+  starRating:
+    1: ★
+    2: ★★
+    3: ★★★
+    4: ★★★★
+    5: ★★★★★
+  typeOfBed:
+    california_king: 'California king'
+    king: King
+    queen: Queen
+    full: Full
+    double: Double
+    semi_double: 'Semi double'
+    single: Single
+  SpecialAnnouncement--category:
+    information: Information
+    condition: Condition
+    warning: Warning
+    emergency: Emergency
+    error: Error
+schema_property_allowed_values_suffixes:
+  suitableForDiet: Diet
+  hasHealthAspect: 'Health Aspect'
+allowed_value_uris:
+  condition: 'https://www.wikidata.org/wiki/Q813912'
+  emergency: 'https://www.wikidata.org/wiki/Q5070802'
+  error: 'https://www.wikidata.org/wiki/Q29485'
+  information: 'https://www.wikidata.org/wiki/Q11028'
+  warning: 'https://www.wikidata.org/wiki/Q1759104'

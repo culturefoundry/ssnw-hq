@@ -1,0 +1,21 @@
+<?php
+
+/**
+ * @file
+ * Installation hooks for the Schema.org Blueprints Allowed Formats module.
+ */
+
+declare(strict_types=1);
+
+/**
+ * Rework 'schemadotorg_allowed_formats.settings' to only use 'default_allowed_formats'.
+ */
+function schemadotorg_allowed_formats_update_10000(): void {
+  $config = \Drupal::configFactory()
+    ->getEditable('schemadotorg_allowed_formats.settings');
+  $default_allowed_formats = [
+    'Thing' => $config->get('default_allowed_formats'),
+  ] + $config->get('schema_property_allowed_formats');
+  $config->set('default_allowed_formats', $default_allowed_formats);
+  $config->save();
+}

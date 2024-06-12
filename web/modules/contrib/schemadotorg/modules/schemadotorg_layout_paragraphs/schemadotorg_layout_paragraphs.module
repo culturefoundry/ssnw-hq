@@ -1,0 +1,106 @@
+<?php
+
+/**
+ * @file
+ * Provides integration with the Layout Paragraphs module.
+ */
+
+declare(strict_types=1);
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\paragraphs\ParagraphsTypeInterface;
+
+/**
+ * Implements hook_schemadotorg_mapping_defaults_alter().
+ */
+function schemadotorg_layout_paragraphs_schemadotorg_mapping_defaults_alter(array &$defaults, string $entity_type_id, ?string $bundle, string $schema_type): void {
+  /** @var \Drupal\schemadotorg_layout_paragraphs\SchemaDotOrgLayoutParagraphsManagerInterface $layout_paragraphs_manager */
+  $layout_paragraphs_manager = \Drupal::service('schemadotorg_layout_paragraphs.manager');
+  $layout_paragraphs_manager->alterMappingDefaults($defaults, $entity_type_id, $bundle, $schema_type);
+}
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ */
+function schemadotorg_layout_paragraphs_form_schemadotorg_mapping_form_alter(array &$form, FormStateInterface &$form_state): void {
+  /** @var \Drupal\schemadotorg_layout_paragraphs\SchemaDotOrgLayoutParagraphsManagerInterface $layout_paragraphs_manager */
+  $layout_paragraphs_manager = \Drupal::service('schemadotorg_layout_paragraphs.manager');
+  $layout_paragraphs_manager->alterMappingForm($form, $form_state);
+}
+
+/**
+ * Implements hook_schemadotorg_property_field_alter().
+ *
+ * @see schemadotorg_paragraphs_schemadotorg_property_field_alter()
+ */
+function schemadotorg_layout_paragraphs_schemadotorg_property_field_alter(
+  string $schema_type,
+  string $schema_property,
+  array &$field_storage_values,
+  array &$field_values,
+  ?string &$widget_id,
+  array &$widget_settings,
+  ?string &$formatter_id,
+  array &$formatter_settings,
+): void {
+  /** @var \Drupal\schemadotorg_layout_paragraphs\SchemaDotOrgLayoutParagraphsManagerInterface $layout_paragraphs_manager */
+  $layout_paragraphs_manager = \Drupal::service('schemadotorg_layout_paragraphs.manager');
+  $layout_paragraphs_manager->alterPropertyField(
+    $schema_type,
+    $schema_property,
+    $field_storage_values,
+    $field_values,
+    $widget_id,
+    $widget_settings,
+    $formatter_id,
+    $formatter_settings
+  );
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_presave().
+ */
+function schemadotorg_layout_paragraphs_paragraphs_type_presave(ParagraphsTypeInterface $paragraphs_type): void {
+  /** @var \Drupal\schemadotorg_layout_paragraphs\SchemaDotOrgLayoutParagraphsManagerInterface $layout_paragraphs_manager */
+  $layout_paragraphs_manager = \Drupal::service('schemadotorg_layout_paragraphs.manager');
+  $layout_paragraphs_manager->paragraphsTypePresave($paragraphs_type);
+}
+
+/* ************************************************************************** */
+// Schema.org types settings form.
+/* ************************************************************************** */
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * @see \Drupal\schemadotorg\Form\SchemaDotOrgSettingsFormBase::afterBuildDetails
+ * @see \Drupal\schemadotorg\Form\SchemaDotOrgSettingsFormBase::formAlter
+ */
+function schemadotorg_layout_paragraphs_form_schemadotorg_types_settings_form_alter(array &$form, FormStateInterface $form_state): void {
+  $form['schemadotorg_layout_paragraphs'] = [
+    '#type' => 'details',
+    '#title' => t('Layout paragraphs settings'),
+  ];
+  $form['schemadotorg_layout_paragraphs']['default_types'] = [
+    '#type' => 'schemadotorg_settings',
+    '#title' => t('Default Schema.org types/content types'),
+    '#description' => t('Enter Schema.org types or content types (a.k.a bundles) that default to using layout paragraphs.'),
+    '#description_link' => 'types',
+    '#example' => '
+- SchemaType01
+- SchemaType02
+- SchemaType03
+- advanced_page
+',
+  ];
+  $form['schemadotorg_layout_paragraphs']['default_paragraph_types'] = [
+    '#type' => 'schemadotorg_settings',
+    '#title' => t('Default paragraph types'),
+    '#description' => t('Enter the default paragraph types to be using with in layout paragraphs.'),
+    '#example' => '
+- paragraph_type01
+- paragraph_type02
+- paragraph_type03
+',
+  ];
+}

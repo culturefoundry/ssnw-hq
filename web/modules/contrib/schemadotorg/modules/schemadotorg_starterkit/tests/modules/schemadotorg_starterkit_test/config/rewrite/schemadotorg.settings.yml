@@ -1,0 +1,9 @@
+replace:
+  - schema_types.default_properties.Article
+schema_types:
+  default_properties:
+    Article:
+      - articleBody
+      - author
+      - headline
+      - keywords

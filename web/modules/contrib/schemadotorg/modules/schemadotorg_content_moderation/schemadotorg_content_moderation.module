@@ -1,0 +1,85 @@
+<?php
+
+/**
+ * @file
+ * Automatically enables content moderation Schema.org types.
+ */
+
+declare(strict_types=1);
+
+use Drupal\content_moderation\Plugin\WorkflowType\ContentModerationInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
+use Drupal\workflows\Entity\Workflow;
+
+/**
+ * Implements hook_schemadotorg_mapping_insert().
+ */
+function schemadotorg_content_moderation_schemadotorg_mapping_insert(SchemaDotOrgMappingInterface $mapping): void {
+  if ($mapping->isSyncing()) {
+    return;
+  }
+
+  $entity_type_id = $mapping->getTargetEntityTypeId();
+  $bundle = $mapping->getTargetBundle();
+  $schema_type = $mapping->getSchemaType();
+
+  $default_workflows = \Drupal::config('schemadotorg_content_moderation.settings')
+    ->get('default_workflows');
+  $default_workflow = $default_workflows["$entity_type_id--$schema_type"]
+    ?? $default_workflows[$entity_type_id]
+    ?? NULL;
+  if (!$default_workflow) {
+    return;
+  }
+
+  $workflow = Workflow::load($default_workflow);
+  if (!$workflow) {
+    return;
+  }
+
+  $content_moderation = $workflow->getTypePlugin();
+  if (!$content_moderation instanceof ContentModerationInterface) {
+    return;
+  }
+
+  $content_moderation->addEntityTypeAndBundle($entity_type_id, $bundle);
+  $workflow->save();
+
+  // Hide content moderation control widget from all view modes except full.
+  /** @var \Drupal\Core\Entity\EntityDisplayRepositoryInterface $entity_display_repository */
+  $entity_display_repository = \Drupal::service('entity_display.repository');
+  $view_modes = $entity_display_repository->getViewModeOptionsByBundle($entity_type_id, $bundle);
+  unset($view_modes['full']);
+  foreach (array_keys($view_modes) as $view_mode) {
+    $view_display = $entity_display_repository->getViewDisplay($entity_type_id, $bundle, $view_mode);
+    $view_display->removeComponent('content_moderation_control');
+    $view_display->save();
+  }
+}
+
+/* ************************************************************************** */
+// Schema.org types settings form.
+/* ************************************************************************** */
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * @see \Drupal\schemadotorg\Form\SchemaDotOrgSettingsFormBase::afterBuildDetails
+ * @see \Drupal\schemadotorg\Form\SchemaDotOrgSettingsFormBase::formAlter
+ */
+function schemadotorg_content_moderation_form_schemadotorg_types_settings_form_alter(array &$form, FormStateInterface $form_state): void {
+  $form['schemadotorg_content_moderation'] = [
+    '#type' => 'details',
+    '#title' => t('Content moderation settings'),
+  ];
+  $form['schemadotorg_content_moderation']['default_workflows'] = [
+    '#type' => 'schemadotorg_settings',
+    '#title' => t('Default content moderation workflows'),
+    '#description' => t('Enter the default content moderation workflow per entity type and Schema.org type. Set to <em>null</em> to not set a workflow for a Schema.org type.'),
+    '#example' => '
+entity_type: workflow_id
+entity_type--SchemaType01: workflow_id
+entity_type--SchemaType02: null',
+  ];
+}

@@ -1,0 +1,9 @@
+services:
+  schemadotorg_mapping_set.manager:
+    class: Drupal\schemadotorg_mapping_set\SchemaDotOrgMappingSetManager
+    arguments: ['@state', '@config.factory', '@entity_type.manager', '@schemadotorg.schema_type_manager', '@schemadotorg.mapping_manager', '@?plugin.manager.develgenerate']
+
+  schemadotorg_mapping_set.breadcrumb:
+    class: Drupal\schemadotorg_mapping_set\Breadcrumb\SchemaDotOrgMappingSetBreadcrumbBuilder
+    tags:
+      - { name: breadcrumb_builder, priority: 1000 }

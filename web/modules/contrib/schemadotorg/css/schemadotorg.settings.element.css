@@ -1,0 +1,55 @@
+/**
+ * @file
+ * Schema.org settings element styles.
+
+ * @see webform/js/webform.element.more.js
+ */
+
+
+.description .token-dialog::before,
+.description .schemadotorg-settings-browse::before,
+.form-item__description .token-dialog::before,
+.form-item__description .schemadotorg-settings-browse::before {
+  content: "🔍 ";
+  font-size: 0.8em;
+}
+
+.description .token-dialog,
+.description .schemadotorg-settings-browse,
+.form-item__description .token-dialog,
+.form-item__description .schemadotorg-settings-browse {
+  white-space: nowrap;
+}
+
+.form-type--schemadotorg-settings .schemadotorg-settings-example {
+  max-width: inherit;
+}
+
+.schemadotorg-settings-example--link {
+  display: none;
+}
+
+.schemadotorg-settings-example--link::before {
+  content: "► ";
+  cursor: pointer;
+  font-size: 0.8em;
+}
+
+.schemadotorg-settings-example.is-open .schemadotorg-settings-example--link::before {
+  content: "▼ ";
+}
+
+html.js .schemadotorg-settings-example--link {
+  display: inline-block;
+}
+
+html.js .schemadotorg-settings-example--content {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.25s ease-out;
+}
+
+html.js .schemadotorg-settings-example.is-open .schemadotorg-settings-example--content {
+  max-height: 500px;
+  transition: max-height 0.5s ease-in;
+}

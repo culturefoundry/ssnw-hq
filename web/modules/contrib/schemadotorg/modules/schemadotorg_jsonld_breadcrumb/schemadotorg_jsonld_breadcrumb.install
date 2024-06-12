@@ -1,0 +1,36 @@
+<?php
+
+/**
+ * @file
+ * Installation hooks for the Schema.org Blueprints WebPage module.
+ */
+
+declare(strict_types=1);
+
+/**
+ * Implements hook_install().
+ */
+function schemadotorg_jsonld_breadcrumb_install(bool $is_syncing): void {
+  if ($is_syncing) {
+    return;
+  }
+
+  // Setting weight to 2 so that the breadcrumb is set after an
+  // additional mappings WebPage's JSON-LD is defined.
+  // @see schemadotorg_additional_mappings_install()
+  module_set_weight('schemadotorg_jsonld_breadcrumb', 11);
+}
+
+/**
+ * Setting weight to 2 so that the breadcrumb is set after a WebPage's JSON-LD is defined.
+ */
+function schemadotorg_jsonld_breadcrumb_update_10000(): void {
+  module_set_weight('schemadotorg_jsonld_breadcrumb', 2);
+}
+
+/**
+ * Setting weight to 11 so that the breadcrumb is set after additional mappings JSON-LD is defined.
+ */
+function schemadotorg_jsonld_breadcrumb_update_10001(): void {
+  module_set_weight('schemadotorg_jsonld_breadcrumb', 11);
+}

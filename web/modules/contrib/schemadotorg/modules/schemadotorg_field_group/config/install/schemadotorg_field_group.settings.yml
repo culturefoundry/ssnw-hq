@@ -1,0 +1,250 @@
+# eslint-disable
+default_field_groups:
+  user:
+    biographical:
+      label: Biographical
+      properties:
+        - subtype
+        - givenName
+        - additionalName
+        - familyName
+        - honorificPrefix
+        - honorificSuffix
+        - gender
+        - birthDate
+        - knowsLanguage
+        - nationality
+        - description
+    professional:
+      label: Professional
+      properties:
+        - jobTitle
+        - worksFor
+        - affiliation
+        - award
+    contact:
+      label: Contact
+      properties:
+        - address
+        - geo
+        - longitude
+        - latitude
+        - telephone
+        - faxNumber
+        - email
+        - contactPoint
+        - workLocation
+  node:
+    general:
+      label: General
+      properties:
+        - subtype
+        - title
+        - name
+        - alternateName
+        - proprietaryName
+        - nonProprietaryName
+        - headline
+        - alternativeHeadline
+        - givenName
+        - additionalName
+        - familyName
+        - honorificPrefix
+        - honorificSuffix
+        - gender
+        - birthDate
+        - knowsLanguage
+        - nationality
+        - description
+        - articleBody
+        - text
+        - author
+        - logo
+        - image
+        - photo
+        - primaryImageOfPage
+        - video
+        - trailer
+        - thumbnail
+        - thumbnailUrl
+        - contentUrl
+        - associatedMedia
+    employment:
+      label: Employment
+      properties:
+        - jobTitle
+        - affiliation
+        - award
+        - benefits
+        - datePosted
+        - validThrough
+        - employmentType
+        - experienceRequirements
+        - qualifications
+        - responsibilities
+        - skills
+        - educationRequirements
+        - estimatedSalary
+        - jobBenefits
+        - jobLocation
+        - jobLocationType
+        - eligibilityToWorkRequirement
+        - employerOverview
+        - applicationContact
+    education:
+      label: Education
+      properties:
+        - instructor
+        - teaches
+        - assesses
+        - numberOfCredits
+        - educationalLevel
+        - courseCode
+        - courseMode
+        - coursePrerequisites
+        - courseWorkload
+        - educationalCredentialAwarded
+        - occupationalCredentialAwarded
+        - educationalUse
+        - learningResourceType
+        - hasCourseInstance
+    contact:
+      label: Contact
+      properties:
+        - address
+        - geo
+        - longitude
+        - latitude
+        - telephone
+        - faxNumber
+        - email
+        - contactPoint
+        - isAcceptingNewPatients
+        - openingHours
+        - openingHoursSpecification
+    event:
+      label: Event
+      properties:
+        - eventSchedule
+        - eventStatus
+        - performer
+        - attendee
+        - organizer
+        - location
+    medical:
+      label: Medical
+      properties:
+        - naturalProgression
+        - expectedPrognosis
+        - pathophysiology
+        - possibleComplication
+        - riskFactor
+        - signOrSymptom
+        - primaryPrevention
+        - secondaryPrevention
+        - typicalTest
+        - possibleTreatment
+        - drugClass
+        - drugUnit
+        - activeIngredient
+        - mechanismOfAction
+        - clinicalPharmacology
+        - safetyConsideration
+        - foodWarning
+        - dosageForm
+        - doseSchedule
+        - recommendedIntake
+        - maximumIntake
+        - overdosage
+        - hasHealthAspect
+        - isAvailableGenerically
+        - isProprietary
+    recipe:
+      label: Recipe
+      properties:
+        - recipeIngredient
+        - recipeInstructions
+        - suitableForDiet
+        - Recipe--isFamilyFriendly
+        - recipeYield
+        - prepTime
+        - cookTime
+        - totalTime
+        - nutrition
+    content:
+      label: Content
+      properties:
+       - mainEntity
+    links:
+      label: Links
+      properties:
+        - relatedLink
+        - significantLink
+        - webFeed
+        - sameAs
+    organization:
+      label: Organization
+      properties:
+        - worksFor
+        - department
+        - employee
+        - alumniOf
+        - alumni
+        - memberOf
+        - member
+        - parentOrganization
+        - subOrganization
+        - founder
+        - hospitalAffiliation
+    hierarchy:
+      label: Hierarchy
+      properties:
+        - containedInPlace
+        - containsPlace
+        - isPartOf
+        - hasPart
+        - partOfEpisode
+        - episode
+        - partOfSeason
+        - containsSeason
+        - partOfSeries
+    references:
+      label: References
+      properties:
+        - about
+        - subjectOf
+        - mentions
+        - isBasedOn
+    relationships:
+      label: Relationships
+      properties:
+        - actor
+        - sponsor
+        - study
+        - studyLocation
+        - healthCondition
+        - relatedDrug
+    taxonomy:
+      label: 'Categories/Services'
+      properties:
+        - keywords
+    identifiers:
+      label: Identifiers
+      properties:
+        - identifier
+        - healthPlanNetworkId
+default_schema_type_field_groups:
+  Person: general
+  Event: event
+  MedicalEntity: medical
+default_form_type: details
+default_view_type: fieldset
+disable_field_groups:
+  - 'node--view--teaser'
+  - 'node--mainEntity'
+  - 'node--created'
+  - 'node--uid'
+  - 'block_content'
+  - 'media'
+  - 'paragraph'
+  - 'taxonomy_term'

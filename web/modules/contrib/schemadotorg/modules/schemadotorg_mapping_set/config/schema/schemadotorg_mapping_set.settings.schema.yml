@@ -1,0 +1,20 @@
+schemadotorg_mapping_set.settings:
+  type: config_object
+  label: 'Schema.org mapping set settings'
+  mapping:
+    sets:
+      type: sequence
+      label: 'Mapping sets'
+      sequence:
+        type: mapping
+        label: 'Mapping set'
+        mapping:
+          label:
+            type: string
+            label: Label
+          types:
+            type: sequence
+            label: Types
+            sequence:
+              type: string
+              label: Type

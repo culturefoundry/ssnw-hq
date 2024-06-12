@@ -1,0 +1,27 @@
+entity.node.schemadotorg_jsonld:
+  path: '/node/{node}/schemadotorg-jsonld'
+  defaults:
+    _title_callback: '\Drupal\schemadotorg_jsonld_preview\Controller\SchemaDotOrgJsonLdPreviewController::getTitle'
+    _controller: '\Drupal\schemadotorg_jsonld_preview\Controller\SchemaDotOrgJsonLdPreviewController::index'
+    format: jsonld
+  requirements:
+    _permission: 'view schemadotorg jsonld'
+  options:
+    _admin_route: TRUE
+    parameters:
+      node:
+        type: entity:node
+
+entity.node.schemadotorg_data:
+  path: '/node/{node}/schemadotorg-data'
+  defaults:
+    _title_callback: '\Drupal\schemadotorg_jsonld_preview\Controller\SchemaDotOrgJsonLdPreviewController::getTitle'
+    _controller: '\Drupal\schemadotorg_jsonld_preview\Controller\SchemaDotOrgJsonLdPreviewController::index'
+    format: data
+  requirements:
+    _permission: 'view schemadotorg jsonld'
+  options:
+    _admin_route: TRUE
+    parameters:
+      node:
+        type: entity:node

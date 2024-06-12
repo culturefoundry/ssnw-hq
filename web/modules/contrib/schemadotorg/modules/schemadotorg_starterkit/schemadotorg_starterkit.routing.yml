@@ -1,0 +1,23 @@
+schemadotorg_starterkit.overview:
+  path: /admin/config/schemadotorg/starterkits
+  defaults:
+    _title: 'Schema.org starter kits'
+    _controller: '\Drupal\schemadotorg_starterkit\Controller\SchemadotorgStarterkitController::overview'
+  requirements:
+    _permission: 'administer schemadotorg'
+
+schemadotorg_starterkit.details:
+  path: '/admin/config/schemadotorg/starterkits/{name}'
+  defaults:
+    _title: 'Schema.org starterkit'
+    _controller: '\Drupal\schemadotorg_starterkit\Controller\SchemadotorgStarterkitController::details'
+  requirements:
+    _permission: 'administer schemadotorg'
+
+schemadotorg_starterkit.confirm_form:
+  path: '/admin/config/schemadotorg/starterkits/{name}/{operation}'
+  defaults:
+    _title: 'Schema.org starter kit confirm'
+    _form: Drupal\schemadotorg_starterkit\Form\SchemaDotOrgStarterkitConfirmForm
+  requirements:
+    _permission: 'administer schemadotorg'

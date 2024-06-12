@@ -1,0 +1,7 @@
+'schemadotorg.schemadotorg_mapping.*.*.third_party.schemadotorg_jsonld_custom':
+  type: mapping
+  label: 'Schema.org JSON-LD Custom third party settings'
+  mapping:
+    json:
+      type: text
+      label: JSON

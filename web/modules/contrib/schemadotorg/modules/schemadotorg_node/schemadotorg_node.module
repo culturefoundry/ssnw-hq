@@ -1,0 +1,142 @@
+<?php
+
+/**
+ * @file
+ * Enhance content type integration with the Schema.org Blueprints module.
+ */
+
+declare(strict_types=1);
+
+use Drupal\Component\Utility\SortArray;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
+
+/**
+ * Implements hook_module_implements_alter().
+ */
+function schemadotorg_node_module_implements_alter(array &$implementations, string $hook): void {
+  if ($hook === 'local_tasks_alter') {
+    $implementation = $implementations['schemadotorg_node'];
+    unset($implementations['schemadotorg_node']);
+    $implementations['schemadotorg_node'] = $implementation;
+  }
+}
+
+/**
+ * Implements hook_local_tasks_alter().
+ */
+function schemadotorg_node_local_tasks_alter(array &$local_tasks): void {
+  $schemadotorg_tasks = [];
+  foreach ($local_tasks as $name => $local_task) {
+    if (str_starts_with($name, 'entity.node.schemadotorg_')) {
+      $schemadotorg_tasks[$name] = $local_task;
+    }
+  }
+  if (count($schemadotorg_tasks) <= 1) {
+    return;
+  }
+
+  uasort($schemadotorg_tasks, [SortArray::class, 'sortByWeightElement']);
+  $local_tasks['entity.node.schemadotorg'] = reset($schemadotorg_tasks);
+  $local_tasks['entity.node.schemadotorg']['title'] = t('Schema.org');
+  $local_tasks['entity.node.schemadotorg']['provider'] = 'schemadotorg_node';
+  $local_tasks['entity.node.schemadotorg']['id'] = 'entity.node.schemadotorg';
+  foreach (array_keys($schemadotorg_tasks) as $name) {
+    $local_tasks[$name]['base_route'] = NULL;
+    $local_tasks[$name]['parent_id'] = 'entity.node.schemadotorg';
+  }
+}
+
+/**
+ * Implements hook_schemadotorg_mapping_insert().
+ */
+function schemadotorg_node_schemadotorg_mapping_insert(SchemaDotOrgMappingInterface $mapping): void {
+  if ($mapping->isSyncing()) {
+    return;
+  }
+
+  $schema_type = $mapping->getSchemaType();
+  $entity_type_id = $mapping->getTargetEntityTypeId();
+  if ($entity_type_id !== 'node') {
+    return;
+  }
+
+  /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager */
+  $schema_type_manager = \Drupal::service('schemadotorg.schema_type_manager');
+
+  /** @var \Drupal\node\NodeTypeInterface $node_type */
+  $node_type = $mapping->getTargetEntityBundleEntity();
+  $node_type_updated = FALSE;
+
+  // Set display author and date information.
+  $display_submitted_schema_types = \Drupal::config('schemadotorg_node.settings')->get('display_submitted');
+  if ($display_submitted_schema_types) {
+    foreach ($display_submitted_schema_types as $display_submitted_schema_type => $display_submitted) {
+      if ($schema_type_manager->isSubTypeOf($schema_type, $display_submitted_schema_type)) {
+        $node_type->setDisplaySubmitted($display_submitted);
+        $node_type_updated = TRUE;
+        break;
+      }
+    }
+  }
+
+  // Set menu settings.
+  $menu_ui_schema_types = \Drupal::config('schemadotorg_node.settings')->get('menu_ui');
+  if ($menu_ui_schema_types && \Drupal::moduleHandler()->moduleExists('menu_ui')) {
+    foreach ($menu_ui_schema_types as $menu_ui_schema_type => $menu_ui) {
+      if ($schema_type_manager->isSubTypeOf($schema_type, $menu_ui_schema_type)) {
+        if (isset($menu_ui['available_menus'])) {
+          $node_type->setThirdPartySetting('menu_ui', 'available_menus', $menu_ui['available_menus']);
+        }
+        if (isset($menu_ui['parent'])) {
+          $node_type->setThirdPartySetting('menu_ui', 'parent', $menu_ui['parent']);
+        }
+        $node_type_updated = TRUE;
+        break;
+      }
+    }
+  }
+
+  // If the node type has been update, resave it.
+  if ($node_type_updated) {
+    $node_type->save();
+  }
+}
+
+/* ************************************************************************** */
+// Schema.org types settings form.
+/* ************************************************************************** */
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * @see \Drupal\schemadotorg\Form\SchemaDotOrgSettingsFormBase::afterBuildDetails
+ * @see \Drupal\schemadotorg\Form\SchemaDotOrgSettingsFormBase::formAlter
+ */
+function schemadotorg_node_form_schemadotorg_types_settings_form_alter(array &$form, FormStateInterface $form_state): void {
+  $form['schemadotorg_node'] = [
+    '#type' => 'details',
+    '#title' => t('Node settings'),
+  ];
+  $form['schemadotorg_node']['display_submitted'] = [
+    '#type' => 'schemadotorg_settings',
+    '#title' => t('Display author and date information'),
+    '#description' => t('Set the default state for displaying the author username and publish date for Schema.org types'),
+    '#description_link' => 'types',
+    '#example' => "
+Thing: false
+",
+  ];
+  $form['schemadotorg_node']['menu_ui'] = [
+    '#type' => 'schemadotorg_settings',
+    '#title' => t('Menu settings'),
+    '#description' => t('Enter the available menus and parent for Schema.org types'),
+    '#description_link' => 'types',
+    '#access' => \Drupal::moduleHandler()->moduleExists('menu_ui'),
+    '#example' => "
+Thing:
+  available_menus: { }
+  parent: ''
+",
+  ];
+}

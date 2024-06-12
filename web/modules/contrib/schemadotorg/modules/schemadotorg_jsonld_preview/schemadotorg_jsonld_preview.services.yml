@@ -1,0 +1,4 @@
+services:
+  schemadotorg_jsonld_preview.builder:
+    class: Drupal\schemadotorg_jsonld_preview\SchemaDotOrgJsonLdPreviewBuilder
+    arguments: ['@router', '@router.admin_context', '@module_handler', '@entity_type.manager', '@schemadotorg.names', '@schemadotorg_jsonld.manager', '@schemadotorg_jsonld.builder']

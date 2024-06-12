@@ -1,0 +1,49 @@
+<?php
+
+/**
+ * @file
+ * Provides an API for starter kits to create Schema.org types.
+ */
+
+declare(strict_types=1);
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function schemadotorg_starterkit_help(string $route_name, RouteMatchInterface $route_match): string|NULL {
+  return match ($route_name) {
+    'schemadotorg_starterkit.overview' =>
+      '<p>' . t('The <strong>Schema.org starter kit</strong> page lists Schema.org starter kits that can be installed and managed using the below admin UI or <a href=":href">Drush</a>.', [':href' => 'https://git.drupalcode.org/project/schemadotorg/-/blob/1.0.x/docs/DRUSH.md']) . '<p>',
+    'schemadotorg_starterkit.details' =>
+      '<p>' . t('The <strong>Schema.org starter kit details</strong> page provides an overview of what entity types and fields will be created when the starter kit is installed.') . '<p>',
+    default => NULL
+  };
+}
+
+/**
+ * Implements hook_module_preinstall().
+ */
+function schemadotorg_starterkit_module_preinstall(string $module): void {
+  if (\Drupal::isConfigSyncing()) {
+    return;
+  }
+
+  /** @var \Drupal\schemadotorg_starterkit\SchemaDotOrgStarterkitManagerInterface $starterkit_manager */
+  $starterkit_manager = \Drupal::service('schemadotorg_starterkit.manager');
+  $starterkit_manager->preinstall($module);
+}
+
+/**
+ * Implements hook_modules_installed().
+ */
+function schemadotorg_starterkit_modules_installed(array $modules, bool $is_syncing): void {
+  if ($is_syncing) {
+    return;
+  }
+
+  /** @var \Drupal\schemadotorg_starterkit\SchemaDotOrgStarterkitManagerInterface $starterkit_manager */
+  $starterkit_manager = \Drupal::service('schemadotorg_starterkit.manager');
+  $starterkit_manager->installed($modules);
+}

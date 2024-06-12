@@ -1,0 +1,22 @@
+schemadotorg_content_model_documentation.settings:
+  type: config_object
+  label: 'Schema.org Content model documentation settings'
+  mapping:
+    types:
+      type: sequence
+      label: 'Entity types'
+      sequence:
+        type: string
+        label: 'Entity type'
+    default_notes:
+      type: text
+      label: 'Default notes'
+    default_format:
+      type: string
+      label: 'Default format'
+    link_text:
+      type: label
+      label: 'Link text'
+    link_modal:
+      type: boolean
+      label: 'Link modal'

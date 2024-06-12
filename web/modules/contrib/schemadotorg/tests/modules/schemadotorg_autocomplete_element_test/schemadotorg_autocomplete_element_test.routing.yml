@@ -1,0 +1,8 @@
+schemadotorg_autocomplete_element_test.form:
+  path: '/schemadotorg-autocomplete-element-test'
+  defaults:
+    _title: 'Schema.org Autocomplete Element Test'
+    _form: 'Drupal\schemadotorg_autocomplete_element_test\Form\SchemaDotOrgAutocompleteElementTestForm'
+  requirements:
+    # Needs to be accessed by an anonymous user.
+    _access: 'TRUE'

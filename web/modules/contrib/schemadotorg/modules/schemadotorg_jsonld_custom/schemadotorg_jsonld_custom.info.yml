@@ -1,0 +1,14 @@
+name: 'Schema.org Blueprints JSON-LD Custom'
+type: module
+description: 'Allows custom JSON-LD to be added to Schema.org mapping.'
+package: 'Schema.org Blueprints JSON-LD'
+core_version_requirement: ^10.2
+configure: schemadotorg_jsonld.settings
+schemadotorg_production: true
+dependencies:
+  - 'schemadotorg:schemadotorg_jsonld'
+
+# Information added by Drupal.org packaging script on 2024-05-20
+version: '1.0.0-alpha24'
+project: 'schemadotorg'
+datestamp: 1716237079

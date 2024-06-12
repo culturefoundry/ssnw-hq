@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.schema_nutrition
+    - node.type.recipe
+id: node.recipe.schema_nutrition
+field_name: schema_nutrition
+entity_type: node
+bundle: recipe
+label: Nutrition
+description: 'Nutrition information about the recipe or menu item.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

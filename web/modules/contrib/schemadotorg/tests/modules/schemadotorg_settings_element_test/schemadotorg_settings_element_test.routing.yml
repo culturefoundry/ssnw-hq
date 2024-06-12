@@ -1,0 +1,8 @@
+schemadotorg_settings_element_test.form:
+  path: '/schemadotorg-settings-element-test'
+  defaults:
+    _title: 'Schema.org Settings Element Test'
+    _form: 'Drupal\schemadotorg_settings_element_test\Form\SchemaDotOrgSettingsElementTestForm'
+  requirements:
+    # Needs to be accessed by an anonymous user.
+    _access: 'TRUE'

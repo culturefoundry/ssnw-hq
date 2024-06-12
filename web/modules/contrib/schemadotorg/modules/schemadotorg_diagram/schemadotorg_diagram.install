@@ -1,0 +1,18 @@
+<?php
+
+/**
+ * @file
+ * Installation hooks for the Schema.org Blueprints Diagram.
+ */
+
+declare(strict_types=1);
+
+/**
+ * Issue #3437127: Display diagrams as node task.
+ */
+function schemadotorg_diagram_update_10000(): void {
+  \Drupal::configFactory()
+    ->getEditable('schemadotorg_diagram.settings')
+    ->set('node_task', FALSE)
+    ->save();
+}

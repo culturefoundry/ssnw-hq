@@ -1,0 +1,21 @@
+paragraphs_library:
+  - ContactPoint
+  - MedicalAudience
+  - MedicalContraindication
+  - MedicalIndication
+  - MedicalCause
+  - MedicalProcedure
+  - MedicalRiskFactor
+  - MedicalTherapy
+  - MedicalSignOrSymptom
+  - Statement
+  - Quotation
+  - CollectionPage
+  - ItemList
+  - MediaGallery
+  - ImageGallery
+  - VideoGallery
+schema_property_access:
+  Person--ContactPoint:
+    - contactType
+    - telephone

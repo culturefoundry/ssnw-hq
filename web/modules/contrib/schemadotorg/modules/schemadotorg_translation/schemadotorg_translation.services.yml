@@ -1,0 +1,4 @@
+services:
+  schemadotorg_translation.manager:
+    class: Drupal\schemadotorg_translation\SchemaDotOrgTranslationManager
+    arguments: ['@config.factory', '@entity_type.manager', '@entity_field.manager', '@content_translation.manager', '@schemadotorg.schema_type_manager']

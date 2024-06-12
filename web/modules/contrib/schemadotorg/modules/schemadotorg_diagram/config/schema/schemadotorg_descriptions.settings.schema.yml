@@ -1,0 +1,23 @@
+schemadotorg_diagram.settings:
+  type: config_object
+  label: 'Schema.org Diagram settings'
+  mapping:
+    node_task:
+      type: boolean
+      label: 'Display diagrams as a node tab/task.'
+    diagrams:
+      type: sequence
+      label: Diagrams
+      sequence:
+        type: mapping
+        label: Diagrams
+        mapping:
+          title:
+            type: label
+            label: Title
+          parent:
+            type: string
+            label: 'Parent Schema.org property'
+          child:
+            type: string
+            label: 'Child Schema.org property'

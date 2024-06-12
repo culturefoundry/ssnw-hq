@@ -1,0 +1,34 @@
+patterns:
+  node--Thing: '[node:schemadotorg:base-path]/[node:title]'
+base_paths:
+  Recipe: recipes
+  Restaurants: restaurants
+  Physician: doctors
+  DietarySupplement: supplements
+  Drug: drugs
+  Room: rooms
+  Hotel: hotels
+  PodcastEpisode: podcasts
+  PodcastSeries: podcasts
+  HealthTopicContent: topics
+  ResearchOrganization: research
+  EducationOrganization: education
+  LocalBusiness: businesses
+  MedicalOrganization: medical/organization
+  MedicalBusiness: medical/business
+  MedicalCondition: medical/conditions
+  MedicalCause: medical/causes
+  MedicalGuideline: medical/guidelines
+  MedicalStudy: medical/studies
+  MedicalTest: medical/tests
+  MedicalEntity: medical
+  WebPage: pages
+  Articles: articles
+  BlogPosting: blogs
+  Blog: blogs
+  Organization: organizations
+  MediaObject: media
+  Event: events
+  Patient: patients
+  Person: profiles
+  Place: locations

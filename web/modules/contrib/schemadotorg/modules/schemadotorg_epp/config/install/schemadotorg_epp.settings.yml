@@ -1,0 +1,14 @@
+node_links:
+  Organization:
+    memberOf: Person
+    worksFor: Person
+    parentOrganization: Organization
+  LodgingBusiness:
+    containedInPlace: Accommodation
+  WebPage:
+    isPartOf: WebPage
+  CreativeWork:
+    about: CreativeWork
+  MedicalEntity:
+    about: CreativeWork
+node_links_dropdown: true

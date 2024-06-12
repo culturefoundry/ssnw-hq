@@ -1,0 +1,215 @@
+<?php
+
+/**
+ * @file
+ * Automatically enables scheduling Schema.org types.
+ */
+
+declare(strict_types=1);
+
+use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Render\BubbleableMetadata;
+use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
+
+/**
+ * Implements hook_schemadotorg_mapping_insert().
+ */
+function schemadotorg_scheduler_schemadotorg_mapping_insert(SchemaDotOrgMappingInterface $mapping): void {
+  if ($mapping->isSyncing()) {
+    return;
+  }
+
+  // Make sure we are adding scheduling to nodes.
+  $entity_type_id = $mapping->getTargetEntityTypeId();
+  if ($entity_type_id !== 'node') {
+    _schemadotorg_scheduler_set_form_display($mapping);
+    return;
+  }
+
+  // Get third party settings for scheduler.
+  $schema_type = $mapping->getSchemaType();
+  $third_party_settings = _schemadotorg_scheduler_get_third_party_settings($schema_type);
+  if (!$third_party_settings) {
+    _schemadotorg_scheduler_set_form_display($mapping);
+    return;
+  }
+
+  // Set scheduler third party settings for the node type.
+  $node_type = $mapping->getTargetEntityBundleEntity();
+  foreach ($third_party_settings as $key => $value) {
+    $node_type->setThirdPartySetting('scheduler', $key, $value);
+  }
+  $node_type->save();
+  _schemadotorg_scheduler_set_form_display($mapping);
+}
+
+/**
+ * Hide scheduler publish and unpublish components from form display.
+ *
+ * Issue #3317999: It is impossible to add media for node via media library
+ * if Scheduler content moderation integration module is enabled.
+ *
+ * @param \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping
+ *   A Schema.org mapping.
+ *
+ * @see https://www.drupal.org/project/scheduler_content_moderation_integration/issues/3317999
+ */
+function _schemadotorg_scheduler_set_form_display(SchemaDotOrgMappingInterface $mapping): void {
+  if (!\Drupal::moduleHandler()->moduleExists('scheduler_content_moderation_integration')) {
+    return;
+  }
+
+  $entity_type_id = $mapping->getTargetEntityTypeId();
+  $bundle = $mapping->getTargetBundle();
+  // Set scheduler third party settings for the node type.
+  $entity_type = $mapping->getTargetEntityBundleEntity();
+  if (!$entity_type) {
+    return;
+  }
+
+  $publish_enable = $entity_type->getThirdPartySetting('scheduler', 'publish_enable');
+  $unpublish_enable = $entity_type->getThirdPartySetting('scheduler', 'unpublish_enable');
+  $scheduler_moderation_installed = \Drupal::moduleHandler()->moduleExists('scheduler_moderation');
+  /** @var \Drupal\Core\Entity\EntityDisplayRepositoryInterface $entity_display_repository */
+  $entity_display_repository = \Drupal::service('entity_display.repository');
+  $form_modes = array_merge(['default'], array_keys($entity_display_repository->getFormModes($entity_type_id)));
+  foreach ($form_modes as $form_mode) {
+    $form_display = $entity_display_repository->getFormDisplay($entity_type_id, $bundle, $form_mode);
+    $form_display->setComponent('scheduler_settings', ['weight' => 50]);
+
+    if (!$publish_enable) {
+      if ($form_display->getComponent('publish_on')) {
+        $form_display->removeComponent('publish_on');
+      }
+      if ($form_display->getComponent('publish_state')) {
+        $form_display->removeComponent('publish_state');
+      }
+    }
+    else {
+      $form_display->setComponent('publish_on', ['type' => 'datetime_timestamp_no_default', 'weight' => 52]);
+      if ($scheduler_moderation_installed) {
+        $form_display->setComponent('publish_state', ['type' => 'scheduler_moderation', 'weight' => 55]);
+      }
+    }
+
+    if (!$unpublish_enable) {
+      if ($form_display->getComponent('unpublish_on')) {
+        $form_display->removeComponent('unpublish_on');
+      }
+      if ($form_display->getComponent('unpublish_state')) {
+        $form_display->removeComponent('unpublish_state');
+      }
+    }
+    else {
+      $form_display->setComponent('unpublish_on', ['type' => 'datetime_timestamp_no_default', 'weight' => 52]);
+      if ($scheduler_moderation_installed) {
+        $form_display->setComponent('unpublish_state', ['type' => 'scheduler_moderation', 'weight' => 55]);
+      }
+    }
+    $form_display->save();
+  }
+}
+
+/**
+ * Get the scheduler third party settings for Schema.org type.
+ *
+ * @param string $schema_type
+ *   A Schema.org type.
+ *
+ * @return array|null
+ *   The scheduler third party settings for Schema.org type.
+ */
+function _schemadotorg_scheduler_get_third_party_settings(string $schema_type): array|NULL {
+  /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager */
+  $schema_type_manager = \Drupal::service('schemadotorg.schema_type_manager');
+  $scheduled_types = \Drupal::config('schemadotorg_scheduler.settings')
+    ->get('scheduled_types');
+  foreach ($scheduled_types as $scheduled_type => $settings) {
+    if ($schema_type_manager->isSubTypeOf($schema_type, $scheduled_type)) {
+      return [
+        'publish_enable' => in_array('publish', $settings),
+        'publish_past_date' => 'error',
+        'publish_past_date_created' => FALSE,
+        'publish_required' => FALSE,
+        'publish_revision' => FALSE,
+        'publish_touch' => FALSE,
+        'unpublish_enable' => in_array('unpublish', $settings),
+        'unpublish_required' => FALSE,
+        'unpublish_revision' => FALSE,
+        'expand_fieldset' => 'when_required',
+        'fields_display_mode' => 'vertical_tab',
+        'show_message_after_update' => TRUE,
+      ];
+    }
+  }
+
+  return NULL;
+}
+
+/* ************************************************************************** */
+// Schema.org JSON-LD.
+/* ************************************************************************** */
+
+/**
+ * Implements hook_schemadotorg_jsonld_schema_type_entity_load().
+ */
+function schemadotorg_scheduler_schemadotorg_jsonld_schema_type_entity_load(array &$data, EntityInterface $entity, ?SchemaDotOrgMappingInterface $mapping, BubbleableMetadata $bubbleable_metadata): void {
+  // Make sure this is a content entity with a mapping.
+  if (!$entity instanceof ContentEntityInterface
+    || !$mapping) {
+    return;
+  }
+
+  /** @var \Drupal\Core\Datetime\DateFormatterInterface $date_formatter */
+  $date_formatter = \Drupal::service('date.formatter');
+
+  /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager */
+  $schema_type_manager = \Drupal::service('schemadotorg.schema_type_manager');
+
+  $schema_type = $mapping->getSchemaType();
+  $properties = [
+    'datePublished' => 'publish_on',
+    'expires' => 'unpublish_on',
+  ];
+  foreach ($properties as $property => $field) {
+    if (empty($data[$property])
+      && $schema_type_manager->hasProperty($schema_type, $property)
+      && $entity->hasField($field)
+      && $entity->get($field)->value) {
+      $data[$property] = $date_formatter->format($entity->get($field)->value, 'custom', 'Y-m-d H:i:s P');
+    }
+  }
+}
+
+/* ************************************************************************** */
+// Schema.org types settings form.
+/* ************************************************************************** */
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * @see \Drupal\schemadotorg\Form\SchemaDotOrgSettingsFormBase::afterBuildDetails
+ * @see \Drupal\schemadotorg\Form\SchemaDotOrgSettingsFormBase::formAlter
+ */
+function schemadotorg_scheduler_form_schemadotorg_types_settings_form_alter(array &$form, FormStateInterface $form_state): void {
+  $form['schemadotorg_scheduler'] = [
+    '#type' => 'details',
+    '#title' => t('Scheduler settings'),
+  ];
+  $form['schemadotorg_scheduler']['scheduled_types'] = [
+    '#type' => 'schemadotorg_settings',
+    '#title' => t('Scheduled Schema.org types'),
+    '#description' => t('Enter the Schema.org types that support scheduling and whether the Schema.org types should support publish, unpublish or both.')
+    . ' '
+    . t('Scheduled Schema.org type settings will be applied to all subtypes.'),
+    '#example' => '
+SchemeType:
+  - publish
+  - unpublish
+SchemaType:
+  - publish
+',
+  ];
+}

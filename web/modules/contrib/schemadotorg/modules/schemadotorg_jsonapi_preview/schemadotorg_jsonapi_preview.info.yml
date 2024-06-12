@@ -1,0 +1,15 @@
+name: 'Schema.org Blueprints JSON:API Preview'
+type: module
+description: "Allows users to preview a web page's Schema.org JSON:API."
+package: 'Schema.org Blueprints API'
+core_version_requirement: ^10.2
+configure: schemadotorg_jsonapi.settings
+schemadotorg_production: false
+dependencies:
+  - 'drupal:block'
+  - 'schemadotorg:schemadotorg_jsonapi'
+
+# Information added by Drupal.org packaging script on 2024-05-20
+version: '1.0.0-alpha24'
+project: 'schemadotorg'
+datestamp: 1716237079

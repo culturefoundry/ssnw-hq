@@ -1,0 +1,4 @@
+services:
+  schemadotorg_field_group.entity_display_builder:
+    class: Drupal\schemadotorg_field_group\SchemaDotOrgFieldGroupEntityDisplayBuilder
+    arguments: ['@config.factory', '@entity_type.manager', '@entity_display.repository', '@schemadotorg.names', '@schemadotorg.schema_type_manager', '@schemadotorg.entity_display_builder']

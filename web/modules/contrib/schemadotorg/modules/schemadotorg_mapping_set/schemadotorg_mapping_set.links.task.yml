@@ -1,0 +1,13 @@
+schemadotorg_mapping_set:
+  title: 'Mapping sets'
+  route_name: schemadotorg_mapping_set.overview
+  base_route: entity.schemadotorg_mapping.collection
+  weight: 20
+schemadotorg_mapping_set.overview:
+  title: Manage
+  route_name: schemadotorg_mapping_set.overview
+  parent_id: schemadotorg_mapping_set
+schemadotorg_mapping_set.settings:
+  title: Configure
+  route_name: schemadotorg_mapping_set.settings
+  parent_id: schemadotorg_mapping_set

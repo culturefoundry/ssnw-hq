@@ -1,0 +1,28 @@
+rules:
+  asin:
+    pattern: '/^[a-zA-Z0-9]{10}$/'
+    message: 'Amazon Standard Identification Number (ASIN) must be a 10-character alphanumeric string.'
+  globalLocationNumber:
+    pattern: '/^\d{13}$/'
+    message: 'Global Location Number (GLN) must be a 13-digit number.'
+  gtin8:
+    pattern: '/^\d{8}$/'
+    message: 'GTIN-8 code must be a 8-digit number.'
+  gtin12:
+    pattern: '/^\d{12}$/'
+    message: 'GTIN-12 code must be a 12-digit number.'
+  gtin13:
+    pattern: '/^\d{13}$/'
+    message: 'GTIN-13 code must be a 13-digit number.'
+  gtin14:
+    pattern: '/^\d{14}$/'
+    message: 'GTIN-14 code must be a 14-digit number.'
+  nsn:
+    pattern: '/^\d{13}$/'
+    message: 'NATO Stock Number must be a 13-digit number.'
+  serialNumber:
+    pattern: '/^[a-zA-Z0-9]+$/'
+    message: 'Serial number must an alphanumeric string;'
+  schema_identifier_npi:
+    pattern: '/^\d{10}$/'
+    message: 'National Provider Identifier (NPI) must be a 10-digit number.'

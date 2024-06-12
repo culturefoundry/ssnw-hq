@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.schema_recipe_cuisine
+    - node.type.recipe
+id: node.recipe.schema_recipe_cuisine
+field_name: schema_recipe_cuisine
+entity_type: node
+bundle: recipe
+label: Cuisines
+description: 'The cuisine of the recipe (for example, French or Ethiopian).'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

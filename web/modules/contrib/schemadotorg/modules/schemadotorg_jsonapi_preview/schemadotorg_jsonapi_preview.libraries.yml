@@ -1,0 +1,6 @@
+schemadotorg_jsonapi_preview:
+  css:
+    component:
+      css/schemadotorg_jsonapi_preview.css: {  }
+  dependencies:
+    - schemadotorg/schemadotorg.details

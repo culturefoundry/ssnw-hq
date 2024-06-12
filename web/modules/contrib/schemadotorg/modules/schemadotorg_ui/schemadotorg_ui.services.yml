@@ -1,0 +1,6 @@
+services:
+  schemadotorg_ui.subscriber:
+    class: Drupal\schemadotorg_ui\Routing\SchemaDotOrgRouteSubscriber
+    arguments: ['@module_handler', '@entity_type.manager']
+    tags:
+      - { name: event_subscriber }

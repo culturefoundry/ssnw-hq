@@ -1,0 +1,42 @@
+field_definitions:
+  principle_investigator:
+    field_name: schema_role_pi
+    label: 'Principal investigator'
+    description: 'Lead researcher for the research project.'
+  coprinciple_investigator:
+    field_name: schema_role_copi
+    label: 'Co-principle investigator'
+    description: 'Assists the principal investigator in the management and leadership of the research project.'
+    unlimited: true
+  host:
+    field_name: schema_role_host
+    label: Hosts
+    description: 'Person responsible for guests at an event.'
+    role_name: Host
+  guest:
+    field_name: schema_role_guest
+    label: Guests
+    description: 'Person visiting or attending an event.'
+    role_name: Guest
+field_instances:
+  MedicalStudy:
+    sponsor:
+      - principle_investigator
+      - coprinciple_investigator
+  medical_study--ResearchProject:
+    member:
+      - principle_investigator
+      - coprinciple_investigator
+  PodcastSeries:
+    actor:
+      - host
+  PodcastSeason:
+    actor:
+      - host
+  PodcastEpisode:
+    actor:
+      - host
+      - guest
+entity_reference_overrides:
+  - member
+  - employee

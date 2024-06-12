@@ -1,0 +1,41 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - block_content
+id: block_content
+target_entity_type_id: block_content
+multiple: false
+label_prefix: ''
+id_prefix: ''
+recommended_schema_types:
+  components:
+    label: Common
+    types:
+      - SpecialAnnouncement
+      - Quotation
+      - Statement
+      - WebContent
+default_schema_types:
+  basic: WebContent
+default_schema_type_properties:
+  CreativeWork:
+    - dateModified
+default_schema_type_view_displays:
+  default:
+    SpecialAnnouncement:
+      - text
+      - url
+default_base_fields:
+  uuid: {  }
+  info:
+    - name
+  body:
+    - description
+    - text
+  changed:
+    - dateModified
+  langcode:
+    - inLanguage
+default_component_weights:
+  langcode: 200

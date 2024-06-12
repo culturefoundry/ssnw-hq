@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.thing
+  module:
+    - user
+id: node.thing.default
+targetEntityType: node
+bundle: thing
+mode: default
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 200
+    region: content
+hidden: {  }

@@ -1,0 +1,16 @@
+schemadotorg_field_prefix.settings:
+  type: config_object
+  label: 'Schema.org Field prefix settings'
+  mapping:
+    field_prefix:
+      type: string
+      label: 'Field prefix'
+    field_prefix_options:
+      type: sequence
+      label: 'Field prefix options'
+      sequence:
+        type: label
+        label: 'Field prefix options'
+    field_prefix_description:
+      type: text
+      label: 'Field prefix description'

@@ -1,0 +1,11 @@
+schemadotorg_jsonld_preview:
+  js:
+    js/schemadotorg_jsonld_preview.js: {  }
+  css:
+    component:
+      css/schemadotorg_jsonld_preview.css: {  }
+  dependencies:
+    - core/drupal
+    - core/drupal.announce
+    - core/once
+    - schemadotorg/schemadotorg.details

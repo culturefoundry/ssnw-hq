@@ -1,0 +1,98 @@
+<?php
+
+/**
+ * @file
+ * Configures and manages entity prepopulation for Schema.org relationships (i.e. entity references).
+ */
+
+declare(strict_types=1);
+
+use Drupal\Core\Cache\Cache;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\node\NodeInterface;
+
+/**
+ * Implements hook_schemadotorg_property_field_alter().
+ */
+function schemadotorg_epp_schemadotorg_property_field_alter(
+  string $schema_type,
+  string $schema_property,
+  array &$field_storage_values,
+  array &$field_values,
+  ?string &$widget_id,
+  array &$widget_settings,
+  ?string &$formatter_id,
+  array &$formatter_settings,
+): void {
+  /** @var \Drupal\schemadotorg_epp\SchemaDotOrgEppManagerInterface $schemadotorg_epp_manager */
+  $schemadotorg_epp_manager = \Drupal::service('schemadotorg_epp.manager');
+  $schemadotorg_epp_manager->propertyFieldAlter(
+    $schema_type,
+    $schema_property,
+    $field_storage_values,
+    $field_values,
+    $widget_id,
+    $widget_settings,
+    $formatter_id,
+    $formatter_settings
+  );
+}
+
+/**
+ * Implements hook_node_links_alter().
+ */
+function schemadotorg_epp_node_links_alter(array &$links, NodeInterface $node, array &$context): void {
+  /** @var \Drupal\schemadotorg_epp\SchemaDotOrgEppManagerInterface $schemadotorg_epp_manager */
+  $schemadotorg_epp_manager = \Drupal::service('schemadotorg_epp.manager');
+  $schemadotorg_epp_manager->nodeLinksAlter($links, $node, $context);
+}
+
+/* ************************************************************************** */
+// Schema.org properties settings form.
+/* ************************************************************************** */
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * @see \Drupal\schemadotorg\Form\SchemaDotOrgSettingsFormBase::afterBuildDetails
+ * @see \Drupal\schemadotorg\Form\SchemaDotOrgSettingsFormBase::formAlter
+ */
+function schemadotorg_epp_form_schemadotorg_properties_settings_form_alter(array &$form, FormStateInterface $form_state): void {
+  $form['schemadotorg_epp'] = [
+    '#type' => 'details',
+    '#title' => t('Entity prepopulate settings'),
+  ];
+  $form['schemadotorg_epp']['node_links'] = [
+    '#type' => 'schemadotorg_settings',
+    '#title' => t('Node links'),
+    '#description' => t('Enter Schema.org parent type with child properties and types that support entity reference prepopulation.'),
+    '#description_link' => 'properties',
+    '#example' => '
+SchemaType:
+  property: SchemaType
+',
+  ];
+  $form['schemadotorg_epp']['node_links_dropdown'] = [
+    '#type' => 'checkbox',
+    '#title' => t('Display node links as a dropdown'),
+    '#description' => t('If checked, the entity prepopulation node links will be displayed as an operation dropdown menu.'),
+  ];
+
+  $form['#submit'][] = 'schemadotorg_epp_schemadotorg_properties_settings_submit';
+}
+
+/**
+ * Form submission handler for schemadotorg_epp_settings_form().
+ *
+ * @see schemadotorg_epp_form_schemadotorg_schemadotorg_properties_settings_form_alter()
+ */
+function schemadotorg_epp_schemadotorg_properties_settings_submit(array &$form, FormStateInterface $form_state): void {
+  // Clear cache bins to make sure node links are updated.
+  $cache_backends = Cache::getBins();
+  $service_ids = ['dynamic_page_cache', 'render'];
+  foreach ($service_ids as $service_id) {
+    if (isset($cache_backends[$service_id])) {
+      $cache_backends[$service_id]->deleteAll();
+    }
+  }
+}

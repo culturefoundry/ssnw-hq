@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.schema_knows_language
+    - node.type.person
+id: node.person.schema_knows_language
+field_name: schema_knows_language
+entity_type: node
+bundle: person
+label: 'Knows languages'
+description: 'Of a <a href="https://schema.org/Person">Person</a>, and less typically of an <a href="https://schema.org/Organization">Organization</a>, to indicate a known language.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

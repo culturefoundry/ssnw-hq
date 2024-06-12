@@ -1,0 +1,22 @@
+schemadotorg_jsonld_custom.settings:
+  type: config_object
+  label: 'Schema.org JSON-LD custom settings'
+  mapping:
+    path_json:
+      type: sequence
+      label: 'Paths JSON-LD'
+      sequence:
+        type: string
+        label: 'Path JSON-LD'
+    default_schema_type_json:
+      type: sequence
+      label: 'Default Schema.org types JSON-LD'
+      sequence:
+        type: string
+        label: 'Default Schema.org type JSON-LD'
+    default_schema_mapping_json:
+      type: sequence
+      label: 'Default Schema.org mappings custom JSON-LD'
+      sequence:
+        type: string
+        label: 'Default Schema.org mapping custom JSON-LD'

@@ -1,0 +1,22 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.schema_longitude
+    - node.type.place
+id: node.place.schema_longitude
+field_name: schema_longitude
+entity_type: node
+bundle: place
+label: Longitude
+description: 'The longitude of a location.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: decimal

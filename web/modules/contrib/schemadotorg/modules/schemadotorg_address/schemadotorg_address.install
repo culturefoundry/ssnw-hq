@@ -1,0 +1,38 @@
+<?php
+
+/**
+ * @file
+ * Installation hooks for the Schema.org Blueprints Address module.
+ */
+
+declare(strict_types=1);
+
+/**
+ * Implements hook_install().
+ */
+function schemadotorg_address_install(bool $is_syncing): void {
+  if ($is_syncing) {
+    return;
+  }
+
+  // Add address field to PostalAddress field types.
+  $config = \Drupal::configFactory()->getEditable('schemadotorg.settings');
+  $config_key = 'schema_types.default_field_types.PostalAddress';
+  $config->set($config_key, array_merge(['address'], $config->get($config_key) ?: []));
+  $config->save();
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function schemadotorg_address_uninstall(bool $is_syncing): void {
+  if ($is_syncing) {
+    return;
+  }
+
+  // Remove address field to PostalAddress field types.
+  $config = \Drupal::configFactory()->getEditable('schemadotorg.settings');
+  $config_key = 'schema_types.default_field_types.PostalAddress';
+  $config->set($config_key, array_values(array_diff($config->get($config_key) ?: [], ['address'])));
+  $config->save();
+}

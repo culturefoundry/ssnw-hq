@@ -1,0 +1,157 @@
+<?php
+
+/**
+ * @file
+ * Automatically enables URL aliases (via pathauto) for Schema.org types.
+ */
+
+declare(strict_types=1);
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Url;
+use Drupal\pathauto\Entity\PathautoPattern;
+use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
+
+/**
+ * Implements hook_schemadotorg_mapping_insert().
+ */
+function schemadotorg_pathauto_schemadotorg_mapping_insert(SchemaDotOrgMappingInterface $mapping): void {
+  if ($mapping->isSyncing()) {
+    return;
+  }
+
+  $entity_type_id = $mapping->getTargetEntityTypeId();
+  $bundle = $mapping->getTargetBundle();
+  $schema_type = $mapping->getSchemaType();
+
+  /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager */
+  $schema_type_manager = \Drupal::service('schemadotorg.schema_type_manager');
+
+  $patterns = \Drupal::config('schemadotorg_pathauto.settings')->get('patterns');
+  $weight = -10;
+  foreach ($patterns as $pattern_name => $pattern) {
+    [$pattern_entity_type_id, $pattern_schema_type] = explode('--', $pattern_name);
+
+    if ($pattern_entity_type_id !== $entity_type_id
+      || !$schema_type_manager->isSubTypeOf($schema_type, $pattern_schema_type)) {
+      continue;
+    }
+
+    // Define pathauto pattern id and label.
+    $entity_type_definition = $mapping->getTargetEntityTypeDefinition();
+    $schema_type_definition = $schema_type_manager->getType($pattern_schema_type);
+    $pathauto_pattern_id = 'schema_' . $entity_type_id . '_' . $schema_type_definition['drupal_name'];
+    $pathauto_pattern_label = 'Schema.org: ' . $entity_type_definition->getCollectionLabel() . ' - ' . $schema_type_definition['drupal_label'];
+
+    // Load or create initial pathauto pattern with a selection condition.
+    $pathauto_pattern = PathautoPattern::load($pathauto_pattern_id);
+    if (!$pathauto_pattern) {
+      $pathauto_pattern = PathautoPattern::create([
+        'id' => $pathauto_pattern_id,
+        'label' => $pathauto_pattern_label,
+        'type' => 'canonical_entities:' . $entity_type_id,
+        'pattern' => $pattern,
+        'weight' => $weight,
+      ]);
+      $weight--;
+      $pathauto_pattern->addSelectionCondition([
+        'id' => 'entity_bundle:' . $entity_type_id,
+        'negate' => FALSE,
+        'context_mapping' => [
+          $entity_type_id => $entity_type_id,
+        ],
+      ]);
+    }
+
+    // Get the default selection condition.
+    $selection_conditions_configuration = $pathauto_pattern->getSelectionConditions()->getConfiguration();
+    $selection_condition_id = array_key_first($selection_conditions_configuration);
+    $selection_condition = $pathauto_pattern->getSelectionConditions()->get($selection_condition_id);
+
+    // Append the Schema.org mapping bundle to the selection condition.
+    $configuration = $selection_condition->getConfiguration();
+    $configuration['bundles'][$bundle] = $bundle;
+    ksort($configuration['bundles']);
+    $selection_condition->setConfiguration($configuration);
+
+    $pathauto_pattern->save();
+  }
+}
+
+/* ************************************************************************** */
+// Schema.org types settings form.
+/* ************************************************************************** */
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * @see \Drupal\schemadotorg\Form\SchemaDotOrgSettingsFormBase::afterBuildDetails
+ * @see \Drupal\schemadotorg\Form\SchemaDotOrgSettingsFormBase::formAlter
+ */
+function schemadotorg_pathauto_form_schemadotorg_types_settings_form_alter(array &$form, FormStateInterface $form_state): void {
+  $form['schemadotorg_pathauto'] = [
+    '#type' => 'details',
+    '#title' => t('Pathauto settings'),
+  ];
+  $form['schemadotorg_pathauto']['patterns'] = [
+    '#type' => 'schemadotorg_settings',
+    '#title' => t('Schema.org type pathauto patterns'),
+    '#description' => t('Enter the entity types and Schema.org types that support pathauto.')
+      . '  '
+      . t('Note: Only one Pathauto pattern will created for each item and additional Schema.org types will be added to the Pathauto pattern.'),
+    '#description_link' => 'types',
+    '#token_link' => TRUE,
+    '#example' => "
+node--Thing: '[node:schemadotorg:base-path]/[node:title]'
+",
+  ];
+  $form['schemadotorg_pathauto']['base_paths'] = [
+    '#type' => 'schemadotorg_settings',
+    '#title' => t('Schema.org type base paths'),
+    '#description' => t('Enter the base paths for Schema.org types.')
+      . '  '
+      . t('Please specify Schema.org type base path from specific types to more general type.'),
+    '#description_link' => 'types',
+    '#token_link' => TRUE,
+    '#example' => "
+Restaurants: restaurants
+Physician: doctors
+MedicalCondition: medical/conditions
+MedicalEntity: medical
+Event: events
+Person: profiles
+LocalBusiness: businesses
+Organization: organizations
+",
+  ];
+  $form['schemadotorg_pathauto']['apply_paragraph_types'] = [
+    '#type' => 'checkbox',
+    '#title' => t('Apply Schema.org pathauto patterns to all existing Schema.org mappings.'),
+    '#description' => t('If checked, the above pathauto patterns will be applied to all existing Schema.org mappings.'),
+    '#prefix' => '<hr/>',
+  ];
+  $form['#submit'][] = 'schemadotorg_pathauto_form_schemadotorg_types_settings_form_submit';
+}
+
+/**
+ * Form submission handler for schemadotorg_types_settings_form().
+ *
+ * @see schemadotorg_pathauto_form_schemadotorg_types_settings_form_alter()
+ */
+function schemadotorg_pathauto_form_schemadotorg_types_settings_form_submit(array &$form, FormStateInterface $form_state): void {
+  // Apply pathauto patterns to all existing Schema.org mappings.
+  if ($form_state->getValue(['schemadotorg_pathauto', 'apply_paragraph_types'])) {
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface[] $mappings */
+    $mappings = \Drupal::entityTypeManager()
+      ->getStorage('schemadotorg_mapping')
+      ->loadMultiple();
+    foreach ($mappings as $mapping) {
+      schemadotorg_pathauto_schemadotorg_mapping_insert($mapping);
+    }
+
+    $t_args = [
+      ':href' => Url::fromRoute('pathauto.bulk.update.form')->toString(),
+    ];
+    \Drupal::messenger()->addStatus(t('Pathauto patterns applied to all existing Schema.org mappings. You may wish to <a href=":href">bulk regenerate</a> URL aliases.', $t_args));
+  }
+}

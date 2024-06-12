@@ -1,0 +1,164 @@
+<?php
+
+/**
+ * @file
+ * Creates field groups when Schema.org properties are mapping to a field.
+ */
+
+/* phpcs:disable Drupal.NamingConventions.ValidFunctionName.InvalidPrefix */
+
+declare(strict_types=1);
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\field\FieldConfigInterface;
+use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
+
+/**
+ * Implements hook_ENTITY_TYPE_presave().
+ */
+function schemadotorg_field_group_schemadotorg_mapping_presave(SchemaDotOrgMappingInterface $mapping): void {
+  if ($mapping->isSyncing()) {
+    return;
+  }
+
+  /** @var \Drupal\schemadotorg_field_group\SchemaDotOrgFieldGroupEntityDisplayBuilderInterface $schema_field_group_display_builder */
+  $schema_field_group_display_builder = \Drupal::service('schemadotorg_field_group.entity_display_builder');
+  $schema_field_group_display_builder->setFieldGroups($mapping);
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_delete().
+ *
+ * Delete empty field groups created when a field is deleted.
+ *
+ * You can use the below drush command to replicate this issue.
+ *
+ * <code>
+ * drush schemadotorg:create-type user:Person
+ * drush schemadotorg:delete-type --delete-fields user:Person
+ * </code>
+ */
+function field_group_field_config_delete(FieldConfigInterface $field_config): void {
+  if ($field_config->isSyncing()) {
+    return;
+  }
+
+  /** @var \Drupal\Core\Entity\EntityDisplayRepositoryInterface $entity_display_repository */
+  $entity_display_repository = \Drupal::service('entity_display.repository');
+
+  $entity_type_id = $field_config->getTargetEntityTypeId();
+  $bundle = $field_config->getTargetBundle();
+  $field_name = $field_config->getName();
+
+  $mode_types = [
+    'form' => 'getFormModeOptionsByBundle',
+    'view' => 'getViewModeOptionsByBundle',
+  ];
+  foreach ($mode_types as $context => $mode_method) {
+    /** @var array $mode_options */
+    $mode_options = $entity_display_repository->$mode_method($entity_type_id, $bundle);
+    $modes = array_keys($mode_options);
+    foreach ($modes as $mode) {
+      $groups = field_group_info_groups($entity_type_id, $bundle, $context, $mode);
+      foreach ($groups as $group) {
+        if (!in_array($field_name, $group->children)) {
+          continue;
+        }
+
+        // Remove a deleted field from the group's children.
+        $group->children = array_filter($group->children, function ($child) use ($field_name) {
+          return $child !== $field_name;
+        });
+
+        // If the group's children are now empty, delete the group,
+        // otherwise, update the group.
+        if (empty($group->children)) {
+          field_group_delete_field_group($group);
+        }
+        else {
+          field_group_group_save($group);
+        }
+      }
+    }
+  }
+}
+
+/* ************************************************************************** */
+// Schema.org properties settings form.
+/* ************************************************************************** */
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * @see \Drupal\schemadotorg\Form\SchemaDotOrgSettingsFormBase::afterBuildDetails
+ * @see \Drupal\schemadotorg\Form\SchemaDotOrgSettingsFormBase::formAlter
+ */
+function schemadotorg_field_group_form_schemadotorg_properties_settings_form_alter(array &$form, FormStateInterface $form_state): void {
+  $form['schemadotorg_field_group'] = [
+    '#type' => 'details',
+    '#title' => t('Field group settings'),
+  ];
+  $form['schemadotorg_field_group']['default_field_groups'] = [
+    '#type' => 'container',
+  ];
+  $entity_types = [
+    'user' => t('people (user)'),
+    'node' => t('content (node)'),
+  ];
+  foreach ($entity_types as $entity_type_id => $entity_type_label) {
+    $t_args = ['@type' => $entity_type_label];
+    $form['schemadotorg_field_group']['default_field_groups'][$entity_type_id] = [
+      '#type' => 'schemadotorg_settings',
+      '#title' => t('Default @type field groups', ['@type' => $entity_type_label]),
+      '#description' => t('Enter the default field groups and field order used to group Schema.org properties as they are added to the @type entity type.', $t_args),
+      '#description_link' => 'properties',
+      '#example' => '
+group_name:
+  name: Group label
+  properties:
+    - property01
+    - property02
+    - property03
+    - SchemaType01--property04
+',
+    ];
+  }
+  $form['schemadotorg_field_group']['default_schema_type_field_groups'] = [
+    '#type' => 'schemadotorg_settings',
+    '#title' => t('Default Schema.org type field groups'),
+    '#description' => t('Enter the default Schema.org type field groups.'),
+    '#description_link' => 'properties',
+    '#example' => 'SchemaType: group_name',
+  ];
+  $type_options = [
+    'details' => t('Details'),
+    'html_element' => t('HTML element'),
+    'fieldset' => t('Fieldset'),
+  ];
+  $form['schemadotorg_field_group']['default_form_type'] = [
+    '#type' => 'select',
+    '#title' => t('Default field group form type'),
+    '#description' => t("Select the default field group type used when adding a field group to an entity type's default form."),
+    '#options' => $type_options,
+    '#required' => TRUE,
+  ];
+  $form['schemadotorg_field_group']['default_view_type'] = [
+    '#type' => 'select',
+    '#title' => t('Default field group view type'),
+    '#description' => t("Select the default field group type used when adding a field group to an entity type's default view display."),
+    '#options' => $type_options,
+    '#required' => TRUE,
+  ];
+  $form['schemadotorg_field_group']['disable_field_groups'] = [
+    '#type' => 'schemadotorg_settings',
+    '#title' => t('Disable field groups'),
+    '#description' => t('Enter the Schema.org types and properties that should NOT have field groups.'),
+    '#example' => '
+- entity_type--display
+- entity_type--display--mode
+- entity_type--SchemaType
+- entity_type
+- SchemaType
+',
+  ];
+}

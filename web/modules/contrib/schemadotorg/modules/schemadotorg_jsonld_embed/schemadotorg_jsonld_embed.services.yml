@@ -1,0 +1,4 @@
+services:
+  schemadotorg_jsonld_embed.manager:
+    class: Drupal\schemadotorg_jsonld_embed\SchemaDotOrgJsonLdEmbedManager
+    arguments: ['@entity_type.manager', '@schemadotorg_jsonld.builder']

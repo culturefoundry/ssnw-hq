@@ -1,0 +1,284 @@
+<?php
+
+/**
+ * @file
+ * Integrates the Media and Media Library module with the Schema.org Blueprints module.
+ */
+
+declare(strict_types=1);
+
+use Drupal\Component\Utility\NestedArray;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\media\MediaTypeInterface;
+
+/* ************************************************************************** */
+// Create Schema.org Media mapping.
+/* ************************************************************************** */
+
+/**
+ * Implements hook_schemadotorg_mapping_defaults_alter().
+ */
+function schemadotorg_media_schemadotorg_mapping_defaults_alter(array &$defaults, string $entity_type_id, ?string $bundle, string $schema_type): void {
+  if ($entity_type_id !== 'media') {
+    return;
+  }
+
+  // Add default source plugin id to entity type defaults.
+  $defaults['entity']['source'] = \Drupal::config('schemadotorg_media.settings')
+    ->get("default_sources.$schema_type") ?? NULL;
+}
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ *
+ * @see \Drupal\media\MediaTypeForm::form
+ */
+function schemadotorg_media_form_schemadotorg_mapping_form_alter(array &$form, FormStateInterface &$form_state): void {
+  if (!\Drupal::moduleHandler()->moduleExists('schemadotorg_ui')) {
+    return;
+  }
+
+  /** @var \Drupal\schemadotorg\Form\SchemaDotOrgMappingForm $form_object */
+  $form_object = $form_state->getFormObject();
+  /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface|null $mapping */
+  $mapping = $form_object->getEntity();
+
+  // Exit if no Schema.org type has been selected.
+  if (!$mapping->getSchemaType()) {
+    return;
+  }
+
+  // Make sure we are altering the 'Add Schema.org media type' form.
+  if ($mapping->getTargetEntityTypeId() !== 'media' || !$mapping->isNew()) {
+    return;
+  }
+
+  $mapping_defaults = $form_state->get('mapping_defaults');
+  $source_default_value = $mapping_defaults['entity']['source'] ?? NULL;
+  $source_field_mappings = \Drupal::config('schemadotorg_media.settings')
+    ->get('source_field_mappings');
+
+  // For new media types, hide all source field to Schema.org property mapping b
+  // because they are dynamically set.
+  // @see schemadotorg_media_media_type_insert
+  if (empty($mapping_defaults['entity']['id'])) {
+    foreach ($source_field_mappings as $schema_property) {
+      $form['mapping']['properties'][$schema_property]['field'] = [
+        '#markup' => t('This property will automatically be mapped to the media source field, when applicable'),
+      ];
+    }
+  }
+
+  // Set subtype defaults from mapping defaults in $form_state.
+  // @see \Drupal\schemadotorg_ui\Form\SchemaDotOrgUiMappingForm::buildFieldTypeForm
+  /** @var \Drupal\media\MediaSourceManager $source_manager */
+  $source_manager = \Drupal::service('plugin.manager.media.source');
+  $plugins = $source_manager->getDefinitions();
+  $options = [];
+  foreach ($plugins as $plugin_id => $definition) {
+    $source_field_name = 'field_media_' . str_replace(':', '_', $plugin_id);
+    $t_args = [
+      '@label' => $definition['label'],
+      '@field' => $source_field_name,
+      '@property' => $source_field_mappings[$source_field_name] ?? '',
+    ];
+    $options[$plugin_id] = t('@label (@field: @property)', $t_args);
+  }
+  $form['mapping']['entity']['source'] = [
+    '#type' => 'select',
+    '#title' => t('Media source'),
+    '#default_value' => $source_default_value,
+    '#options' => $options,
+    '#description' => t('Media source that is responsible for additional logic related to this media type.'),
+    '#required' => TRUE,
+  ];
+}
+
+/**
+ * Implements hook_schemadotorg_bundle_entity_alter().
+ *
+ * Sets the default values passed to MediaType::create.
+ *
+ * @see \Drupal\Tests\media\Traits\MediaTypeCreationTrait::createMediaType
+ * @see \Drupal\media\MediaTypeForm::save()
+ */
+function schemadotorg_media_schemadotorg_bundle_entity_alter(array &$values, string $schema_type, string $entity_type_id): void {
+  if ($entity_type_id !== 'media_type') {
+    return;
+  }
+
+  $entity_values =& $values['entity'];
+
+  $source_plugin_id = $entity_values['source'];
+  $source_field_name = 'field_media_' . str_replace(':', '_', $source_plugin_id);
+
+  $entity_values['source_configuration'] = [];
+  $entity_values['source_configuration']['source_field'] = $source_field_name;
+  switch ($source_plugin_id) {
+    // @see media.type.audio.yml
+    // @see media.type.document.yml
+    // @see media.type.image.yml
+    // @see media.type.video.yml
+    case 'audio_file':
+    case 'file':
+    case 'image':
+    case 'video_file':
+      $entity_values['field_map'] = ['name' => 'name'];
+      break;
+
+    // @see media.type.remote_video.yml
+    case 'oembed:video':
+      $entity_values['field_map'] = ['title' => 'name'];
+      $entity_values['source_configuration']['thumbnails_directory'] = 'public://oembed_thumbnails/[date:custom:Y-m]';
+      $entity_values['source_configuration']['providers'] = ['YouTube', 'Vimeo'];
+      break;
+  }
+
+  // @see media.type.*.yml
+  $entity_values['options'] = [
+    'status' => TRUE,
+    'new_revision' => FALSE,
+    'queue_thumbnail_downloads' => FALSE,
+  ];
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_insert().
+ *
+ * Creates the source field for media type.
+ *
+ * The below code is copied from the MediaTypeForm.
+ *
+ * @see \Drupal\media\MediaTypeForm::save
+ */
+function schemadotorg_media_media_type_insert(MediaTypeInterface $media_type): void {
+  if ($media_type->isSyncing()) {
+    return;
+  }
+
+  if (empty($media_type->schemaDotOrgType)) {
+    return;
+  }
+
+  // If the media source is using a source field, ensure it's
+  // properly created.
+  $source = $media_type->getSource();
+  $source_field = $source->getSourceFieldDefinition($media_type);
+
+  if (!$source_field) {
+    $source_field = $source->createSourceField($media_type);
+    /** @var \Drupal\field\FieldStorageConfigInterface $storage */
+    $storage = $source_field->getFieldStorageDefinition();
+    if ($storage->isNew()) {
+      $storage->save();
+    }
+    $source_field->save();
+  }
+
+  // Set the source field to Schema.org property mapping.
+  $values =& $media_type->schemaDotOrgValues;
+  $source_field_mappings = \Drupal::config('schemadotorg_media.settings')
+    ->get('source_field_mappings');
+  $source_field_name = $source_field->getName();
+  $schema_property_name = $source_field_mappings[$source_field_name];
+  $values['properties'][$schema_property_name]['name'] = $source_field_name;
+
+  /** @var \Drupal\Core\Entity\EntityDisplayRepositoryInterface $entity_display_repository */
+  $entity_display_repository = \Drupal::service('entity_display.repository');
+  // Add the new field to the default form and view displays for this
+  // media type.
+  if ($source_field->isDisplayConfigurable('form')) {
+    $display = $entity_display_repository->getFormDisplay('media', $media_type->id());
+    $source->prepareFormDisplay($media_type, $display);
+    $display->save();
+  }
+  if ($source_field->isDisplayConfigurable('view')) {
+    $display = $entity_display_repository->getViewDisplay('media', $media_type->id());
+
+    // Remove all default components.
+    foreach (array_keys($display->getComponents()) as $name) {
+      $display->removeComponent($name);
+    }
+    $source->prepareViewDisplay($media_type, $display);
+    $display->save();
+  }
+}
+
+/**
+ * Implements hook_schemadotorg_property_field_alter().
+ */
+function schemadotorg_media_schemadotorg_property_field_alter(
+  string $schema_type,
+  string $schema_property,
+  array &$field_storage_values,
+  array &$field_values,
+  ?string &$widget_id,
+  array &$widget_settings,
+  ?string &$formatter_id,
+  array &$formatter_settings,
+): void {
+  $target_type = NestedArray::getValue($field_storage_values, ['settings', 'target_type']);
+  if (!in_array($field_storage_values['type'], ['entity_reference', 'entity_reference_revisions'])
+    || $target_type !== 'media') {
+    return;
+  }
+
+  // If the Media library is installed use it via the widget's form display.
+  if (\Drupal::moduleHandler()->moduleExists('media_library')) {
+    $widget_id = 'media_library_widget';
+  }
+
+  // Display the rendered media.
+  $formatter_id = 'entity_reference_entity_view';
+}
+
+/* ************************************************************************** */
+// Schema.org types settings form.
+/* ************************************************************************** */
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * @see \Drupal\schemadotorg\Form\SchemaDotOrgSettingsFormBase::afterBuildDetails
+ * @see \Drupal\schemadotorg\Form\SchemaDotOrgSettingsFormBase::formAlter
+ */
+function schemadotorg_media_form_schemadotorg_types_settings_form_alter(array &$form, FormStateInterface $form_state): void {
+  /** @var \Drupal\media\MediaSourceManager $source_manager */
+  $source_manager = \Drupal::service('plugin.manager.media.source');
+
+  $form['schemadotorg_media'] = [
+    '#type' => 'details',
+    '#title' => t('Media settings'),
+  ];
+  $t_args = [
+    ':href' => 'https://schema.org/MediaObject',
+    '%plugins' => implode('; ', array_keys($source_manager->getDefinitions())),
+  ];
+  $form['schemadotorg_media']['default_sources'] = [
+    '#type' => 'schemadotorg_settings',
+    '#title' => t('Default media sources'),
+    '#description' => t('Enter the default media source plugin ids (i.e. %plugins) used when creating Schema.org <a href=":href">MediaObject</a> types.', $t_args),
+    '#description_link' => 'types',
+    '#example' => 'SchemaType: source_plugin_id',
+  ];
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * @see \Drupal\schemadotorg\Form\SchemaDotOrgSettingsFormBase::afterBuildDetails
+ * @see \Drupal\schemadotorg\Form\SchemaDotOrgSettingsFormBase::formAlter
+ */
+function schemadotorg_media_form_schemadotorg_properties_settings_form_alter(array &$form, FormStateInterface $form_state): void {
+  $form['schemadotorg_media'] = [
+    '#type' => 'details',
+    '#title' => t('Media settings'),
+  ];
+  $form['schemadotorg_media']['source_field_mappings'] = [
+    '#type' => 'schemadotorg_settings',
+    '#title' => t('Source field mappings'),
+    '#description' => t('Enter the media type source field to Schema.org property mapping.'),
+    '#description_link' => 'properties',
+    '#example' => 'field_name: propertyName',
+  ];
+}

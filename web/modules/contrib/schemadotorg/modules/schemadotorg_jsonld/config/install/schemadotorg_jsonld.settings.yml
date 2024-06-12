@@ -1,0 +1,58 @@
+schema_property_order:
+  - url
+  - identifier
+  - inDefinedTermSet
+  - inLanguage
+  - name
+  - alternateName
+  - headline
+  - alternativeHeadline
+  - givenName
+  - additionalName
+  - familyName
+  - description
+  - disambiguatingDescription
+  - articleBody
+  - text
+  - author
+  - image
+  - photo
+  - primaryImageOfPage
+  - video
+  - thumbnail
+  - thumbnailUrl
+  - contentUrl
+  - address
+  - addressCountry
+  - addressRegion
+  - addressLocality
+  - postalCode
+  - postOfficeBoxNumber
+  - streetAddress
+  - streetAddress
+  - contactPoint
+  - telephone
+  - fax
+  - email
+  - startDate
+  - endDate
+  - duration
+schema_property_image_styles:
+  image: large
+  thumbnail: thumbnail
+schema_type_entity_references_display:
+  block_content: entity
+  paragraph: entity
+  paragraph--layout: none
+  media: entity
+  media--image: '[media:field_media_image:entity:url]'
+  node--Thing: url
+  node--Intangible: entity
+  taxonomy_term: entity
+  Intangible: entity
+entity_types_exclude_url:
+  - block_content
+  - media
+  - paragraph
+  - taxonomy_term
+

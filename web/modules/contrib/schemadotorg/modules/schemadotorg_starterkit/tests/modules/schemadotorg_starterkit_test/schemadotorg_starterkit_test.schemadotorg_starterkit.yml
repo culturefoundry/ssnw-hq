@@ -1,0 +1,22 @@
+types:
+  node:Person: { }
+  node:Event: { }
+  node:Thing: { }
+  # Define custom mapping defaults.
+  node:custom_thing:Thing:
+    entity:
+      label: 'Something'
+    properties:
+      name:
+        required: true
+      description:  true
+      image: true
+      custom:
+        name: custom
+        type: string
+        label: Custom
+        group: general
+        group_field_weight: -100
+        field_values:
+          default_value:
+            - value: 'Custom value'

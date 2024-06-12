@@ -1,0 +1,31 @@
+<?php
+
+/**
+ * @file
+ * Installation hooks for the Schema.org Blueprints JSON:API module.
+ */
+
+declare(strict_types=1);
+
+/**
+ * Implements hook_install().
+ */
+function schemadotorg_jsonapi_install(): void {
+  // Setting weight to 1 so that JSON:API resource is created after the
+  // Schema.org mapping and related fields are inserted.
+  // @see schemadotorg_jsonapi_schemadotorg_mapping_insert()
+  // @see schemadotorg_metatag_schemadotorg_mapping_insert()
+  module_set_weight('schemadotorg_jsonapi', 1);
+}
+
+/**
+ * Add support for custom public names to JSON:API.
+ */
+function schemadotorg_jsonapi_update_10000(): void {
+  \Drupal::configFactory()
+    ->getEditable('schemadotorg_jsonapi.settings')
+    ->set('custom_public_names', [
+      'primaryImageOfPage' => 'image',
+    ])
+    ->save();
+}

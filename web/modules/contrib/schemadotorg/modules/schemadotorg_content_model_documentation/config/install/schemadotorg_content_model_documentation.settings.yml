@@ -1,0 +1,24 @@
+types:
+  - node
+  - ContactPoint
+  - MedicalEntity
+  - SpecialAnnouncement
+  - WebContent
+default_notes: |
+  <h2>Introduction</h2>
+  <p>@todo Add introduction here.</p>
+
+  <h2>FAQ</h2>
+  <p>@todo Add FAQ here.</p>
+
+  <h2>Recommendations</h2>
+  <p>@todo Add recommendations here.</p>
+
+  <h2>Resources</h2>
+  <p>@todo Add resources here.</p>
+
+  <h2>Contacts</h2>
+  <p>@todo Add contacts here.</p>
+default_format: full_html
+link_text: 'Read documentation'
+link_modal: true

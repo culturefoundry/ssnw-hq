@@ -1,0 +1,6 @@
+schemadotorg_field_prefix:
+  js:
+    js/schemadotorg_field_prefix.js: {  }
+  dependencies:
+    - core/drupal
+    - core/once

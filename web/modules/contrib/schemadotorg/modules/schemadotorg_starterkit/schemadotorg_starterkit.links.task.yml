@@ -1,0 +1,5 @@
+schemadotorg_starterkit:
+  title: 'Starter kits'
+  route_name: schemadotorg_starterkit.overview
+  base_route: entity.schemadotorg_mapping.collection
+  weight: 30

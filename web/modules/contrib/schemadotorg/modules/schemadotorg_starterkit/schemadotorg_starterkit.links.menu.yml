@@ -1,0 +1,6 @@
+schemadotorg.starterkit:
+  title: 'Starter kits'
+  parent: schemadotorg.overview
+  description: 'List of starter kits that can be installed and managed using the below admin UI or Drush.'
+  route_name: schemadotorg_starterkit.overview
+  weight: 30

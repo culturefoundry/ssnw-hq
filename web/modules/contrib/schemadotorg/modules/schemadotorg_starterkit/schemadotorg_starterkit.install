@@ -1,0 +1,20 @@
+<?php
+
+/**
+ * @file
+ * Installation hooks for the Schema.org Blueprints Starter Kit module.
+ */
+
+declare(strict_types=1);
+
+/**
+ * Implements hook_install().
+ */
+function schemadotorg_starterkit_install(bool $is_syncing): void {
+  if ($is_syncing) {
+    return;
+  }
+
+  // Set the weight to -1 before the config_rewrite.module.
+  module_set_weight('schemadotorg_starterkit', -1);
+}

@@ -1,0 +1,21 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.article.body
+    - field.field.node.article.schema_image
+    - node.type.article
+  module:
+    - node
+id: node.article
+target_entity_type_id: node
+target_bundle: article
+schema_type: Article
+schema_properties:
+  body: articleBody
+  created: dateCreated
+  changed: dateModified
+  title: headline
+  schema_image: image
+  langcode: inLanguage
+additional_mappings: {  }

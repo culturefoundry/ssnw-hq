@@ -1,0 +1,78 @@
+<?php
+
+/**
+ * @file
+ * Provides the ability to create a set of related Schema.org types.
+ */
+
+declare(strict_types=1);
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Url;
+
+/**
+ * Implements hook_help().
+ */
+function schemadotorg_mapping_set_help(string $route_name, RouteMatchInterface $route_match): string|NULL {
+  return match ($route_name) {
+    'schemadotorg_mapping_set.settings' =>
+      '<p>' . t('The <strong>Schema.org mapping sets configure</strong> page allows administrators to define a set of Schema.org mappings that can be set up and managed using the admin UI or <a href=":href">Drush</a>.', [':href' => 'https://git.drupalcode.org/project/schemadotorg/-/blob/1.0.x/docs/DRUSH.md']) . '<p>',
+    'schemadotorg_mapping_set.overview' =>
+      '<p>' . t('The <strong>Schema.org mapping sets</strong> page lists Schema.org mapping sets that can be set up and managed using the below admin UI or <a href=":href">Drush</a>.', [':href' => 'https://git.drupalcode.org/project/schemadotorg/-/blob/1.0.x/docs/DRUSH.md']) . '<p>',
+    'schemadotorg_mapping_set.details' =>
+      '<p>' . t('The <strong>Schema.org mapping set details</strong> page provides an overview of what entity types and fields will be created when generating a mapping set.') . '<p>',
+    default => NULL,
+  };
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Displays a warning when a mapping is created which is part of a mapping set.
+ */
+function schemadotorg_mapping_set_form_schemadotorg_mapping_add_form_alter(array &$form, FormStateInterface $form_state): void {
+  // Make sure we are loading the form via the GET method.
+  if (!\Drupal::request()->isMethod('get')) {
+    return;
+  }
+
+  // Don't display any warning is the user is in the process of creating
+  // a mapping set.
+  // @see \Drupal\schemadotorg_mapping_set\Controller\SchemadotorgMappingSetController::details
+  $destination = \Drupal::request()->query->get('destination');
+  if ($destination && str_contains($destination, 'admin/config/schemadotorg/sets/')) {
+    return;
+  }
+
+  /** @var \Drupal\schemadotorg_mapping_set\SchemaDotOrgMappingSetManagerInterface $mapping_set_manager */
+  $mapping_set_manager = \Drupal::service('schemadotorg_mapping_set.manager');
+
+  /** @var \Drupal\schemadotorg_ui\Form\SchemaDotOrgUiMappingForm $form_object */
+  $form_object = $form_state->getFormObject();
+
+  /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface|null $mapping */
+  $mapping = $form_object->getEntity();
+  $entity_type_id = $mapping->getTargetEntityTypeId();
+  $schema_type = $mapping->getSchemaType();
+  if (empty($schema_type)) {
+    return;
+  }
+
+  $mapping_sets = $mapping_set_manager->getMappingSets($entity_type_id, $schema_type, FALSE);
+  foreach ($mapping_sets as $mapping_set_name => $mapping_set) {
+    $url = Url::fromRoute(
+      'schemadotorg_mapping_set.confirm_form',
+      ['name' => $mapping_set_name, 'operation' => 'setup'],
+    );
+    $t_args = [
+      '%type' => $mapping->getSchemaType(),
+      '@label' => $mapping_set['label'],
+      '@types' => implode('; ', $mapping_set['types']),
+      ':href' => $url->toString(),
+    ];
+    $message = t('The %type Schema.org type is part of the <a href=":href">@label</a> mapping set, which has not been <a href=":href">setup</a>.', $t_args);
+    \Drupal::messenger()->addWarning($message);
+  }
+
+}

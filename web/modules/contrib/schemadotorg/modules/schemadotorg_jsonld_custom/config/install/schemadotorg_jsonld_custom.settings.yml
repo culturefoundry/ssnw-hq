@@ -1,0 +1,29 @@
+path_json:
+  /: |
+    {
+      "@context": "http://schema.org",
+      "@type": "WebSite",
+      "name": "[site:name]",
+      "url": "[site:url]",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "[site:url]/search/node?keys={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+default_schema_type_json:
+  node--CreativeWork: |
+    {
+      "copyrightHolder": "[site:name]",
+      "copyrightYear": [current-date:html_year]
+    }
+default_schema_mapping_json:
+  Article: |
+    {
+      "publisher": {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "[site:name]",
+        "url": "[site:url]"
+      }
+    }

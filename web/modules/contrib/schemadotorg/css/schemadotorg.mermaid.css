@@ -1,0 +1,7 @@
+.mermaid {
+  opacity: 0;
+}
+
+.mermaid[data-processed="true"] {
+  opacity: 100;
+}

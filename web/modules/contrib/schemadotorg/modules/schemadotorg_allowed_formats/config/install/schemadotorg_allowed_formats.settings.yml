@@ -1,0 +1,15 @@
+default_hide_help: true
+default_hide_guidelines: true
+default_allowed_formats:
+  node:
+    - full_html
+  block_content:
+    - basic_html
+  media:
+    - basic_html
+  paragraph:
+    - basic_html
+  taxonomy_term:
+    - basic_html
+  user:
+    - basic_html

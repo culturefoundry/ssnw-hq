@@ -1,0 +1,35 @@
+entity.schemadotorg_mapping.collection:
+  title: Mappings
+  route_name: entity.schemadotorg_mapping.collection
+  base_route: entity.schemadotorg_mapping.collection
+  weight: 0
+entity.schemadotorg_mapping_type.collection:
+  title: 'Mapping types'
+  route_name: entity.schemadotorg_mapping_type.collection
+  base_route: entity.schemadotorg_mapping.collection
+  weight: 10
+schemadotorg.settings:
+  title: Settings
+  route_name: schemadotorg.settings
+  base_route: entity.schemadotorg_mapping.collection
+  weight: 100
+schemadotorg.settings.general:
+  title: General
+  route_name: schemadotorg.settings.general
+  parent_id: schemadotorg.settings
+  weight: 10
+schemadotorg.settings.types:
+  title: Types
+  route_name: schemadotorg.settings.types
+  parent_id: schemadotorg.settings
+  weight: 20
+schemadotorg.settings.properties:
+  title: Properties
+  route_name: schemadotorg.settings.properties
+  parent_id: schemadotorg.settings
+  weight: 30
+schemadotorg.settings.names:
+  title: Names
+  route_name: schemadotorg.settings.names
+  parent_id: schemadotorg.settings
+  weight: 60

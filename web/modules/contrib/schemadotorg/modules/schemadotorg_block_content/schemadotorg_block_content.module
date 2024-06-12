@@ -1,0 +1,101 @@
+<?php
+
+/**
+ * @file
+ * Integrates content blocks with the Schema.org Blueprints module.
+ */
+
+declare(strict_types=1);
+
+use Drupal\block_content\BlockContentInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Render\BubbleableMetadata;
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
+
+/**
+ * Implements hook_form_alter().
+ */
+function schemadotorg_block_content_form_alter(array &$form, FormStateInterface $form_state, string $form_id): void {
+  // Alert block content form that is mapped to Schema.org type.
+  if (!str_starts_with($form_id, 'block_content_')
+    || !preg_match('/^block_content_(.*?)_(edit_form|form)$/', $form_id, $matches)) {
+    return;
+  }
+
+  $bundle = $matches[1];
+  $mapping = SchemaDotOrgMapping::load('block_content.' . $bundle);
+  if (!$mapping) {
+    return;
+  }
+
+  // Ensure that the block content form's vertical tabs and submit button
+  // are always last.
+  $form['advanced']['#weight'] = 250;
+  $form['actions']['#weight'] = 251;
+}
+
+/* ************************************************************************** */
+// Schema.org JSON-LD.
+/* ************************************************************************** */
+
+/**
+ * Implements hook_schemadotorg_jsonld().
+ */
+function schemadotorg_block_content_schemadotorg_jsonld(RouteMatchInterface $route_match, BubbleableMetadata $bubbleable_metadata): array {
+  /** @var \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdBuilderInterface $jsonld_builder */
+  $jsonld_builder = \Drupal::service('schemadotorg_jsonld.builder');
+  /** @var \Drupal\block\BlockRepositoryInterface $block_repository */
+  $block_repository = \Drupal::service('block.repository');
+
+  $data = [];
+  foreach ($block_repository->getVisibleBlocksPerRegion() as $blocks) {
+    /** @var \Drupal\block\BlockInterface[] $blocks */
+    foreach ($blocks as $block) {
+      $block_plugin_id = $block->getPlugin()->getPluginId();
+      $block_content = _schemadotorg_block_content_load_from_block_plugin_id($block_plugin_id);
+      $block_content_data = $jsonld_builder->buildEntity(
+        entity: $block_content,
+        bubbleable_metadata: $bubbleable_metadata,
+      );
+      if ($block_content_data) {
+        $data[$block_content->uuid()] = $block_content_data;
+      }
+    }
+  }
+  return $data;
+}
+
+/* ************************************************************************** */
+// Helper functions.
+/* ************************************************************************** */
+
+/**
+ * Load the content block entity associate with a block's plugin id.
+ *
+ * @param string $block_plugin_id
+ *   A block's plugin id.
+ *
+ * @return \Drupal\block_content\BlockContentInterface|null
+ *   A content block entity or NULL if there is not content block associated
+ *   with the specified block's plugin id.
+ */
+function _schemadotorg_block_content_load_from_block_plugin_id(string $block_plugin_id): ?BlockContentInterface {
+  if (!str_starts_with($block_plugin_id, 'block_content:')) {
+    return NULL;
+  }
+
+  $block_content_uuid = str_replace('block_content:', '', $block_plugin_id);
+
+  // Load the associated content block via UUID.
+  $block_contents = \Drupal::entityTypeManager()
+    ->getStorage('block_content')
+    ->loadByProperties(['uuid' => $block_content_uuid]);
+  if (empty($block_contents)) {
+    return NULL;
+  }
+
+  /** @var \Drupal\block_content\BlockContentInterface $block_content */
+  $block_content = reset($block_contents);
+  return $block_content;
+}

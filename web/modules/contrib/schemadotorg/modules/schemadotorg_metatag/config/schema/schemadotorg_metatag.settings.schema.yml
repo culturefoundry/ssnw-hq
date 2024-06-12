@@ -1,0 +1,22 @@
+schemadotorg_metatag.settings:
+  type: config_object
+  label: 'Schema.org Metatag settings'
+  mapping:
+    default_groups:
+      type: sequence
+      label: 'Default groups'
+      sequence:
+        type: string
+        label: 'Default group'
+    default_tags:
+      type: sequence
+      label: 'Default tags'
+      sequence:
+        type: sequence
+        label: 'Entity type'
+        sequence:
+          type: sequence
+          label: 'Meta tags'
+          sequence:
+            type: string
+            label: 'Meta tag value'

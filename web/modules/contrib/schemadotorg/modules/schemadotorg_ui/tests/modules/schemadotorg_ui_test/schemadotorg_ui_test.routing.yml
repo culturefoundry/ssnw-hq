@@ -1,0 +1,7 @@
+schemadotorg_ui_test.mapping_type_select:
+  path: /schemadotorg_ui_test/mapping_type_select
+  defaults:
+    _title: 'Schema.org UI Type Select'
+    _form: \Drupal\schemadotorg_ui\Form\SchemaDotOrgUiMappingTypeSelectForm
+  requirements:
+    _permission: 'administer schemadotorg'

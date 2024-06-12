@@ -1,0 +1,22 @@
+<?php
+
+/**
+ * @file
+ * Installation hooks for the Schema.org Blueprints Paragraphs module.
+ */
+
+declare(strict_types=1);
+
+use Drupal\paragraphs\Entity\ParagraphsType;
+
+/**
+ * Implements hook_install().
+ */
+function schemadotorg_paragraphs_install(): void {
+  // Resave all the existing paragraphs types to load paragraph icons.
+  // @see schemadotorg_paragraphs_paragraphs_type_presave()
+  $paragraphs_types = ParagraphsType::loadMultiple();
+  foreach ($paragraphs_types as $paragraphs_type) {
+    $paragraphs_type->save();
+  }
+}

@@ -1,0 +1,4 @@
+services:
+  schemadotorg_paragraphs.manager:
+    class: Drupal\schemadotorg_paragraphs\SchemaDotOrgParagraphsManager
+    arguments: ['@config.factory', '@module_handler', '@entity_type.manager', '@schemadotorg.schema_type_manager']

@@ -1,0 +1,4 @@
+services:
+  schemadotorg_epp.manager:
+    class: Drupal\schemadotorg_epp\SchemaDotOrgEppManager
+    arguments: ['@config.factory', '@entity_type.manager', '@schemadotorg.names', '@schemadotorg.schema_type_manager']

@@ -1,0 +1,27 @@
+<?php
+
+/**
+ * @file
+ * Installation hooks for the Schema.org Blueprints JSON:API Preview module.
+ */
+
+declare(strict_types=1);
+
+/**
+ * Issue #3405291: Move json-ld and api preview output into a block.
+ */
+function schemadotorg_jsonapi_preview_update_10000(): void {
+  \Drupal::configFactory()
+    ->getEditable('schemadotorg_jsonapi_preview.settings')
+    ->delete();
+}
+
+/**
+ * Issue #3436760: Improve JSON-LD and JSON:API preview.
+ */
+function schemadotorg_jsonapi_preview_update_10001(): void {
+  \Drupal::configFactory()
+    ->getEditable('schemadotorg_jsonapi_preview.settings')
+    ->set('node_task', FALSE)
+    ->save();
+}

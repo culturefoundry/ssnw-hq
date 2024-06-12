@@ -1,0 +1,4 @@
+services:
+  schemadotorg_corresponding_reference.manager:
+    class: Drupal\schemadotorg_cer\SchemaDotOrgCorrespondingReferenceManager
+    arguments: ['@config.factory', '@entity_type.manager', '@messenger', '@schemadotorg.schema_type_manager']

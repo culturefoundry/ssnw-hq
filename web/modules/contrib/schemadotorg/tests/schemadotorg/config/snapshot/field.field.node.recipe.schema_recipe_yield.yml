@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.schema_recipe_yield
+    - node.type.recipe
+id: node.recipe.schema_recipe_yield
+field_name: schema_recipe_yield
+entity_type: node
+bundle: recipe
+label: Yield
+description: 'The quantity produced by the recipe (for example, number of people served, number of servings, etc).'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,0 +1,26 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.place.body
+    - field.field.node.place.schema_address
+    - field.field.node.place.schema_image
+    - field.field.node.place.schema_latitude
+    - field.field.node.place.schema_longitude
+    - field.field.node.place.schema_telephone
+    - node.type.place
+  module:
+    - node
+id: node.place
+target_entity_type_id: node
+target_bundle: place
+schema_type: Place
+schema_properties:
+  schema_address: address
+  body: description
+  schema_image: image
+  schema_latitude: latitude
+  schema_longitude: longitude
+  title: name
+  schema_telephone: telephone
+additional_mappings: {  }

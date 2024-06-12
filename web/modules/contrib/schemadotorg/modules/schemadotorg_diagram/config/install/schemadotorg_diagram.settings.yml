@@ -1,0 +1,58 @@
+node_task: true
+diagrams:
+  subjectOf:
+    title: 'Subject of / About'
+    parent: subjectOf
+    child: about
+  isPartOf:
+    title: 'Is part of / Has part'
+    parent: isPartOf
+    child: hasPart
+  containsPlace:
+    title: 'Contains place'
+    parent: ''
+    child: containsPlace
+  containedInPlace:
+    title: 'Contained in place'
+    parent: containedInPlace
+    child: ''
+  parentOrganization:
+    title: 'Parent organizations / Sub-organizations'
+    parent: parentOrganization
+    child: subOrganization
+  departments:
+    title: Departments
+    parent: ''
+    child: department
+  employee:
+    title: Employees
+    parent: ''
+    child: employee
+  works_for:
+    title: 'Works for'
+    parent: worksFor
+    child: ''
+  member:
+    title: Members
+    parent: ''
+    child: member
+  member_of:
+    title: 'Member of'
+    parent: memberOf
+    child: ''
+  partOfSeries:
+    title: 'Part of series'
+    parent: partOfSeries
+    child: ''
+  healthCondition:
+    title: 'Health condition'
+    parent: ''
+    child: healthCondition
+  study:
+    title: Study
+    parent: ''
+    child: study
+  relatedDrug:
+    title: 'Related drugs'
+    parent: ''
+    child: relatedDrug

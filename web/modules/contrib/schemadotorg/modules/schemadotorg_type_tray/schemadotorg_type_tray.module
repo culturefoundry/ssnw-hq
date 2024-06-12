@@ -1,0 +1,72 @@
+<?php
+
+/**
+ * @file
+ * Adds Schema.org content types to the add content type tray.
+ */
+
+declare(strict_types=1);
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
+
+/**
+ * Implements hook_schemadotorg_mapping_insert().
+ */
+function schemadotorg_type_tray_schemadotorg_mapping_insert(SchemaDotOrgMappingInterface $mapping): void {
+  /** @var \Drupal\schemadotorg_type_tray\SchemaDotOrgTypeTrayManagerInterface $type_tray_manager */
+  $type_tray_manager = \Drupal::service('schemadotorg_type_tray.manager');
+  $type_tray_manager->mappingInsert($mapping);
+}
+
+/* ************************************************************************** */
+// Schema.org types settings form.
+/* ************************************************************************** */
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * @see \Drupal\schemadotorg\Form\SchemaDotOrgSettingsFormBase::afterBuildDetails
+ * @see \Drupal\schemadotorg\Form\SchemaDotOrgSettingsFormBase::formAlter
+ */
+function schemadotorg_type_tray_form_schemadotorg_types_settings_form_alter(array &$form, FormStateInterface $form_state): void {
+  $form['schemadotorg_type_tray'] = [
+    '#type' => 'details',
+    '#title' => t('Type tray settings'),
+  ];
+  $form['schemadotorg_type_tray']['schema_types'] = [
+    '#type' => 'schemadotorg_settings',
+    '#title' => t('Schema.org types'),
+    '#description' => t('Enter Schema.org types to be place in type tray categories.'),
+    '#description_link' => 'types',
+    '#example' => '
+group_name:
+  name: Group label
+  types:
+    - SchemaType01
+    - SchemaType02
+    - SchemaType03
+',
+  ];
+  $form['schemadotorg_type_tray']['existing_nodes_link_text'] = [
+    '#type' => 'textfield',
+    '#title' => t('Existing content link text'),
+    '#description' => t('Indicate the text to use when building a link to allow quick access to all nodes of a given type, such as "View existing %type_label content". Leave this empty to not display a link to existing content.'),
+  ];
+
+  // Add submit callback.
+  $form['#submit'][] = 'schemadotorg_type_tray_settings_form_submit';
+}
+
+/**
+ * Form submission handler for schemadotorg_properties_settings_form.
+ *
+ * @see schemadotorg_type_tray_form_schemadotorg_properties_settings_form_alter()
+ */
+function schemadotorg_type_tray_settings_form_submit(array &$form, FormStateInterface $form_state): void {
+  $schema_types = $form_state->getValue(['schemadotorg_type_tray', 'schema_types']);
+
+  /** @var \Drupal\schemadotorg_type_tray\SchemaDotOrgTypeTrayManagerInterface $type_tray_manager */
+  $type_tray_manager = \Drupal::service('schemadotorg_type_tray.manager');
+  $type_tray_manager->syncCategories($schema_types);
+}

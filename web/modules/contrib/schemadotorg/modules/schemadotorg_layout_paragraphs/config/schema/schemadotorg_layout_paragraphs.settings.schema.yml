@@ -1,0 +1,25 @@
+schemadotorg_layout_paragraphs.settings:
+  type: config_object
+  label: 'Schema.org Layout paragraphs settings'
+  mapping:
+    default_types:
+      type: sequence
+      label: 'Default Schema.org types/content types'
+      sequence:
+        type: string
+        label: 'Schema.org type/content type'
+    default_paragraph_types:
+      type: sequence
+      label: 'Default paragraph types'
+      sequence:
+        type: string
+        label: 'Paragraph type'
+    default_paragraph_layouts:
+      type: sequence
+      label: 'Default paragraph layouts'
+      sequence:
+        type: sequence
+        label: 'Paragraph type layouts'
+        sequence:
+          type: string
+          label: 'Paragraph type layout'

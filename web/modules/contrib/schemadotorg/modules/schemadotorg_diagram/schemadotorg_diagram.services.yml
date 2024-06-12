@@ -1,0 +1,4 @@
+services:
+  schemadotorg_diagram:
+    class: Drupal\schemadotorg_diagram\SchemaDotOrgDiagram
+    arguments: ['@current_user', '@config.factory', '@current_route_match', '@entity_type.manager', '@schemadotorg.schema_type_builder']

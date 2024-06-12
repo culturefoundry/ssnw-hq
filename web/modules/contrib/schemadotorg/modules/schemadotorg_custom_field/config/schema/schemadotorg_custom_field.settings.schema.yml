@@ -1,0 +1,23 @@
+schemadotorg_custom_field.settings:
+  type: config_object
+  label: 'Schema.org Custom field settings'
+  mapping:
+    default_schema_properties:
+      type: sequence
+      label: 'Schema.org default properties'
+      sequence:
+        type: mapping
+        label: 'Schema.org default property'
+        mapping:
+          type:
+            type: string
+            label: Type
+          properties:
+            type: sequence
+            label: Properties
+            sequence:
+              type: string
+              label: Property
+    default_format:
+      type: string
+      label: 'Default format'

@@ -1,0 +1,171 @@
+<?php
+
+/**
+ * @file
+ * Primary module hooks for Schema.org module.
+ */
+
+declare(strict_types=1);
+
+use Drupal\Component\Serialization\Json;
+use Drupal\Core\Extension\ExtensionLifecycle;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Render\Element;
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Url;
+use Drupal\schemadotorg\Form\SchemaDotOrgSettingsFormBase;
+
+/**
+ * Implements hook_help().
+ */
+function schemadotorg_help_help(string $route_name, RouteMatchInterface $route_match): array|NULL {
+  switch ($route_name) {
+    case 'schemadotorg':
+      $build = [
+        '#prefix' => '<p>',
+        '#suffix' => '</p>',
+      ];
+      $build['learn_more'] = [
+        '#type' => 'link',
+        '#title' => t('Learn more about the Schema.org Blueprints module'),
+        '#url' => Url::fromRoute('schemadotorg_help.page', ['name' => 'schemadotorg']),
+      ];
+      $build['or'] = [
+        '#prefix' => ' ',
+        '#markup' => t('or'),
+        '#suffix' => ' &nbsp;',
+      ];
+      $build['video'] = [
+        '#type' => 'link',
+        '#title' => t('► Watch videos'),
+        '#url' => Url::fromRoute('schemadotorg_help.videos'),
+        '#attributes' => [
+          'class' => [
+            'use-ajax',
+            'button',
+            'button--small',
+            'button--extrasmall',
+          ],
+          'data-dialog-type' => 'modal',
+          'data-dialog-options' => Json::encode([
+            'width' => 800,
+          ]),
+        ],
+      ];
+      return $build;
+
+    default:
+      return NULL;
+  }
+}
+
+/**
+ * Preprocess variables for help-section.html.twig.
+ */
+function schemadotorg_help_preprocess_help_section(array &$variables): void {
+  // Ignore customized help section titles that are render arrays.
+  if (is_array($variables['title'])) {
+    return;
+  }
+
+  $section_title = (string) $variables['title'];
+  // Remove all 'schemadotorg' links from the 'Module overviews'.
+  if ($section_title === (string) t('Module overviews')) {
+    /** @var \Drupal\Core\Link[] $links */
+    $links =& $variables['links'];
+    foreach ($links as $key => $link) {
+      $module_name = $link->getUrl()->getRouteParameters()['name'] ?? '';
+      if (str_starts_with($module_name, 'schemadotorg')) {
+        unset($links[$key]);
+      }
+    }
+  }
+
+  // Add the Schema.org Blueprints logo to Schema.org Blueprints help section.
+  if ($section_title === (string) t('Schema.org Blueprints')) {
+    $module_path = \Drupal::service('extension.list.module')->getPath('schemadotorg');
+    $variables['title'] = [
+      'image' => [
+        [
+          '#theme' => 'image',
+          '#uri' => $module_path . '/logo.png',
+          '#alt' => t('Logo for the Schema.org Blueprints project'),
+          '#attributes' => ['class' => ['schemadotorg-logo']],
+          '#attached' => [
+            'library' => [
+              'schemadotorg/schemadotorg.logo',
+              'schemadotorg_help/schemadotorg_help',
+            ],
+          ],
+        ],
+      ],
+      'title' => [
+        '#markup' => $variables['title'],
+      ],
+    ];
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function schemadotorg_help_form_alter(array &$form, FormStateInterface $form_state, string $form_id): void {
+  if ($form_state->getFormObject() instanceof SchemaDotOrgSettingsFormBase
+    && \Drupal::currentUser()->hasPermission('access help pages')) {
+    $form['#after_build'][] = 'schemadotorg_help_form_after_build';
+  }
+}
+
+/**
+ * After build callback for Schema.org settings form.
+ */
+function schemadotorg_help_form_after_build(array $form, FormStateInterface $form_state): array {
+  /** @var \Drupal\Core\Extension\ModuleExtensionList $module_extension_list */
+  $module_extension_list = \Drupal::service('extension.list.module');
+  foreach (Element::children($form) as $module_name) {
+    if (!\Drupal::moduleHandler()->moduleExists($module_name) ||
+      isset($form[$module_name]['#description'])) {
+      continue;
+    }
+
+    // For each Schema.org Blueprints sub-module's configuration settings
+    // include the sub-module's info with a link to help/documentation.
+    $info = $module_extension_list->getExtensionInfo($module_name);
+    $t_args = [
+      '@module' => $info['name'],
+      ':href' => Url::fromRoute('schemadotorg_help.page', ['name' => $module_name])->toString(),
+    ];
+    $form[$module_name]['#description'] = [
+      'title' => [
+        '#markup' => t('About the @module module.', $t_args),
+        '#prefix' => '<strong>',
+        '#suffix' => '</strong><br/>',
+      ],
+      'description' => [
+        '#markup' => $info['description'],
+        '#suffix' => '<br/>',
+      ],
+      'link' => [
+        '#type' => 'link',
+        '#title' => ('Read help/documentation'),
+        '#url' => Url::fromRoute('schemadotorg_help.page', ['name' => $module_name]),
+        '#attributes' => [
+          'target' => '_blank',
+          'title' => t('Read help/documentation for the @module module.', $t_args),
+        ],
+        '#prefix' => '<span class="schemadotorg-help-read">',
+        '#suffix' => '</span>',
+      ],
+    ];
+    if ($info[ExtensionLifecycle::LIFECYCLE_IDENTIFIER] === ExtensionLifecycle::EXPERIMENTAL) {
+      $form[$module_name]['#description']['lifecycle'] = [
+        '#type' => 'container',
+        '#markup' => t('This module is experimental.'),
+        '#prefix' => '<em>',
+        '#suffix' => '</em>',
+      ];
+    }
+  }
+  $form['#attached']['library'][] = 'schemadotorg_help/schemadotorg_help';
+  return $form;
+}

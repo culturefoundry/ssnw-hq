@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.schema_recipe_ingredient
+    - node.type.recipe
+id: node.recipe.schema_recipe_ingredient
+field_name: schema_recipe_ingredient
+entity_type: node
+bundle: recipe
+label: Ingredients
+description: 'A single ingredient used in the recipe, e.g. sugar, flour or garlic.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

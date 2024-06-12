@@ -1,0 +1,72 @@
+<?php
+
+/**
+ * @file
+ * Allows users to preview a web page's Schema.org JSON:API.
+ */
+
+declare(strict_types=1);
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function schemadotorg_jsonapi_preview_help(string $route_name, RouteMatchInterface $route_match): string|NULL {
+  if ($route_name === 'entity.node.schemadotorg_jsonapi') {
+    return '<p>' . t('The <strong>Schema.org JSON:API preview</strong> displays the JSON:API data available to the current user.') . '<p>';
+  }
+
+  return NULL;
+}
+
+/**
+ * Implements hook_local_tasks_alter().
+ */
+function schemadotorg_jsonapi_preview_local_tasks_alter(array &$local_tasks): void {
+  // Determine if  JSON:API preview should be displayed as a node tab/task.
+  $node_task = \Drupal::configFactory()
+    ->get('schemadotorg_jsonapi_preview.settings')
+    ->get('node_task');
+  if (!$node_task) {
+    unset($local_tasks['entity.node.schemadotorg_jsonapi']);
+  }
+}
+
+/* ************************************************************************** */
+// Schema.org JSON:API Preview settings form.
+/* ************************************************************************** */
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * @see \Drupal\schemadotorg\Form\SchemaDotOrgSettingsFormBase::afterBuildDetails
+ * @see \Drupal\schemadotorg\Form\SchemaDotOrgSettingsFormBase::formAlter
+ */
+function schemadotorg_jsonapi_preview_form_schemadotorg_jsonapi_settings_form_alter(array &$form, FormStateInterface $form_state): void {
+  $form['schemadotorg_jsonapi_preview'] = [
+    '#type' => 'details',
+    '#title' => t('JSON:API preview settings'),
+  ];
+  $form['schemadotorg_jsonapi_preview']['node_task'] = [
+    '#type' => 'checkbox',
+    '#title' => t('Display JSON:API preview as a node tab/task.'),
+    '#description' => t('If checked, a JSON:API tab/task will be displayed on nodes.'),
+  ];
+
+  // Add submit callback.
+  $form['#submit'][] = 'schemadotorg_jsonapi_preview_settings_form_submit';
+}
+
+/**
+ * Form submission handler for schemadotorg_jsonld_preview_settings_form().
+ *
+ * @see schemadotorg_jsonapi_preview_form_schemadotorg_jsonapi_settings_form_alter()
+ */
+function schemadotorg_jsonapi_preview_settings_form_submit(array &$form, FormStateInterface $form_state): void {
+  // Clear all plugin caches.
+  /** @var \Drupal\module_test\PluginManagerCacheClearer $plugin_cache_clearer */
+  $plugin_cache_clearer = \Drupal::service('plugin.cache_clearer');
+  $plugin_cache_clearer->clearCachedDefinitions();
+}

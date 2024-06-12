@@ -1,0 +1,5 @@
+entity.node.schemadotorg_jsonapi:
+  route_name: entity.node.schemadotorg_jsonapi
+  title: 'JSON:API'
+  base_route: entity.node.canonical
+  weight: 92

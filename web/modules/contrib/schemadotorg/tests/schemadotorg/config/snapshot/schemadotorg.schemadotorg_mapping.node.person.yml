@@ -1,0 +1,36 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.person.body
+    - field.field.node.person.schema_additional_name
+    - field.field.node.person.schema_email
+    - field.field.node.person.schema_family_name
+    - field.field.node.person.schema_given_name
+    - field.field.node.person.schema_image
+    - field.field.node.person.schema_knows_language
+    - field.field.node.person.schema_member_of
+    - field.field.node.person.schema_same_as
+    - field.field.node.person.schema_telephone
+    - field.field.node.person.schema_works_for
+    - node.type.person
+  module:
+    - node
+id: node.person
+target_entity_type_id: node
+target_bundle: person
+schema_type: Person
+schema_properties:
+  schema_additional_name: additionalName
+  body: description
+  schema_email: email
+  schema_family_name: familyName
+  schema_given_name: givenName
+  schema_image: image
+  schema_knows_language: knowsLanguage
+  schema_member_of: memberOf
+  title: name
+  schema_same_as: sameAs
+  schema_telephone: telephone
+  schema_works_for: worksFor
+additional_mappings: {  }

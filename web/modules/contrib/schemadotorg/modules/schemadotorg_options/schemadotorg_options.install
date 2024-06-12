@@ -1,0 +1,23 @@
+<?php
+
+/**
+ * @file
+ * Installation hooks for the Schema.org Blueprints Options module.
+ */
+
+declare(strict_types=1);
+
+use Drupal\Component\Serialization\Yaml;
+
+/**
+ * Issue #3421199: Improve SpecialAnnouncement category support.
+ */
+function schemadotorg_options_update_10000(): void {
+  $module_path = \Drupal::service('extension.list.module')->getPath('schemadotorg_options');
+  $data = Yaml::decode(file_get_contents($module_path . '/config/install/schemadotorg_options.settings.yml'));
+  \Drupal::configFactory()
+    ->getEditable('schemadotorg_options.settings')
+    ->set('schema_property_allowed_values.SpecialAnnouncement--category', $data['schema_property_allowed_values']['SpecialAnnouncement--category'])
+    ->set('allowed_value_uris', $data['allowed_value_uris'])
+    ->save();
+}

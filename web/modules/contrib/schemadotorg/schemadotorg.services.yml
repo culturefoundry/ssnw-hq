@@ -1,0 +1,32 @@
+services:
+  schemadotorg.installer:
+    class: Drupal\schemadotorg\SchemaDotOrgInstaller
+    arguments: ['@database', '@config.factory', '@module_handler', '@entity_type.manager', '@schemadotorg.names', '@schemadotorg.schema_type_manager']
+  schemadotorg.names:
+    class: Drupal\schemadotorg\SchemaDotOrgNames
+    arguments: ['@config.factory']
+  schemadotorg.config_manager:
+    class: Drupal\schemadotorg\SchemaDotOrgConfigManager
+    arguments: ['@config.factory', '@config.typed', '@entity_type.manager', '@schemadotorg.schema_type_manager']
+  schemadotorg.schema_type_manager:
+    class: Drupal\schemadotorg\SchemaDotOrgSchemaTypeManager
+    arguments: ['@database', '@schemadotorg.names']
+  schemadotorg.schema_type_builder:
+    class: Drupal\schemadotorg\SchemaDotOrgSchemaTypeBuilder
+    arguments: ['@module_handler', '@current_user', '@schemadotorg.schema_type_manager']
+  schemadotorg.entity_type_builder:
+    class: Drupal\schemadotorg\SchemaDotOrgEntityTypeBuilder
+    arguments: ['@config.factory', '@messenger', '@module_handler', '@entity_type.manager', '@entity_display.repository', '@plugin.manager.field.field_type', '@schemadotorg.schema_type_manager', '@schemadotorg.entity_display_builder']
+  schemadotorg.entity_display_builder:
+    class: Drupal\schemadotorg\SchemaDotOrgEntityDisplayBuilder
+    arguments: ['@module_handler', '@config.factory', '@entity_type.manager', '@entity_display.repository', '@schemadotorg.names']
+  schemadotorg.entity_field_manager:
+    class: Drupal\schemadotorg\SchemaDotOrgEntityFieldManager
+    arguments: ['@module_handler', '@config.factory', '@entity_type.manager', '@entity_field.manager', '@plugin.manager.field.field_type', '@schemadotorg.schema_type_manager']
+  schemadotorg.mapping_manager:
+    class: Drupal\schemadotorg\SchemaDotOrgMappingManager
+    arguments: ['@module_handler', '@config.factory', '@entity_type.manager', '@entity_field.manager', '@schemadotorg.names', '@schemadotorg.schema_type_manager', '@schemadotorg.schema_type_builder', '@schemadotorg.entity_field_manager', '@schemadotorg.entity_type_builder', '@schemadotorg.entity_display_builder']
+  schemadotorg.breadcrumb:
+    class: Drupal\schemadotorg\Breadcrumb\SchemaDotOrgBreadcrumbBuilder
+    tags:
+      - { name: breadcrumb_builder, priority: 1000 }

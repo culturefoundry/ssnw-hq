@@ -1,0 +1,7 @@
+block.settings.schemadotorg_jsonld_preview:
+  type: block_settings
+  label: 'Schema.org JSON-LD preview block'
+  mapping:
+    format:
+      type: string
+      label: Format

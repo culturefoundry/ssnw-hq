@@ -1,0 +1,14 @@
+schemadotorg_help.page:
+  path: '/admin/help/schemadotorg/{name}'
+  defaults:
+    _controller: '\Drupal\schemadotorg_help\Controller\SchemaDotOrgHelpController::helpPage'
+    _title: 'Schema.org Blueprints Help'
+  requirements:
+    _permission: 'access help pages'
+schemadotorg_help.videos:
+  path: /admin/help/schemadotorg/videos
+  defaults:
+    _controller: '\Drupal\schemadotorg_help\Controller\SchemaDotOrgHelpController::videos'
+    _title: 'Learn more about the Schema.org Blueprints module'
+  requirements:
+    _permission: 'access help pages'

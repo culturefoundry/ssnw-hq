@@ -1,0 +1,195 @@
+<?php
+
+/**
+ * @file
+ * Allows Inline Entity Forms to be used to create Schema.org relationships.
+ */
+
+declare(strict_types=1);
+
+use Drupal\Core\Entity\Entity\EntityFormMode;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\node\NodeTypeInterface;
+
+/**
+ * Implements hook_ENTITY_TYPE_insert().
+ *
+ * Adds 'inline entity form' form display to specific Schema.org node
+ * type mappings.
+ */
+function schemadotorg_inline_entity_form_node_type_insert(NodeTypeInterface $node_type): void {
+  if ($node_type->isSyncing()) {
+    return;
+  }
+
+  // Make sure we are insert node type that is mapped to a Schema.org type.
+  // @see \Drupal\schemadotorg\SchemaDotOrgEntityTypeBuilder::addEntityBundle
+  if (empty($node_type->schemaDotOrgType)) {
+    return;
+  }
+
+  // Check Schema.org type is subtype of the inline entity form displays
+  // enabled by default.
+  /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager */
+  $schema_type_manager = \Drupal::service('schemadotorg.schema_type_manager');
+  $default_schema_type_form_displays = \Drupal::configFactory()
+    ->get('schemadotorg_inline_entity_form.settings')
+    ->get('default_schema_type_form_displays');
+  if (!$schema_type_manager->isSubTypeOf($node_type->schemaDotOrgType, $default_schema_type_form_displays)) {
+    return;
+  }
+
+  // Create the inline entity form mode if it does not exist.
+  if (!EntityFormMode::load('node.inline_entity_form')) {
+    EntityFormMode::create([
+      'id' => 'node.inline_entity_form',
+      'label' => 'Inline entity form',
+      'targetEntityType' => 'node',
+    ])->save();
+  }
+
+  // Create the inline entity form display.
+  /** @var \Drupal\Core\Entity\EntityDisplayRepositoryInterface $entity_display_repository */
+  $entity_display_repository = \Drupal::service('entity_display.repository');
+  $form_display = $entity_display_repository->getFormDisplay('node', $node_type->id(), 'inline_entity_form');
+
+  // Hide most default base field components.
+  // @see \Drupal\node\Entity\Node::baseFieldDefinitions
+  $components = $form_display->getComponents();
+  $component_keys = array_keys($components);
+  $default_components = \Drupal::configFactory()
+    ->get('schemadotorg_inline_entity_form.settings')
+    ->get('default_form_display_components');
+  $remove_keys = array_diff_key(
+    array_combine($component_keys, $component_keys),
+    array_combine($default_components, $default_components)
+  );
+  foreach ($remove_keys as $remove_key) {
+    $form_display->removeComponent($remove_key);
+  }
+
+  $form_display->save();
+}
+
+/**
+ * Implements hook_schemadotorg_property_field_alter().
+ */
+function schemadotorg_inline_entity_form_schemadotorg_property_field_alter(
+  string $schema_type,
+  string $schema_property,
+  array &$field_storage_values,
+  array &$field_values,
+  ?string &$widget_id,
+  array &$widget_settings,
+  ?string &$formatter_id,
+  array &$formatter_settings,
+): void {
+  if ($field_storage_values['type'] !== 'entity_reference'
+    || !_schemadotorg_inline_entity_form_enabled($schema_type, $schema_property)) {
+    return;
+  }
+
+  $widget_id = 'inline_entity_form_complex';
+  $widget_settings = [
+    'allow_existing' => TRUE,
+    'allow_duplicate' => TRUE,
+    'collapsible' => TRUE,
+    'revision' => TRUE,
+  ];
+
+  // If the 'inline entity form' form mode exists, use it.
+  if (EntityFormMode::load('node.inline_entity_form')) {
+    $widget_settings['form_mode'] = 'inline_entity_form';
+  }
+
+  // If the 'content browser' module is installed, use it.
+  if (\Drupal::moduleHandler()->moduleExists('content_browser')) {
+    $widget_settings['third_party_settings'] = [
+      'entity_browser_entity_form' => [
+        'entity_browser_id' => 'browse_content',
+      ],
+    ];
+  }
+}
+
+/* ************************************************************************** */
+// Schema.org properties settings form.
+/* ************************************************************************** */
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * @see \Drupal\schemadotorg\Form\SchemaDotOrgSettingsFormBase::afterBuildDetails
+ * @see \Drupal\schemadotorg\Form\SchemaDotOrgSettingsFormBase::formAlter
+ */
+function schemadotorg_inline_entity_form_form_schemadotorg_properties_settings_form_alter(array &$form, FormStateInterface $form_state): void {
+  $form['schemadotorg_inline_entity_form'] = [
+    '#type' => 'details',
+    '#title' => t('Inline entity form settings'),
+  ];
+  $form['schemadotorg_inline_entity_form']['default_schema_properties'] = [
+    '#type' => 'schemadotorg_settings',
+    '#title' => t('Default inline entity form Schema.org properties'),
+    '#description' => t('Enter Schema.org properties that should use the inline entity form.'),
+    '#description_link' => 'properties',
+    '#example' => '
+- propertyName
+- SchemaType--propertyName
+',
+  ];
+  $form['schemadotorg_inline_entity_form']['default_schema_type_form_displays'] = [
+    '#type' => 'schemadotorg_settings',
+    '#title' => t('Default Schema.org type form displays'),
+    '#description' => t('Enter Schema.org type that should have the inline entity form display enabled by default.'),
+    '#description_link' => 'types',
+    '#example' => '
+- SchemaType01
+- SchemaType02
+- SchemaType03
+',
+  ];
+  $form['schemadotorg_inline_entity_form']['default_form_display_components'] = [
+    '#type' => 'schemadotorg_settings',
+    '#title' => t('Default form display components'),
+    '#description' => t('Enter component field and property names that should be included in the default inline entity form display.'),
+    '#example' => '
+- field_name
+- propertyName
+',
+  ];
+}
+
+/**
+ * Determine if the inline entity form should be used for Schema.org property.
+ *
+ * @param string $schema_type
+ *   The Schema.org type.
+ * @param string $schema_property
+ *   The Schema.org property.
+ *
+ * @return bool
+ *   TRUE if the inline entity form should be used for Schema.org property.
+ */
+function _schemadotorg_inline_entity_form_enabled(string $schema_type, string $schema_property): bool {
+  $default_schema_properties = \Drupal::config('schemadotorg_inline_entity_form.settings')
+    ->get('default_schema_properties');
+
+  // Check the property.
+  if (in_array($schema_property, $default_schema_properties)) {
+    return TRUE;
+  }
+
+  // Check for the {type}--{property} in the type's breadcrumbs.
+  /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager */
+  $schema_type_manager = \Drupal::service('schemadotorg.schema_type_manager');
+  $breadcrumbs = $schema_type_manager->getTypeBreadcrumbs($schema_type);
+  foreach ($breadcrumbs as $breadcrumb) {
+    $breadcrumb = array_reverse($breadcrumb);
+    foreach ($breadcrumb as $breadcrumb_type) {
+      if (in_array("$breadcrumb_type--$schema_property", $default_schema_properties)) {
+        return TRUE;
+      }
+    }
+  }
+  return FALSE;
+}

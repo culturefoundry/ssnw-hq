@@ -1,0 +1,15 @@
+services:
+  schemadotorg_jsonld.manager:
+    class: Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdManager
+    arguments: ['@config.factory', '@renderer', '@router', '@current_route_match', '@entity_type.manager', '@plugin.manager.field.field_type', '@date.formatter', '@file_url_generator', '@schemadotorg.schema_type_manager']
+  schemadotorg_jsonld.builder:
+    class: Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdBuilder
+    arguments: ['@module_handler', '@current_route_match', '@token', '@entity_type.manager', '@schemadotorg.schema_type_manager', '@schemadotorg_jsonld.manager']
+  schemadotorg_jsonld.breadcrumb:
+    class: Drupal\schemadotorg_jsonld\Breadcrumb\SchemaDotOrgJsonLdBreadcrumbBuilder
+    tags:
+      - { name: breadcrumb_builder, priority: 1000 }
+  variation_cache.schemadotorg_jsonld:
+    class: Drupal\Core\Cache\VariationCacheInterface
+    factory: variation_cache_factory:get
+    arguments: [schemadotorg_jsonld]

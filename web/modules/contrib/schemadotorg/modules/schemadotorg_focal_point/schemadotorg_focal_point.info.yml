@@ -1,0 +1,16 @@
+name: 'Schema.org Blueprints Focal Point'
+type: module
+description: 'This module will be removed. All focal point support has been moved to the Schema.org Blueprints core module.'
+package: 'Schema.org Blueprints [DEPRECATED]'
+core_version_requirement: ^10.2
+lifecycle: deprecated
+lifecycle_link: 'https://www.drupal.org/project/schemadotorg_deprecated'
+hidden: true
+dependencies:
+  - 'focal_point:focal_point'
+  - 'schemadotorg:schemadotorg'
+
+# Information added by Drupal.org packaging script on 2024-05-20
+version: '1.0.0-alpha24'
+project: 'schemadotorg'
+datestamp: 1716237079

@@ -1,0 +1,10 @@
+schemadotorg_content_moderation.settings:
+  type: config_entity
+  label: 'Schema.org Content moderation settings'
+  mapping:
+    default_workflows:
+      type: sequence
+      label: 'Default workflows'
+      sequence:
+        type: string
+        label: 'Default workflow'

@@ -1,0 +1,89 @@
+<?php
+
+/**
+ * @file
+ * Allows an Office hours field to be used to create OpeningHoursSpecification.
+ */
+
+declare(strict_types=1);
+
+use Drupal\Core\Field\FieldItemInterface;
+use Drupal\Core\Render\BubbleableMetadata;
+use Drupal\field\Entity\FieldConfig;
+
+/**
+ * Implements hook_schemadotorg_property_field_alter().
+ */
+function schemadotorg_geolocation_schemadotorg_property_field_alter(
+  string $schema_type,
+  string $schema_property,
+  array &$field_storage_values,
+  array &$field_values,
+  ?string &$widget_id,
+  array &$widget_settings,
+  ?string &$formatter_id,
+  array &$formatter_settings,
+): void {
+  // Make sure the field type is set to 'geolocation'.
+  if ($field_storage_values['type'] !== 'geolocation') {
+    return;
+  }
+
+  // Make sure the geolocation_leaflet.module is enabled..
+  if (!\Drupal::moduleHandler()->moduleExists('geolocation_address')
+    || !\Drupal::moduleHandler()->moduleExists('geolocation_leaflet')) {
+    return;
+  }
+
+  // Make sure the address field name exists.
+  $entity_type_id = $field_values['entity_type'];
+  $bundle = $field_values['bundle'];
+
+  /** @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names */
+  $schema_names = \Drupal::service('schemadotorg.names');
+  $field_prefix = $schema_names->getFieldPrefix();
+  $field_name = $field_prefix . 'address';
+  if (!FieldConfig::loadByName($entity_type_id, $bundle, $field_name)) {
+    return;
+  }
+
+  // Set the form widget.
+  $widget_id = 'geolocation_leaflet';
+  $widget_settings['third_party_settings']['geolocation_address'] = [
+    'enable' => TRUE,
+    'address_field' => 'schema_address',
+    'geocoder' => 'photon',
+    'sync_mode' => 'manual',
+    'direction' => 'one_way',
+    'button_position' => 'topleft',
+    'ignore' => [
+      'organization' => TRUE,
+      'address-line1' => FALSE,
+      'address-line2' => FALSE,
+      'locality' => FALSE,
+      'administrative-area' => FALSE,
+      'postal-code' => FALSE,
+    ],
+  ];
+
+  // Set the view display.
+  $formatter_id = 'geolocation_map';
+  $formatter_settings['map_provider_id'] = 'leaflet';
+  $formatter_settings['map_provider_settings']['zoom'] = '15';
+}
+
+/**
+ * Implements hook_schemadotorg_jsonld_schema_property_alter().
+ */
+function schemadotorg_geolocation_schemadotorg_jsonld_schema_property_alter(mixed &$value, FieldItemInterface $item, BubbleableMetadata $bubbleable_metadata): void {
+  $field_type = $item->getFieldDefinition()->getType();
+  if ($field_type !== 'geolocation') {
+    return;
+  }
+
+  $value = [
+    '@type' => 'GeoCoordinates',
+    'latitude' => $item->lat,
+    'longitude' => $item->lng,
+  ];
+}

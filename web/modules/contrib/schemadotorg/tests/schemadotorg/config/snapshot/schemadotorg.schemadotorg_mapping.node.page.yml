@@ -1,0 +1,25 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.page.body
+    - field.field.node.page.schema_image
+    - field.field.node.page.schema_related_link
+    - field.field.node.page.schema_significant_link
+    - node.type.page
+  module:
+    - node
+id: node.page
+target_entity_type_id: node
+target_bundle: page
+schema_type: WebPage
+schema_properties:
+  created: dateCreated
+  changed: dateModified
+  langcode: inLanguage
+  title: name
+  schema_image: primaryImageOfPage
+  schema_related_link: relatedLink
+  schema_significant_link: significantLink
+  body: text
+additional_mappings: {  }

@@ -1,0 +1,26 @@
+<?php
+
+/**
+ * @file
+ * Installation hooks for the Schema.org Blueprints Descriptions module.
+ */
+
+declare(strict_types=1);
+
+/**
+ * Implements hook_install().
+ */
+function schemadotorg_descriptions_install(bool $is_syncing): void {
+  if ($is_syncing) {
+    return;
+  }
+
+  // Setting weight to 10 so that descriptions will be added or removed after
+  // entity and field forms have been altered.
+  module_set_weight('schemadotorg_descriptions', 10);
+
+  // Make sure the weight is updated.
+  // Other modules are reporting this issue.
+  // @see https://www.drupal.org/project/drupal/issues/2886083
+  drupal_flush_all_caches();
+}

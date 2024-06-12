@@ -1,0 +1,12 @@
+menu_ui:
+  WebPage:
+    available_menus:
+      - main
+      - footer
+    parent: ''
+  Thing:
+    available_menus: { }
+    parent: ''
+display_submitted:
+  Article: true
+  Thing: false

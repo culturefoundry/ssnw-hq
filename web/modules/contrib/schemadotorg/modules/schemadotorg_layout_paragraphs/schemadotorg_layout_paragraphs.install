@@ -1,0 +1,92 @@
+<?php
+
+/**
+ * @file
+ * Installation hooks for the Schema.org Blueprints Layout Paragraphs module.
+ */
+
+declare(strict_types=1);
+
+use Drupal\Component\Serialization\Yaml;
+use Drupal\paragraphs\Entity\ParagraphsType;
+
+/**
+ * Implements hook_install().
+ */
+function schemadotorg_layout_paragraphs_install(bool $is_syncing): void {
+  if ($is_syncing) {
+    return;
+  }
+
+  _schemadotorg_layout_paragraphs_create_layout_paragraph_type();
+
+  // Setting weight to 1 so that the Schema.org Layout Paragraphs
+  // hooks are triggered after the Schema.org Paragraphs module.
+  module_set_weight('schemadotorg_layout_paragraphs', 1);
+}
+
+/**
+ * Create the 'Layout' paragraph type.
+ */
+function _schemadotorg_layout_paragraphs_create_layout_paragraph_type(): void {
+  // Make sure the layout paragraph does not exist.
+  if (ParagraphsType::load('layout')) {
+    return;
+  }
+
+  /** @var \Drupal\schemadotorg\SchemaDotOrgMappingManagerInterface $mapping_manager */
+  $mapping_manager = \Drupal::service('schemadotorg.mapping_manager');
+
+  $defaults = [
+    'entity' => [
+      'id' => 'layout',
+      'label' => 'Layout',
+      'description' => 'A multi-column layout with a title and description',
+    ],
+    'properties' => [
+      'image' => FALSE,
+    ],
+  ];
+  $mapping_manager->createType('paragraph', 'WebContent', $defaults);
+
+  // Set field weights to ensure that the name and description come
+  // before the layout.
+  /** @var \Drupal\Core\Entity\EntityDisplayRepositoryInterface $entity_display_repository */
+  $entity_display_repository = \Drupal::service('entity_display.repository');
+  $display = $entity_display_repository->getViewDisplay('paragraph', 'layout');
+  $field_weights = [
+    'schema_name' => -100,
+    'schema_text' => -99,
+  ];
+  foreach ($field_weights as $field_name => $field_weight) {
+    $component = $display->getComponent($field_name);
+    $component['weight'] = $field_weight;
+    $display->setComponent($field_name, $component);
+  }
+  $display->save();
+}
+
+/**
+ * Change default 'schema_default_types' to 'default_types' in 'schemadotorg_layout_paragraphs.settings'.
+ */
+function schemadotorg_layout_paragraphs_update_10000(): void {
+  $config = \Drupal::configFactory()->getEditable('schemadotorg_layout_paragraphs.settings');
+  $config->set('default_types', $config->get('default_schema_types'));
+  $config->clear('default_types');
+  $config->save();
+}
+
+/**
+ * Add 'default_paragraph_layouts' to 'schemadotorg_layout_paragraphs.settings'.
+ */
+function schemadotorg_layout_paragraphs_update_10001(): void {
+  $module_path = \Drupal::service('extension.list.module')->getPath('schemadotorg_layout_paragraphs');
+  $config_file_path = $module_path . '/config/install/schemadotorg_layout_paragraphs.settings.yml';
+  $config_data = Yaml::decode(file_get_contents($config_file_path));
+
+  $config = \Drupal::configFactory()->getEditable('schemadotorg_layout_paragraphs.settings');
+  $config->set('default_paragraph_layouts', $config_data['default_paragraph_layouts']);
+  $config->save();
+
+  _schemadotorg_layout_paragraphs_create_layout_paragraph_type();
+}

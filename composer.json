@@ -15,9 +15,8 @@
         }
     },
     "require": {
-        "ext-pdo_sqlite": "*",
         "composer/installers": "^2.0",
-        "cweagans/composer-patches": "^2",
+        "cweagans/composer-patches": "^1.7",
         "drupal/address": "^2.0",
         "drupal/antibot": "^2.0",
         "drupal/bpmn_io": "^2.0@alpha",

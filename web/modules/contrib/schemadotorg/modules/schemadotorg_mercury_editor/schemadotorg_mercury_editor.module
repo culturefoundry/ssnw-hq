@@ -1,0 +1,111 @@
+<?php
+
+/**
+ * @file
+ * Automatically enables the Mercury Editor for Schema.org types.
+ */
+
+declare(strict_types=1);
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ */
+function schemadotorg_mercury_editor_form_schemadotorg_mapping_form_alter(array &$form, FormStateInterface &$form_state): void {
+  if (!\Drupal::moduleHandler()->moduleExists('schemadotorg_ui')) {
+    return;
+  }
+
+  /** @var \Drupal\schemadotorg\Form\SchemaDotOrgMappingForm $form_object */
+  $form_object = $form_state->getFormObject();
+  /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface|null $mapping */
+  $mapping = $form_object->getEntity();
+
+  // Exit if no Schema.org type has been selected.
+  if (!$mapping->getSchemaType()) {
+    return;
+  }
+
+  // Append (via the Mercury Editor) to layout mapping settings.
+  if (isset($form['mapping']['mainEntity'])) {
+    $form['mapping']['mainEntity']['#title'] .= ' (' . t('via the Mercury Editor') . ')';
+    if (isset($form['mapping']['mainEntity']['name'])
+      && $form['mapping']['mainEntity']['name']['#type'] === 'checkbox') {
+      $form['mapping']['mainEntity']['name']['#title'] .= ' (' . t('via the Mercury Editor') . ')';
+      $form['mapping']['mainEntity']['name']['#description'] = t("If checked, a 'Layout' field is added to the content type which allows content authors to build layouts using the Mercury Editor.");
+    }
+  }
+}
+
+/**
+ * Implements hook_schemadotorg_mapping_presave().
+ */
+function schemadotorg_mercury_editor_schemadotorg_mapping_presave(SchemaDotOrgMappingInterface $mapping): void {
+  if ($mapping->isSyncing()) {
+    return;
+  }
+
+  // The layout paragraphs property name.
+  // @see \Drupal\schemadotorg_layout_paragraphs\SchemaDotOrgLayoutParagraphsManagerInterface::PROPERTY_NAME
+  $property_name = 'mainEntity';
+  if ($mapping->getTargetEntityTypeId() === 'node'
+    && $mapping->hasSchemaPropertyMapping($property_name)) {
+    $target_bundle = $mapping->getTargetBundle();
+    \Drupal::configFactory()->getEditable('mercury_editor.settings')
+      ->set("bundles.node.$target_bundle", $target_bundle)
+      ->save();
+  }
+}
+
+/**
+ * Implements hook_schemadotorg_property_field_alter().
+ *
+ * @see schemadotorg_paragraphs_schemadotorg_property_field_alter()
+ */
+function schemadotorg_mercury_editor_schemadotorg_property_field_alter(
+  string $schema_type,
+  string $schema_property,
+  array &$field_storage_values,
+  array &$field_values,
+  ?string &$widget_id,
+  array &$widget_settings,
+  ?string &$formatter_id,
+  array &$formatter_settings,
+): void {
+  // Check that the field is an entity_reference_revisions type that is
+  // targeting layout paragraphs.
+  if ($field_storage_values['type'] !== 'entity_reference_revisions'
+    || $field_storage_values['settings']['target_type'] !== 'paragraph'
+    || $schema_property !== 'mainEntity') {
+    return;
+  }
+
+  // Make sure the entity type and Schema.org type supports layout paragraphs.
+  $entity_type_id = $field_storage_values['entity_type'];
+  if ($entity_type_id !== 'node') {
+    return;
+  }
+
+  // Unset experimental layout builder.
+  // @see \Drupal\schemadotorg_layout_paragraphs\SchemaDotOrgLayoutParagraphsManager::alterPropertyField
+  $formatter_id = 'layout_paragraphs';
+  $formatter_settings['label'] = 'hidden';
+  unset($formatter_settings['empty_message']);
+}
+
+/**
+ * Implements hook_gin_content_form_routes().
+ */
+function schemadotorg_mercury_editor_gin_content_form_routes(): array {
+  // Ensure that Mercury editor node forms
+  // via Gin Admin theme have description toggle.
+  $content_types = \Drupal::config('mercury_editor.settings')
+    ->get('bundles.node') ?? [];
+  $routes = ['mercury_editor.node_form'];
+  foreach ($content_types as $content_type) {
+    $routes[] = 'node.add.' . $content_type;
+  }
+  return $routes;
+}

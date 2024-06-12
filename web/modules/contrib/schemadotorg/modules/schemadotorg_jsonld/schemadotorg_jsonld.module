@@ -1,0 +1,112 @@
+<?php
+
+/**
+ * @file
+ * Builds and adds Schema.org structured data as JSON-LD to web pages.
+ */
+
+/* phpcs:disable Drupal.NamingConventions.ValidFunctionName.InvalidPrefix */
+
+declare(strict_types=1);
+
+use Drupal\Core\Cache\Cache;
+use Drupal\Core\Cache\CacheableMetadata;
+use Drupal\Core\Render\BubbleableMetadata;
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdBuilderInterface;
+
+/**
+ * Implements hook_help().
+ */
+function schemadotorg_jsonld_help(string $route_name, RouteMatchInterface $route_match): string|NULL {
+  if ($route_name === 'schemadotorg_jsonld.settings') {
+    return '<p>' . t('The <strong>Schema.org JSON-LD settings</strong> page allows administrators to configure the default settings for Schema.org JSON-LD data and endpoints.') . '<p>';
+  }
+
+  return NULL;
+}
+
+/**
+ * Implements hook_page_attachments_alter().
+ */
+function schemadotorg_jsonld_page_attachments_alter(array &$page): void {
+  // Make sure the page has an HTML <head> section.
+  if (empty($page['#attached']['html_head'])) {
+    return;
+  }
+
+  // If this is an admin route/page never add the JSON-LD to not have
+  // JSON-LD impact the admin UI/UX performance.
+  // @todo Determine if JSON-LD should be included on admin routes.
+  if (\Drupal::service('router.admin_context')->isAdminRoute()) {
+    return;
+  }
+
+  // Use new variation cache for caching something with cache contexts.
+  // @see https://www.drupal.org/node/3365546
+  //
+  // This ensures that JSON-LD is cached for anonymous and authenticated users
+  // even if the page is not cached.
+  //
+  // The generation of JSON-LD requires a lot database queries to look up
+  // entities and Schema.org types and properties. Caching the JSON-LD is
+  // a huge performance improvement.
+  //
+  // Note: We are also caching the bubbleable metadata so that we can still
+  // apply the JSON-LD cache tags and contexts to the page.
+  /** @var Drupal\Core\Cache\VariationCacheInterface $variation_cache */
+  $variation_cache = \Drupal::service('variation_cache.schemadotorg_jsonld');
+
+  // Cache settings.
+  $cache_keys = ['html_head'];
+  $cache_contexts = SchemaDotOrgJsonLdBuilderInterface::ROUTE_MATCH_CACHE_CONTEXTS;
+  $cacheable_contexts = (new CacheableMetadata())->setCacheContexts($cache_contexts);
+
+  $cache = $variation_cache->get($cache_keys, $cacheable_contexts);
+  if ($cache) {
+    $data = $cache->data['data'];
+    $bubbleable_metadata = $cache->data['metadata'];
+  }
+  else {
+    // Build the entity's Schema.org data.
+    /** @var \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdBuilderInterface $builder */
+    $builder = \Drupal::service('schemadotorg_jsonld.builder');
+    $bubbleable_metadata = new BubbleableMetadata();
+    $route_match = \Drupal::routeMatch();
+    $data = $builder->build($route_match, $bubbleable_metadata);
+
+    $variation_cache->set(
+      $cache_keys,
+      ['data' => $data, 'metadata' => $bubbleable_metadata],
+      $bubbleable_metadata->addCacheContexts($cache_contexts),
+      $cacheable_contexts
+    );
+  }
+
+  // Even though we are using a variation cache for caching we want the page
+  // cache to include the JSON-LD cache contexts and tags.
+  $page['#cache']['context'] = Cache::mergeContexts($page['#cache']['context'] ?? [], $bubbleable_metadata->getCacheContexts());
+  $page['#cache']['tags'] = Cache::mergeTags($page['#cache']['tags'] ?? [], $bubbleable_metadata->getCacheTags());
+
+  if (!$data) {
+    return;
+  }
+
+  // If preprocess is disable, make the JSON pretty.
+  $preprocess = \Drupal::config('system.performance')->get('js.preprocess');
+  $json_flags = JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE;
+  if (!$preprocess) {
+    $json_flags = JSON_PRETTY_PRINT | $json_flags;
+  }
+
+  // Add the <script type="application/ld+json"> to <head> section of the page.
+  $page['#attached']['html_head'][] = [
+    [
+      '#type' => 'html_tag',
+      '#tag' => 'script',
+      '#value' => json_encode($data, $json_flags),
+      '#attributes' => ['type' => 'application/ld+json'],
+    ],
+    'schemadotorg_jsonld',
+  ];
+}

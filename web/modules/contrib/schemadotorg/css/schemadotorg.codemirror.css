@@ -1,0 +1,28 @@
+/**
+ * @file
+ * Schema.org CodeMirror styles.
+ */
+
+form .CodeMirror {
+  height: auto;
+  max-height: 400px;
+  border: 1px solid #ccc;
+  font-size: 13px;
+}
+
+form .CodeMirror-scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-height: 400px;
+}
+
+pre.schemadotorg-codemirror-mode {
+  overflow: scroll;
+  padding: 1em;
+  border: 1px solid #999;
+  background-color: #f7f7f7;
+}
+
+details pre.schemadotorg-codemirror-mode {
+  max-height: 400px;
+}

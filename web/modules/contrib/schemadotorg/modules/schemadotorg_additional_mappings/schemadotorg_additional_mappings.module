@@ -1,0 +1,125 @@
+<?php
+
+/**
+ * @file
+ * Allows additional Schema.org mappings to applied to a Schema.org mapping.
+ */
+
+declare(strict_types=1);
+
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Render\BubbleableMetadata;
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
+
+/**
+ * Implements hook_schemadotorg_mapping_defaults_alter().
+ */
+function schemadotorg_additional_mappings_schemadotorg_mapping_defaults_alter(array &$defaults, string $entity_type_id, ?string $bundle, string $schema_type): void {
+  /** @var \Drupal\schemadotorg_additional_mappings\SchemaDotOrgAdditionalMappingsManagerInterface $schema_webpage_manager */
+  $schema_webpage_manager = \Drupal::service('schemadotorg_additional_mappings.manager');
+  $schema_webpage_manager->mappingDefaultsAlter($defaults, $entity_type_id, $bundle, $schema_type);
+}
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ */
+function schemadotorg_additional_mappings_form_schemadotorg_mapping_form_alter(array &$form, FormStateInterface &$form_state): void {
+  /** @var \Drupal\schemadotorg_additional_mappings\SchemaDotOrgAdditionalMappingsManagerInterface $schema_webpage_manager */
+  $schema_webpage_manager = \Drupal::service('schemadotorg_additional_mappings.manager');
+  $schema_webpage_manager->mappingFormAlter($form, $form_state);
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_postsave().
+ */
+function schemadotorg_additional_mappings_schemadotorg_mapping_postsave(SchemaDotOrgMappingInterface $mapping): void {
+  if ($mapping->isSyncing()) {
+    return;
+  }
+
+  /** @var \Drupal\schemadotorg_additional_mappings\SchemaDotOrgAdditionalMappingsManagerInterface $schema_webpage_manager */
+  $schema_webpage_manager = \Drupal::service('schemadotorg_additional_mappings.manager');
+  $schema_webpage_manager->mappingPostSave($mapping);
+}
+
+/* ************************************************************************** */
+// Schema.org JSON-LD.
+/* ************************************************************************** */
+
+/**
+ * Alter the Schema.org JSON-LD data for an entity.
+ *
+ * Besides, altering an existing Schema.org mapping's JSON-LD data, modules can
+ * define custom JSON-LD data for any entity type.
+ *
+ * @param array $data
+ *   The Schema.org JSON-LD data for an entity.
+ * @param \Drupal\Core\Entity\EntityInterface $entity
+ *   The entity.
+ * @param \Drupal\schemadotorg\SchemaDotOrgMappingInterface|null $mapping
+ *   The entity's Schema.org mapping.
+ * @param \Drupal\Core\Render\BubbleableMetadata $bubbleable_metadata
+ *   Object to collect JSON-LD's bubbleable metadata.
+ */
+function schemadotorg_additional_mappings_schemadotorg_jsonld_schema_type_entity_alter(array &$data, EntityInterface $entity, ?SchemaDotOrgMappingInterface $mapping, BubbleableMetadata $bubbleable_metadata): void {
+  /** @var \Drupal\schemadotorg_additional_mappings\SchemaDotOrgAdditionalMappingsJsonLdManagerInterface $manager */
+  $manager = \Drupal::service('schemadotorg_additional_mapping.jsonld_manager');
+  $manager->entityAlter($data, $entity, $mapping, $bubbleable_metadata);
+}
+
+/**
+ * Implements hook_schemadotorg_jsonld_alter().
+ */
+function schemadotorg_additional_mappings_schemadotorg_jsonld_alter(array &$data, RouteMatchInterface $route_match, BubbleableMetadata $bubbleable_metadata): void {
+  /** @var \Drupal\schemadotorg_additional_mappings\SchemaDotOrgAdditionalMappingsJsonLdManagerInterface $manager */
+  $manager = \Drupal::service('schemadotorg_additional_mapping.jsonld_manager');
+  $manager->alter($data, $route_match, $bubbleable_metadata);
+}
+
+/* ************************************************************************** */
+// Schema.org types settings form.
+/* ************************************************************************** */
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * @see \Drupal\schemadotorg\Form\SchemaDotOrgSettingsFormBase::afterBuildDetails
+ * @see \Drupal\schemadotorg\Form\SchemaDotOrgSettingsFormBase::formAlter
+ */
+function schemadotorg_additional_mappings_form_schemadotorg_types_settings_form_alter(array &$form, FormStateInterface $form_state): void {
+  $form['schemadotorg_additional_mappings'] = [
+    '#type' => 'details',
+    '#title' => t('Additional mappings settings'),
+  ];
+  $form['schemadotorg_additional_mappings']['default_additional_mappings'] = [
+    '#type' => 'schemadotorg_settings',
+    '#title' => t('Default additional Schema.org mappings'),
+    '#description' => t('Enter the additional Schema.org mappings for Schema.org mapping type.'),
+    '#description_link' => 'types',
+    '#example' => "
+node--MainSchemaType:
+  - AdditionalSchemaType
+",
+  ];
+  $form['schemadotorg_additional_mappings']['default_properties'] = [
+    '#type' => 'schemadotorg_settings',
+    '#title' => t('Default Schema.org type properties'),
+    '#rows' => 10,
+    '#description' => t('Enter default properties for Schema.org types.'),
+    '#description_link' => 'types',
+    '#example' => "
+SchemaType:
+  - '-removedPropertyName01'
+  - propertyName01
+  - propertyName02
+  - propertyName03
+MainSchemaType--AdditionalSchemaType:
+  - '-removedPropertyName01'
+  - propertyName01
+  - propertyName02
+  - propertyName03
+",
+  ];
+}

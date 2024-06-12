@@ -1,0 +1,122 @@
+composer.example.json diff
+Produced: 8/26/23 8:56:14 AM
+
+Mode:  All
+File:
+{                                                                                                 =  {
+    "name": "drupal/recommended-project",                                                                "name": "drupal/recommended-project",
+    "description": "Project template for Drupal projects with a relocated document root",                "description": "Project template for Drupal projects with a relocated document root",
+    "type": "project",                                                                                   "type": "project",
+    "license": "GPL-2.0-or-later",                                                                       "license": "GPL-2.0-or-later",
+    "homepage": "https://www.drupal.org/project/drupal",                                                 "homepage": "https://www.drupal.org/project/drupal",
+    "support": {                                                                                         "support": {
+        "docs": "https://www.drupal.org/docs/user_guide/en/index.html",                                      "docs": "https://www.drupal.org/docs/user_guide/en/index.html",
+        "chat": "https://www.drupal.org/node/314178"                                                         "chat": "https://www.drupal.org/node/314178"
+    },                                                                                                   },
+    "repositories": [                                                                                    "repositories": [
+        {                                                                                                    {
+            "type": "composer",                                                                                  "type": "composer",
+            "url": "https://packages.drupal.org/8"                                                               "url": "https://packages.drupal.org/8"
+        }                                                                                                    }
+    ],                                                                                                   ],
+    "require": {                                                                                         "require": {
+        "composer/installers": "^2.0",                                                                       "composer/installers": "^2.0",
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                                                                                                  -+         "drupal/admin_toolbar": "^3.4",
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        "drupal/core-composer-scaffold": "^10.2",                                                 =          "drupal/core-composer-scaffold": "^10.2",
+        "drupal/core-project-message": "^10.2",                                                              "drupal/core-project-message": "^10.2",
+        "drupal/core-recommended": "^10.2",                                                                  "drupal/core-recommended": "^10.2",
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                                                                                                  -+         "drupal/devel": "^5.1",
+                                                                                                             "drupal/schemadotorg": "^1.0@alpha",
+                                                                                                             "drush/drush": "^12.1",
+                                                                                                             "wikimedia/composer-merge-plugin": "^2.1"
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    },                                                                                            =      },
+    "conflict": {                                                                                        "conflict": {
+        "drupal/drupal": "*"                                                                                 "drupal/drupal": "*"
+    },                                                                                                   },
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    "minimum-stability": "stable",                                                                <>     "minimum-stability": "dev",
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    "prefer-stable": true,                                                                        =      "prefer-stable": true,
+    "config": {                                                                                          "config": {
+        "allow-plugins": {                                                                                   "allow-plugins": {
+            "composer/installers": true,                                                                         "composer/installers": true,
+            "drupal/core-composer-scaffold": true,                                                               "drupal/core-composer-scaffold": true,
+            "drupal/core-project-message": true,                                                                 "drupal/core-project-message": true,
+            "phpstan/extension-installer": true,                                                                 "phpstan/extension-installer": true,
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+            "dealerdirect/phpcodesniffer-composer-installer": true                                <>             "dealerdirect/phpcodesniffer-composer-installer": true,
+                                                                                                                 "wikimedia/composer-merge-plugin": true
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        },                                                                                        =          },
+        "sort-packages": true                                                                                "sort-packages": true
+    },                                                                                                   },
+    "extra": {                                                                                           "extra": {
+        "drupal-scaffold": {                                                                                 "drupal-scaffold": {
+            "locations": {                                                                                       "locations": {
+                "web-root": "web/"                                                                                   "web-root": "web/"
+            }                                                                                                    }
+        },                                                                                                   },
+        "installer-paths": {                                                                                 "installer-paths": {
+            "web/core": [                                                                                        "web/core": [
+                "type:drupal-core"                                                                                   "type:drupal-core"
+            ],                                                                                                   ],
+            "web/libraries/{$name}": [                                                                           "web/libraries/{$name}": [
+                "type:drupal-library"                                                                                "type:drupal-library"
+            ],                                                                                                   ],
+            "web/modules/contrib/{$name}": [                                                                     "web/modules/contrib/{$name}": [
+                "type:drupal-module"                                                                                 "type:drupal-module"
+            ],                                                                                                   ],
+            "web/profiles/contrib/{$name}": [                                                                    "web/profiles/contrib/{$name}": [
+                "type:drupal-profile"                                                                                "type:drupal-profile"
+            ],                                                                                                   ],
+            "web/themes/contrib/{$name}": [                                                                      "web/themes/contrib/{$name}": [
+                "type:drupal-theme"                                                                                  "type:drupal-theme"
+            ],                                                                                                   ],
+            "drush/Commands/contrib/{$name}": [                                                                  "drush/Commands/contrib/{$name}": [
+                "type:drupal-drush"                                                                                  "type:drupal-drush"
+            ],                                                                                                   ],
+            "web/modules/custom/{$name}": [                                                                      "web/modules/custom/{$name}": [
+                "type:drupal-custom-module"                                                                          "type:drupal-custom-module"
+            ],                                                                                                   ],
+            "web/profiles/custom/{$name}": [                                                                     "web/profiles/custom/{$name}": [
+                "type:drupal-custom-profile"                                                                         "type:drupal-custom-profile"
+            ],                                                                                                   ],
+            "web/themes/custom/{$name}": [                                                                       "web/themes/custom/{$name}": [
+                "type:drupal-custom-theme"                                                                           "type:drupal-custom-theme"
+            ]                                                                                                    ]
+        },                                                                                                   },
+        "drupal-core-project-message": {                                                                     "drupal-core-project-message": {
+            "include-keys": [                                                                                    "include-keys": [
+                "homepage",                                                                                          "homepage",
+                "support"                                                                                            "support"
+            ],                                                                                                   ],
+            "post-create-project-cmd-message": [                                                                 "post-create-project-cmd-message": [
+                "<bg=blue;fg=white>                                                         </>",                    "<bg=blue;fg=white>                                                         </>",
+                "<bg=blue;fg=white>  Congratulations, you’ve installed the Drupal codebase  </>",                    "<bg=blue;fg=white>  Congratulations, you’ve installed the Drupal codebase  </>",
+                "<bg=blue;fg=white>  from the drupal/recommended-project template!          </>",                    "<bg=blue;fg=white>  from the drupal/recommended-project template!          </>",
+                "<bg=blue;fg=white>                                                         </>",                    "<bg=blue;fg=white>                                                         </>",
+                "",                                                                                                  "",
+                "<bg=yellow;fg=black>Next steps</>:",                                                                "<bg=yellow;fg=black>Next steps</>:",
+                "  * Install the site: https://www.drupal.org/docs/installing-drupal",                               "  * Install the site: https://www.drupal.org/docs/installing-drupal",
+                "  * Read the user guide: https://www.drupal.org/docs/user_guide/en/index.html",                     "  * Read the user guide: https://www.drupal.org/docs/user_guide/en/index.html",
+                "  * Get support: https://www.drupal.org/support",                                                   "  * Get support: https://www.drupal.org/support",
+                "  * Get involved with the Drupal community:",                                                       "  * Get involved with the Drupal community:",
+                "      https://www.drupal.org/getting-involved",                                                     "      https://www.drupal.org/getting-involved",
+                "  * Remove the plugin that prints this message:",                                                   "  * Remove the plugin that prints this message:",
+                "      composer remove drupal/core-project-message"                                                  "      composer remove drupal/core-project-message"
+            ]                                                                                                    ]
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                                                                                                  -+         },
+                                                                                                             "merge-plugin": {
+                                                                                                                 "include": ["web/modules/contrib/schemadotorg/composer.libraries.json"],
+                                                                                                                 "merge-extra": true,
+                                                                                                                 "merge-extra-deep": true
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        }                                                                                         =          }
+    }                                                                                                    }
+}                                                                                                    }
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.custom
+    - node.type.custom_thing
+id: node.custom_thing.custom
+field_name: custom
+entity_type: node
+bundle: custom_thing
+label: Custom
+description: ''
+required: null
+translatable: true
+default_value:
+  -
+    value: 'Custom value'
+default_value_callback: ''
+settings: {  }
+field_type: string

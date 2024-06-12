@@ -1,0 +1,15 @@
+name: 'Schema.org Blueprints Mercury Editor'
+type: module
+description: 'Automatically enables the Mercury Editor for Schema.org types as they are created.'
+package: 'Schema.org Blueprints Paragraphs'
+core_version_requirement: ^10.2
+dependencies:
+  - 'mercury_editor:mercury_editor'
+  - 'mercury_editor:mercury_editor_inline_editor'
+  - 'mercury_editor:mercury_editor_templates'
+  - 'schemadotorg:schemadotorg'
+
+# Information added by Drupal.org packaging script on 2024-05-20
+version: '1.0.0-alpha24'
+project: 'schemadotorg'
+datestamp: 1716237079

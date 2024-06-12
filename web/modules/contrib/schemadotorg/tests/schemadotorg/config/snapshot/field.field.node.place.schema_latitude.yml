@@ -1,0 +1,22 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.schema_latitude
+    - node.type.place
+id: node.place.schema_latitude
+field_name: schema_latitude
+entity_type: node
+bundle: place
+label: Latitude
+description: 'The latitude of a location.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: decimal

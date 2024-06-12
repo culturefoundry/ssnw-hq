@@ -1,0 +1,7 @@
+services:
+  schemadotorg_custom_field.manager:
+    class: Drupal\schemadotorg_custom_field\SchemaDotOrgCustomFieldManager
+    arguments: ['@config.factory', '@schemadotorg.schema_type_manager', '@schemadotorg.entity_field_manager', '@plugin.manager.custom_field_type', '@plugin.manager.custom_field_widget']
+  schemadotorg_custom_field.jsonld_manager:
+    class: Drupal\schemadotorg_custom_field\SchemaDotOrgCustomFieldJsonLdManager
+    arguments: ['@schemadotorg.schema_type_manager', '@schemadotorg.names', '@schemadotorg_custom_field.manager']

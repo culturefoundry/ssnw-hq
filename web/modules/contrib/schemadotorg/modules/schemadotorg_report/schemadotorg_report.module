@@ -1,0 +1,104 @@
+<?php
+
+/**
+ * @file
+ * Primary module hooks for Schema.org Report module.
+ */
+
+declare(strict_types=1);
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Url;
+
+/**
+ * Implements hook_help().
+ */
+function schemadotorg_report_help(string $route_name, RouteMatchInterface $route_match): string|NULL {
+  switch ($route_name) {
+    case 'schemadotorg_report':
+      /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager */
+      $schema_type_manager = \Drupal::service('schemadotorg.schema_type_manager');
+      $id = $route_match->getRawParameter('id');
+      if ($schema_type_manager->isType($id)) {
+        return '<p>' . t('The <strong>Schema.org: Type</strong> page displays all information about a Schema.org type.') . '</p>';
+      }
+      elseif ($schema_type_manager->isProperty($id)) {
+        return '<p>' . t('The <strong>Schema.org: Property</strong> page displays all information about a Schema.org property.') . '</p>';
+      }
+      else {
+        return '<p>' . t('The <strong>Schema.org: About</strong> report allows users to browse all available Schema.org types and properties within the Drupal admin UI.') . '</p>';
+      }
+
+    case 'schemadotorg_report.settings':
+      return '<p>' . t('The <strong>Schema.org: References edit</strong> page allows administrators to configure links to general and specific information about Schema.org types.') . '<p>';
+
+    case 'schemadotorg_report.types':
+      return '<p>' . t('The <strong>Schema.org: Types</strong> report lists Schema.org types, enumerations, and data types.') . '</p>';
+
+    case 'schemadotorg_report.types.things':
+      return '<p>' . t('The <strong>Schema.org: Things</strong> page displays a hierarchical tree of Schema.org Things.') . '</p>';
+
+    case 'schemadotorg_report.types.intangibles':
+      return '<p>' . t('The <strong>Schema.org: Intangibles</strong> page displays a hierarchical tree of Schema.org Intangibles, which includes values which are part of other Schema.org Things.') . '</p>';
+
+    case 'schemadotorg_report.types.enumerations':
+      return '<p>' . t('The <strong>Schema.org: Enumerations</strong> page displays a hierarchical tree of Schema.org Enumerations, which are listings of common items associated with the value of a property.') . '</p>';
+
+    case 'schemadotorg_report.types.structured_values':
+      return '<p>' . t('The <strong>Schema.org: Structured values</strong> page displays a hierarchical tree of Schema.org Structured Values, which are used when the value of a property has a more complex structure than simply being a textual value or a reference to another thing.') . '</p>';
+
+    case 'schemadotorg_report.types.data_types':
+      return '<p>' . t('The <strong>Schema.org: Data type</strong> page displays a hierarchical tree of the basic data types available to Schema.org properties, such as Integers, Strings, etc.') . '</p>';
+
+    case 'schemadotorg_report.types.descriptions':
+      return '<p>' . t('The <strong>Schema.org: Type descriptions</strong> report lists Schema.org type default and custom descriptions.') . '</p>';
+
+    case 'schemadotorg_report.properties':
+      return '<p>' . t('The <strong>Schema.org: Properties</strong> report lists Schema.org properties.') . '</p>';
+
+    case 'schemadotorg_report.properties.inverse_of':
+      return '<p>' . t('The <strong>Schema.org: Inverse of</strong> report lists Schema.org properties that have inverse relationships.') . '</p>';
+
+    case 'schemadotorg_report.properties.descriptions':
+      return '<p>' . t('The <strong>Schema.org: Property descriptions</strong> report lists Schema.org property default and custom descriptions.') . '</p>';
+
+    case 'schemadotorg_report.relationships':
+      return '<p>' . t("The <strong>Schema.org: Relationships overview</strong> report summarizes the relationships between content types and other entities.") . '</p>';
+
+    case 'schemadotorg_report.names':
+      return '<p>' . t("The <strong>Schema.org: Names overview</strong> report summarizes the abbreviations used to convert Schema.org type and property names to Drupal entity type and field names.") . '</p>';
+
+    case 'schemadotorg_report.names.all':
+      return '<p>' . t('The <strong>Schema.org: All names</strong> report lists Schema.org types and properties and their corresponding entity type ids and field names.') . '</p>';
+
+    case 'schemadotorg_report.names.types':
+      return '<p>' . t('The <strong>Schema.org: Type names</strong> report lists Schema.org types and corresponding entity type ids.') . '</p>';
+
+    case 'schemadotorg_report.names.properties':
+      return '<p>' . t('The <strong>Schema.org: Property names</strong> report lists Schema.org properties and corresponding field names.') . '</p>';
+
+    case 'schemadotorg_report.names.abbreviations':
+      return '<p>' . t('The <strong>Schema.org: Abbreviated names</strong> report lists the abbreviated Schema.org types and properties their corresponding entity type ids and field names.') . '</p>';
+
+    case 'schemadotorg_report.names':
+      return '<p>' . t("The <strong>Schema.org: Names overview</strong> report summarizes the abbreviations used to convert Schema.org type and property names to Drupal entity type and field names.") . '</p>';
+
+    case 'schemadotorg_report.references':
+      return '<p>' . t('The <strong>Schema.org: References</strong> page lists Schema.org references and issues.') . '</p>';
+  }
+
+  return NULL;
+}
+
+/**
+ * Implements hook_menu_local_tasks_alter().
+ */
+function schemadotorg_report_menu_local_tasks_alter(array &$data, string $route_name): void {
+  // Always point to the About page/tab to the same URL, which it shares
+  // with the type and property detail page.
+  // @see \Drupal\schemadotorg_report\Controller\SchemaDotOrgReportItemController::index
+  if ($route_name === 'schemadotorg_report'
+    && isset($data['tabs'][0]['schemadotorg_report']['#link']['url'])) {
+    $data['tabs'][0]['schemadotorg_report']['#link']['url'] = Url::fromRoute('schemadotorg_report');
+  }
+}

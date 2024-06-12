@@ -1,0 +1,28 @@
+<?php
+
+/**
+ * @file
+ * Installation hooks for the Schema.org Blueprints Entity Prepopulate module.
+ */
+
+declare(strict_types=1);
+
+/**
+ * Implements hook_install().
+ */
+function schemadotorg_epp_install(bool $is_syncing): void {
+  if ($is_syncing) {
+    return;
+  }
+
+  // Set the node links display component's weight to -100 so that the
+  // node links appear first.
+  /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface $mapping_type */
+  $mapping_type = \Drupal::entityTypeManager()
+    ->getStorage('schemadotorg_mapping_type')
+    ->load('node');
+  $mapping_type->set(
+    'default_component_weights',
+    ['links' => -100] + $mapping_type->get('default_component_weights')
+  )->save();
+}

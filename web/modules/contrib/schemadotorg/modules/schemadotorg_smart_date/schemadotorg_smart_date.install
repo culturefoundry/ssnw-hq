@@ -1,0 +1,59 @@
+<?php
+
+/**
+ * @file
+ * Installation hooks for the Schema.org Blueprints Smart Date module.
+ */
+
+declare(strict_types=1);
+
+/**
+ * Implements hook_install().
+ */
+function schemadotorg_smart_date_install(bool $is_syncing): void {
+  if ($is_syncing) {
+    return;
+  }
+
+  /** @var \Drupal\schemadotorg\SchemaDotOrgConfigManagerInterface $schema_config_manager */
+  $schema_config_manager = \Drupal::service('schemadotorg.config_manager');
+
+  // Set eventSchedule and remove startDate, endDate, and duration from Event.
+  $schema_config_manager->setSchemaTypeDefaultProperties('Event', ['eventSchedule']);
+  $schema_config_manager->unsetSchemaTypeDefaultProperties('Event', ['startDate', 'endDate', 'duration']);
+
+  // Set eventSchedule to use a multiple smartdate field.
+  \Drupal::configFactory()
+    ->getEditable('schemadotorg.settings')
+    ->set('schema_properties.default_fields.eventSchedule', [
+      'type' => 'smartdate',
+      'unlimited' => TRUE,
+    ])
+    ->save();
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function schemadotorg_smart_date_uninstall(bool $is_syncing): void {
+  if ($is_syncing) {
+    return;
+  }
+
+  /** @var \Drupal\schemadotorg\SchemaDotOrgConfigManagerInterface $schema_config_manager */
+  $schema_config_manager = \Drupal::service('schemadotorg.config_manager');
+
+  // Restore startDate and endDate from Event default properties
+  // and remove eventSchedule.
+  $schema_config_manager->setSchemaTypeDefaultProperties('Event', ['startDate', 'endDate', 'duration']);
+  $schema_config_manager->unsetSchemaTypeDefaultProperties('Event', ['eventSchedule']);
+
+  // Restore eventSchedule to use multiple daterange fields.
+  \Drupal::configFactory()
+    ->getEditable('schemadotorg.settings')
+    ->set('schema_properties.default_fields.eventSchedule', [
+      'type' => 'daterange',
+      'unlimited' => TRUE,
+    ])
+    ->save();
+}

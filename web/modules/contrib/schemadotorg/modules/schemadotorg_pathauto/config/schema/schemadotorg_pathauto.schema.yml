@@ -1,0 +1,16 @@
+schemadotorg_pathauto.settings:
+  type: config_entity
+  label: 'Schema.org Pathauto settings'
+  mapping:
+    patterns:
+      type: sequence
+      label: 'Schema.org type patterns'
+      sequence:
+        type: string
+        label: 'Schema.org type pattern'
+    base_paths:
+      type: sequence
+      label: 'Schema.org type base paths'
+      sequence:
+        type: label
+        label: 'Schema.org type base path'

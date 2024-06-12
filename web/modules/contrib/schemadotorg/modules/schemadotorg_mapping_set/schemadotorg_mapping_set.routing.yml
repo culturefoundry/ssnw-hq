@@ -1,0 +1,28 @@
+schemadotorg_mapping_set.overview:
+  path: /admin/config/schemadotorg/sets
+  defaults:
+    _title: 'Schema.org mapping sets'
+    _controller: '\Drupal\schemadotorg_mapping_set\Controller\SchemadotorgMappingSetController::overview'
+  requirements:
+    _permission: 'administer schemadotorg'
+schemadotorg_mapping_set.details:
+  path: '/admin/config/schemadotorg/sets/{name}'
+  defaults:
+    _title: 'Schema.org mapping set'
+    _controller: '\Drupal\schemadotorg_mapping_set\Controller\SchemadotorgMappingSetController::details'
+  requirements:
+    _permission: 'administer schemadotorg'
+schemadotorg_mapping_set.settings:
+  path: /admin/config/schemadotorg/sets/settings
+  defaults:
+    _title: 'Schema.org mapping sets'
+    _form: Drupal\schemadotorg_mapping_set\Form\SchemaDotOrgMappingSetSettingsForm
+  requirements:
+    _permission: 'administer schemadotorg'
+schemadotorg_mapping_set.confirm_form:
+  path: '/admin/config/schemadotorg/sets/{name}/{operation}'
+  defaults:
+    _title: 'Schema.org mapping set confirm'
+    _form: Drupal\schemadotorg_mapping_set\Form\SchemaDotOrgMappingSetConfirmForm
+  requirements:
+    _permission: 'administer schemadotorg'

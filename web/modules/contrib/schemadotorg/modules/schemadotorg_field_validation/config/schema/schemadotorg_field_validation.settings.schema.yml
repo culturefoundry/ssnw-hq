@@ -1,0 +1,17 @@
+schemadotorg_field_validation.settings:
+  type: config_object
+  label: 'Schema.org Field validation settings'
+  mapping:
+    rules:
+      type: sequence
+      label: 'Field validation rules'
+      sequence:
+        type: mapping
+        label: 'Field name'
+        mapping:
+          pattern:
+            type: string
+            label: 'Regular expression patter'
+          message:
+            type: string
+            label: 'Error message'

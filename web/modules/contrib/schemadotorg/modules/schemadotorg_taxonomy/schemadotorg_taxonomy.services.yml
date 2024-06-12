@@ -1,0 +1,10 @@
+services:
+  schemadotorg_taxonomy.jsonld_manager:
+    class: Drupal\schemadotorg_taxonomy\SchemaDotOrgTaxonomyJsonLdManager
+    arguments: ['@entity_type.manager', '@?schemadotorg_jsonld.manager', '@?schemadotorg_jsonld.builder']
+  schemadotorg_taxonomy.default_vocabulary_manager:
+    class: Drupal\schemadotorg_taxonomy\SchemaDotOrgTaxonomyDefaultVocabularyManager
+    arguments: ['@module_handler', '@messenger', '@logger.factory', '@config.factory', '@entity_type.manager', '@entity_display.repository', '@?content_translation.manager']
+  schemadotorg_taxonomy.property_vocabulary_manager:
+    class: Drupal\schemadotorg_taxonomy\SchemaDotOrgTaxonomyPropertyVocabularyManager
+    arguments: ['@module_handler', '@messenger', '@logger.factory', '@config.factory', '@entity_type.manager', '@schemadotorg.schema_type_manager', '@?content_translation.manager']

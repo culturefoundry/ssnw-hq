@@ -1,0 +1,34 @@
+<?php
+
+/**
+ * @file
+ * Extracts embedded content from an entity.
+ */
+
+declare(strict_types=1);
+
+use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\Core\Render\BubbleableMetadata;
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/* ************************************************************************** */
+// Schema.org JSON-LD.
+/* ************************************************************************** */
+
+/**
+ * Implements hook_schemadotorg_jsonld().
+ *
+ * @see \Drupal\media\Plugin\Filter\MediaEmbed::process
+ */
+function schemadotorg_jsonld_embed_schemadotorg_jsonld(RouteMatchInterface $route_match, BubbleableMetadata $bubbleable_metadata): array {
+  /** @var \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdManagerInterface $manager */
+  $manager = \Drupal::service('schemadotorg_jsonld.manager');
+  $entity = $manager->getRouteMatchEntity($route_match);
+  if (!$entity || !$entity instanceof ContentEntityInterface) {
+    return [];
+  }
+
+  /** @var \Drupal\schemadotorg_jsonld_embed\SchemaDotOrgJsonLdEmbedInterface $embed_manager */
+  $embed_manager = \Drupal::service('schemadotorg_jsonld_embed.manager');
+  return $embed_manager->build($entity, $bubbleable_metadata);
+}

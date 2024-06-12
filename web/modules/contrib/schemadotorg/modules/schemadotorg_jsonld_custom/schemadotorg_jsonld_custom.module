@@ -1,0 +1,185 @@
+<?php
+
+/**
+ * @file
+ * Allows custom JSON-LD to be added to Schema.org mapping.
+ */
+
+declare(strict_types=1);
+
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Render\BubbleableMetadata;
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
+use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
+
+/**
+ * Implements hook_schemadotorg_mapping_defaults_alter().
+ */
+function schemadotorg_jsonld_custom_schemadotorg_mapping_defaults_alter(array &$defaults, string $entity_type_id, ?string $bundle, string $schema_type): void {
+  /** @var \Drupal\schemadotorg_jsonld_custom\SchemaDotOrgJsonLdCustomInterface $custom_manager */
+  $custom_manager = \Drupal::service('schemadotorg_jsonld_custom.manager');
+  $custom_manager->mappingDefaultsAlter($defaults, $entity_type_id, $bundle, $schema_type);
+}
+
+/**
+ * Implements hook_schemadotorg_jsonld_schema_type_entity_load().
+ */
+function schemadotorg_jsonld_custom_schemadotorg_jsonld_schema_type_entity_load(array &$data, EntityInterface $entity, ?SchemaDotOrgMappingInterface $mapping, BubbleableMetadata $bubbleable_metadata): void {
+  /** @var \Drupal\schemadotorg_jsonld_custom\SchemaDotOrgJsonLdCustomInterface $custom_manager */
+  $custom_manager = \Drupal::service('schemadotorg_jsonld_custom.manager');
+  $custom_manager->jsonLdSchemaTypeEntityLoad($data, $entity, $mapping, $bubbleable_metadata);
+}
+
+/**
+ * Implements hook_schemadotorg_jsonld().
+ */
+function schemadotorg_jsonld_custom_schemadotorg_jsonld(RouteMatchInterface $route_match, BubbleableMetadata $bubbleable_metadata): ?array {
+  /** @var \Drupal\schemadotorg_jsonld_custom\SchemaDotOrgJsonLdCustomInterface $custom_manager */
+  $custom_manager = \Drupal::service('schemadotorg_jsonld_custom.manager');
+  return $custom_manager->buildRouteMatchJsonLd($route_match, $bubbleable_metadata);
+}
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ */
+function schemadotorg_jsonld_custom_form_schemadotorg_mapping_form_alter(array &$form, FormStateInterface &$form_state): void {
+  if (!\Drupal::moduleHandler()->moduleExists('schemadotorg_ui')) {
+    return;
+  }
+
+  /** @var \Drupal\schemadotorg\Form\SchemaDotOrgMappingForm $form_object */
+  $form_object = $form_state->getFormObject();
+  /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface|null $mapping */
+  $mapping = $form_object->getEntity();
+
+  // Exit if no Schema.org type has been selected.
+  if (!$mapping->getSchemaType()) {
+    return;
+  }
+
+  $mapping_defaults = $form_state->get('mapping_defaults');
+
+  $json = $mapping_defaults['third_party_settings']['schemadotorg_jsonld_custom']['json'] ?? '';
+  $form['mapping']['third_party_settings']['schemadotorg_jsonld_custom'] = [
+    '#type' => 'details',
+    '#title' => t('Schema.org JSON-LD custom'),
+    '#open' => (boolean) $json,
+  ];
+  $form['mapping']['third_party_settings']['schemadotorg_jsonld_custom']['json'] = [
+    '#type' => 'schemadotorg_settings',
+    '#mode' => 'json',
+    '#raw' => TRUE,
+    '#description_link' => 'properties',
+    '#token_link' => TRUE,
+    '#title' => t('Custom JSON-LD'),
+    '#description' => t('Enter valid JSON to be added to this Schema.org mappings JSON-LD.'),
+    '#default_value' => $json,
+    '#element_validate' => ['_schemadotorg_jsonld_custom_json_element_validate'],
+    '#example' => '
+{
+  "additionalType": "SomeOtherType"
+}
+',
+  ];
+}
+
+/**
+ * Form API callback. Validate element's JSON.
+ */
+function _schemadotorg_jsonld_custom_json_element_validate(array &$element, FormStateInterface $form_state, array &$completed_form): void {
+  $json = $element['#value'];
+  if ($json === '') {
+    $form_state->unsetValue($element['#parents']);
+  }
+}
+
+/* ************************************************************************** */
+// Schema.org JSON-LD settings form.
+/* ************************************************************************** */
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * @see \Drupal\schemadotorg\Form\SchemaDotOrgSettingsFormBase::afterBuildDetails
+ * @see \Drupal\schemadotorg\Form\SchemaDotOrgSettingsFormBase::formAlter
+ */
+function schemadotorg_jsonld_custom_form_schemadotorg_jsonld_settings_form_alter(array &$form, FormStateInterface $form_state): void {
+  $form['schemadotorg_jsonld_custom'] = [
+    '#type' => 'details',
+    '#title' => t('JSON-LD custom settings'),
+  ];
+  $form['schemadotorg_jsonld_custom']['path_json'] = [
+    '#type' => 'schemadotorg_settings',
+    '#title' => t('Path custom JSON-LD'),
+    '#token_link' => TRUE,
+    '#description' => t('Enter the custom JSON-LD for a path.'),
+    '#element_validate' => ['_schemadotorg_jsonld_custom_json_settings_validate'],
+    '#example' => '
+\'/some/path\':  |
+  {
+    "copyrightHolder": "[site:name]",
+    "copyrightYear": [current-date:html_year]
+  }
+',
+  ];
+  $form['schemadotorg_jsonld_custom']['default_schema_type_json'] = [
+    '#type' => 'schemadotorg_settings',
+    '#title' => t('Default Schema.org type custom JSON-LD'),
+    '#token_link' => TRUE,
+    '#description' => t('Enter the default JSON-LD for Schema.org types.'),
+    '#element_validate' => ['_schemadotorg_jsonld_custom_json_settings_validate'],
+    '#example' => '
+node--page: |
+  {
+    "copyrightHolder": "[site:name]",
+    "copyrightYear": [current-date:html_year]
+  }
+node--CreativeWork: |
+  {
+    "copyrightHolder": "[site:name]",
+    "copyrightYear": [current-date:html_year]
+  }
+',
+  ];
+  $form['schemadotorg_jsonld_custom']['default_schema_mapping_json'] = [
+    '#type' => 'schemadotorg_settings',
+    '#title' => t('Default Schema.org mapping custom JSON-LD'),
+    '#token_link' => TRUE,
+    '#description' => t('Enter the default JSON-LD for new Schema.org mappings.'),
+    '#element_validate' => ['_schemadotorg_jsonld_custom_json_settings_validate'],
+    '#example' => '
+node--page: |
+  {
+    "copyrightHolder": "[site:name]",
+    "copyrightYear": [current-date:html_year]
+  }
+node--CreativeWork: |
+  {
+    "copyrightHolder": "[site:name]",
+    "copyrightYear": [current-date:html_year]
+  }
+',
+  ];
+}
+
+/**
+ * Form API callback. Validate associative settings array's JSON.
+ */
+function _schemadotorg_jsonld_custom_json_settings_validate(array &$element, FormStateInterface $form_state, array &$completed_form): void {
+  $value = $form_state->getValue($element['#parents']);
+  foreach ($value as $key => $json) {
+    try {
+      SchemaDotOrgSettings::validate('json', $json);
+    }
+    catch (\Exception $exception) {
+      $t_args = [
+        '@name' => $element['#title'],
+        '%key' => $key,
+        '%error' => $exception->getMessage(),
+      ];
+      $form_state->setError($element, t('@name field is not valid JSON for %key. %error', $t_args));
+    }
+  }
+}

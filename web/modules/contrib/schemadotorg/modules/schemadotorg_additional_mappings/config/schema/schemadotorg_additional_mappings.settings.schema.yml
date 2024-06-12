@@ -1,0 +1,22 @@
+schemadotorg_additional_mappings.settings:
+  type: config_object
+  label: 'Schema.org Additional Mappings settings'
+  mapping:
+    default_additional_mappings:
+      type: sequence
+      label: 'Default additional Schema.org mappings'
+      sequence:
+        type: sequence
+        label: 'Schema.org mapping type'
+        sequence:
+          type: string
+          label: 'Schema.org type'
+    default_properties:
+      type: sequence
+      label: 'Default additional Schema.org mappings properties'
+      sequence:
+        type: sequence
+        label: 'Default additional Schema.org mapping properties'
+        sequence:
+          type: string
+          label: 'Schema.org property'

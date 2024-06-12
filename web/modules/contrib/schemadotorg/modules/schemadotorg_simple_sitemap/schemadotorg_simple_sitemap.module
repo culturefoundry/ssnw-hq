@@ -1,0 +1,68 @@
+<?php
+
+/**
+ * @file
+ * Automatically adds a simple_sitemap field to Schema.org types.
+ */
+
+declare(strict_types=1);
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
+
+/**
+ * Implements hook_schemadotorg_mapping_insert().
+ */
+function schemadotorg_simple_sitemap_schemadotorg_mapping_insert(SchemaDotOrgMappingInterface $mapping): void {
+  if ($mapping->isSyncing()) {
+    return;
+  }
+
+  $entity_type_id = $mapping->getTargetEntityTypeId();
+  $bundle = $mapping->getTargetBundle();
+
+  // Only add nodes to the sitemap.xml.
+  if ($entity_type_id !== 'node') {
+    return;
+  }
+
+  // @see simple_sitemap/README.md
+  /** @var \Drupal\simple_sitemap\Manager\Generator $generator */
+  $generator = \Drupal::service('simple_sitemap.generator');
+
+  // Set an entity type to be indexed.
+  $generator
+    ->entityManager()
+    ->enableEntityType('node')
+    ->setSitemaps(['default'])
+    ->setBundleSettings('node', $bundle, ['index' => TRUE]);
+
+  $generator->rebuildQueue();
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function schemadotorg_simple_sitemap_form_schemadotorg_mapping_set_confirm_form_alter(array &$form, FormStateInterface $form_state): void {
+  /** @var \Drupal\schemadotorg_mapping_set\Form\SchemaDotOrgMappingSetConfirmForm $form_object */
+  $form_object = $form_state->getFormObject();
+  $operation = $form_object->getOperation();
+  if ($operation === 'generate') {
+    $form['#submit'][] = '_schemadotorg_simple_sitemap_form_schemadotorg_mapping_set_confirm_form_submit';
+  }
+}
+
+/**
+ * Form submission handler for schemadotorg_mapping_set_confirm_form.
+ *
+ * @see schemadotorg_content_moderation_form_schemadotorg_properties_settings_form_alter()
+ */
+function _schemadotorg_simple_sitemap_form_schemadotorg_mapping_set_confirm_form_submit(array &$form, FormStateInterface $form_state): void {
+  // Generate the sitemap, but rebuild the queue first in case an old generation
+  // is in progress.
+  /** @var \Drupal\simple_sitemap\Manager\Generator $generator */
+  $generator = \Drupal::service('simple_sitemap.generator');
+  $generator
+    ->rebuildQueue()
+    ->generate();
+}

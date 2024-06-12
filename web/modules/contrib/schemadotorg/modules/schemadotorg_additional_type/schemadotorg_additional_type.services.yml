@@ -1,0 +1,9 @@
+services:
+  schemadotorg_additional_type.manager:
+    class: Drupal\schemadotorg_additional_type\SchemaDotOrgAdditionalTypeManager
+    arguments: ['@module_handler', '@config.factory', '@entity_type.manager', '@schemadotorg.names', '@schemadotorg.schema_type_manager']
+  schemadotorg_additional_type.event_subscriber:
+    class: Drupal\schemadotorg_additional_type\EventSubscriber\SchemaDotOrgAdditionalTypeEventSubscriber
+    arguments: ['@current_route_match', '@entity_type.manager']
+    tags:
+      - { name: event_subscriber }

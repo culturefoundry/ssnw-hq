@@ -1,0 +1,4 @@
+services:
+  schemadotorg_role.field_manager:
+    class: Drupal\schemadotorg_role\SchemaDotOrgRoleFieldManager
+    arguments: ['@config.factory', '@redirect.destination', '@entity_field.manager', '@schemadotorg.schema_type_manager', '@schemadotorg.entity_type_builder', "@schemadotorg.mapping_manager", '@?schemadotorg_field_group.entity_display_builder']

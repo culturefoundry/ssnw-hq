@@ -1,0 +1,14 @@
+name: 'Schema.org Blueprints Additional Type'
+type: module
+description: 'Enhances the Schema.org additional type property to allow additional type specificity without having to create dedicated entity types for every appropriate Schema.org type.'
+package: 'Schema.org Blueprints Core'
+core_version_requirement: ^10.2
+configure: schemadotorg.settings.types
+schemadotorg_production: true
+dependencies:
+  - 'schemadotorg:schemadotorg'
+
+# Information added by Drupal.org packaging script on 2024-05-20
+version: '1.0.0-alpha24'
+project: 'schemadotorg'
+datestamp: 1716237079

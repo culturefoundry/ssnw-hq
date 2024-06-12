@@ -1,0 +1,9 @@
+field_prefix: schema_
+field_prefix_options:
+  field_: field_
+  'field_[bundle]_': 'field_[bundle]_'
+  schema_: schema_
+  'schema_[bundle]_': 'schema_[bundle]_'
+  '': '<none>'
+field_prefix_description: |
+  Select the field's prefix. Use <code>&lt;none&gt;</code> with caution because the machine-readable name can conflict with existing base field/property names.

@@ -1,0 +1,5 @@
+entity.node.schemadotorg_diagram:
+  route_name: entity.node.schemadotorg_diagram
+  title: Diagrams
+  base_route: entity.node.canonical
+  weight: 93

@@ -1,0 +1,12 @@
+entity.node.schemadotorg_diagram:
+  path: '/node/{node}/schemadotorg-diagram'
+  defaults:
+    _title_callback: '\Drupal\schemadotorg_diagram\Controller\SchemaDotOrgDiagramController::getTitle'
+    _controller: '\Drupal\schemadotorg_diagram\Controller\SchemaDotOrgDiagramController::index'
+  requirements:
+    _permission: 'view schemadotorg diagram'
+  options:
+    _admin_route: TRUE
+    parameters:
+      node:
+        type: entity:node

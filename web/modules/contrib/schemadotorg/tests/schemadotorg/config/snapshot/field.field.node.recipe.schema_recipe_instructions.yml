@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.schema_recipe_instructions
+    - node.type.recipe
+id: node.recipe.schema_recipe_instructions
+field_name: schema_recipe_instructions
+entity_type: node
+bundle: recipe
+label: Instructions
+description: 'A step in making the recipe, in the form of a single item (document, video, etc.) or an ordered list with HowToStep and/or HowToSection items.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

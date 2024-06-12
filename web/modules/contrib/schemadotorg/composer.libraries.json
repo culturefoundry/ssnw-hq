@@ -1,0 +1,88 @@
+{
+  "repositories": {
+    "masonry/masonry": {
+      "type": "package",
+      "package": {
+        "name": "masonry/masonry",
+        "version": "4.2.2",
+        "type": "drupal-library",
+        "extra": {
+          "installer-name": "masonry"
+        },
+        "dist": {
+          "url": "https://github.com/desandro/masonry/archive/refs/tags/v4.2.2.zip",
+          "type": "zip"
+        },
+        "license": "MIT"
+      }
+    }
+  },
+  "require": {
+    "drupal/address": "^1.0",
+    "drupal/allowed_formats": "^3.0",
+    "drupal/auto_entitylabel": "^3.0",
+    "drupal/cer": "^5.0",
+    "drupal/config_rewrite": "^1.0",
+    "drupal/content_browser": "^1.0",
+    "drupal/content_model_documentation": "^1.0",
+    "drupal/custom_field": "^3.0",
+    "drupal/embed": "^1.0",
+    "drupal/entity_browser": "^2.0",
+    "drupal/entity_embed": "^1.0",
+    "drupal/entity_usage": "^2.0",
+    "drupal/existing_values_autocomplete_widget": "^2.0",
+    "drupal/field_group": "^3.0",
+    "drupal/field_validation": "^3.0",
+    "drupal/focal_point": "^2.0",
+    "drupal/geolocation": "^3.0",
+    "drupal/entity_reference_tree": "^2.0",
+    "drupal/entity_reference_override": "^2.0",
+    "drupal/epp": "^1.0",
+    "drupal/inline_entity_form": "^1.0",
+    "drupal/layout_paragraphs": "^2.0",
+    "drupal/link_attributes": "^2.0",
+    "drupal/jsonapi_extras": "^3.0",
+    "drupal/metatag": "^2.0",
+    "drupal/mercury_editor": "^2.0",
+    "drupal/office_hours": "^1.0",
+    "drupal/paragraphs": "^1.0",
+    "drupal/pathauto": "^1.0",
+    "drupal/scheduler": "^2.0",
+    "drupal/simple_sitemap": "^4.0",
+    "drupal/smart_date": "^4.1",
+    "drupal/type_tray": "^1.0",
+    "masonry/masonry": "*",
+    "league/commonmark": "^2.0"
+  },
+  "extra": {
+    "composer-exit-on-patch-failure": false,
+    "patchLevel": {
+      "drupal/core": "-p2"
+    },
+    "patches": {
+      "drupal/core": {
+        "Issue #3388047: Suppress Drupal core entity reference errors": "https://www.drupal.org/files/issues/2024-03-22/schemadotorg-drupal-core-3388047-4.patch",
+        "Issue #3345064: Media library field_widget_id is not unique enough": "https://www.drupal.org/files/issues/2023-02-28/3345064.patch",
+        "Issue #3356667: Error: Cannot read properties of undefined (reading 'settings') with dialog.position.js": "https://www.drupal.org/files/issues/2023-11-28/core-dialog-position-debounce-3356667-19.patch"
+      },
+      "drupal/address": {
+        "Issue #2819251: generateSampleValue": "https://www.drupal.org/files/issues/2022-05-16/address-2819251-6.patch"
+      },
+      "drupal/cer": {
+        "Issue #2998138: Could support Remove field name prefix module?": "https://www.drupal.org/files/issues/2018-09-17/support_fields_without_prefix-2998138-4-D8.patch"
+      },
+      "drupal/config_views": {
+        "Issue #3378687: Dynamic property issue in ConfigEntityQuery with PHP 8.2": "https://www.drupal.org/files/issues/2023-08-02/config_views-fix-dynamic-property-3378687-2.patch"
+      },
+      "drupal/field_group": {
+        "Issue #3409719: [Drupal 10.2] Deprecated sequence type schema definition": "https://www.drupal.org/files/issues/2024-03-26/field_group-issue-3409719-mr-43.patch"
+      },
+      "drupal/mercury_editor": {
+        "Issue #3362776: Inline text editor not working" : "https://www.drupal.org/files/issues/2023-10-07/mercury_editor-3362776-5.patch"
+      },
+      "drupal/type_tray": {
+        "Issue #3417679: Add type tray icon to node edit and related tasks": "https://www.drupal.org/files/issues/2024-01-28/issue-3417679-mr-22.patch"
+      }
+    }
+  }
+}

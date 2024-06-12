@@ -1,0 +1,33 @@
+# Schema for the entity reference 'schemadotorg' selection handler settings.
+# see: src/Plugin/EntityReferenceSelection/SchemaDotOrgEntityReferenceSelection.php
+entity_reference_selection.schemadotorg:
+  type: entity_reference_selection
+  label: 'Schema.org base selection handler settings'
+  mapping:
+    target_type:
+      type: string
+      label: 'Target entity type ID'
+    schema_types:
+      type: sequence
+      label: 'Schema.org types'
+      sequence:
+        type: string
+        label: 'Schema.org type'
+    excluded_schema_types:
+      type: sequence
+      label: 'Excluded Schema.org types'
+      sequence:
+        type: string
+        label: 'Excluded Schema.org type'
+    target_bundles:
+      type: sequence
+      label: 'Entity bundles'
+      nullable: true
+      sequence:
+        type: string
+        label: 'Entity bundle'
+
+# Schema for all entity reference 'default:*' selection handlers that are not
+# providing a specific schema.
+entity_reference_selection.schemadotorg:*:
+  type: entity_reference_selection.schemadotorg

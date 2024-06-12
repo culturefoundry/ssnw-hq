@@ -1,0 +1,59 @@
+default_additional_mappings:
+  node--CreativeWork:
+    - WebPage
+  node--HealthTopicContent:
+    - MedicalWebPage
+  node--Organization:
+    - WebPage
+  node--Place:
+    - WebPage
+  node--MedicalEntity:
+    - MedicalWebPage
+  node--MedicalCondition:
+    - HealthTopicContent
+  node--MedicalStudy:
+    - ResearchProject
+  node--Substance:
+    - CreativeWork
+  node--IndividualPhysician:
+    - Person
+default_properties:
+  CreativeWork:
+    - citation
+    - isBasedOn
+    - license
+  HealthTopicContent:
+    - hasHealthAspect
+    - about
+  WebPage:
+    - dateCreated
+    - dateModified
+    - inLanguage
+    - name
+    - primaryImageOfPage
+    - relatedLink
+    - significantLink
+  MedicalWebPage:
+    - dateCreated
+    - dateModified
+    - inLanguage
+    - name
+    - primaryImageOfPage
+    - relatedLink
+    - significantLink
+    - medicalAudience
+  ResearchProject:
+    - member
+  Person:
+    - additionalName
+    - description
+    - email
+    - familyName
+    - givenName
+    - image
+    - knowsLanguage
+    - memberOf
+    - name
+    - sameAs
+    - telephone
+    - worksFor

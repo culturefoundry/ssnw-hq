@@ -1,0 +1,22 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.schema_same_as
+    - node.type.person
+  module:
+    - link
+id: node.person.schema_same_as
+field_name: schema_same_as
+entity_type: node
+bundle: person
+label: 'Same as'
+description: "URL of a reference Web page that unambiguously indicates the item's identity."
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  title: 1
+  link_type: 17
+field_type: link

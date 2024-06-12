@@ -1,0 +1,76 @@
+<?php
+
+/**
+ * @file
+ * Allows users to preview a web page's Schema.org JSON-LD.
+ */
+
+declare(strict_types=1);
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function schemadotorg_jsonld_preview_help(string $route_name, RouteMatchInterface $route_match): string|NULL {
+  switch ($route_name) {
+    case 'entity.node.schemadotorg_data':
+      return '<p>' . t('The <strong>Schema.org data preview</strong> displays the Schema.org data for the current node.') . '<p>';
+
+    case 'entity.node.schemadotorg_jsonld':
+      return '<p>' . t('The <strong>Schema.org JSON-LD preview</strong> displays the JSON-LD data for the current node.') . '<p>';
+  }
+
+  return NULL;
+}
+
+/**
+ * Implements hook_local_tasks_alter().
+ */
+function schemadotorg_jsonld_preview_local_tasks_alter(array &$local_tasks): void {
+  // Determine if  JSON-LD preview should be displayed as a node tab/task.
+  $node_task = \Drupal::configFactory()
+    ->get('schemadotorg_jsonld_preview.settings')
+    ->get('node_task');
+  if (!$node_task) {
+    unset($local_tasks['entity.node.schemadotorg_jsonld']);
+  }
+}
+
+/* ************************************************************************** */
+// Schema.org JSON-LD Preview settings form.
+/* ************************************************************************** */
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * @see \Drupal\schemadotorg\Form\SchemaDotOrgSettingsFormBase::afterBuildDetails
+ * @see \Drupal\schemadotorg\Form\SchemaDotOrgSettingsFormBase::formAlter
+ */
+function schemadotorg_jsonld_preview_form_schemadotorg_jsonld_settings_form_alter(array &$form, FormStateInterface $form_state): void {
+  $form['schemadotorg_jsonld_preview'] = [
+    '#type' => 'details',
+    '#title' => t('JSON-LD preview settings'),
+  ];
+  $form['schemadotorg_jsonld_preview']['node_task'] = [
+    '#type' => 'checkbox',
+    '#title' => t('Display JSON-LD preview as a node tab/task.'),
+    '#description' => t('If checked, a JSON-LD tab/task will be displayed on nodes.'),
+  ];
+
+  // Add submit callback.
+  $form['#submit'][] = 'schemadotorg_jsonld_preview_settings_form_submit';
+}
+
+/**
+ * Form submission handler for schemadotorg_jsonld_preview_settings_form().
+ *
+ * @see schemadotorg_jsonld_preview_form_schemadotorg_jsonld_settings_form_alter()
+ */
+function schemadotorg_jsonld_preview_settings_form_submit(array &$form, FormStateInterface $form_state): void {
+  // Clear all plugin caches.
+  /** @var \Drupal\module_test\PluginManagerCacheClearer $plugin_cache_clearer */
+  $plugin_cache_clearer = \Drupal::service('plugin.cache_clearer');
+  $plugin_cache_clearer->clearCachedDefinitions();
+}

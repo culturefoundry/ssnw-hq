@@ -1,0 +1,9 @@
+dependencies:
+  - schemadotorg_starterkit_test
+types:
+  'node:Person':
+    properties:
+      givenName: false
+      familyName: false
+      honorificSuffix: true
+      honorificPrefix: true

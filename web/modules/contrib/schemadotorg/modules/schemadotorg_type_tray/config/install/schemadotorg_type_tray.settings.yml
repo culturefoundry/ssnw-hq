@@ -1,0 +1,69 @@
+schema_types:
+  common:
+    label: Common
+    types:
+      - Place
+      - Person
+      - Event
+  web:
+    label: Web
+    types:
+      - WebPage
+      - WebSite
+      - FAQPage
+      - CollectionPage
+  content:
+    label: Content
+    types:
+      - Article
+      - HowTo
+      - SpecialAnnouncement
+      - ItemList
+  organization:
+    label: Organization
+    types:
+      - Organization
+      - Service
+      - JobPosting
+  hospitality:
+    label: Hospitality
+    types:
+      - LodgingBusiness
+      - Accommodation
+  education:
+    label: Education
+    types:
+      - EducationalOrganization
+      - CourseInstance
+      - Course
+  food:
+    label: Food
+    types:
+      - FoodEstablishment
+      - Menu
+      - Recipe
+      - Diet
+  podcast:
+    label: Podcast
+    types:
+      - PodcastSeries
+      - PodcastSeason
+      - PodcastEpisode
+  tv:
+    label: TV
+    types:
+      - TVSeries
+      - TVSeason
+      - TVEpisode
+  medical_organization:
+    label: 'Medical organization'
+    types:
+      - MedicalOrganization
+      - MedicalBusiness
+  medical_information:
+    label: 'Medical information'
+    types:
+      - HealthTopicContent
+      - MedicalWebPage
+      - MedicalEntity
+existing_nodes_link_text: 'View existing %type_label content'

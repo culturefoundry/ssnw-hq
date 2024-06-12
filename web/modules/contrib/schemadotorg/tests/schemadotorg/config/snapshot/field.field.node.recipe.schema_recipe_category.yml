@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.schema_recipe_category
+    - node.type.recipe
+id: node.recipe.schema_recipe_category
+field_name: schema_recipe_category
+entity_type: node
+bundle: recipe
+label: 'Recipe categories'
+description: 'The category of the recipe—for example, appetizer, entree, etc.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

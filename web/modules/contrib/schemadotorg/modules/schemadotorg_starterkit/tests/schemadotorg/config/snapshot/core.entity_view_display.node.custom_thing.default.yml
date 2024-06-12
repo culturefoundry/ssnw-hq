@@ -1,0 +1,72 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.custom_thing.custom
+    - field.field.node.custom_thing.schema_description
+    - field.field.node.custom_thing.schema_image
+    - field.field.node.custom_thing.schema_name
+    - node.type.custom_thing
+  module:
+    - field_group
+    - image
+    - text
+    - user
+third_party_settings:
+  field_group:
+    group_general:
+      children:
+        - schema_description
+        - schema_image
+        - schema_name
+      label: General
+      parent_name: ''
+      region: content
+      weight: -5
+      format_type: fieldset
+      format_settings: {  }
+id: node.custom_thing.default
+targetEntityType: node
+bundle: custom_thing
+mode: default
+content:
+  custom:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 104
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 200
+    region: content
+  schema_description:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 17
+    region: content
+  schema_image:
+    type: image
+    label: hidden
+    settings:
+      image_link: ''
+      image_style: ''
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 22
+    region: content
+  schema_name:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 2
+    region: content
+hidden: {  }

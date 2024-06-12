@@ -1,0 +1,286 @@
+<?php
+
+/**
+ * @file
+ * Automatically adds a metatag field to Schema.org types.
+ */
+
+declare(strict_types=1);
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\field\Entity\FieldConfig;
+use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\metatag\Entity\MetatagDefaults;
+use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
+
+/**
+ * Implements hook_requirements_alter().
+ */
+function schemadotorg_metatag_requirements_alter(array &$requirements): void {
+  // Remove Metatag Schema.org module from requirements,
+  // because it is not recommended.
+  unset($requirements['metatag_schema']);
+}
+
+/**
+ * Implements hook_schemadotorg_mapping_presave().
+ */
+function schemadotorg_metatag_schemadotorg_mapping_presave(SchemaDotOrgMappingInterface $mapping): void {
+  if ($mapping->isSyncing()) {
+    return;
+  }
+
+  // Make sure the mapping's target entity supports metatags.
+  $entity_type_id = $mapping->getTargetEntityTypeId();
+  if (!MetatagDefaults::load($entity_type_id)) {
+    return;
+  }
+
+  // Get new Schema.org properties.
+  $schema_properties = array_diff_key(
+    $mapping->getSchemaProperties(),
+    $mapping->getOriginalSchemaProperties()
+  );
+  $schema_properties = array_combine($schema_properties, $schema_properties);
+  // Append custom properties include url, Schema.type, and types.
+  if ($mapping->isNew()) {
+    $schema_properties['url'] = 'url';
+  }
+
+  // Get the meta tag manager.
+  /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager */
+  $schema_type_manager = \Drupal::service('schemadotorg.schema_type_manager');
+
+  /** @var \Drupal\metatag\MetatagTagPluginManager $tag_manager */
+  $tag_manager = \Drupal::service('plugin.manager.metatag.tag');
+  $tag_definitions = $tag_manager->getDefinitions();
+
+  // Track updated metatag defaults entities.
+  $updated_metatag_defaults = [];
+
+  // Get the entity types's default meta tags.
+  $default_tags = \Drupal::config('schemadotorg_metatag.settings')
+    ->get("default_tags.$entity_type_id");
+  foreach ($default_tags as $schema_property => $tags) {
+    if (str_contains($schema_property, '--')) {
+      // Parse and check for SchemaType--propertyName.
+      [$schema_type, $schema_property] = explode('--', $schema_property);
+      if (!$schema_type_manager->isSubTypeOf($mapping->getSchemaType(), $schema_type)) {
+        continue;
+      }
+
+      $metatag_defaults_id = $mapping->getTargetEntityTypeId() . '--' . $mapping->getTargetBundle();
+      $metatag_defaults_label = $mapping->getTargetEntityTypeDefinition()->getLabel()
+        . ': '
+        . $mapping->getTargetEntityBundleEntity()->label();
+    }
+    else {
+      $metatag_defaults_id = $mapping->getTargetEntityTypeId();
+      $metatag_defaults_label = $mapping->getTargetEntityTypeDefinition()->getLabel();
+    }
+
+    // Check the mappings new Schema.org properties.
+    if (!isset($schema_properties[$schema_property])) {
+      continue;
+    }
+
+    // Make sure tags exist by intersecting with tag definitions.xs.
+    $tags = array_intersect_key($tags, $tag_definitions);
+
+    // Get the metatag defaults entity.
+    $metatag_defaults = $updated_metatag_defaults[$metatag_defaults_id]
+      ?? MetatagDefaults::load($metatag_defaults_id)
+      ?? MetatagDefaults::create([
+        'id' => $metatag_defaults_id,
+        'label' => $metatag_defaults_label,
+      ]);
+
+    // Don't overwrite any existing tags.
+    $tags = array_diff_key($tags, $metatag_defaults->get('tags'));
+
+    // Make sure the tags tokens are valid.
+    /** @var \Drupal\token\TokenInterface $token */
+    $token = \Drupal::token();
+    foreach ($tags as $name => $value) {
+      if ($token->getInvalidTokensByContext($value, [$entity_type_id])) {
+        unset($tags[$name]);
+      }
+    }
+    // If there are new tags, append the new tags, and track the updated
+    // metatag default.
+    if ($tags) {
+      $metatag_defaults->overwriteTags($tags);
+      $updated_metatag_defaults[$metatag_defaults_id] = $metatag_defaults;
+    }
+  }
+
+  // Save updated metatag defaults.
+  if ($updated_metatag_defaults) {
+    foreach ($updated_metatag_defaults as $updated_metatag_default) {
+      $updated_metatag_default->save();
+    }
+  }
+}
+
+/**
+ * Implements hook_schemadotorg_mapping_insert().
+ */
+function schemadotorg_metatag_schemadotorg_mapping_insert(SchemaDotOrgMappingInterface $mapping): void {
+  if ($mapping->isSyncing()) {
+    return;
+  }
+
+  $entity_type_id = $mapping->getTargetEntityTypeId();
+  $bundle = $mapping->getTargetBundle();
+  $field_name = 'field_metatag';
+
+  // Only add the meta tags field to node types.
+  if ($entity_type_id !== 'node') {
+    return;
+  }
+
+  // Create meta tag field storage.
+  if (!FieldStorageConfig::loadByName($entity_type_id, $field_name)) {
+    FieldStorageConfig::create([
+      'field_name' => $field_name,
+      'entity_type' => $entity_type_id,
+      'type' => 'metatag',
+    ])->save();
+  }
+
+  // Create meta tag field instance.
+  if (!FieldConfig::loadByName($entity_type_id, $bundle, $field_name)) {
+    FieldConfig::create([
+      'label' => t('Meta tags'),
+      'field_name' => $field_name,
+      'entity_type' => $entity_type_id,
+      'bundle' => $bundle,
+      'type' => 'metatag',
+    ])->save();
+  }
+
+  // Set meta tag component in the default form display.
+  /** @var \Drupal\Core\Entity\EntityDisplayRepositoryInterface $entity_display_repository */
+  $entity_display_repository = \Drupal::service('entity_display.repository');
+  $form_display = $entity_display_repository->getFormDisplay($entity_type_id, $bundle, 'default');
+  $form_display->setComponent($field_name, [
+    'type' => 'metatag_firehose',
+    'settings' => [
+      'sidebar' => TRUE,
+      'use_details' => TRUE,
+    ],
+    'weight' => 99,
+  ]);
+  $form_display->save();
+
+  // Set metatag default groups for the content type.
+  $default_groups = \Drupal::config('schemadotorg_metatag.settings')
+    ->get('default_groups');
+  if ($default_groups) {
+    \Drupal::configFactory()->getEditable('metatag.settings')
+      ->set("entity_type_groups.node.$bundle", array_combine($default_groups, $default_groups))
+      ->save();
+  }
+}
+
+/* ************************************************************************** */
+// Schema.org types settings form.
+/* ************************************************************************** */
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * @see \Drupal\schemadotorg\Form\SchemaDotOrgSettingsFormBase::afterBuildDetails
+ * @see \Drupal\schemadotorg\Form\SchemaDotOrgSettingsFormBase::formAlter
+ */
+function schemadotorg_metatag_form_schemadotorg_types_settings_form_alter(array &$form, FormStateInterface $form_state): void {
+
+  /** @var \Drupal\metatag\MetatagManagerInterface $metatag_manager */
+  $metatag_manager = \Drupal::service('metatag.manager');
+  $metatag_groups = $metatag_manager->sortedGroups();
+  $metatag_group_options = [];
+  foreach ($metatag_groups as $group_name => $group_info) {
+    $metatag_group_options[$group_name] = $group_info['label'];
+  }
+
+  $form['schemadotorg_metatag'] = [
+    '#type' => 'details',
+    '#title' => t('Metatag settings'),
+  ];
+  $form['schemadotorg_metatag']['default_groups'] = [
+    '#type' => 'checkboxes',
+    '#title' => t('Default meta tag groups'),
+    '#description' => t('Identify which metatag groups should be available on which entity type / bundle combination. Unselected groups will not appear on the configuration form for that entity type, reducing the size of the form and increasing performance. If no groups are selected for a type, all groups will appear.'),
+    '#options' => $metatag_group_options,
+  ];
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * @see \Drupal\schemadotorg\Form\SchemaDotOrgSettingsFormBase::afterBuildDetails
+ * @see \Drupal\schemadotorg\Form\SchemaDotOrgSettingsFormBase::formAlter
+ */
+function schemadotorg_metatag_form_schemadotorg_properties_settings_form_alter(array &$form, FormStateInterface $form_state): void {
+  $entity_types = [
+    'node' => t('content (node)'),
+    'taxonomy_term' => 'taxonomy term (taxonomy_term)',
+    'user' => t('people (user)'),
+  ];
+
+  $form['schemadotorg_metatag'] = [
+    '#type' => 'details',
+    '#title' => t('Metatag settings'),
+  ];
+  foreach ($entity_types as $entity_type_id => $entity_type_label) {
+    $t_args = ['@type' => $entity_type_label];
+    $form['schemadotorg_metatag']['default_tags'][$entity_type_id] = [
+      '#type' => 'schemadotorg_settings',
+      '#title' => t('Default @type meta tags', ['@type' => $entity_type_label]),
+      '#description' => t('Enter Schema.org properties which are mapped to meta tags, using tokens, as they are added to the @type entity type.', $t_args),
+      '#description_link' => 'properties',
+      '#token_link' => TRUE,
+      '#example' => "
+propertyName:
+  meta_tag_name_01: '[node:field_name]'
+  meta_tag_name_02: '[node:field_name:property_01]'
+  meta_tag_name_03: '[node:field_name:property_02:format]'
+SchemaType--propertyName:
+  meta_tag_name_01: '[node:field_name]'
+  meta_tag_name_02: '[node:field_name:property_01]'
+  meta_tag_name_03: '[node:field_name:property_02:format]'
+",
+    ];
+  }
+  $form['schemadotorg_metatag']['apply_default_tags'] = [
+    '#type' => 'checkbox',
+    '#title' => t('Apply default meta tags to all existing Schema.org entity types.'),
+    '#description' => t('If checked, the above default meta tags will be applied to all existing Schema.org entity types.'),
+    '#prefix' => '<hr/>',
+  ];
+  $form['#submit'][] = 'schemadotorg_metatag_form_schemadotorg_properties_settings_form_submit';
+}
+
+/**
+ * Form submission handler for schemadotorg_properties_settings_form().
+ *
+ * @see schemadotorg_metatag_form_schemadotorg_properties_form_alter()
+ */
+function schemadotorg_metatag_form_schemadotorg_properties_settings_form_submit(array &$form, FormStateInterface $form_state): void {
+  // Apply meta tags to all existing Schema.org content types.
+  if ($form_state->getValue(['schemadotorg_metatag', 'apply_default_tags'])) {
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
+    $mapping_storage = \Drupal::entityTypeManager()
+      ->getStorage('schemadotorg_mapping');
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface[] $mappings */
+    $mappings = $mapping_storage
+      ->loadByProperties(['target_entity_type_id' => ['node', 'taxonomy_term', 'user']]);
+    foreach ($mappings as $mapping) {
+      $mapping->set('original_schema_properties', []);
+      schemadotorg_metatag_schemadotorg_mapping_presave($mapping);
+    }
+    $mapping_storage->resetCache();
+
+    Drupal::messenger()->addStatus(t('Default meta tags applied to all existing Schema.org entity types.'));
+  }
+}

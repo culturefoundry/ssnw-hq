@@ -1,0 +1,22 @@
+<?php
+
+/**
+ * @file
+ * Installation hooks for the Schema.org Blueprints Additional Mappings module.
+ */
+
+declare(strict_types=1);
+
+/**
+ * Implements hook_install().
+ */
+function schemadotorg_additional_mappings_install(bool $is_syncing): void {
+  if ($is_syncing) {
+    return;
+  }
+
+  // Setting weight to 10 so that the breadcrumb is set after a
+  // WebPage's JSON-LD is defined.
+  // @see schemadotorg_jsonld_breadcrumb_install
+  module_set_weight('schemadotorg_additional_mappings', 10);
+}

@@ -1,0 +1,10 @@
+schemadotorg_content_model_documentation.dialog:
+  css:
+    component:
+      css/schemadotorg_content_model_documentation.dialog.css: {}
+  js:
+    js/schemadotorg_content_model_documentation.dialog.js: {}
+  dependencies:
+    - core/drupal
+    - core/drupal.dialog.ajax
+

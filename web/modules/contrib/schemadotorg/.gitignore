@@ -1,0 +1,10 @@
+# Ignore Drupal patch and diff files.
+*.patch
+interdiff-*.txt
+*.diff
+
+# Ignore all *.features.yml files.
+*.features.yml
+
+# Ignore help directory generated via `drush schemadotorg:generate-help`
+help/*

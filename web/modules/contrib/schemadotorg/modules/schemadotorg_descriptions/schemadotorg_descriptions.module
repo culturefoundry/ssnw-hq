@@ -1,0 +1,169 @@
+<?php
+
+/**
+ * @file
+ * Sets entity/field descriptions to their corresponding Schema.org comments.
+ */
+
+declare(strict_types=1);
+
+use Drupal\Core\Cache\Cache;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Url;
+
+/**
+ * Implements hook_help().
+ */
+function schemadotorg_descriptions_help(string $route_name, RouteMatchInterface $route_match): string|NULL {
+  switch ($route_name) {
+    case 'schemadotorg_report.types.descriptions':
+    case 'schemadotorg_report.properties.descriptions':
+      $t_args = [
+        ':href' => Url::fromRoute('schemadotorg.settings.general', [], ['fragment' => 'edit-schemadotorg-descriptions'])->toString(),
+      ];
+      return '<p>' . t('Use this report to review and determine which <a href=":href">Schema.org descriptions need to customized</a>.', $t_args) . '</p>';
+  }
+
+  return NULL;
+}
+
+/**
+ * Implements hook_entity_load().
+ */
+function schemadotorg_descriptions_entity_load(array $entities, string $entity_type_id): void {
+  /** @var \Drupal\schemadotorg_descriptions\SchemaDotOrgDescriptionsManagerInterface $schema_descriptions_manager */
+  $schema_descriptions_manager = \Drupal::service('schemadotorg_descriptions.manager');
+  $schema_descriptions_manager->entityLoad($entities, $entity_type_id);
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Sets the node title field's description to the corresponding
+ * Schema.org property's comment.
+ */
+function schemadotorg_descriptions_form_node_form_alter(array &$form, FormStateInterface $form_state, string $form_id): void {
+  /** @var \Drupal\schemadotorg_descriptions\SchemaDotOrgDescriptionsManagerInterface $schema_descriptions_manager */
+  $schema_descriptions_manager = \Drupal::service('schemadotorg_descriptions.manager');
+  $schema_descriptions_manager->nodeFormAlter($form, $form_state);
+}
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ */
+function schemadotorg_descriptions_form_schemadotorg_mapping_form_alter(array &$form, FormStateInterface $form_state, string $form_id): void {
+  /** @var \Drupal\schemadotorg_descriptions\SchemaDotOrgDescriptionsManagerInterface $schema_descriptions_manager */
+  $schema_descriptions_manager = \Drupal::service('schemadotorg_descriptions.manager');
+  $schema_descriptions_manager->mappingFormAlter($form, $form_state, $form_id);
+}
+
+/**
+ * Implements hook_entity_prepare_form().
+ */
+function schemadotorg_descriptions_entity_prepare_form(EntityInterface $entity, string $operation, FormStateInterface $form_state): void {
+  /** @var \Drupal\schemadotorg_descriptions\SchemaDotOrgDescriptionsManagerInterface $schema_descriptions_manager */
+  $schema_descriptions_manager = \Drupal::service('schemadotorg_descriptions.manager');
+  $schema_descriptions_manager->entityPrepareForm($entity, $operation, $form_state);
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function schemadotorg_descriptions_form_alter(array &$form, FormStateInterface $form_state, string $form_id): void {
+  /** @var \Drupal\schemadotorg_descriptions\SchemaDotOrgDescriptionsManagerInterface $schema_descriptions_manager */
+  $schema_descriptions_manager = \Drupal::service('schemadotorg_descriptions.manager');
+  $schema_descriptions_manager->formAlter($form, $form_state, $form_id);
+}
+
+/**
+ * Implements hook_schemadotorg_bundle_entity_alter().
+ */
+function schemadotorg_descriptions_schemadotorg_bundle_entity_alter(array &$values, string $schema_type, string $entity_type_id): void {
+  /** @var \Drupal\schemadotorg_descriptions\SchemaDotOrgDescriptionsManagerInterface $schema_descriptions_manager */
+  $schema_descriptions_manager = \Drupal::service('schemadotorg_descriptions.manager');
+  $schema_descriptions_manager->bundleEntityAlter($values, $schema_type, $entity_type_id);
+}
+
+/**
+ * Implements hook_schemadotorg_property_field_alter().
+ */
+function schemadotorg_descriptions_schemadotorg_property_field_alter(
+  string $schema_type,
+  string $schema_property,
+  array &$field_storage_values,
+  array &$field_values,
+  ?string &$widget_id,
+  array &$widget_settings,
+  ?string &$formatter_id,
+  array &$formatter_settings,
+): void {
+  /** @var \Drupal\schemadotorg_descriptions\SchemaDotOrgDescriptionsManagerInterface $schema_descriptions_manager */
+  $schema_descriptions_manager = \Drupal::service('schemadotorg_descriptions.manager');
+  $schema_descriptions_manager->propertyFieldAlter(
+    $schema_type,
+    $schema_property,
+    $field_storage_values,
+    $field_values,
+    $widget_id,
+    $widget_settings,
+    $formatter_id,
+    $formatter_settings
+  );
+}
+
+/* ************************************************************************** */
+// Schema.org general settings form.
+/* ************************************************************************** */
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * @see \Drupal\schemadotorg\Form\SchemaDotOrgSettingsFormBase::afterBuildDetails
+ * @see \Drupal\schemadotorg\Form\SchemaDotOrgSettingsFormBase::formAlter
+ */
+function schemadotorg_descriptions_form_schemadotorg_general_settings_form_alter(array &$form, FormStateInterface $form_state): void {
+  $form['schemadotorg_descriptions'] = [
+    '#type' => 'details',
+    '#title' => t('Description settings'),
+  ];
+  $form['schemadotorg_descriptions']['custom_descriptions'] = [
+    '#title' => t('Custom Schema.org type and property descriptions'),
+    '#type' => 'schemadotorg_settings',
+    '#description' => t('Enter custom descriptions by Schema.org type, Schema.org property, entity type id, bundle, or field name. Set to <em>null</em> to remove the default description provided by Schema.org.'),
+    '#description_link' => 'types',
+    '#example' => '
+SchemeType: null
+SchemeType: description
+propertyName: null
+propertyName: description
+entity_type_id--field_name: description
+entity_type_id--bundle--field_name: description
+field_name: description
+',
+  ];
+  $form['schemadotorg_descriptions']['help_descriptions'] = [
+    '#title' => t('Set explanation or submission guidelines to the Schema.org type descriptions'),
+    '#type' => 'checkbox',
+    '#description' => t("If checked, Schema.org type descriptions will also be displayed as the explanation/submission guidelines. Explanation/submission guidelines are only applicable to content types."),
+  ];
+
+  $form['#submit'][] = 'schemadotorg_descriptions_general_settings_submit';
+}
+
+/**
+ * Form submission handler for schemadotorg_description_settings_form().
+ *
+ * @see schemadotorg_descriptions_form_schemadotorg_general_settings_form_alter()
+ */
+function schemadotorg_descriptions_general_settings_submit(array &$form, FormStateInterface $form_state): void {
+  // Clear cache bins to make sure descriptions are updated.
+  $cache_backends = Cache::getBins();
+  $service_ids = ['data', 'discovery', 'dynamic_page_cache'];
+  foreach ($service_ids as $service_id) {
+    if (isset($cache_backends[$service_id])) {
+      $cache_backends[$service_id]->deleteAll();
+    }
+  }
+}

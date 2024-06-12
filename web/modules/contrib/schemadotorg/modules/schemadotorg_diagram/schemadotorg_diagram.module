@@ -1,0 +1,72 @@
+<?php
+
+/**
+ * @file
+ * Provides diagrams for Schema.org relationships.
+ */
+
+declare(strict_types=1);
+
+use Drupal\Core\Form\FormStateInterface;
+
+/**
+ * Implements hook_local_tasks_alter().
+ */
+function schemadotorg_diagram_local_tasks_alter(array &$local_tasks): void {
+  // Determine if diagrams should be displayed as a node tab/task.
+  $node_task = \Drupal::configFactory()
+    ->get('schemadotorg_diagram.settings')
+    ->get('node_task');
+  if (!$node_task) {
+    unset($local_tasks['entity.node.schemadotorg_diagram']);
+  }
+}
+
+/* ************************************************************************** */
+// Schema.org general settings form.
+/* ************************************************************************** */
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * @see \Drupal\schemadotorg\Form\SchemaDotOrgSettingsFormBase::afterBuildDetails
+ * @see \Drupal\schemadotorg\Form\SchemaDotOrgSettingsFormBase::formAlter
+ */
+function schemadotorg_diagram_form_schemadotorg_general_settings_form_alter(array &$form, FormStateInterface $form_state): void {
+  $form['schemadotorg_diagram'] = [
+    '#type' => 'details',
+    '#title' => t('Diagram settings'),
+  ];
+  $form['schemadotorg_diagram']['node_task'] = [
+    '#type' => 'checkbox',
+    '#title' => t('Display diagrams as a node tab/task.'),
+    '#description' => t('If checked, a Diagrams tab/task will be displayed on nodes.'),
+  ];
+  $form['schemadotorg_diagram']['diagrams'] = [
+    '#title' => t('Diagrams'),
+    '#type' => 'schemadotorg_settings',
+    '#description' => t('Enter Schema.org diagram title, parent, and child Schema.org properties.'),
+    '#description_link' => 'property',
+    '#example' => '
+property_name:
+  title: Title,
+  parent: schemaProperty
+  child: schemaProperty
+',
+  ];
+
+  // Add submit callback.
+  $form['#submit'][] = 'schemadotorg_diagram_settings_form_submit';
+}
+
+/**
+ * Form submission handler for schemadotorg_jsonld_preview_settings_form().
+ *
+ * @see schemadotorg_diagram_form_schemadotorg_jsonapi_settings_form_alter()
+ */
+function schemadotorg_diagram_settings_form_submit(array &$form, FormStateInterface $form_state): void {
+  // Clear all plugin caches.
+  /** @var \Drupal\module_test\PluginManagerCacheClearer $plugin_cache_clearer */
+  $plugin_cache_clearer = \Drupal::service('plugin.cache_clearer');
+  $plugin_cache_clearer->clearCachedDefinitions();
+}

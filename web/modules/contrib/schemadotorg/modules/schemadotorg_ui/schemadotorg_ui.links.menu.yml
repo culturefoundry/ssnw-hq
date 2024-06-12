@@ -1,0 +1,4 @@
+schemadotorg_ui.fields:
+  class: Drupal\Core\Menu\MenuLinkDefault
+  deriver: Drupal\schemadotorg_ui\Plugin\Derivative\SchemaDotOrgUiMenuLink
+  menu_name: admin

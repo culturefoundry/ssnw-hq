@@ -1,0 +1,63 @@
+<?php
+
+/**
+ * @file
+ * Installation hooks for the Schema.org Blueprints Office Hours module.
+ */
+
+declare(strict_types=1);
+
+/**
+ * Implements hook_install().
+ */
+function schemadotorg_cer_install(bool $is_syncing): void {
+  if ($is_syncing) {
+    return;
+  }
+
+  /** @var \Drupal\schemadotorg\SchemaDotOrgConfigManagerInterface $schema_config_manager */
+  $schema_config_manager = \Drupal::service('schemadotorg.config_manager');
+  // Set subOrganization ↔ parentOrganization relationship.
+  $schema_config_manager->setMappingTypeSchemaTypeDefaultProperties('node', 'Organization', ['subOrganization', 'parentOrganization']);
+  // Set isPartOf ↔ hasPart relationship.
+  $schema_config_manager->setMappingTypeSchemaTypeDefaultProperties('node', 'WebPage', ['isPartOf', 'hasPart']);
+  // Set subjectOf ↔ about relationship.
+  $schema_config_manager->setMappingTypeSchemaTypeDefaultProperties('node', 'Thing', ['subjectOf']);
+  $schema_config_manager->setMappingTypeSchemaTypeDefaultProperties('node', 'Event', ['about']);
+  $schema_config_manager->setMappingTypeSchemaTypeDefaultProperties('node', 'CreativeWork', ['about']);
+
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function schemadotorg_cer_uninstall(bool $is_syncing): void {
+  if ($is_syncing) {
+    return;
+  }
+
+  /** @var \Drupal\schemadotorg\SchemaDotOrgConfigManagerInterface $schema_config_manager */
+  $schema_config_manager = \Drupal::service('schemadotorg.config_manager');
+  // Unset subOrganization ↔ parentOrganization relationship.
+  $schema_config_manager->unsetMappingTypeSchemaTypeDefaultProperties('node', 'Organization', ['subOrganization', 'parentOrganization']);
+  // Unset isPartOf ↔ hasPart relationship.
+  $schema_config_manager->unsetMappingTypeSchemaTypeDefaultProperties('node', 'WebContent', ['isPartOf', 'hasPart']);
+  // Unset subjectOf ↔ about relationship.
+  $schema_config_manager->unsetMappingTypeSchemaTypeDefaultProperties('node', 'Thing', ['subjectOf']);
+  $schema_config_manager->unsetMappingTypeSchemaTypeDefaultProperties('node', 'Event', ['about']);
+  $schema_config_manager->unsetMappingTypeSchemaTypeDefaultProperties('node', 'CreativeWork', ['about']);
+}
+
+/**
+ * Move all default Corresponding Entity References to nodes.
+ */
+function schemadotorg_cer_update_10000(): void {
+  /** @var \Drupal\schemadotorg\SchemaDotOrgConfigManagerInterface $schema_config_manager */
+  $schema_config_manager = \Drupal::service('schemadotorg.config_manager');
+
+  $schema_config_manager->unsetSchemaTypeDefaultProperties('Organization', ['subOrganization', 'parentOrganization']);
+  $schema_config_manager->setMappingTypeSchemaTypeDefaultProperties('node', 'Organization', ['subOrganization', 'parentOrganization']);
+
+  $schema_config_manager->unsetSchemaTypeDefaultProperties('WebContent', ['isPartOf', 'hasPart']);
+  $schema_config_manager->setMappingTypeSchemaTypeDefaultProperties('node', 'WebPage', ['isPartOf', 'hasPart']);
+}

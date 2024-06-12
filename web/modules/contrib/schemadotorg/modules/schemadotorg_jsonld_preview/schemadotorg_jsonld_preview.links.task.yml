@@ -1,0 +1,12 @@
+entity.node.schemadotorg_data:
+  route_name: entity.node.schemadotorg_data
+  title: Data
+  base_route: entity.node.canonical
+  weight: 90
+
+entity.node.schemadotorg_jsonld:
+  route_name: entity.node.schemadotorg_jsonld
+  title: 'JSON-LD'
+  base_route: entity.node.canonical
+  weight: 91
+

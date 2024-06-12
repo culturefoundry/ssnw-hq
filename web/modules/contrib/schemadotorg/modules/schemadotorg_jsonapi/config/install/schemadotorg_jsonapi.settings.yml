@@ -1,0 +1,30 @@
+default_base_fields:
+  - created
+  - changed
+  - default_langcode
+  - id
+  - langcode
+  - mid
+  - status
+  - type
+  - tid
+  - title
+  - uid
+  - uuid
+  - node--path
+  - node--nid
+  - node--promote
+  - node--sticky
+  - node--metatag
+  - node--field_image
+  - node--field_tags
+  - paragraph--behavior_settings
+  - term--weight
+  - term--parent
+  - user--user_picture
+custom_public_names:
+  primaryImageOfPage: image
+resource_type_schemadotorg: false
+resource_base_field_schemadotorg: false
+resource_field_schemadotorg: true
+

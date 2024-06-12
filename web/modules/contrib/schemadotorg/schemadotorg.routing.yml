@@ -1,0 +1,114 @@
+schemadotorg:
+  path: '/admin/config/schemadotorg'
+  defaults:
+    _controller: '\Drupal\system\Controller\SystemController::systemAdminMenuBlockPage'
+    _title: 'Schema.org'
+  requirements:
+    _permission: 'administer schemadotorg'
+
+schemadotorg.settings:
+  path: '/admin/config/schemadotorg/settings'
+  defaults:
+    _title: 'Schema.org settings'
+    _controller: '\Drupal\schemadotorg\Controller\SchemaDotOrgSettingsController::index'
+  requirements:
+    _permission: 'administer schemadotorg'
+
+schemadotorg.settings.general:
+  path: '/admin/config/schemadotorg/settings/general'
+  defaults:
+    _title: 'Schema.org general settings'
+    _form: 'Drupal\schemadotorg\Form\SchemaDotOrgSettingsGeneralForm'
+  requirements:
+    _permission: 'administer schemadotorg'
+
+schemadotorg.settings.types:
+  path: '/admin/config/schemadotorg/settings/types'
+  defaults:
+    _title: 'Schema.org types settings'
+    _form: 'Drupal\schemadotorg\Form\SchemaDotOrgSettingsTypesForm'
+  requirements:
+    _permission: 'administer schemadotorg'
+
+schemadotorg.settings.properties:
+  path: '/admin/config/schemadotorg/settings/properties'
+  defaults:
+    _title: 'Schema.org properties settings'
+    _form: 'Drupal\schemadotorg\Form\SchemaDotOrgSettingsPropertiesForm'
+  requirements:
+    _permission: 'administer schemadotorg'
+
+schemadotorg.settings.names:
+  path: '/admin/config/schemadotorg/settings/names'
+  defaults:
+    _title: 'Schema.org names settings'
+    _form: 'Drupal\schemadotorg\Form\SchemaDotOrgSettingsNamesForm'
+  requirements:
+    _permission: 'administer schemadotorg'
+
+entity.schemadotorg_mapping.collection:
+  path: '/admin/config/schemadotorg/mappings'
+  defaults:
+    _entity_list: 'schemadotorg_mapping'
+    _title: 'Schema.org mappings'
+  requirements:
+    _permission: 'administer schemadotorg'
+
+# The 'Add Schema.org mapping' page (entity.schemadotorg_mapping.add_form) is only available
+# via the Schema.org UI.
+# @see modules/schemadotorg_ui/schemadotorg_ui.routing.yml
+
+entity.schemadotorg_mapping.edit_form:
+  path: '/admin/config/schemadotorg/mappings/{schemadotorg_mapping}'
+  defaults:
+    _entity_form: 'schemadotorg_mapping.edit'
+    _title: 'Edit Schema.org mapping'
+  requirements:
+    _permission: 'administer schemadotorg'
+
+entity.schemadotorg_mapping.delete_form:
+  path: '/admin/config/schemadotorg/mappings/{schemadotorg_mapping}/delete'
+  defaults:
+    _entity_form: 'schemadotorg_mapping.delete'
+    _title: 'Delete a Schema.org mapping'
+  requirements:
+    _permission: 'administer schemadotorg'
+
+entity.schemadotorg_mapping_type.collection:
+  path: '/admin/config/schemadotorg/types'
+  defaults:
+    _entity_list: 'schemadotorg_mapping_type'
+    _title: 'Schema.org mapping types'
+  requirements:
+    _permission: 'administer schemadotorg'
+
+entity.schemadotorg_mapping_type.add_form:
+  path: '/admin/config/schemadotorg/types/add'
+  defaults:
+    _entity_form: 'schemadotorg_mapping_type.add'
+    _title: 'Add Schema.org mapping type'
+  requirements:
+    _permission: 'administer schemadotorg'
+
+entity.schemadotorg_mapping_type.edit_form:
+  path: '/admin/config/schemadotorg/types/{schemadotorg_mapping_type}'
+  defaults:
+    _entity_form: 'schemadotorg_mapping_type.edit'
+    _title: 'Edit Schema.org mapping type'
+  requirements:
+    _permission: 'administer schemadotorg'
+
+entity.schemadotorg_mapping_type.delete_form:
+  path: '/admin/config/schemadotorg/types/{schemadotorg_mapping_type}/delete'
+  defaults:
+    _entity_form: 'schemadotorg_mapping_type.delete'
+    _title: 'Delete a Schema.org mapping type'
+  requirements:
+    _permission: 'administer schemadotorg'
+
+schemadotorg.autocomplete:
+  path: '/schemadotorg/autocomplete/{table}'
+  defaults:
+    _controller: '\Drupal\schemadotorg\Controller\SchemaDotOrgAutocompleteController::autocomplete'
+  requirements:
+    _permission: 'access content'

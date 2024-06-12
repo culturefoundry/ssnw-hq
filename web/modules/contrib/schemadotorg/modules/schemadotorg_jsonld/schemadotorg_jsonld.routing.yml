@@ -1,0 +1,7 @@
+schemadotorg_jsonld.settings:
+  path: /admin/config/schemadotorg/settings/jsonld
+  defaults:
+    _title: 'Schema.org JSON-LD settings'
+    _form: Drupal\schemadotorg_jsonld\Form\SchemaDotOrgJsonLdSettingsForm
+  requirements:
+    _permission: 'administer schemadotorg'

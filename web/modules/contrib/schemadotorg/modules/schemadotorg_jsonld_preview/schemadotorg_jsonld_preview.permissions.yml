@@ -1,0 +1,3 @@
+'view schemadotorg jsonld':
+  title: 'View Schema.org JSON-LD'
+  description: 'View Schema.org JSON-LD when viewing an entity mapped to Schema.org type.'

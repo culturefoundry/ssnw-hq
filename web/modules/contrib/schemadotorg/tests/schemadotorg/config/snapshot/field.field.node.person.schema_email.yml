@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.schema_email
+    - node.type.person
+id: node.person.schema_email
+field_name: schema_email
+entity_type: node
+bundle: person
+label: Email
+description: 'Email address.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: email

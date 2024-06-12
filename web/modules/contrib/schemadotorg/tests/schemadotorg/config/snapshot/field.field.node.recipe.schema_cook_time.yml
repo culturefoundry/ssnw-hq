@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.schema_cook_time
+    - node.type.recipe
+id: node.recipe.schema_cook_time
+field_name: schema_cook_time
+entity_type: node
+bundle: recipe
+label: 'Cook time'
+description: 'The time it takes to actually cook the dish, in <a href="http://en.wikipedia.org/wiki/ISO_8601">ISO 8601 duration format</a>.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

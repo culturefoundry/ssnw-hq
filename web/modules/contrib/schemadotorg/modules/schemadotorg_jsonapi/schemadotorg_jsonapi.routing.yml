@@ -1,0 +1,7 @@
+schemadotorg_jsonapi.settings:
+  path: /admin/config/schemadotorg/settings/jsonapi
+  defaults:
+    _title: 'Schema.org JSON:API settings'
+    _form: Drupal\schemadotorg_jsonapi\Form\SchemaDotOrgJsonApiSettingsForm
+  requirements:
+    _permission: 'administer schemadotorg'

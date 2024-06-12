@@ -1,0 +1,60 @@
+<?php
+
+/**
+ * @file
+ * Installation hooks for the Schema.org Blueprints Subtype module.
+ */
+
+declare(strict_types=1);
+
+/**
+ * Implements hook_install().
+ */
+function schemadotorg_subtype_install(): void {
+  /** @var \Drupal\Core\Extension\ModuleInstallerInterface $module_installer */
+  $module_installer = \Drupal::service('module_installer');
+  $module_installer->uninstall(['schemadotorg_subtype']);
+  if (!\Drupal::moduleHandler()->moduleExists('schemadotorg_additional_type')) {
+    $module_installer->install(['schemadotorg_additional_type']);
+  }
+}
+
+/**
+ * Deprecate the Schema.org Subtype module and move toe Schema.org Additional Type module.
+ */
+function schemadotorg_subtype_update_10001(): void {
+  // Get subtype settings.
+  $subtype_config = \Drupal::configFactory()->get('schemadotorg_subtype.settings');
+  $default_types = $subtype_config->get('default_subtypes');
+  $default_allowed_values = $subtype_config->get('default_allowed_values');
+
+  // Uninstall subtype module and install the additionalType module.
+  /** @var \Drupal\Core\Extension\ModuleInstallerInterface $module_installer */
+  $module_installer = \Drupal::service('module_installer');
+  $module_installer->uninstall(['schemadotorg_subtype']);
+  if (!\Drupal::moduleHandler()->moduleExists('schemadotorg_additional_type')) {
+    $module_installer->install(['schemadotorg_additional_type']);
+  }
+
+  // Set additional type settings.
+  $additional_type_config = \Drupal::configFactory()
+    ->getEditable('schemadotorg_additional_type.settings');
+  $additional_type_config->set('default_types', $default_types);
+  $additional_type_config->set('default_allowed_values', $default_allowed_values);
+  $additional_type_config->save();
+
+  // Convert subtype Schema.org property mapping to additionalType mapping.
+  /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface[] $mappings */
+  $mappings = \Drupal::entityTypeManager()
+    ->getStorage('schemadotorg_mapping')
+    ->loadMultiple();
+  foreach ($mappings as $mapping) {
+    $field_name = $mapping->getSchemaPropertyFieldName('subtype');
+    if ($field_name) {
+      $mapping
+        ->setSchemaPropertyMapping($field_name, 'additionalType')
+        ->removeSchemaProperty('subtype')
+        ->save();
+    }
+  }
+}

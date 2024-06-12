@@ -1,0 +1,16 @@
+schemadotorg_epp.settings:
+  type: config_object
+  label: 'Schema.org Entity prepopulate settings'
+  mapping:
+    node_links:
+      type: sequence
+      label: 'Node Links'
+      sequence:
+        type: sequence
+        label: 'Schema.org types'
+        sequence:
+          type: string
+          label: 'Schema.org property/type.'
+    node_links_dropdown:
+      type: boolean
+      label: 'Display node links as a dropdown'

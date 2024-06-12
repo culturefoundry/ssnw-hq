@@ -1,0 +1,13 @@
+schemadotorg_ui:
+  js:
+    js/schemadotorg_ui.js: {  }
+  css:
+    component:
+      css/schemadotorg_ui.css: {  }
+  dependencies:
+    - core/drupal
+    - core/drupal.announce
+    - core/drupal.debounce
+    - core/drupal.form
+    - core/once
+    - schemadotorg/schemadotorg.dialog

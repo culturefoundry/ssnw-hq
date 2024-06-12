@@ -1,0 +1,12 @@
+/**
+ * @file
+ * Schema.org logo styles.
+ */
+
+.schemadotorg-logo {
+  width: auto;
+  max-width: 1.2em;
+  max-height: 1.2em;
+  margin: -0.2em 0.2em 0 0;
+  vertical-align: middle;
+}

@@ -1,0 +1,76 @@
+indexed:
+  - one
+  - two
+  - three
+indexed_grouped:
+  A:
+    - one
+    - two
+    - three
+  B:
+    - four
+    - five
+    - six
+indexed_grouped_named:
+  A:
+    label: 'Group A'
+    items:
+      - one
+      - two
+      - three
+  B:
+    label: 'Group B'
+    items:
+      - four
+      - five
+      - six
+associative:
+  one: One
+  two: Two
+  three: Three
+associative_grouped:
+  A:
+    one: One
+    two: Two
+    three: Three
+  B:
+    four: Four
+    five: Five
+    six: Six
+associative_grouped_named:
+  A:
+    label: 'Group A'
+    items:
+      one: One
+      two: Two
+      three: Three
+  B:
+    label: 'Group B'
+    items:
+      four: Four
+      five: Five
+      six: Six
+links:
+  - title: Yahoo!!!
+    uri: 'https://yahoo.com'
+  - title: Google
+    uri: 'https://google.com'
+links_grouped:
+  A:
+    - title: Yahoo!!!
+      uri: 'https://yahoo.com'
+  B:
+    - title: Google
+      uri: 'https://google.com'
+associative_advanced:
+  title: Title
+  required: true
+  height: 100
+  width: 100
+yaml:
+  title: YAML
+yaml_raw: 'title: YAML raw'
+json_raw: |-
+  {
+    "name": "value"
+  }

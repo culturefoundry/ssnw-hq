@@ -1,0 +1,107 @@
+<?php
+
+/**
+ * @file
+ * Adds Drupal's breadcrumb to the Schema.org JSON-LD for the current route.
+ */
+
+declare(strict_types=1);
+
+use Drupal\Component\Utility\DeprecationHelper;
+use Drupal\Core\Render\BubbleableMetadata;
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Url;
+
+/**
+ * Implements hook_schemadotorg_jsonld().
+ */
+function schemadotorg_jsonld_breadcrumb_schemadotorg_jsonld(RouteMatchInterface $route_match, BubbleableMetadata $bubbleable_metadata): ?array {
+  /** @var \Drupal\Core\Breadcrumb\BreadcrumbManager $breadcrumb_manager */
+  $breadcrumb_manager = \Drupal::service('breadcrumb');
+  if (!$breadcrumb_manager->applies($route_match)) {
+    return NULL;
+  }
+
+  $breadcrumb = $breadcrumb_manager->build($route_match);
+  $links = $breadcrumb->getLinks();
+  if (empty($links)) {
+    return NULL;
+  }
+
+  $bubbleable_metadata->addCacheableDependency($breadcrumb);
+
+  /** @var \Drupal\Core\Render\RendererInterface $renderer */
+  $renderer = \Drupal::service('renderer');
+
+  $items = [];
+  $position = 1;
+  foreach ($links as $link) {
+    $id = $link->getUrl()->setAbsolute()->toString();
+    $text = $link->getText();
+    if (is_array($text)) {
+      $text = DeprecationHelper::backwardsCompatibleCall(
+        currentVersion: \Drupal::VERSION,
+        deprecatedVersion: '10.3',
+        currentCallable: fn() => $renderer->renderInIsolation($text),
+        deprecatedCallable: fn() => $renderer->renderPlain($text),
+      );
+    }
+
+    $items[] = [
+      '@type' => 'ListItem',
+      'position' => $position,
+      'item' => [
+        '@id' => $id,
+        'name' => (string) $text,
+      ],
+    ];
+    $position++;
+  }
+
+  // Append the current route's entity to breadcrumb item list.
+  /** @var \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdManagerInterface $manager */
+  $manager = \Drupal::service('schemadotorg_jsonld.manager');
+  $entity = $manager->getRouteMatchEntity($route_match);
+  if ($entity) {
+    $title = $entity->label();
+    $uri = Url::fromRouteMatch($route_match)->setAbsolute()->toString();
+    $items[] = [
+      '@type' => 'ListItem',
+      'position' => $position,
+      'item' => [
+        '@id' => $uri,
+        'name' => $title,
+      ],
+    ];
+  }
+
+  return [
+    '@context' => 'https://schema.org',
+    '@type' => 'BreadcrumbList',
+    'itemListElement' => $items,
+  ];
+}
+
+/**
+ * Implements hook_schemadotorg_jsonld_alter().
+ */
+function schemadotorg_jsonld_breadcrumb_schemadotorg_jsonld_alter(array &$data, RouteMatchInterface $route_match, BubbleableMetadata $bubbleable_metadata): void {
+  // Make sure the breadcrumb's JSON-LD exists.
+  if (!isset($data['schemadotorg_jsonld_breadcrumb_schemadotorg_jsonld'])) {
+    return;
+  }
+
+  // Move the breadcrumb's JSON-LD to the first https://schema.org/WebPage
+  // that supports the https://schema.org/breacrumb property.
+  /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager */
+  $schema_type_manager = \Drupal::service('schemadotorg.schema_type_manager');
+  foreach ($data as &$jsonld) {
+    $schema_type = $jsonld['@type'] ?? NULL;
+    if ($schema_type
+      && $schema_type_manager->hasProperty($schema_type, 'breadcrumb')) {
+      $jsonld['breadcrumb'] = $data['schemadotorg_jsonld_breadcrumb_schemadotorg_jsonld'];
+      unset($data['schemadotorg_jsonld_breadcrumb_schemadotorg_jsonld']);
+      return;
+    }
+  }
+}

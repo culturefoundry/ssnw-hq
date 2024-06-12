@@ -1,0 +1,101 @@
+<?php
+
+/**
+ * @file
+ * Installation hooks for the Schema.org Blueprints Taxonomy module.
+ */
+
+declare(strict_types=1);
+
+use Drupal\taxonomy\Entity\Vocabulary;
+
+/**
+ * Implements hook_modules_installed().
+ */
+function schemadotorg_taxonomy_modules_installed(array $modules): void {
+  if (\Drupal::isConfigSyncing()) {
+    return;
+  }
+
+  $rebuild_router = FALSE;
+
+  // Enable the term and vocabulary JSON-LD endpoints.
+  if (in_array('schemadotorg_jsonld_endpoint', $modules)
+    && \Drupal::moduleHandler()->moduleExists('schemadotorg_jsonld_endpoint')) {
+    $config = \Drupal::configFactory()->getEditable('schemadotorg_jsonld_endpoint.settings');
+    $endpoints = $config->get('entity_type_endpoints');
+    $endpoints += [
+      'taxonomy_term' => 'term',
+      'taxonomy_vocabulary' => 'vocabulary',
+    ];
+    $config->set('entity_type_endpoints', $endpoints);
+    $config->save();
+    $rebuild_router = TRUE;
+  }
+
+  if ($rebuild_router) {
+    \Drupal::service('router.builder')->rebuild();
+  }
+}
+
+/**
+ * Implements hook_modules_uninstalled().
+ */
+function schemadotorg_taxonomy_modules_uninstalled(array $modules): void {
+  if (\Drupal::isConfigSyncing()) {
+    return;
+  }
+
+  // Disable/remove the term and vocabulary JSON-LD endpoints.
+  if (in_array('schemadotorg_jsonld_endpoint', $modules)
+    && \Drupal::moduleHandler()->moduleExists('schemadotorg_jsonld_endpoint')) {
+    $config = \Drupal::configFactory()->getEditable('schemadotorg_jsonld_endpoint.settings');
+    $endpoints = $config->get('entity_type_endpoints');
+    unset(
+      $endpoints['taxonomy_term'],
+      $endpoints['taxonomy_vocabulary']
+    );
+    $config->set('entity_type_endpoints', $endpoints);
+    $config->save();
+  }
+}
+
+/**
+ * Implements hook_install().
+ */
+function schemadotorg_taxonomy_install(bool $is_syncing): void {
+  if ($is_syncing) {
+    return;
+  }
+
+  // If that tags vocabulary exists.
+  if (Vocabulary::load('tags')) {
+    // Add tags to all content types.
+    \Drupal::configFactory()->getEditable('schemadotorg_taxonomy.settings')
+      ->set('default_vocabularies.tags', [
+        'id' => 'tags',
+        'label' => (string) t('Tags'),
+        'description' => (string) t('Use tags to group articles on similar topics into categories.'),
+        'auto_create' => TRUE,
+      ])
+      ->save();
+
+    // Create tags vocabulary to Schema.org DefinedTerm mapping.
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingManagerInterface $mapping_manager */
+    $mapping_manager = \Drupal::service('schemadotorg.mapping_manager');
+    $mapping_manager->createType('taxonomy_term', 'DefinedTerm');
+  }
+
+  schemadotorg_taxonomy_modules_installed(['schemadotorg_jsonapi', 'schemadotorg_jsonld_endpoint']);
+}
+
+/**
+ * Implements hook_install().
+ */
+function schemadotorg_taxonomy_uninstall(bool $is_syncing): void {
+  if ($is_syncing) {
+    return;
+  }
+
+  schemadotorg_taxonomy_modules_uninstalled(['schemadotorg_jsonapi', 'schemadotorg_jsonld_endpoint']);
+}

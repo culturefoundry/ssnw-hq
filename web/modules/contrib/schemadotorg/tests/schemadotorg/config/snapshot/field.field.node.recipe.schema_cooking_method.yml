@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.schema_cooking_method
+    - node.type.recipe
+id: node.recipe.schema_cooking_method
+field_name: schema_cooking_method
+entity_type: node
+bundle: recipe
+label: 'Cooking method'
+description: 'The method of cooking, such as Frying, Steaming, ...'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

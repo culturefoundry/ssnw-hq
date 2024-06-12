@@ -1,0 +1,10 @@
+schemadotorg_cer.settings:
+  type: config_object
+  label: 'Schema.org Corresponding entity references settings'
+  mapping:
+    default_schema_properties:
+      type: sequence
+      label: 'Default Schema.org properties'
+      sequence:
+        type: string
+        label: 'Schema.org Property'

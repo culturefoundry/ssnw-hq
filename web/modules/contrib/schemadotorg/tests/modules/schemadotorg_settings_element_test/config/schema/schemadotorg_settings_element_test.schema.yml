@@ -1,0 +1,124 @@
+schemadotorg_settings_element_test.settings:
+  type: config_entity
+  label: 'Schema.org Blueprints Test'
+  mapping:
+    indexed:
+      type: sequence
+      label: indexed_items
+      sequence:
+        type: string
+        label: indexed_item
+    indexed_grouped:
+      type: sequence
+      label: indexed_grouped
+      sequence:
+        type: sequence
+        label: indexed_grouped_group
+        sequence:
+          type: string
+          label: indexed_grouped_items
+    indexed_grouped_named:
+      type: sequence
+      label: indexed_grouped_named
+      sequence:
+        type: mapping
+        label: indexed_grouped_named_item
+        mapping:
+          label:
+            type: string
+            label: indexed_grouped_named_label
+          items:
+            type: sequence
+            label: indexed_grouped_named_items
+            sequence:
+              type: string
+              label: indexed_grouped_named_item
+    associative:
+      type: sequence
+      label: associative_items
+      sequence:
+        type: string
+        label: associative_item
+    associative_grouped:
+      type: sequence
+      label: associative_grouped
+      sequence:
+        type: sequence
+        label: associative_grouped_group
+        sequence:
+          type: string
+          label: associative_grouped_items
+    associative_grouped_named:
+      type: sequence
+      label: associative_grouped_named
+      sequence:
+        type: mapping
+        label: associative_grouped_named_item
+        mapping:
+          label:
+            type: string
+            label: associative_grouped_named_label
+          items:
+            type: sequence
+            label: associative_grouped_named_items
+            sequence:
+              type: string
+              label: associative_grouped_named_item
+    links:
+      type: sequence
+      label: links
+      sequence:
+        type: mapping
+        label: links_link
+        mapping:
+          title:
+            type: string
+            label: links_link_title
+          uri:
+            type: uri
+            label: links_link_uri
+    links_grouped:
+      type: sequence
+      label: links_grouped_group
+      sequence:
+        type: sequence
+        label: links_grouped_group_label
+        sequence:
+          type: mapping
+          label: links_grouped_group_links
+          mapping:
+            title:
+              type: string
+              label: links_grouped_group_link_title
+            uri:
+              type: uri
+              label: links_grouped_group_link_url
+    associative_advanced:
+      type: mapping
+      label: associative_advanced
+      mapping:
+        title:
+          type: string
+          label: title
+        required:
+          type: boolean
+          label: required
+        height:
+          type: integer
+          label: height
+        width:
+          type: integer
+          label: width
+    yaml:
+      type: mapping
+      label: yaml
+      mapping:
+        title:
+          type: string
+          label: title
+    yaml_raw:
+      type: string
+      label: 'Yaml raw'
+    json_raw:
+      type: string
+      label: 'JSON raw'

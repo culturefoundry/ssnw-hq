@@ -1,0 +1,5 @@
+schemadotorg_jsonapi.settings:
+  title: 'JSON:API'
+  route_name: schemadotorg_jsonapi.settings
+  parent_id: schemadotorg.settings
+  weight: 40

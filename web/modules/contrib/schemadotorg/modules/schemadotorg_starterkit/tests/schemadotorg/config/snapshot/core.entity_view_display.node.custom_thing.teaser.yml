@@ -1,0 +1,34 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.custom_thing.custom
+    - field.field.node.custom_thing.schema_description
+    - field.field.node.custom_thing.schema_image
+    - field.field.node.custom_thing.schema_name
+    - node.type.custom_thing
+  module:
+    - text
+    - user
+id: node.custom_thing.teaser
+targetEntityType: node
+bundle: custom_thing
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 200
+    region: content
+  schema_description:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 12
+    region: content
+hidden:
+  custom: true
+  schema_image: true
+  schema_name: true

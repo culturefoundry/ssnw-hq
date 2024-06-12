@@ -1,0 +1,8 @@
+services:
+  schemadotorg_additional_mappings.manager:
+    class: Drupal\schemadotorg_additional_mappings\SchemaDotOrgAdditionalMappingsManager
+    arguments: ['@module_handler', '@config.factory', '@entity_type.manager', '@entity_field.manager', '@plugin.manager.field.field_type', '@schemadotorg.names', '@schemadotorg.mapping_manager',  '@schemadotorg.schema_type_manager', '@schemadotorg.schema_type_builder']
+  schemadotorg_additional_mapping.jsonld_manager:
+    class: Drupal\schemadotorg_additional_mappings\SchemaDotOrgAdditionalMappingsJsonLdManager
+    arguments: ['@entity_type.manager', '@schemadotorg.schema_type_manager', '@?schemadotorg_jsonld.manager', '@?schemadotorg_jsonld.builder']
+

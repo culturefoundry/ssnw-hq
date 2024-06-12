@@ -1,0 +1,14 @@
+name: 'Schema.org Blueprints Mapping Sets'
+type: module
+description: 'Provides the ability to create a set of related Schema.org types via the UI and Drush.'
+package: 'Schema.org Blueprints Core'
+core_version_requirement: ^10.2
+configure: schemadotorg_mapping_set.overview
+schemadotorg_production: false
+dependencies:
+  - 'schemadotorg:schemadotorg'
+
+# Information added by Drupal.org packaging script on 2024-05-20
+version: '1.0.0-alpha24'
+project: 'schemadotorg'
+datestamp: 1716237079

@@ -1,0 +1,4 @@
+services:
+  schemadotorg_type_tray.manager:
+    class: Drupal\schemadotorg_type_tray\SchemaDotOrgTypeTrayManager
+    arguments: ['@config.factory',  '@extension.list.module', '@module_handler', '@schemadotorg.names', '@schemadotorg.schema_type_manager']

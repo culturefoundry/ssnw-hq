@@ -1,0 +1,49 @@
+schemadotorg_report.settings:
+  type: config_object
+  label: 'Schema.org Report settings'
+  mapping:
+    about:
+      type: sequence
+      label: 'About Scheme.org links'
+      sequence:
+        type: mapping
+        label: 'About Scheme.org link'
+        mapping:
+          title:
+            type: string
+            label: Title
+          uri:
+            type: uri
+            label: URI
+    types:
+      type: sequence
+      label: 'Schema.org types'
+      sequence:
+        type: sequence
+        label: 'Scheme.org type links'
+        sequence:
+          type: mapping
+          label: 'Scheme.org type link'
+          mapping:
+            title:
+              type: string
+              label: Title
+            uri:
+              type: uri
+              label: URI
+    issues:
+      type: sequence
+      label: 'Schema.org issues/discussions'
+      sequence:
+        type: sequence
+        label: 'Scheme.org type links'
+        sequence:
+          type: mapping
+          label: 'Scheme.org type link'
+          mapping:
+            title:
+              type: string
+              label: Title
+            uri:
+              type: uri
+              label: URI

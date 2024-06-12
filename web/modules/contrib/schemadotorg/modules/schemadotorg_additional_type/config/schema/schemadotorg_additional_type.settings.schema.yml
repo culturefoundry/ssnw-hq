@@ -1,0 +1,19 @@
+schemadotorg_additional_type.settings:
+  type: config_object
+  label: 'Schema.org  Additional type settings'
+  mapping:
+    default_types:
+      type: sequence
+      label: 'Schema.org default additional type types'
+      sequence:
+        type: string
+        label: 'Schema.org default additional type type'
+    default_allowed_values:
+      type: sequence
+      label: 'Schema.org default additional types allowed values'
+      sequence:
+        type: sequence
+        label: 'Schema.org default additional type allowed values'
+        sequence:
+          type: string
+          label: 'Schema.org default additional type allowed value'

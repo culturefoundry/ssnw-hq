@@ -1,0 +1,39 @@
+{
+    "_hash": "e45f5e03cbc26a7d73e6d548d6c437c502c163cab1a8bf34cb1fb95cf30520a9",
+    "patches": {
+        "drupal/core": [
+            {
+                "package": "drupal/core",
+                "description": "#3444246: Create a config action to set the status of the entity",
+                "url": "./patches/core/recipes-103.patch",
+                "sha256": "82926264cd3a329d7424cdcb158156f8e97c2a82e62f91d158d8244f51e706d1",
+                "depth": 2,
+                "extra": {
+                    "provenance": "root"
+                }
+            },
+            {
+                "package": "drupal/core",
+                "description": "Add config actions to make a bundle of an entity type translatable",
+                "url": "./patches/core/make-translatable-action.patch",
+                "sha256": "1fa48112901bdd460a5c3252c9369259373b4966f60a8574966027db766ce5e5",
+                "depth": 2,
+                "extra": {
+                    "provenance": "root"
+                }
+            }
+        ],
+        "drupal/project_browser": [
+            {
+                "package": "drupal/project_browser",
+                "description": "#3446257: Create a source plugin that exposes recipes in the file system",
+                "url": "./patches/project_browser/473-9fb69df1.patch",
+                "sha256": "124405e87e891dbfdf7236705f4b0fb3190dcb68edc72f5f700cfe3478378e0f",
+                "depth": 1,
+                "extra": {
+                    "provenance": "root"
+                }
+            }
+        ]
+    }
+}

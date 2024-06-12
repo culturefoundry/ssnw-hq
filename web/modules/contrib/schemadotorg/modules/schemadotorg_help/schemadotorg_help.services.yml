@@ -1,0 +1,5 @@
+services:
+  schemadotorg_help.breadcrumb:
+    class: Drupal\schemadotorg_help\Breadcrumb\SchemaDotOrgHelpBreadcrumbBuilder
+    tags:
+      - { name: breadcrumb_builder, priority: 1000 }

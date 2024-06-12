@@ -1,0 +1,13 @@
+/**
+ * @file
+ * Schema.org help logo styles.
+ */
+
+.schemadotorg-help-experimental {
+  font-size: .75rem;
+}
+
+.schemadotorg-help-read::before {
+  content: "🔍 ";
+  font-size: 0.8em;
+}

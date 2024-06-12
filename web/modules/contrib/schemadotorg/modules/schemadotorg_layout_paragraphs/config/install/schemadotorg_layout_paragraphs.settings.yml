@@ -1,0 +1,14 @@
+default_types:
+  - WebPage
+default_paragraph_types:
+  - layout
+default_paragraph_layouts:
+  layout:
+    - layout_onecol
+    - layout_twocol_section
+    - layout_twocol
+    - layout_twocol_bricks
+    - layout_threecol_section
+    - layout_threecol_25_50_25
+    - layout_threecol_33_34_33
+    - layout_fourcol_section

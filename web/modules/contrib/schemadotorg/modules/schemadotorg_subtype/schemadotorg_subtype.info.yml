@@ -1,0 +1,14 @@
+name: 'Schema.org Blueprints Subtype'
+type: module
+description: 'This module hand been deprecated and replaced with the Schema.org Additional Type module.'
+package: 'Schema.org Blueprints [DEPRECATED]'
+core_version_requirement: ^10.2
+lifecycle: deprecated
+lifecycle_link: 'https://www.drupal.org/project/schemadotorg_deprecated'
+dependencies:
+  - 'schemadotorg:schemadotorg'
+
+# Information added by Drupal.org packaging script on 2024-05-20
+version: '1.0.0-alpha24'
+project: 'schemadotorg'
+datestamp: 1716237078

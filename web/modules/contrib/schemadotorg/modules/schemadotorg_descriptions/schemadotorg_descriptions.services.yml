@@ -1,0 +1,11 @@
+services:
+  schemadotorg_descriptions.config_factory_override:
+    class: Drupal\schemadotorg_descriptions\Config\SchemaDotOrgDescriptionsConfigFactoryOverride
+    arguments: ['@config.factory', '@cache.data', '@cache.discovery', '@schemadotorg.schema_type_manager', '@schemadotorg.schema_type_builder']
+    tags:
+      - { name: config.factory.override }
+      - { name: event_subscriber }
+
+  schemadotorg_descriptions.manager:
+    class: Drupal\schemadotorg_descriptions\SchemaDotOrgDescriptionsManager
+    arguments: ['@config.factory', '@module_handler', '@current_route_match', '@entity_type.manager', '@schemadotorg.schema_type_manager', '@schemadotorg.schema_type_builder']

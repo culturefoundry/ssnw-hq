@@ -1,0 +1,74 @@
+<?php
+
+/**
+ * @file
+ * Installation hooks for the Schema.org Blueprints Office Hours module.
+ */
+
+declare(strict_types=1);
+
+/**
+ * Implements hook_install().
+ */
+function schemadotorg_office_hours_install(bool $is_syncing): void {
+  if ($is_syncing) {
+    return;
+  }
+
+  /** @var \Drupal\schemadotorg\SchemaDotOrgConfigManagerInterface $schema_config_manager */
+  $schema_config_manager = \Drupal::service('schemadotorg.config_manager');
+
+  // Add openingHoursSpecification to Place's default properties.
+  $schema_config_manager->setSchemaTypeDefaultProperties('Place', 'openingHoursSpecification');
+
+  $config = \Drupal::configFactory()->getEditable('schemadotorg.settings');
+
+  // Switch from openingHours to openingHoursSpecification.
+  $schema_types = $config->get('schema_types.default_properties');
+  foreach ($schema_types as &$default_properties) {
+    foreach ($default_properties as $index => $main_property) {
+      if ($main_property === 'openingHours') {
+        $default_properties[$index] = 'openingHoursSpecification';
+      }
+    }
+  }
+  $config->set('schema_types.default_properties', $schema_types);
+
+  // Add office_hours field to OpeningHoursSpecification field types.
+  $config->set('schema_types.default_field_types.OpeningHoursSpecification', ['office_hours']);
+
+  $config->save();
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function schemadotorg_office_hours_uninstall(bool $is_syncing): void {
+  if ($is_syncing) {
+    return;
+  }
+
+  /** @var \Drupal\schemadotorg\SchemaDotOrgConfigManagerInterface $schema_config_manager */
+  $schema_config_manager = \Drupal::service('schemadotorg.config_manager');
+
+  // Remove openingHoursSpecification to Place's default properties.
+  $schema_config_manager->unsetSchemaTypeDefaultProperties('Place', 'openingHoursSpecification');
+
+  $config = \Drupal::configFactory()->getEditable('schemadotorg.settings');
+
+  // Remove office_hours field to OpeningHoursSpecification field types.
+  $config->clear('schema_types.default_field_types.OpeningHoursSpecification');
+
+  // Switch back from openingHours to openingHoursSpecification.
+  $schema_types = $config->get('schema_types.default_properties');
+  foreach ($schema_types as &$default_properties) {
+    foreach ($default_properties as $index => $main_property) {
+      if ($main_property === 'openingHoursSpecification') {
+        $default_properties[$index] = 'openingHours';
+      }
+    }
+  }
+  $config->set('schema_types.default_properties', $schema_types);
+
+  $config->save();
+}

@@ -1,0 +1,126 @@
+<?php
+
+/**
+ * @file
+ * Installation hooks for the Schema.org Blueprints module.
+ */
+
+declare(strict_types=1);
+
+/**
+ * Implements hook_requirements().
+ */
+function schemadotorg_requirements(string $phase): array {
+  if ($phase !== 'runtime') {
+    return [];
+  }
+
+  /** @var \Drupal\schemadotorg\SchemaDotOrgInstallerInterface $installer */
+  $installer = \Drupal::service('schemadotorg.installer');
+  return $installer->requirements($phase);
+}
+
+/**
+ * Implements hook_install().
+ */
+function schemadotorg_install(bool $is_syncing): void {
+  /** @var \Drupal\schemadotorg\SchemaDotOrgInstallerInterface $installer */
+  $installer = \Drupal::service('schemadotorg.installer');
+  $installer->install();
+}
+
+/**
+ * Implements hook_schema().
+ */
+function schemadotorg_schema(): array {
+  /** @var \Drupal\schemadotorg\SchemaDotOrgInstallerInterface $installer */
+  $installer = \Drupal::service('schemadotorg.installer');
+  return $installer->schema();
+}
+
+/**
+ * Remove schemadotorg_focal_point.settings and uninstall the schemadotorg_focal_point.module.
+ */
+function schemadotorg_update_10000(): void {
+  if (\Drupal::moduleHandler()->moduleExists('schemadotorg_focal_point')) {
+    // Remove schemadotorg_focal_point.settings.
+    \Drupal::configFactory()
+      ->getEditable('schemadotorg_focal_point.settings')
+      ->delete();
+
+    // Uninstall the schemadotorg_focal_point.module.
+    /** @var \Drupal\Core\Extension\ModuleInstallerInterface $module_installer */
+    $module_installer = \Drupal::service('module_installer');
+    $module_installer->uninstall(['schemadotorg_focal_point']);
+  }
+}
+
+/**
+ * Update to Schema.org v26.0.
+ */
+function schemadotorg_update_10001(): void {
+  \Drupal::configFactory()
+    ->getEditable('schemadotorg.settings')
+    ->set('schema_data.file', 'data/[VERSION]/schemaorg-current-https-[TABLE].csv')
+    ->save();
+
+  /** @var \Drupal\schemadotorg\SchemaDotOrgInstallerInterface $installer */
+  $installer = \Drupal::service('schemadotorg.installer');
+  $installer->install();
+}
+
+/**
+ * Add certification to prefixed names to truncate certificationIdentification and certificationStatus properties.
+ */
+function schemadotorg_update_10002(): void {
+  \Drupal::configFactory()
+    ->getEditable('schemadotorg.names')
+    ->set('prefixes.certification', 'cert')
+    ->save();
+}
+
+/**
+ * Allow the checking, via requirements, for recommended modules to be disabled.
+ */
+function schemadotorg_update_10003(): void {
+  \Drupal::configFactory()
+    ->getEditable('schemadotorg.settings')
+    ->set('recommended_modules', TRUE)
+    ->save();
+}
+
+/**
+ * Allow the checking, via requirements, for recommended modules to be disabled.
+ */
+function schemadotorg_update_10004(): void {
+  \Drupal::configFactory()
+    ->getEditable('schemadotorg.settings')
+    ->clear('recommended_modules')
+    ->set('requirements.recommended_modules', TRUE)
+    ->save();
+}
+
+/**
+ * Update to Schema.org v26.0: Abbreviate agentInteractionStatistic.
+ */
+function schemadotorg_update_10005(): void {
+  \Drupal::configFactory()
+    ->getEditable('schemadotorg.names')
+    ->set('custom_names.agent_interaction_statistic', 'agent_interaction_stat')
+    ->save();
+}
+
+/**
+ * Issue #3447992: Convert schemadotorg_subtype.module to schemadotorg_additional_type.module.
+ */
+function schemadotorg_update_10006(): void {
+  $config = \Drupal::configFactory()->getEditable('schemadotorg.settings');
+  $default_field_weights = $config->get('schema_properties.default_field_weights');
+  foreach ($default_field_weights as $index => $schema_property) {
+    if ($schema_property === 'subtype') {
+      $default_field_weights[$index] = 'additionalType';
+    }
+  };
+  $config->set('schema_properties.default_field_weights', $default_field_weights);
+  $config->save();
+}

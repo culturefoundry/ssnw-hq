@@ -1,0 +1,9 @@
+schemadotorg_help:
+  css:
+    component:
+      css/schemadotorg_help.css: {}
+
+schemadotorg_help.logo:
+  css:
+    component:
+      css/schemadotorg_help.logo.css: {}

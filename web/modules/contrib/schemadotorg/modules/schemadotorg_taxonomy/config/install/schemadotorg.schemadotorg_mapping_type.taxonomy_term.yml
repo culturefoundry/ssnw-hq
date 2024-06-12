@@ -1,0 +1,44 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - taxonomy
+id: taxonomy_term
+target_entity_type_id: taxonomy_term
+multiple: true
+label_prefix: ''
+id_prefix: ''
+recommended_schema_types:
+  term:
+    label: Term
+    types:
+      - DefinedTerm
+      - CategoryCode
+  menu:
+    label: Menu
+    types:
+      - MenuItem
+      - MenuSection
+      - Menu
+default_schema_types:
+  tags: DefinedTerm
+default_schema_type_properties: {  }
+default_schema_type_view_displays: {  }
+default_base_fields:
+  status: {  }
+  uuid:
+    - termCode
+  changed:
+    - dateModified
+  langcode:
+    - inLanguage
+  name:
+    - name
+  description:
+    - description
+default_component_weights:
+  langcode: 90
+  path: 90
+  published: 100
+  simple_sitemap: 90
+  scheduler_settings: 90

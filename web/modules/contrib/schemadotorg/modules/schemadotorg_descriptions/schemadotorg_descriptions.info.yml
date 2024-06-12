@@ -1,0 +1,14 @@
+name: 'Schema.org Blueprints Descriptions'
+type: module
+description: 'Sets entity type and field descriptions to their corresponding Schema.org type and property comments.'
+package: 'Schema.org Blueprints Core'
+core_version_requirement: ^10.2
+configure: schemadotorg.settings.general
+schemadotorg_production: true
+dependencies:
+  - 'schemadotorg:schemadotorg'
+
+# Information added by Drupal.org packaging script on 2024-05-20
+version: '1.0.0-alpha24'
+project: 'schemadotorg'
+datestamp: 1716237079

@@ -1,0 +1,60 @@
+<?php
+
+/**
+ * @file
+ * Allows administrators to attach custom Schema.org properties to fieldable types.
+ */
+
+declare(strict_types=1);
+
+/**
+ * Implements hook_entity_type_build().
+ */
+function schemadotorg_ui_entity_type_build(array &$entity_types): void {
+  $entity_types['schemadotorg_mapping']->setFormClass('add', '\Drupal\schemadotorg_ui\Form\SchemaDotOrgUiMappingForm');
+  $entity_types['schemadotorg_mapping']->setFormClass('edit', '\Drupal\schemadotorg_ui\Form\SchemaDotOrgUiMappingForm');
+  $entity_types['schemadotorg_mapping']->setFormClass('delete', '\Drupal\schemadotorg_ui\Form\SchemaDotOrgUiMappingDeleteForm');
+}
+
+/**
+ * Implements hook_field_ui_preconfigured_options_alter().
+ */
+function schemadotorg_ui_field_ui_preconfigured_options_alter(array &$options, string $field_type): void {
+  if ($field_type === 'entity_reference'
+    && !isset($options['block_content'])
+    && \Drupal::moduleHandler()->moduleExists('block_content')) {
+    $options['block_content'] = [
+      'label' => t('Custom block'),
+      'field_storage_config' => [
+        'settings' => [
+          'target_type' => 'block_content',
+        ],
+      ],
+    ];
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_insert().
+ */
+function schemadotorg_ui_schemadotorg_mapping_type_insert(): void {
+  // Rebuild dynamic routes.
+  // @see \Drupal\schemadotorg_ui\Routing\SchemaDotOrgRouteSubscriber
+  /** @var \Drupal\Core\Routing\RouteBuilderInterface $router_builder */
+  $router_builder = \Drupal::service('router.builder');
+  $router_builder->setRebuildNeeded();
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_update().
+ */
+function schemadotorg_ui_schemadotorg_mapping_type_update(): void {
+  schemadotorg_ui_schemadotorg_mapping_type_insert();
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_update().
+ */
+function schemadotorg_ui_schemadotorg_mapping_type_delete(): void {
+  schemadotorg_ui_schemadotorg_mapping_type_insert();
+}

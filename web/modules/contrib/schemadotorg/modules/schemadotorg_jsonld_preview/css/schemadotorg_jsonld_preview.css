@@ -1,0 +1,53 @@
+/**
+ * @file
+ * Schema.org JSON-LD preview styles.
+ */
+
+/* JSON-LD preview. */
+.block-schemadotorg-jsonld-preview {
+  margin: 0;
+}
+
+.schemadotorg-jsonld-preview-copy {
+  display: none;
+}
+
+html.js .schemadotorg-jsonld-preview-copy {
+  display: block;
+}
+
+.schemadotorg-jsonld-preview-copy-message {
+  display: none;
+  transition: opacity 1s;
+  font-weight: bold;
+}
+
+.schemadotorg-jsonld-preview-copy-message::before {
+  content: '✓';
+}
+
+.schemadotorg-jsonld-preview-endpoints .form-item {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.schemadotorg-jsonld-preview-endpoints .form-item label {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+/* Data (table) preview. */
+
+table.schemadotorg-data-preview td:first-child {
+  width: 33%;
+  white-space: nowrap;
+}
+
+table.schemadotorg-data-preview td:nth-child(2) {
+  padding-left: 30px;
+}
+
+table.schemadotorg-data-preview td {
+  border-top: 1px solid #ddd;
+}

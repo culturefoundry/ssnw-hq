@@ -1,0 +1,21 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.schema_is_family_friendly
+    - node.type.recipe
+id: node.recipe.schema_is_family_friendly
+field_name: schema_is_family_friendly
+entity_type: node
+bundle: recipe
+label: 'Is family friendly'
+description: 'Indicates whether this content is family friendly.'
+required: false
+translatable: true
+default_value:
+  value: true
+default_value_callback: ''
+settings:
+  on_label: 'Yes'
+  off_label: 'No'
+field_type: boolean

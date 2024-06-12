@@ -1,0 +1,285 @@
+about:
+  - title: 'Schema.org Documentation'
+    uri: 'https://schema.org/docs/documents.html'
+  - title: 'Understand How Structured Data Works'
+    uri: 'https://developers.google.com/search/docs/advanced/structured-data/intro-structured-data'
+  - title: 'Schema.org: Evolution of Structured Data on the Web'
+    uri: 'https://queue.acm.org/detail.cfm?id=2857276'
+  - title: 'Steal Our JSON-LD'
+    uri: 'https://jsonld.com/'
+  - title: 'Schema Markup for SEO: The Complete Guide'
+    uri: 'https://www.link-assistant.com/news/structured-data-for-seo.html'
+  - title: 'Unlocking Hidden Gems Within Schema.org'
+    uri: 'https://moz.com/blog/schema-hidden-gems'
+  - title: 'Semantic SEO explained: Why connected schema is the missing piece in your SEO strategy'
+    uri: 'https://www.danielkcheung.com.au/how-to-implement-semantic-seo/'
+  - title: 'Schema.org Best Practices'
+    uri: 'https://support.schemaapp.com/support/solutions/folders/33000203526'
+  - title: 'Yoast SEO features: Schema.org markup'
+    uri: 'https://developer.yoast.com/features/schema/'
+  - title: 'Schema.org - What, How, Why? [VIDEO]'
+    uri: 'https://www.youtube.com/watch?v=hcahQfN5u9Y'
+  - title: 'Google Search Central: Schema.org [VIDEOS]'
+    uri: 'https://www.youtube.com/c/GoogleSearchCentral/search?query=Schema.org'
+types:
+  Article:
+    - title: 'Learn About Article Schema Markup'
+      uri: 'https://developers.google.com/search/docs/advanced/structured-data/article'
+    - title: 'JSON-LD Article Examples'
+      uri: 'https://jsonld.com/article/'
+  BlogPosting:
+    - title: 'JSON-LD Blog Post Example'
+      uri: 'https://jsonld.com/blog-post/'
+  Book:
+    - title: 'Book Schema for Google Search'
+      uri: 'https://developers.google.com/search/docs/advanced/structured-data/book'
+    - title: 'JSON-LD Book Post Example'
+      uri: 'https://jsonld.com/book/'
+  BreadcrumbList:
+    - title: 'How To Add Breadcrumb Markup'
+      uri: 'https://developers.google.com/search/docs/advanced/structured-data/breadcrumb'
+    - title: '2 Examples of JSON-LD Breadcrumb Implementation'
+      uri: 'https://jsonld.com/breadcrumb/'
+  Course:
+    - title: 'Use Schema for Course Carousel'
+      uri: 'https://developers.google.com/search/docs/advanced/structured-data/course'
+    - title: 'JSON-LD Course Code Download'
+      uri: 'https://jsonld.com/json-ld-course/'
+  CreativeWork:
+    - title: 'Subscription and Paywalled Content'
+      uri: 'https://developers.google.com/search/docs/advanced/structured-data/paywalled-content'
+  Dataset:
+    - title: Dataset
+      uri: 'https://developers.google.com/search/docs/advanced/structured-data/dataset'
+    - title: 'How to Add isPartOf Property to Dataset Schema'
+      uri: 'https://rankmath.com/kb/ispartof-property-dataset-schema/'
+  EducationOrganization:
+    - title: 'How to Use Schema Markup for Colleges and Universities'
+      uri: 'https://thesearchguru.com/blog/how-to-use-schema-markup-for-colleges-and-universities/'
+  EducationalOccupationalProgram:
+    - title: 'Structured Data for Job Training (BETA)'
+      uri: 'https://developers.google.com/search/docs/advanced/structured-data/job-training'
+    - title: 'Job Training / Vocational Training'
+      uri: 'https://jsonld.com/json-ld-course/job-training-vocational-training/'
+  EmailMessage:
+    - title: 'Email Message'
+      uri: 'https://jsonld.com/email-message/'
+  EmployerAggregateRating:
+    - title: 'Employer Rating Structured Data'
+      uri: 'https://developers.google.com/search/docs/advanced/structured-data/employer-rating'
+  Event:
+    - title: 'Learn About Google Event Schema Markup'
+      uri: 'https://developers.google.com/search/docs/advanced/structured-data/event'
+    - title: 'Home Activities and Structured Data'
+      uri: 'https://developers.google.com/search/docs/advanced/structured-data/home-activities'
+    - title: 'How to mark up recurring events with Schema.org for Google?'
+      uri: 'https://stackoverflow.com/questions/24685541/how-to-mark-up-recurring-events-with-schema-org-for-google'
+    - title: Event
+      uri: 'https://jsonld.com/event/'
+  FAQPage:
+    - title: 'Mark Up FAQs with Structured Data'
+      uri: 'https://developers.google.com/search/docs/advanced/structured-data/faqpage'
+    - title: 'Creating “FAQPage” Schema Markup'
+      uri: 'https://www.schemaapp.com/schema-markup/creating-faqpage-schema-markup-using-the-schema-app-editor/'
+  HealthTopicContent:
+    - title: 'Add HealthTopicContent, subtype of WebContent, plus an enumeration indicating topical aspects #2374'
+      uri: 'https://github.com/schemaorg/schemaorg/issues/2374'
+  Hotel:
+    - title: 'Markup for Hotels'
+      uri: 'https://schema.org/docs/hotels.html'
+    - title: 'Hotel Schema Examples'
+      uri: 'https://onlineownership.com/hotel-schema-examples/'
+    - title: 'Schema Markup for Hotels, B&B and Resorts – A Complete Guide'
+      uri: 'https://wordlift.io/blog/en/schema-markup-for-hotels-bb-and-resorts-a-complete-guide/'
+    - title: 'Google Hotel APIs: Hotel Content'
+      uri: 'https://developers.google.com/hotels/hotel-content/proto-reference/lodging-schema'
+  HowTo:
+    - title: 'Add Structured Data To Your How-To Pages'
+      uri: 'https://developers.google.com/search/docs/advanced/structured-data/how-to'
+    - title: 'A guide to implementing Google’s “How-to” schema'
+      uri: 'https://www.searchenginewatch.com/2019/05/30/implement-googles-how-to-schema/'
+  Hospital:
+    - title: 'Hospital Page Best Practices'
+      uri: 'https://support.schemaapp.com/support/solutions/articles/33000288122-hospital-page-best-practices'
+  ItemList:
+    - title: 'Carousel Search Results'
+      uri: 'https://developers.google.com/search/docs/advanced/structured-data/carousel'
+  MediaObject:
+    - title: 'Google Images SEO: License Metadata'
+      uri: 'https://developers.google.com/search/docs/advanced/structured-data/image-license-metadata'
+  JobPosting:
+    - title: 'Learn About Job Posting Schema Markup'
+      uri: 'https://developers.google.com/search/docs/advanced/structured-data/job-posting'
+    - title: 'Job Posting'
+      uri: 'https://jsonld.com/job-posting/'
+  Occupation:
+    - title: 'SEO for Estimated Salary Data'
+      uri: 'https://developers.google.com/search/docs/advanced/structured-data/estimated-salary'
+  LocalBusiness:
+    - title: 'Local Business Structured Data'
+      uri: 'https://developers.google.com/search/docs/advanced/structured-data/local-business'
+    - title: 'Local Business'
+      uri: 'https://jsonld.com/local-business/'
+    - title: 'How to Create Local Business Schema for Multiple Locations'
+      uri: 'https://postelniak.com/blog/local-business-schema-for-multiple-locations/'
+    - title: '2 Awesome JSON-LD Schema Hacks For Multiple Locations'
+      uri: 'https://intuitivedigital.com/blog/json-ld-for-multiple-locations/'
+    - title: 'Local SEO: Schema Markup For Multiple Locations'
+      uri: 'https://m.youtube.com/watch?v=IQMvO_o3dRc'
+  MathSolver:
+    - title: 'Math Solvers Structured Data'
+      uri: 'https://developers.google.com/search/docs/advanced/structured-data/math-solvers'
+  MedicalEntity:
+    - title: 'Documentation for health/medical types'
+      uri: 'https://schema.org/docs/meddocs.html'
+    - title: 'The Definitive Guide To Healthcare Structured Data'
+      uri: 'https://www.schemaapp.com/healthcare-schema-markup-definitive-guide/'
+    - title: 'Schema Markup for the Healthcare Industry'
+      uri: 'https://www.youtube.com/watch?v=xLEzdjMd-2w'
+    - title: 'Medical Service Page Best Practices'
+      uri: 'https://support.schemaapp.com/support/solutions/articles/33000288356-medical-service-page-best-practices'
+    - title: 'Science On Schema.Org (SOSO) Guidance Documents'
+      uri: 'https://github.com/ESIPFed/science-on-schema.org'
+    - title: Bioschemas
+      uri: 'https://bioschemas.org'
+    - title: 'Healthcare Schema Vocabulary Community Group'
+      uri: 'https://www.w3.org/community/schemed/'
+  MedicalCondition:
+    - title: 'Medical Condition Page Best Practices'
+      uri: 'https://support.schemaapp.com/support/solutions/articles/33000288355-medical-condition-page-best-practices'
+
+  Menu:
+    - title: "Schema.org Just Released New Restaurant Menu Markup — Here's How to Get Started"
+      uri: 'https://moz.com/blog/schema-new-restaurant-menu-markup'
+  MusicEvent:
+    - title: Venue
+      uri: 'https://jsonld.com/event/venue/'
+    - title: Concert
+      uri: 'https://jsonld.com/event/concert/'
+    - title: 'Concert: Multiple Performers'
+      uri: 'https://jsonld.com/event/concert-multiple-performers/'
+  Movie:
+    - title: 'Mark Up Movies with Structured Data'
+      uri: 'https://developers.google.com/search/docs/advanced/structured-data/movie'
+  NewsArticle:
+    - title: 'News Article'
+      uri: 'https://jsonld.com/news-article/'
+  Organization:
+    - title: 'Logo Schema Markup'
+      uri: 'https://developers.google.com/search/docs/advanced/structured-data/logo'
+    - title: 'Organization JSON-LD Schema Markup'
+      uri: 'https://jsonld.com/organization/'
+    - title: 'Social Network Profiles'
+      uri: 'https://jsonld.com/social-network-profiles/'
+    - title: 'Hierarchical organization'
+      uri: 'https://en.wikipedia.org/wiki/Hierarchical_organization'
+  Person:
+    - title: 'JSON-LD Person Example'
+      uri: 'https://jsonld.com/person/'
+    - title: 'Social Network Profiles'
+      uri: 'https://jsonld.com/social-network-profiles/'
+  Physician:
+    - title: 'Medical Professionals'
+      uri: 'https://jsonld.com/person/medical-professionals/'
+    - title: 'Schema.org V24.0 Release: Changes to Physician Schema Markup'
+      uri: 'https://www.schemaapp.com/schema-app-news/schema-org-v24-0-release-changes-to-physician-schema-markup/'
+    - title: 'Physician Page Best Practices'
+      uri: 'https://support.schemaapp.com/support/solutions/articles/33000288120-physician-page-best-practices'
+  PodcastSeries:
+    - title: 'Proposal: Podcast and PodcastEpisode #373'
+      uri: 'https://github.com/schemaorg/schemaorg/issues/373'
+    - title: "A Podcaster's Guide to RSS"
+      uri: 'https://help.apple.com/itc/podcasts_connect/'
+  Product:
+    - title: 'How To Add Product Structured Data'
+      uri: 'https://developers.google.com/search/docs/advanced/structured-data/product'
+    - title: 'Product JSON-LD Example / Product Schema'
+      uri: 'https://jsonld.com/product/'
+  QAPage:
+    - title: 'Schema for Q&A Pages'
+      uri: 'https://developers.google.com/search/docs/advanced/structured-data/qapage'
+    - title: 'Google Question and Answer JSON-LD Schema'
+      uri: 'https://jsonld.com/question-and-answer/'
+  Quiz:
+    - title: 'Practice Problems Structured Data'
+      uri: 'https://developers.google.com/search/docs/advanced/structured-data/practice-problems'
+  Recipe:
+    - title: 'Recipe Schema Markup'
+      uri: 'https://developers.google.com/search/docs/advanced/structured-data/recipe'
+    - title: Recipe
+      uri: 'https://jsonld.com/recipe/'
+    - title: 'Schema piece - Recipe'
+      uri: 'https://developer.yoast.com/features/schema/pieces/recipe/'
+    - title: 'Baking a Recipe using the Schema.org Blueprints module for Drupal'
+      uri: 'https://www.jrockowitz.com/blog/schemadotorg-recipe'
+  Review:
+    - title: 'Review Snippet'
+      uri: 'https://developers.google.com/search/docs/advanced/structured-data/review-snippet'
+    - title: Review
+      uri: 'https://jsonld.com/review/'
+  Restaurant:
+    - title: 'Restaurant Menu JSON-LD Sample'
+      uri: 'https://jsonld.com/restaurant-menu-json-ld-sample/'
+    - title: 'How to Correctly Implement the Restaurant Schema Markup'
+      uri: 'https://www.restaurant-website-builder.com/implement-restaurant-schema-markup'
+    - title: 'Restaurants Schema and Structured Data Markup'
+      uri: 'https://onlineownership.com/restaurants-schema-structured-data-markup/'
+  Role:
+    - title: "Introducing 'Role'"
+      uri: 'http://blog.schema.org/2014/06/introducing-role.html'
+    - title: 'The role of Role in Schema.org'
+      uri: 'https://www.dataliberate.com/2015/04/15/the-role-of-role-in-schema-org/'
+    - title: 'Roles in Schema.org - final draft'
+      uri: 'https://www.w3.org/wiki/images/c/c8/RolesinSchema.orgMay8.pdf'
+  SoftwareApplication:
+    - title: 'Software Application Schema'
+      uri: 'https://developers.google.com/search/docs/advanced/structured-data/software-app'
+  SpeakableSpecification:
+    - title: 'Speakable (BETA) Schema Markup'
+      uri: 'https://developers.google.com/search/docs/advanced/structured-data/speakable'
+    - title: 'Speakable JSON-LD (Google Speaks Out Loud in SERPs)'
+      uri: 'https://jsonld.com/speakable-json-ld/'
+  SpecialAnnouncement:
+    - title: 'COVID-19 Announcements (SpecialAnnouncement) Structured Data | Google Search Central'
+      uri: 'https://developers.google.com/search/docs/advanced/structured-data/special-announcements'
+    - title: 'Special Announcement specifications - Bing Webmaster Tools'
+      uri: 'https://www.bing.com/webmasters/help/special-announcement-specifications-5cbd6249'
+    - title: 'Fact Check Markup for Search'
+      uri: 'https://developers.google.com/search/docs/advanced/structured-data/factcheck'
+    - title: 'COVID-19 Announcement JSON-LD'
+      uri: 'https://jsonld.com/covid-19-announcement-json-ld/'
+    - title: 'Experimenting with SpecialAnnouncement Markup – Digital.gov'
+      uri: 'https://digital.gov/2020/05/11/experimenting-with-specialannouncement-markup/'
+  Table:
+    - title: Table
+      uri: 'https://jsonld.com/table/'
+  Thing:
+    - title: 'How to use additionalType and sameAs to link to Wikipedia'
+      uri: 'https://support.schemaapp.com/support/solutions/articles/33000277321-how-to-use-additionaltype-and-sameas-to-link-to-wikipedia'
+    - title: 'WikiData Lookup by Name (for http://schema.org/about and http://schema.org/additionalType)'
+      uri: 'https://www.schemaapp.com/wikidata-lookup-by-name/'
+  Vehicle:
+    - title: 'Markup for Autos'
+      uri: 'https://schema.org/docs/automotive.html'
+  Video:
+    - title: 'Get Videos on Google with Schema Markup'
+      uri: 'https://developers.google.com/search/docs/advanced/structured-data/video'
+    - title: Video
+      uri: 'https://jsonld.com/video/'
+  WebPage:
+    - title: 'Web Page'
+      uri: 'https://jsonld.com/web-page/'
+  WebSite:
+    - title: 'Sitelinks Search Box'
+      uri: 'https://developers.google.com/search/docs/advanced/structured-data/sitelinks-searchbox'
+    - title: 'WebSite JSON-LD Sample Code'
+      uri: 'https://jsonld.com/website/'
+issues:
+  MedicalCondition:
+    - title: 'Add "cause" as available property for MedicalCondition'
+      uri: 'https://github.com/schemaorg/schemaorg/issues/2878'
+  Person:
+    - title: 'Quasi-enumerable value for gender #541'
+      uri: 'https://github.com/schemaorg/schemaorg/issues/541'
+    - title: 'Genders other than Male and Female #2898'
+      uri: 'https://github.com/schemaorg/schemaorg/issues/2898'

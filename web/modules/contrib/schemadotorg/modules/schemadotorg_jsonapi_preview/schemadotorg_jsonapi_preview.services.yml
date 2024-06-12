@@ -1,0 +1,4 @@
+services:
+  schemadotorg_jsonapi_preview.builder:
+    class: Drupal\schemadotorg_jsonapi_preview\SchemaDotOrgJsonApiPreviewBuilder
+    arguments: ['@renderer', '@jsonapi.resource_type.repository', '@jsonapi_extras.entity.to_jsonapi', '@schemadotorg_jsonapi.manager']

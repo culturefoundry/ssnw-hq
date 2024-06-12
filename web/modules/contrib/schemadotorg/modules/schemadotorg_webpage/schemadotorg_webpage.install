@@ -1,0 +1,47 @@
+<?php
+
+/**
+ * @file
+ * Installation hooks for the Schema.org Blueprints WebPage module.
+ */
+
+declare(strict_types=1);
+
+/**
+ * Implements hook_install().
+ */
+function schemadotorg_webpage_install(): void {
+  /** @var \Drupal\Core\Extension\ModuleInstallerInterface $module_installer */
+  $module_installer = \Drupal::service('module_installer');
+  $module_installer->uninstall(['schemadotorg_webpage']);
+  if (!\Drupal::moduleHandler()->moduleExists('schemadotorg_additional_mappings')) {
+    $module_installer->install(['schemadotorg_additional_mappings']);
+  }
+}
+
+/**
+ * Deprecate the Schema.org WebPage module and move toe Schema.org Additional Mappings module.
+ */
+function schemadotorg_webpage_update_10001(): void {
+  /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface[] $mappings */
+  $mappings = \Drupal::entityTypeManager()->getStorage('schemadotorg_mapping')
+    ->loadMultiple();
+  foreach ($mappings as $mapping) {
+    $settings = $mapping->getThirdPartySettings('schemadotorg_webpage');
+    if ($settings) {
+      $schema_type = $settings['schema_subtype'] ?? 'WebPage';
+      $schema_properties = $settings['schema_properties'] ?? [];
+      $mapping->setAdditionalMapping($schema_type, $schema_properties);
+      $mapping->unsetThirdPartySetting('schemadotorg_webpage', 'schema_subtype');
+      $mapping->unsetThirdPartySetting('schemadotorg_webpage', 'schema_properties');
+      $mapping->save();
+    }
+  }
+
+  /** @var \Drupal\Core\Extension\ModuleInstallerInterface $module_installer */
+  $module_installer = \Drupal::service('module_installer');
+  $module_installer->uninstall(['schemadotorg_webpage']);
+  if (!\Drupal::moduleHandler()->moduleExists('schemadotorg_additional_mappings')) {
+    $module_installer->install(['schemadotorg_additional_mappings']);
+  }
+}

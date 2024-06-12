@@ -1,0 +1,35 @@
+schemadotorg_report:
+  title: 'About Schema.org'
+  parent: system.admin_reports
+  description: 'Overview of Schema.org types and properties.'
+  route_name: schemadotorg_report
+schemadotorg_report.types:
+  title: Types
+  parent: schemadotorg_report
+  description: 'Overview of Schema.org types.'
+  route_name: schemadotorg_report.types
+  weight: 0
+schemadotorg_report.properties:
+  title: Properties
+  parent: schemadotorg_report
+  description: 'Overview of Schema.org properties.'
+  route_name: schemadotorg_report.properties
+  weight: 1
+schemadotorg_report.relationships:
+  title: Relationships
+  parent: schemadotorg_report
+  description: 'Overview of Schema.org content type relationships.'
+  route_name: schemadotorg_report.relationships
+  weight: 2
+schemadotorg_report.names:
+  title: Names
+  parent: schemadotorg_report
+  description: 'Summarizes the abbreviations used to convert Schema.org type and property names to Drupal entity type and field names.'
+  route_name: schemadotorg_report.names
+  weight: 3
+schemadotorg_report.references:
+  title: References
+  parent: schemadotorg_report
+  description: 'Lists Schema.org references and issues.'
+  route_name: schemadotorg_report.references
+  weight: 4

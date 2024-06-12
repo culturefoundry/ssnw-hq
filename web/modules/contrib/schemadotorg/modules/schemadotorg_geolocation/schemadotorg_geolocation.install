@@ -1,0 +1,50 @@
+<?php
+
+/**
+ * @file
+ * Installation hooks for the Schema.org Blueprints Geolocation module.
+ */
+
+declare(strict_types=1);
+
+/**
+ * Implements hook_install().
+ */
+function schemadotorg_geolocation_install(bool $is_syncing): void {
+  if ($is_syncing) {
+    return;
+  }
+
+  /** @var \Drupal\schemadotorg\SchemaDotOrgConfigManagerInterface $schema_config_manager */
+  $schema_config_manager = \Drupal::service('schemadotorg.config_manager');
+
+  // Add geo and remove latitude/longitude to Place's default properties.
+  $schema_config_manager->setSchemaTypeDefaultProperties('Place', 'geo');
+  $schema_config_manager->unsetSchemaTypeDefaultProperties('Place', ['latitude', 'longitude']);
+
+  // Add geolocation field to GeoCoordinates field types.
+  $config = \Drupal::configFactory()->getEditable('schemadotorg.settings');
+  $config->set('schema_types.default_field_types.GeoCoordinates', ['geolocation']);
+  $config->save();
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function schemadotorg_geolocation_uninstall(bool $is_syncing): void {
+  if ($is_syncing) {
+    return;
+  }
+
+  /** @var \Drupal\schemadotorg\SchemaDotOrgConfigManagerInterface $schema_config_manager */
+  $schema_config_manager = \Drupal::service('schemadotorg.config_manager');
+
+  // Add remove geo and add latitude/longitude to Place's default properties.
+  $schema_config_manager->unsetSchemaTypeDefaultProperties('Place', 'geo');
+  $schema_config_manager->setSchemaTypeDefaultProperties('Place', ['latitude', 'longitude']);
+
+  // Remove GeoCoordinates field types.
+  $config = \Drupal::configFactory()->getEditable('schemadotorg.settings');
+  $config->clear('schema_types.default_field_types.GeoCoordinates');
+  $config->save();
+}

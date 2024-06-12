@@ -1,0 +1,215 @@
+<?php
+
+/**
+ * @file
+ * Manages translations for Schema.org types and properties as they are created.
+ */
+
+declare(strict_types=1);
+
+use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\field\FieldConfigInterface;
+use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
+
+/**
+ * Implements hook_schemadotorg_mapping_insert().
+ */
+function schemadotorg_translation_schemadotorg_mapping_insert(SchemaDotOrgMappingInterface $mapping): void {
+  if ($mapping->isSyncing()) {
+    return;
+  }
+
+  /** @var \Drupal\schemadotorg_translation\SchemaDotOrgTranslationManagerInterface $manager */
+  $manager = \Drupal::service('schemadotorg_translation.manager');
+  $manager->enableMapping($mapping);
+}
+
+/**
+ * Implements hook_field_config_insert().
+ */
+function schemadotorg_translation_field_config_insert(FieldConfigInterface $field_config): void {
+  /** @var \Drupal\schemadotorg_translation\SchemaDotOrgTranslationManagerInterface $manager */
+  $manager = \Drupal::service('schemadotorg_translation.manager');
+  $manager->enableMappingField($field_config);
+}
+
+/* ************************************************************************** */
+// Schema.org JSON-LD.
+/* ************************************************************************** */
+
+/**
+ * Implements hook_schemadotorg_jsonld_schema_type_entity_alter().
+ */
+function schemadotorg_translation_schemadotorg_jsonld_schema_type_entity_alter(array &$data, EntityInterface $entity, ?SchemaDotOrgMappingInterface $mapping): void {
+  // Make sure the entity has a mapping.
+  if (!$mapping) {
+    return;
+  }
+
+  // Make sure we are dealing with a content entity with translations.
+  if (!$entity instanceof ContentEntityInterface
+    || empty($entity->getTranslationLanguages(FALSE))
+    || !$entity->hasLinkTemplate('canonical')) {
+    return;
+  }
+
+  // Make the entity's Schema can include an @url.
+  /** @var \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdManagerInterface $schemadotorg_jsonld_manager */
+  $schemadotorg_jsonld_manager = \Drupal::service('schemadotorg_jsonld.manager');
+  if (!$schemadotorg_jsonld_manager->hasSchemaUrl($entity)) {
+    return;
+  }
+
+  // Check that Schema.org mapping type is a CreativeWork which
+  // supports translations.
+  // @see https://schema.org/workTranslation
+  // @see https://schema.org/translationOfWork
+  /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager */
+  $schema_type_manager = \Drupal::service('schemadotorg.schema_type_manager');
+  $schema_type = $mapping->getSchemaType();
+  if (!$schema_type_manager->isSubTypeOf($schema_type, 'CreativeWork')) {
+    return;
+  }
+
+  // Get current language translation for the entity.
+  $current_langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
+  $entity = $entity->getTranslation($current_langcode);
+
+  if ($entity->isDefaultTranslation()) {
+    // Default translation list all translations
+    // using https://schema.org/workTranslation.
+    $data['workTranslation'] = [];
+    $translation_languages = $entity->getTranslationLanguages(FALSE);
+    foreach ($translation_languages as $translation_language) {
+      $translation = $entity->getTranslation($translation_language->getId());
+      $data['workTranslation'][] = [
+        '@type' => $data['@type'],
+        '@id' => $translation->toUrl()->setAbsolute()->toString(),
+      ];
+    }
+  }
+  else {
+    // Translation reference default
+    // using https://schema.org/translationOfWork.
+    // Get the default language.
+    // Currently, Drupal does not provide an easy way to get this information.
+    // @see \Drupal\Core\Entity\ContentEntityBase::$defaultLangcode
+    $default_languages = array_diff_key(
+      $entity->getTranslationLanguages(),
+      $entity->getTranslationLanguages(FALSE)
+    );
+    $default_language = reset($default_languages);
+    $default_translation = $entity->getTranslation($default_language->getId());
+    $data['translationOfWork'] = ['@id' => $default_translation->toUrl()->setAbsolute()->toString()];
+  }
+}
+
+/* ************************************************************************** */
+// Schema.org general settings form.
+/* ************************************************************************** */
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * @see \Drupal\schemadotorg\Form\SchemaDotOrgSettingsFormBase::afterBuildDetails
+ * @see \Drupal\schemadotorg\Form\SchemaDotOrgSettingsFormBase::formAlter
+ */
+function schemadotorg_translation_form_schemadotorg_general_settings_form_alter(array &$form, FormStateInterface $form_state): void {
+  $form['schemadotorg_translation'] = [
+    '#type' => 'details',
+    '#title' => t('Translation settings'),
+  ];
+  $form['schemadotorg_translation']['excluded_schema_types'] = [
+    '#type' => 'schemadotorg_settings',
+    '#title' => t('Excluded Schema.org types'),
+    '#description' => t('Enter Schema.org types that should never be translated.'),
+    '#description_link' => 'types',
+    '#example' => '
+- SchemaType01
+- SchemaType02
+- SchemaType03
+',
+  ];
+  $form['schemadotorg_translation']['excluded_schema_properties'] = [
+    '#type' => 'schemadotorg_settings',
+    '#title' => t('Excluded Schema.org properties'),
+    '#description' => t('Enter Schema.org properties that should never be translated.'),
+    '#description_link' => 'properties',
+    '#example' => '
+- propertyName
+- SchemaType--propertyName
+',
+  ];
+  $form['schemadotorg_translation']['excluded_field_names'] = [
+    '#type' => 'schemadotorg_settings',
+    '#title' => t('Excluded field names'),
+    '#description' => t('Enter field names that should never be translated.'),
+    '#example' => '
+- field_name_01
+- field_name_02
+- field_name_03
+',
+  ];
+  $form['schemadotorg_translation']['included_field_names'] = [
+    '#type' => 'schemadotorg_settings',
+    '#title' => t('Included field names'),
+    '#description' => t('Enter field names that should always be translated.'),
+    '#example' => '
+- field_name_01
+- field_name_02
+- field_name_03
+',
+  ];
+  $form['schemadotorg_translation']['included_field_types'] = [
+    '#type' => 'schemadotorg_settings',
+    '#title' => t('Included field types'),
+    '#description' => t('Enter field types that should always be translated.'),
+    '#example' => '
+- field_type_01
+- field_type_02
+- field_type_03
+',
+  ];
+  $form['schemadotorg_translation']['apply_translation_settings'] = [
+    '#type' => 'checkbox',
+    '#title' => t('Apply translation settings to all existing Schema.org mappings.'),
+    '#description' => t('If checked, the above translation settings will be applied to all existing Schema.org mappings.'),
+    '#prefix' => '<hr/>',
+  ];
+  $form['#submit'][] = 'schemadotorg_translation_form_schemadotorg_types_settings_form_submit';
+}
+
+/**
+ * Form submission handler for schemadotorg_types_settings_form().
+ *
+ * @see schemadotorg_translation_form_schemadotorg_types_settings_form_alter()
+ */
+function schemadotorg_translation_form_schemadotorg_types_settings_form_submit(array &$form, FormStateInterface $form_state): void {
+  // Apply translation settings to all existing Schema.org mappings
+  // by triggering the mapping and field config insert hooks.
+  $apply_translation_settings = $form_state->getValue(['schemadotorg_translation', 'apply_translation_settings']);
+  if ($apply_translation_settings) {
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
+    $mapping_storage = \Drupal::entityTypeManager()->getStorage('schemadotorg_mapping');
+    /** @var \Drupal\field\FieldConfigStorage $field_config_storage */
+    $field_config_storage = \Drupal::entityTypeManager()->getStorage('field_config');
+
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface[] $mappings */
+    $mappings = $mapping_storage->loadMultiple();
+    foreach ($mappings as $mapping) {
+      schemadotorg_translation_schemadotorg_mapping_insert($mapping);
+
+      /** @var \Drupal\field\FieldConfigInterface[] $field_configs */
+      $field_configs = $field_config_storage->loadByProperties([
+        'entity_type' => $mapping->getTargetEntityTypeId(),
+        'bundle' => $mapping->getTargetBundle(),
+      ]);
+      foreach ($field_configs as $field_config) {
+        schemadotorg_translation_field_config_insert($field_config);
+      }
+    }
+    \Drupal::messenger()->addStatus(t('Translation settings applied to all existing Schema.org mappings.'));
+  }
+}

@@ -1,0 +1,5 @@
+schemadotorg_jsonld.settings:
+  title: JSON-LD
+  route_name: schemadotorg_jsonld.settings
+  parent_id: schemadotorg.settings
+  weight: 50

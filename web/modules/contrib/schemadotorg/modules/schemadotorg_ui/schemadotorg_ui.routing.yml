@@ -1,0 +1,7 @@
+entity.schemadotorg_mapping.add_form:
+  path: /admin/config/schemadotorg/mappings/add
+  defaults:
+    _title: 'Add Schema.org mapping'
+    _controller: '\Drupal\schemadotorg_ui\Controller\SchemaDotOrgUiMappingController:index'
+  requirements:
+    _permission: 'administer schemadotorg'

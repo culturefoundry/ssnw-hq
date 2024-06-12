@@ -1,0 +1,8 @@
+services:
+  schemadotorg_content_model_documentation.manager:
+    class: Drupal\schemadotorg_content_model_documentation\SchemaDotOrgContentModelDocumentationManager
+    arguments: ['@request_stack', '@module_handler', '@current_user', '@config.factory', '@entity_type.manager', '@entity_display.repository', '@schemadotorg.names', '@schemadotorg.schema_type_manager', '@schemadotorg.schema_type_builder']
+
+  schemadotorg_content_model_documentation.builder:
+    class: Drupal\schemadotorg_content_model_documentation\SchemaDotOrgContentModelDocumentationBuilder
+    arguments: ['@request_stack', '@current_user', '@current_route_match', '@entity_type.manager', '@schemadotorg_content_model_documentation.manager']

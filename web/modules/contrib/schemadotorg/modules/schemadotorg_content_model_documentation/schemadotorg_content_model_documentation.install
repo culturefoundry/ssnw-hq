@@ -1,0 +1,80 @@
+<?php
+
+/**
+ * @file
+ * Installation hooks for the Schema.org Blueprints Content Model Documentation module.
+ */
+
+declare(strict_types=1);
+
+/**
+ * Implements hook_install().
+ */
+function schemadotorg_content_model_documentation_install(bool $is_syncing): void {
+  if ($is_syncing) {
+    return;
+  }
+
+  // Make sure existing Schema.org mapping types documentable.
+  /** @var \Drupal\schemadotorg_content_model_documentation\SchemaDotOrgContentModelDocumentationManagerInterface $documentation_manager */
+  $documentation_manager = \Drupal::service('schemadotorg_content_model_documentation.manager');
+  /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface[] $mapping_types */
+  $mapping_types = \Drupal::entityTypeManager()
+    ->getStorage('schemadotorg_mapping_type')
+    ->loadMultiple();
+  foreach ($mapping_types as $mapping_type) {
+    $documentation_manager->mappingTypeInsert($mapping_type);
+  }
+}
+
+/**
+ * Open Content Model Documentation in a modal dialog.
+ */
+function schemadotorg_content_model_documentation_update_10000(): void {
+  \Drupal::configFactory()->getEditable('schemadotorg_content_model_documentation.settings')
+    ->set('link_modal', TRUE)
+    ->save();
+}
+
+/**
+ * Improve and fix Content Model Documentation integration.
+ */
+function schemadotorg_content_model_documentation_update_10001(): void {
+  // Remove anything that is not an entity type id from
+  // content_model_documentation.settings.
+  $config = \Drupal::configFactory()
+    ->getEditable('content_model_documentation.settings');
+  $data = $config->getRawData();
+  foreach ($data as $entity_type_id => $state) {
+    if (!\Drupal::entityTypeManager()->hasDefinition($entity_type_id)) {
+      unset($data[$entity_type_id]);
+    }
+  }
+  $config->setData($data)->save();
+
+  // Set default notes.
+  $default_notes = '<h2>Introduction</h2>
+<p>@todo Add introduction here.</p>
+
+<h2>FAQ</h2>
+<p>@todo Add FAQ here.</p>
+
+<h2>Recommendations</h2>
+<p>@todo Add recommendations here.</p>
+
+<h2>Resources</h2>
+<p>@todo Add resources here.</p>
+
+<h2>Contacts</h2>
+<p>@todo Add contacts here.</p>';
+  \Drupal::configFactory()->getEditable('schemadotorg_content_model_documentation.settings')
+    ->set('default_notes', $default_notes)
+    ->save();
+
+  // Set default format.
+  \Drupal::configFactory()->getEditable('schemadotorg_content_model_documentation.settings')
+    ->set('default_format', 'full_html')
+    ->save();
+
+  schemadotorg_content_model_documentation_install(FALSE);
+}

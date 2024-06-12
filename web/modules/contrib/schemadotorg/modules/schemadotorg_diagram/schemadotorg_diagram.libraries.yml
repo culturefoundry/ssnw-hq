@@ -1,0 +1,6 @@
+schemadotorg_diagram:
+  css:
+    component:
+      css/schemadotorg_diagram.css: {  }
+  dependencies:
+    - schemadotorg/schemadotorg.details

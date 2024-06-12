@@ -1,0 +1,3 @@
+views.filter.schemadotorg_type:
+  type: views.filter.in_operator
+  label: 'Schema.org type'

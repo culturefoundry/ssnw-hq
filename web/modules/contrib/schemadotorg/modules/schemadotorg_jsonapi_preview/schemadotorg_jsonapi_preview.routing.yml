@@ -1,0 +1,12 @@
+entity.node.schemadotorg_jsonapi:
+  path: '/node/{node}/schemadotorg-jsonapi'
+  defaults:
+    _title_callback: '\Drupal\schemadotorg_jsonapi_preview\Controller\SchemaDotOrgJsonApiPreviewController::getTitle'
+    _controller: '\Drupal\schemadotorg_jsonapi_preview\Controller\SchemaDotOrgJsonApiPreviewController::index'
+  requirements:
+    _permission: 'view schemadotorg jsonapi'
+  options:
+    _admin_route: TRUE
+    parameters:
+      node:
+        type: entity:node

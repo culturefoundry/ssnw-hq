@@ -1,0 +1,50 @@
+entity.schemadotorg_mapping.overview.export:
+  path: /admin/config/schemadotorg/mappings/export
+  defaults:
+    _controller: '\Drupal\schemadotorg_export\Controller\SchemaDotOrgExportMappingController::overview'
+  requirements:
+    _permission: 'administer schemadotorg'
+entity.schemadotorg_mapping.details.export:
+  path: '/admin/config/schemadotorg/mappings/{schemadotorg_mapping}/export'
+  defaults:
+    _controller: '\Drupal\schemadotorg_export\Controller\SchemaDotOrgExportMappingController::details'
+  requirements:
+    _permission: 'administer schemadotorg'
+  options:
+    parameters:
+      schemadotorg_mapping:
+        type: entity:schemadotorg_mapping
+
+schemadotorg_mapping_set.overview.export:
+  path: /admin/config/schemadotorg/sets/export
+  defaults:
+    _controller: '\Drupal\schemadotorg_export\Controller\SchemaDotOrgExportMappingSetController::overview'
+  requirements:
+    _permission: 'administer schemadotorg'
+schemadotorg_mapping_set.details.export:
+  path: '/admin/config/schemadotorg/sets/{name}/export'
+  defaults:
+    _controller: '\Drupal\schemadotorg_export\Controller\SchemaDotOrgExportMappingSetController::details'
+  requirements:
+    _permission: 'administer schemadotorg'
+
+schemadotorg_starterkit.details.export:
+  path: '/admin/config/schemadotorg/starterkits/{name}/export'
+  defaults:
+    _controller: '\Drupal\schemadotorg_export\Controller\SchemaDotOrgExportStarterKitController::details'
+  requirements:
+    _permission: 'administer schemadotorg'
+
+schemadotorg_report.type.export:
+  path: '/admin/reports/schemadotorg/{id}/export'
+  defaults:
+    _controller: '\Drupal\schemadotorg_export\Controller\SchemaDotOrgExportReportTypeController::index'
+  requirements:
+    _permission: 'administer schemadotorg'
+
+schemadotorg_report.relationships.export:
+  path: '/admin/reports/schemadotorg/relationships/export'
+  defaults:
+    _controller: '\Drupal\schemadotorg_export\Controller\SchemaDotOrgExportReportRelationshipsController::index'
+  requirements:
+    _permission: 'administer schemadotorg'

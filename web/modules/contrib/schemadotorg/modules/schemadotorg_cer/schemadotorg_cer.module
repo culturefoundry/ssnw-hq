@@ -1,0 +1,145 @@
+<?php
+
+/**
+ * @file
+ * Improves https://inverseOf support using the CER module.
+ */
+
+declare(strict_types=1);
+
+use Drupal\cer\Form\CorrespondingReferenceForm;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
+
+/**
+ * Implements hook_schemadotorg_mapping_defaults_alter().
+ */
+function schemadotorg_cer_schemadotorg_mapping_defaults_alter(array &$defaults, string $entity_type_id, ?string $bundle, string $schema_type): void {
+  /** @var \Drupal\schemadotorg_cer\SchemaDotOrgCorrespondingReferenceManagerInterface $schema_corresponding_reference_manager */
+  $schema_corresponding_reference_manager = \Drupal::service('schemadotorg_corresponding_reference.manager');
+  $schema_corresponding_reference_manager->mappingDefaultsAlter($defaults, $entity_type_id, $bundle, $schema_type);
+}
+
+/**
+ * Implements hook_schemadotorg_mapping_insert().
+ */
+function schemadotorg_cer_schemadotorg_mapping_insert(SchemaDotOrgMappingInterface $mapping): void {
+  if ($mapping->isSyncing()) {
+    return;
+  }
+
+  /** @var \Drupal\schemadotorg_cer\SchemaDotOrgCorrespondingReferenceManagerInterface $schema_corresponding_reference_manager */
+  $schema_corresponding_reference_manager = \Drupal::service('schemadotorg_corresponding_reference.manager');
+  $schema_corresponding_reference_manager->mappingInsert($mapping);
+}
+
+/**
+ * Implements hook_schemadotorg_mapping_update().
+ */
+function schemadotorg_cer_schemadotorg_mapping_update(SchemaDotOrgMappingInterface $mapping): void {
+  schemadotorg_cer_schemadotorg_mapping_insert($mapping);
+}
+
+/**
+ * Implements hook_form_alter().
+ *
+ * Allows schema_* field prefixes to be used.
+ *
+ * @see https://www.drupal.org/project/cer/issues/2998138
+ */
+function schemadotorg_cer_form_alter(array &$form, FormStateInterface $form_state, string $form_id): void {
+  $form_object = $form_state->getFormObject();
+  if (!$form_object instanceof CorrespondingReferenceForm) {
+    return;
+  }
+
+  /** @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names */
+  $schema_names = \Drupal::service('schemadotorg.names');
+  $field_prefix = $schema_names->getFieldPrefix();
+  if (empty($field_prefix)) {
+    return;
+  }
+
+  /** @var \Drupal\Core\Entity\EntityFieldManagerInterface $field_manager */
+  $field_manager = \Drupal::service('entity_field.manager');
+  $entity_reference_fields = $field_manager->getFieldMapByFieldType('entity_reference');
+
+  /* ************************************************************************ */
+  // Add schema_* fields to first and second field options.
+  // @see \Drupal\cer\Form\CorrespondingReferenceForm::getFieldOptions
+  /* ************************************************************************ */
+
+  $field_optgroup = rtrim($field_prefix, '_');
+  $field_options = ['field' => [], $field_optgroup => []];
+  foreach ($entity_reference_fields as $entity_type_fields) {
+    foreach (array_keys($entity_type_fields) as $field_name) {
+      if (str_starts_with($field_name, 'field_')) {
+        $field_options['field'][$field_name] = $field_name;
+      }
+      elseif (str_starts_with($field_name, $field_prefix)) {
+        $field_options[$field_optgroup][$field_name] = $field_name;
+      }
+    }
+  }
+  ksort($field_options['field']);
+  ksort($field_options[$field_optgroup]);
+  $field_options = array_filter($field_options);
+  if (!empty($field_options[$field_optgroup])) {
+    $form['first_field']['#options'] = $field_options;
+    $form['second_field']['#options'] = $field_options;
+  }
+
+  /* ************************************************************************ */
+  // Add schema_* entity types to bundles options.
+  // @see \Drupal\cer\Form\CorrespondingReferenceForm::getBundleOptions
+  /* ************************************************************************ */
+
+  $bundle_options = [];
+  /** @var \Drupal\cer\Entity\CorrespondingReferenceInterface $corresponding_reference */
+  $corresponding_reference = $form_object->getEntity();
+  $corresponding_fields = $corresponding_reference->getCorrespondingFields();
+  foreach ($entity_reference_fields as $entity_type_id => $entity_type_fields) {
+    foreach ($entity_type_fields as $field_name => $field) {
+      if ($corresponding_fields
+        && !in_array($field_name, $corresponding_fields)) {
+        continue;
+      }
+
+      if (!str_starts_with($field_name, 'field_')
+        && !str_starts_with($field_name, $field_prefix)) {
+        continue;
+      }
+
+      $bundle_options += ["$entity_type_id:*" => "$entity_type_id: *"];
+      foreach ($field['bundles'] as $bundle) {
+        $bundle_options["$entity_type_id:$bundle"] = "$entity_type_id: $bundle";
+      }
+    }
+  }
+  ksort($bundle_options);
+  $form['bundles']['#options'] = $bundle_options;
+}
+
+/* ************************************************************************** */
+// Schema.org properties settings form.
+/* ************************************************************************** */
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * @see \Drupal\schemadotorg\Form\SchemaDotOrgSettingsFormBase::afterBuildDetails
+ * @see \Drupal\schemadotorg\Form\SchemaDotOrgSettingsFormBase::formAlter
+ */
+function schemadotorg_cer_form_schemadotorg_properties_settings_form_alter(array &$form, FormStateInterface $form_state): void {
+  $form['schemadotorg_cer'] = [
+    '#type' => 'details',
+    '#title' => t('Corresponding entity references settings'),
+  ];
+  $form['schemadotorg_cer']['default_schema_properties'] = [
+    '#type' => 'schemadotorg_settings',
+    '#title' => t('Default Schema.org property inverse of relationship'),
+    '#description' => t('Enter default Schema.org property inverse of relationship with the childProperty followed by the parentProperty.'),
+    '#description_link' => 'properties',
+    '#example' => 'childProperty: parentProperty',
+  ];
+}

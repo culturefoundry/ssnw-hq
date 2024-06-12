@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.schema_telephone
+    - node.type.person
+  module:
+    - telephone
+id: node.person.schema_telephone
+field_name: schema_telephone
+entity_type: node
+bundle: person
+label: Telephone
+description: 'The telephone number.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: telephone

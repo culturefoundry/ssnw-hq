@@ -1,0 +1,19 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.custom_thing.schema_description
+    - field.field.node.custom_thing.schema_image
+    - field.field.node.custom_thing.schema_name
+    - node.type.custom_thing
+  module:
+    - node
+id: node.custom_thing
+target_entity_type_id: node
+target_bundle: custom_thing
+schema_type: Thing
+schema_properties:
+  schema_description: description
+  schema_image: image
+  schema_name: name
+additional_mappings: {  }

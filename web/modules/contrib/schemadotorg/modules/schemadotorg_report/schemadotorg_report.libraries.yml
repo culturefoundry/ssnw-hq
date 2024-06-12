@@ -1,0 +1,4 @@
+schemadotorg_report:
+  css:
+    component:
+      css/schemadotorg_report.css: {  }

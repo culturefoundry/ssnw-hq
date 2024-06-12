@@ -1,0 +1,19 @@
+/**
+ * @file
+ * Schema.org help logo styles.
+ */
+
+.schemadotorg-help-logo {
+  float: right;
+  max-width: 300px;
+  margin: 0 0 2em 2em;
+  border-radius: .75em;
+}
+
+@media (max-width: 580px) {
+  .schemadotorg-help-logo {
+    float: none;
+    max-width: 100%;
+    margin: 0 0 1em 0;
+  }
+}

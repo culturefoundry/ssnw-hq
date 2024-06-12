@@ -1,0 +1,7 @@
+schemadotorg_jsonapi_preview.settings:
+  type: config_object
+  label: 'Schema.org JSON:API Preview settings'
+  mapping:
+    node_task:
+      type: boolean
+      label: 'Display JSON:API preview as a node tab/task.'

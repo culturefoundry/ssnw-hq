@@ -1,0 +1,8 @@
+services:
+  schemadotorg_starterkit.manager:
+    class: Drupal\schemadotorg_starterkit\SchemaDotOrgStarterkitManager
+    arguments: ['@file_system', '@extension.list.module', '@module_installer', '@module_handler', '@config.factory', '@?config_rewrite.config_rewriter', '@entity_type.manager', '@schemadotorg.schema_type_manager', '@schemadotorg.mapping_manager', '@schemadotorg.config_manager', '@?plugin.manager.develgenerate']
+  schemadotorg_starterkit.breadcrumb:
+    class: Drupal\schemadotorg_starterkit\Breadcrumb\SchemaDotOrgStarterkitBreadcrumbBuilder
+    tags:
+      - { name: breadcrumb_builder, priority: 1000 }

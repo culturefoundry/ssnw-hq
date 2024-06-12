@@ -1,0 +1,34 @@
+schemadotorg_translation.settings:
+  type: config_object
+  label: 'Schema.org Translation settings'
+  mapping:
+    excluded_schema_types:
+      type: sequence
+      label: 'Excluded Schema.org types'
+      sequence:
+        type: string
+        label: 'Excluded Schema.org type'
+    excluded_schema_properties:
+      type: sequence
+      label: 'Excluded Schema.org properties'
+      sequence:
+        type: string
+        label: 'Excluded Schema.org property'
+    excluded_field_names:
+      type: sequence
+      label: 'Excluded field names'
+      sequence:
+        type: string
+        label: 'Excluded field name'
+    included_field_names:
+      type: sequence
+      label: 'Included field names'
+      sequence:
+        type: string
+        label: 'Include field name'
+    included_field_types:
+      type: sequence
+      label: 'Included field types'
+      sequence:
+        type: string
+        label: 'Include field type'

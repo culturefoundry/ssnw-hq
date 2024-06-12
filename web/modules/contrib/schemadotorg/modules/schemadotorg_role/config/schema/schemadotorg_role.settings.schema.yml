@@ -1,0 +1,47 @@
+schemadotorg_role.settings:
+  type: config_object
+  label: 'Schema.org Role settings'
+  mapping:
+    field_definitions:
+      type: sequence
+      label: 'Field definitions'
+      sequence:
+        type: mapping
+        label: 'Field definitions'
+        mapping:
+          field_name:
+            type: string
+            label: 'Field name'
+          label:
+            type: string
+            label: Label
+          description:
+            type: string
+            label: Description
+          unlimited:
+            type: boolean
+            label: 'Unlimited values'
+          required:
+            type: boolean
+            label: 'Required field'
+          role_name:
+            type: string
+            label: 'Role name'
+    field_instances:
+      type: sequence
+      label: 'Field instances'
+      sequence:
+        type: sequence
+        label: 'Field instance'
+        sequence:
+          type: sequence
+          label: 'Schema.org property'
+          sequence:
+            type: string
+            label: 'Field name'
+    entity_reference_overrides:
+      type: sequence
+      label: 'Entity reference overrides'
+      sequence:
+        type: string
+        label: 'Schema.org property'

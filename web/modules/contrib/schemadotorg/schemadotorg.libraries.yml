@@ -1,0 +1,129 @@
+schemadotorg.logo:
+  css:
+    component:
+      css/schemadotorg.logo.css: {}
+
+schemadotorg.autocomplete:
+  js:
+    js/schemadotorg.autocomplete.js: {}
+  dependencies:
+    - core/drupal
+    - core/drupal.autocomplete
+
+schemadotorg.details:
+  js:
+    js/schemadotorg.details.js: {}
+  dependencies:
+    - core/drupal
+    - core/drupal.announce
+    - core/once
+
+schemadotorg.dialog:
+  js:
+    js/schemadotorg.dialog.js: {}
+  dependencies:
+    - core/drupal
+    - core/drupal.dialog.ajax
+
+schemadotorg.form:
+  js:
+    js/schemadotorg.form.js: {}
+  dependencies:
+    - core/drupal
+    - core/drupal.ajax
+    - core/once
+
+schemadotorg.jstree:
+  css:
+    component:
+      css/schemadotorg.jstree.css: {}
+  js:
+    js/schemadotorg.jstree.js: {}
+  dependencies:
+    - core/drupal
+    - core/once
+    - schemadotorg/jstree
+
+schemadotorg.settings.element:
+  css:
+    component:
+      css/schemadotorg.settings.element.css: {}
+  js:
+    js/schemadotorg.settings.element.js: {}
+  dependencies:
+    - core/drupal
+    - core/once
+
+schemadotorg.mermaid:
+  version: VERSION
+  css:
+    theme:
+      css/schemadotorg.mermaid.css: {}
+  js:
+    js/schemadotorg.mermaid.js: {}
+  dependencies:
+    - core/drupal
+    - core/once
+    - schemadotorg/mermaid
+
+jstree:
+  remote: https://www.jstree.com
+  version: '3.3.16'
+  license:
+    name: MIT
+    url: https://github.com/vakata/jstree/blob/master/LICENSE-MIT
+    gpl-compatible: true
+  css:
+    component:
+      https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.16/themes/default/style.min.css: { type: external, minified: true }
+  js:
+    https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.16/jstree.min.js: { type: external, minified: true }
+  dependencies:
+    - core/jquery
+
+mermaid:
+  version: '10.5.0'
+  remote: https://github.com/mermaid-js/mermaid
+  license:
+    name: MIT
+    gpl-compatible: false
+  js:
+    https://cdn.jsdelivr.net/npm/mermaid@10.5.0/dist/mermaid.min.js: { type: external, minified: true }
+
+codemirror:
+  remote: http://codemirror.net
+  version: &webform_codemirror_version '5.65.15'
+  license: &webform_codemirror_license
+    name: MIT
+    url: http://codemirror.net/LICENSE
+    gpl-compatible: true
+  css:
+    component:
+      https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/codemirror.css: {}
+      css/schemadotorg.codemirror.css: {}
+  js:
+    https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/codemirror.js: {}
+    https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/runmode/runmode.js: {}
+    js/schemadotorg.codemirror.js: {}
+  dependencies:
+    - core/tabbable
+
+codemirror.yaml:
+  remote: http://codemirror.net
+  version: *webform_codemirror_version
+  license: *webform_codemirror_license
+  js:
+    https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/mode/yaml/yaml.js: {}
+  dependencies:
+    - schemadotorg/codemirror
+
+codemirror.javascript:
+  remote: http://codemirror.net
+  version: *webform_codemirror_version
+  license: *webform_codemirror_license
+  js:
+    https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/mode/javascript/javascript.js: {}
+    https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/edit/matchbrackets.js: {}
+    https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/comment/continuecomment.js: {}
+  dependencies:
+    - schemadotorg/codemirror

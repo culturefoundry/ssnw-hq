@@ -1,0 +1,38 @@
+<?php
+
+/**
+ * @file
+ * Requirements functions for the Schema.org JSON-LD endpoint module.
+ */
+
+declare(strict_types=1);
+
+/**
+ * Implements hook_requirements().
+ */
+function schemadotorg_jsonld_endpoint_requirements(string $phase): ?array {
+  if ($phase !== 'runtime') {
+    return NULL;
+  }
+
+  $requirements = [];
+
+  // Determine if the patch "Drupal's JSON:API now supports adding
+  // metadata programmatically" is applied.
+  // @see https://www.drupal.org/node/3280569
+  if (\Drupal::moduleHandler()->moduleExists('jsonapi')
+    && !class_exists('\Drupal\jsonapi\Events\MetaDataEvents')) {
+    $t_args = [
+      ':review_href' => 'https://www.drupal.org/node/3280569',
+      ':patch_href' => 'https://www.drupal.org/project/drupal/issues/3100732',
+    ];
+    $requirements['schemadotorg_jsonld_endpoint_jsonapi_meta'] = [
+      'title' => t('Schema.org JSON-LD Endpoint'),
+      'value' => t('Unable to add Schema.org JSON-LD URI to related JSON:API resource meta data. THIS PATCH IS CURRENTLY BREAKING NEXT.JS SUPPORT.'),
+      'description' => t('Please <a href=":review_href">review the change record</a> and <a href=":patch_href">apply the recommended patch</a>.', $t_args),
+      'severity' => REQUIREMENT_WARNING,
+    ];
+  }
+
+  return $requirements;
+}

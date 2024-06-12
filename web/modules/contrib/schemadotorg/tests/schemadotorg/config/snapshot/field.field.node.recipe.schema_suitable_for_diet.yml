@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.schema_suitable_for_diet
+    - node.type.recipe
+id: node.recipe.schema_suitable_for_diet
+field_name: schema_suitable_for_diet
+entity_type: node
+bundle: recipe
+label: 'Suitable for diets'
+description: 'Indicates a dietary restriction or guideline for which this recipe or menu item is suitable, e.g. diabetic, halal etc.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,0 +1,192 @@
+<?php
+
+/**
+ * @file
+ * Integrates the Content Model Documentation module.
+ */
+
+declare(strict_types=1);
+
+use Drupal\content_model_documentation\Entity\CMDocumentInterface;
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Url;
+use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
+use Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface;
+
+/**
+ * Implements hook_entity_type_build().
+ */
+function schemadotorg_content_model_documentation_entity_type_build(array &$entity_types): void {
+  /** @var \Drupal\Core\Entity\EntityTypeInterface $entity_type */
+  $entity_type = $entity_types['cm_document'];
+  $entity_type->setHandlerClass('view_builder', 'Drupal\schemadotorg_content_model_documentation\SchemaDotOrgContentModelDocumentationCmDocumentViewBuilder');
+}
+
+/**
+ * Implements hook_schemadotorg_mapping_type_insert().
+ */
+function schemadotorg_content_model_documentation_schemadotorg_mapping_type_insert(SchemaDotOrgMappingTypeInterface $mapping_type): void {
+  /** @var \Drupal\schemadotorg_content_model_documentation\SchemaDotOrgContentModelDocumentationManagerInterface $documentation_manager */
+  $documentation_manager = \Drupal::service('schemadotorg_content_model_documentation.manager');
+  $documentation_manager->mappingTypeInsert($mapping_type);
+}
+
+/**
+ * Implements hook_schemadotorg_mapping_insert().
+ */
+function schemadotorg_content_model_documentation_schemadotorg_mapping_insert(SchemaDotOrgMappingInterface $mapping): void {
+  /** @var \Drupal\schemadotorg_content_model_documentation\SchemaDotOrgContentModelDocumentationManagerInterface $documentation_manager */
+  $documentation_manager = \Drupal::service('schemadotorg_content_model_documentation.manager');
+  $documentation_manager->mappingInsert($mapping);
+}
+
+/**
+ * Implements hook_help().
+ */
+function schemadotorg_content_model_documentation_help(string $route_name, RouteMatchInterface $route_match): array|NULL {
+  /** @var \Drupal\schemadotorg_content_model_documentation\SchemaDotOrgContentModelDocumentationBuilderInterface $documentation_builder */
+  $documentation_builder = \Drupal::service('schemadotorg_content_model_documentation.builder');
+  return $documentation_builder->help($route_name, $route_match);
+}
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ */
+function schemadotorg_content_model_documentation_form_cm_document_form_alter(array &$form, FormStateInterface &$form_state, string $form_id): void {
+  /** @var \Drupal\schemadotorg_content_model_documentation\SchemaDotOrgContentModelDocumentationBuilderInterface $documentation_builder */
+  $documentation_builder = \Drupal::service('schemadotorg_content_model_documentation.builder');
+  $documentation_builder->cmDocumentFormAlter($form, $form_state, $form_id);
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_view_alter().
+ */
+function schemadotorg_content_model_documentation_cm_document_view_alter(array &$build, CMDocumentInterface $entity, EntityViewDisplayInterface $display): void {
+  /** @var \Drupal\schemadotorg_content_model_documentation\SchemaDotOrgContentModelDocumentationBuilderInterface $documentation_builder */
+  $documentation_builder = \Drupal::service('schemadotorg_content_model_documentation.builder');
+  $documentation_builder->cmDocumentViewAlter($build, $entity, $display);
+}
+
+/**
+ * Implements hook_field_widget_single_element_WIDGET_TYPE_form_alter().
+ */
+function schemadotorg_content_model_documentation_field_widget_single_element_markup_form_alter(array &$element, FormStateInterface $form_state, array $context): void {
+  /** @var \Drupal\schemadotorg_content_model_documentation\SchemaDotOrgContentModelDocumentationBuilderInterface $documentation_builder */
+  $documentation_builder = \Drupal::service('schemadotorg_content_model_documentation.builder');
+  $documentation_builder->fieldWidgetSingleElementMarkupFormAlter($element, $form_state, $context);
+}
+
+/**
+ * Implements hook_entity_operation().
+ */
+function schemadotorg_content_model_documentation_entity_operation(EntityInterface $entity): ?array {
+  /** @var \Drupal\schemadotorg_content_model_documentation\SchemaDotOrgContentModelDocumentationBuilderInterface $documentation_builder */
+  $documentation_builder = \Drupal::service('schemadotorg_content_model_documentation.builder');
+  return $documentation_builder->entityOperation($entity);
+}
+
+/**
+ * Implements hook_preprocess_block().
+ */
+function schemadotorg_content_model_documentation_preprocess_block(array &$variables): void {
+  /** @var \Drupal\schemadotorg_content_model_documentation\SchemaDotOrgContentModelDocumentationBuilderInterface $documentation_builder */
+  $documentation_builder = \Drupal::service('schemadotorg_content_model_documentation.builder');
+  $documentation_builder->preprocessBlock($variables);
+}
+
+/* ************************************************************************** */
+// Schema.org types settings form.
+/* ************************************************************************** */
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * @see \Drupal\schemadotorg\Form\SchemaDotOrgSettingsFormBase::afterBuildDetails
+ * @see \Drupal\schemadotorg\Form\SchemaDotOrgSettingsFormBase::formAlter
+ */
+function schemadotorg_content_model_documentation_form_schemadotorg_types_settings_form_alter(array &$form, FormStateInterface $form_state): void {
+  // Get available filter formats.
+  $formats = filter_formats();
+  $format_options = ['' => t('- Default -')];
+  foreach ($formats as $format) {
+    $format_options[$format->id()] = $format->label();
+  }
+
+  $form['schemadotorg_content_model_documentation'] = [
+    '#type' => 'details',
+    '#title' => t('Content model documentation settings'),
+  ];
+  $form['schemadotorg_content_model_documentation']['types'] = [
+    '#type' => 'schemadotorg_settings',
+    '#title' => t('Entity type'),
+    '#description' => t('Enter the entity and Schema.org types that should automatically generate corresponding content model documentation.'),
+    '#example' => '
+- entity_type_id--SchemaType
+- entity_type_id--bundle
+- entity_type_id
+- SchemaType
+',
+  ];
+  $form['schemadotorg_content_model_documentation']['default_notes'] = [
+    '#type' => 'textarea',
+    '#title' => t('Default documentation notes template'),
+    '#description' => t('Enter default HTMl template to be used new documentation.')
+      . ' '
+      . t('Leave blank to not include the default HTML template when creating new documentation'),
+  ];
+  $form['schemadotorg_content_model_documentation']['default_format'] = [
+    '#type' => 'select',
+    '#title' => t('Default documentation notes format'),
+    '#description' => t('Select the default format used by the documentation notes field.'),
+    '#options' => $format_options,
+  ];
+  $form['schemadotorg_content_model_documentation']['link_text'] = [
+    '#type' => 'textfield',
+    '#title' => t("Node content model documentation link text"),
+    '#description' => t("Enter the text to be displayed when linking to a node's content model documentation.")
+      . ' '
+      . t("Leave blank to hide the node's content model documentation link"),
+  ];
+  $form['schemadotorg_content_model_documentation']['link_modal'] = [
+    '#type' => 'checkbox',
+    '#title' => t("Open node content model documentation in a modal"),
+    '#description' => t("If checked, a node's content model documentation link will open a modal instead of a new tab."),
+    '#states' => [
+      'visible' => [
+        'input[name="schemadotorg_content_model_documentation[link_text]"]' => ['filled' => TRUE],
+      ],
+    ],
+  ];
+  $form['schemadotorg_content_model_documentation']['apply_documentation'] = [
+    '#type' => 'checkbox',
+    '#title' => t('Update documentation for all existing Schema.org mappings.'),
+    '#description' => t('If checked, the all existing Schema.org mappings will checked for documentation with the proper field configuration.'),
+    '#prefix' => '<hr/>',
+  ];
+  $form['#submit'][] = 'schemadotorg_content_model_documentation_form_schemadotorg_types_settings_form_submit';
+}
+
+/**
+ * Form submission handler for schemadotorg_types_settings_form().
+ *
+ * @see schemadotorg_content_model_documentation_form_schemadotorg_types_settings_form_alter()
+ */
+function schemadotorg_content_model_documentation_form_schemadotorg_types_settings_form_submit(array &$form, FormStateInterface $form_state): void {
+  // Update documentation for all existing Schema.org mappings.
+  if ($form_state->getValue(['schemadotorg_content_model_documentation', 'apply_documentation'])) {
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface[] $mappings */
+    $mappings = \Drupal::entityTypeManager()
+      ->getStorage('schemadotorg_mapping')
+      ->loadMultiple();
+    foreach ($mappings as $mapping) {
+      schemadotorg_content_model_documentation_schemadotorg_mapping_insert($mapping);
+    }
+    $t_args = [
+      ':href' => Url::fromRoute('entity.cm_document.collection')->toString(),
+    ];
+    \Drupal::messenger()->addStatus(t('<a href=":href">Content Model documents</a> have been updated for all existing Schema.org mappings.', $t_args));
+  }
+}

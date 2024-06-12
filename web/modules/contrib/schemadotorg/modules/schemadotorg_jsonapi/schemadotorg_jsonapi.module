@@ -1,0 +1,88 @@
+<?php
+
+/**
+ * @file
+ * Builds on top of the JSON:API and JSON:API extras modules.
+ */
+
+declare(strict_types=1);
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\field\FieldConfigInterface;
+use Drupal\jsonapi_extras\Entity\JsonapiResourceConfig;
+use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
+
+/**
+ * Implements hook_help().
+ */
+function schemadotorg_jsonapi_help(string $route_name, RouteMatchInterface $route_match): string|NULL {
+  if ($route_name === 'schemadotorg_jsonapi.settings') {
+    return '<p>' . t('The <strong>Schema.org JSON:API settings</strong> page allows administrators to configure the default settings for the JSON:API.') . '<p>';
+  }
+
+  return NULL;
+}
+
+/**
+ * Implements hook_schemadotorg_mapping_insert().
+ */
+function schemadotorg_jsonapi_schemadotorg_mapping_insert(SchemaDotOrgMappingInterface $mapping): void {
+  if ($mapping->isSyncing()) {
+    return;
+  }
+
+  /** @var \Drupal\schemadotorg_jsonapi\SchemaDotOrgJsonApiManagerInterface $manager */
+  $manager = \Drupal::service('schemadotorg_jsonapi.manager');
+  $manager->insertMappingResourceConfig($mapping);
+}
+
+/**
+ * Implements hook_schemadotorg_mapping_update().
+ */
+function schemadotorg_jsonapi_schemadotorg_mapping_update(SchemaDotOrgMappingInterface $mapping): void {
+  if ($mapping->isSyncing()) {
+    return;
+  }
+
+  /** @var \Drupal\schemadotorg_jsonapi\SchemaDotOrgJsonApiManagerInterface $manager */
+  $manager = \Drupal::service('schemadotorg_jsonapi.manager');
+  $manager->updateMappingResourceConfig($mapping);
+}
+
+/**
+ * Implements hook_field_config_insert().
+ */
+function schemadotorg_jsonapi_field_config_insert(FieldConfigInterface $field_config): void {
+  /** @var \Drupal\schemadotorg_jsonapi\SchemaDotOrgJsonApiManagerInterface $manager */
+  $manager = \Drupal::service('schemadotorg_jsonapi.manager');
+  $manager->insertFieldConfigResource($field_config);
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function schemadotorg_jsonapi_form_schemadotorg_mapping_add_form_alter(array &$form, FormStateInterface $form_state): void {
+  // Display message that corresponding JSON:API resource overwrite was created.
+  $form['actions']['submit']['#submit'][] = '_schemadotorg_jsonapi_form_schemadotorg_mapping_add_form_submit';
+}
+
+/**
+ * Form submission handler for schemadotorg mapping add form.
+ *
+ * @see schemadotorg_jsonapi_form_schemadotorg_mapping_add_form_alter()
+ */
+function _schemadotorg_jsonapi_form_schemadotorg_mapping_add_form_submit(array &$form, FormStateInterface $form_state): void {
+  /** @var \Drupal\schemadotorg_ui\Form\SchemaDotOrgUiMappingForm $form_object */
+  $form_object = $form_state->getFormObject();
+  $mapping = $form_object->getEntity();
+  $resource_config = JsonapiResourceConfig::load($mapping->getTargetEntityTypeId() . '--' . $mapping->getTargetBundle());
+  if ($resource_config) {
+    $t_args = [
+      '%title' => $resource_config->id(),
+      ':href' => $resource_config->toUrl()->toString(),
+    ];
+    $message = t('Created JSON:API %title resource overwrite. <a href=":href">Please review the resource overwrite\'s configuration</a>.', $t_args);
+    \Drupal::messenger()->addStatus($message);
+  }
+}

@@ -1,0 +1,148 @@
+<?php
+
+/**
+ * @file
+ * Allows the schema_* field prefix and other field prefixes to be customized.
+ */
+
+declare(strict_types=1);
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\field\Entity\FieldStorageConfig;
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * @see \Drupal\field_ui\Form\FieldStorageAddForm::buildForm
+ */
+function schemadotorg_field_prefix_form_field_ui_field_storage_add_form_alter(array &$form, FormStateInterface $form_state): void {
+  $field_prefix_options = \Drupal::config('schemadotorg_field_prefix.settings')->get('field_prefix_options');
+  if (empty($field_prefix_options)) {
+    return;
+  }
+
+  // Make sure the new field storage wrapper exists.
+  if (!isset($form['new_storage_wrapper'])) {
+    return;
+  }
+
+  $default_field_prefix = \Drupal::config('field_ui.settings')->get('field_prefix');
+  $field_prefix_value = $form_state->getValue('field_prefix')
+    ?? $default_field_prefix;
+
+  $field_prefix_description = \Drupal::config('schemadotorg_field_prefix.settings')->get('field_prefix_description');
+
+  $bundle = $form_state->get('bundle');
+  $options = [];
+  foreach ($field_prefix_options as $key => $value) {
+    $key = str_replace('[bundle]', $bundle, $key);
+    $value = str_replace('[bundle]', $bundle, $value);
+    $options[$key] = $value;
+  }
+
+  $form['new_storage_wrapper'] = [
+    // Add the ajax wrapper container.
+    '#prefix' => '<div id="schemadotorg-field-prefix-container">',
+    '#suffix' => '</div>',
+    // Add the field prefix select menu.
+    'field_prefix' => [
+      '#type' => 'select',
+      '#title' => t('Prefix'),
+      '#description' => $field_prefix_description,
+      '#options' => $options,
+      '#default_value' => $field_prefix_value,
+      '#ajax' => [
+        'callback' => 'schemadotorg_field_prefix_form_field_ui_field_storage_add_ajax_callback',
+        'wrapper' => 'schemadotorg-field-prefix-container',
+      ],
+    ],
+  ] + $form['new_storage_wrapper'];
+
+  // Update the field name (aka machine name) field prefix and maxlength.
+  $form['new_storage_wrapper']['field_name']['#field_prefix'] = $field_prefix_value;
+  $form['new_storage_wrapper']['field_name']['#maxlength'] = FieldStorageConfig::NAME_MAX_LENGTH - strlen($field_prefix_value);
+
+  // Validation callback to set the field name using the custom field prefix.
+  if (version_compare(\Drupal::VERSION, '10.3', '>=')) {
+    $form['actions']['submit']['#validate'][] = 'schemadotorg_field_prefix_form_field_ui_field_storage_add_form_validate';
+  }
+  else {
+    // @todo Remove the below code when drupal:10.3.0 is full supported.
+    $form['#validate'][] = 'schemadotorg_field_prefix_form_field_ui_field_storage_add_form_validate';
+  }
+}
+
+/**
+ * Handles switching the available regions based on the selected theme.
+ */
+function schemadotorg_field_prefix_form_field_ui_field_storage_add_ajax_callback(array $form, FormStateInterface $form_state): array {
+  // Ensure that the field label is required.
+  // The field label's required state is lost via Drupal's #states API.
+  $form['new_storage_wrapper']['label']['#required'] = TRUE;
+  return $form['new_storage_wrapper'];
+}
+
+/**
+ * Form validation handler for schemadotorg_field_prefix_form_field_ui_field_storage_add_form_alter().
+ *
+ * @see \Drupal\field_ui\Form\FieldStorageAddForm::validateAddNew()
+ */
+function schemadotorg_field_prefix_form_field_ui_field_storage_add_form_validate(array &$form, FormStateInterface $form_state): void {
+  if ($form_state->getValue('new_storage_type')
+    && $form_state->getValue('label')
+    && $form_state->getValue('field_name')
+  ) {
+    $field_prefix = $form_state->getValue('field_prefix');
+
+    // Get the field name without the default field prefix.
+    $default_field_prefix = \Drupal::config('field_ui.settings')->get('field_prefix');
+    $field_name = $form_state->getValue('field_name');
+    $field_name = preg_replace('/^' . preg_quote($default_field_prefix, '/') . '/', '', $field_name);
+
+    $form_state->setValueForElement($form['new_storage_wrapper']['field_name'], $field_prefix . $field_name);
+  }
+}
+
+/* ************************************************************************** */
+// Schema.org properties settings form.
+/* ************************************************************************** */
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * @see \Drupal\schemadotorg\Form\SchemaDotOrgSettingsFormBase::afterBuildDetails
+ * @see \Drupal\schemadotorg\Form\SchemaDotOrgSettingsFormBase::formAlter
+ */
+function schemadotorg_field_prefix_form_schemadotorg_properties_settings_form_alter(array &$form, FormStateInterface $form_state): void {
+  $form['schemadotorg_field_prefix'] = [
+    '#type' => 'details',
+    '#title' => t('Field prefix settings'),
+  ];
+  $form['schemadotorg_field_prefix']['field_prefix'] = [
+    '#type' => 'textfield',
+    '#title' => t('Schema.org property field prefix'),
+    '#description' => t('Enter the field prefix to be prepended to a Schema.org property when added to an entity type.')
+      . ' '
+      . t('Schema.org property field prefix cannot be updated after mappings have been created.'),
+  ];
+  if (\Drupal::entityTypeManager()->getStorage('schemadotorg_mapping')->loadMultiple()) {
+    $form['schema_properties']['field_prefix']['#disabled'] = TRUE;
+  }
+  $form['schemadotorg_field_prefix']['field_prefix_options'] = [
+    '#type' => 'schemadotorg_settings',
+    '#title' => t('Field prefix options'),
+    '#description' => t('Enter the field options that a site builder can choose from. Leave blank to not display the field prefix select menu when adding new fields.'),
+    '#example' => "
+field_: field_
+'field_[bundle]_': 'field_[bundle]_'
+schema_: schema_
+'schema_[bundle]_': 'schema_[bundle]_'
+'': '<none>'
+",
+  ];
+  $form['schemadotorg_field_prefix']['field_prefix_description'] = [
+    '#type' => 'textarea',
+    '#title' => t('Field prefix description'),
+    '#description' => t('Enter a field prefix description to help site builders understand the use case of each field prefix.'),
+  ];
+}

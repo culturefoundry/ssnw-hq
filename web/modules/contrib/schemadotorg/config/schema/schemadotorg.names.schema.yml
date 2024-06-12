@@ -1,0 +1,46 @@
+schemadotorg.names:
+  type: config_entity
+  label: 'Schema.org names'
+  mapping:
+    custom_words:
+      type: sequence
+      label: 'Custom words'
+      sequence:
+        type: string
+        label: 'Custom title'
+    custom_names:
+      type: sequence
+      label: 'Custom names'
+      sequence:
+        type: string
+        label: 'Custom name'
+    prefixes:
+      type: sequence
+      label: Prefixes
+      sequence:
+        type: string
+        label: Prefix
+    abbreviations:
+      type: sequence
+      label: Abbreviations
+      sequence:
+        type: string
+        label: Abbreviation
+    suffixes:
+      type: sequence
+      label: Suffixes
+      sequence:
+        type: string
+        label: Suffix
+    acronyms:
+      type: sequence
+      label: Acronyms
+      sequence:
+        type: string
+        label: Acronym
+    minor_words:
+      type: sequence
+      label: 'Minor words'
+      sequence:
+        type: string
+        label: 'Minor word'

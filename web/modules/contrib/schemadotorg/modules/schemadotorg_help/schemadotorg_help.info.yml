@@ -1,0 +1,14 @@
+name: 'Schema.org Blueprints Help'
+type: module
+description: 'Provides a dedicated help section for the Schema.org Blueprints module and submodules.'
+package: 'Schema.org Blueprints Core'
+core_version_requirement: ^10.2
+schemadotorg_production: false
+dependencies:
+  - 'drupal:help'
+  - 'schemadotorg:schemadotorg'
+
+# Information added by Drupal.org packaging script on 2024-05-20
+version: '1.0.0-alpha24'
+project: 'schemadotorg'
+datestamp: 1716237079

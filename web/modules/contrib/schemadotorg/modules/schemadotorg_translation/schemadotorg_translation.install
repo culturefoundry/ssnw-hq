@@ -1,0 +1,23 @@
+<?php
+
+/**
+ * @file
+ * Installation hooks for the Schema.org Blueprints Translation module.
+ */
+
+declare(strict_types=1);
+
+use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
+
+/**
+ * Implements hook_install().
+ */
+function schemadotorg_translation_install(): void {
+  /** @var \Drupal\schemadotorg_translation\SchemaDotOrgTranslationManagerInterface $translate_manager */
+  $translate_manager = \Drupal::service('schemadotorg_translation.manager');
+  /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface[] $mappings */
+  $mappings = SchemaDotOrgMapping::loadMultiple();
+  foreach ($mappings as $mapping) {
+    $translate_manager->enableMapping($mapping);
+  }
+}

@@ -1,0 +1,77 @@
+'schemadotorg.schemadotorg_mapping_type.*':
+  type: config_entity
+  label: 'Schema.org mapping type'
+  mapping:
+    id:
+      type: string
+      label: ID
+    target_entity_type_id:
+      type: string
+      label: 'Target entity type'
+    multiple:
+      type: boolean
+      label: 'Allow multiple mappings to point to the same Schema.org type'
+    label_prefix:
+      type: string
+      label: 'Label prefix'
+    id_prefix:
+      type: string
+      label: 'ID prefix'
+    recommended_schema_types:
+      type: sequence
+      label: 'Recommended Schema.org types'
+      sequence:
+        type: mapping
+        label: 'Recommended Schema.org type'
+        mapping:
+          label:
+            type: string
+            label: Label
+          types:
+            type: sequence
+            label: Types
+            sequence:
+              type: string
+              label: Type
+    default_schema_types:
+      type: sequence
+      label: 'Default Schema.org types'
+      sequence:
+        type: string
+        label: 'Default Schema.org type'
+    default_schema_type_properties:
+      type: sequence
+      label: 'Default Schema.org type properties'
+      sequence:
+        type: sequence
+        label: 'Schema.org type'
+        sequence:
+          type: string
+          label: 'Schema.org property'
+    default_schema_type_view_displays:
+      type: sequence
+      label: 'Default view display'
+      sequence:
+        type: sequence
+        label: 'View display id'
+        sequence:
+          type: sequence
+          label: 'Schema.org type'
+          sequence:
+            type: string
+            label: 'Schema.org property'
+    default_base_fields:
+      type: sequence
+      label: 'Default base field mappings'
+      sequence:
+        type: sequence
+        label: 'Default base field'
+        sequence:
+          type: string
+          label: 'Schema.org property'
+    default_component_weights:
+      type: sequence
+      label: 'Default component weights'
+      sequence:
+        type: integer
+        label: 'Default component weight'

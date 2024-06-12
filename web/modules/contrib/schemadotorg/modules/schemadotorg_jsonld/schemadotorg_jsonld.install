@@ -1,0 +1,40 @@
+<?php
+
+/**
+ * @file
+ * Installation hooks for the Schema.org Blueprints JSON-LD  module.
+ */
+
+declare(strict_types=1);
+
+/**
+ * Issue #3406814: How to render reference field as complex object.
+ */
+function schemadotorg_jsonld_update_10000(): void {
+  $config = \Drupal::configFactory()
+    ->getEditable('schemadotorg_jsonld.settings');
+
+  $references_display = $config->get('schema_type_entity_references_display');
+  $references_display['taxonomy_term'] = 'entity';
+  $config->set('schema_type_entity_references_display', $references_display);
+
+  $exclude_url = $config->get('entity_types_exclude_url');
+  $exclude_url[] = 'taxonomy_term';
+  $config->set('entity_types_exclude_url', $exclude_url);
+
+  $config->save();
+}
+
+/**
+ * Output image media reference field as a URL to the image.
+ */
+function schemadotorg_jsonld_update_10001(): void {
+  $config = \Drupal::configFactory()
+    ->getEditable('schemadotorg_jsonld.settings');
+
+  $references_display = $config->get('schema_type_entity_references_display');
+  $references_display['media--image'] = '[media:field_media_image:entity:url]';
+  $config->set('schema_type_entity_references_display', $references_display);
+
+  $config->save();
+}
