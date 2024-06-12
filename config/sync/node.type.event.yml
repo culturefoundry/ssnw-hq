@@ -1,0 +1,37 @@
+uuid: a9325ea8-d291-4c68-abcb-530fa3919f48
+langcode: en
+status: true
+dependencies:
+  module:
+    - scheduler
+    - type_tray
+third_party_settings:
+  scheduler:
+    expand_fieldset: when_required
+    fields_display_mode: vertical_tab
+    publish_enable: true
+    publish_past_date: error
+    publish_past_date_created: false
+    publish_required: false
+    publish_revision: true
+    publish_touch: true
+    show_message_after_update: true
+    unpublish_enable: true
+    unpublish_required: false
+    unpublish_revision: true
+  type_tray:
+    type_category: _none
+    type_thumbnail: ''
+    type_icon: 'public://type-tray-icons/icon-event.svg'
+    type_description: ''
+    existing_nodes_link_text: ''
+    type_weight: 0
+_core:
+  default_config_hash: ST5mF1DhTsEPhguR6H8I8ue8kJQ89tuDHWn2muKgpu4
+name: Event
+type: event
+description: null
+help: null
+new_revision: true
+preview_mode: 1
+display_submitted: true

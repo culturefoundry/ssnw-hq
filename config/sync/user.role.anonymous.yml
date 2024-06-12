@@ -1,0 +1,27 @@
+uuid: ac48b5fe-68a9-4048-99c8-69779919dd7d
+langcode: en
+status: true
+dependencies:
+  config:
+    - filter.format.restricted_html
+  module:
+    - comment
+    - filter
+    - media
+    - media_entity_download
+    - search
+    - system
+_core:
+  default_config_hash: j5zLMOdJBqC0bMvSdth5UebkprJB8g_2FXHqhfpJzow
+id: anonymous
+label: 'Anonymous user'
+weight: 0
+is_admin: false
+permissions:
+  - 'access comments'
+  - 'access content'
+  - 'download media'
+  - 'search content'
+  - 'use advanced search'
+  - 'use text format restricted_html'
+  - 'view media'
