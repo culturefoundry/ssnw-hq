@@ -1,0 +1,12 @@
+/* Stylesheet for Mermaid Diagram field */
+
+/* Default mermaid elements to hidden, then show with JS to prevent FOUC. */
+.mermaid {
+  /* opacity: 0;  @todo Fix that JS is not unhiding this.*/
+}
+
+.mermaid-diagram svg a:focus {
+  outline-color: currentColor;
+  outline-color: var(--color-focus);
+  outline-width: 4px;
+}

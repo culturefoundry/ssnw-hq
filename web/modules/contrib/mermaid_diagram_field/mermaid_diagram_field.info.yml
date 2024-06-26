@@ -1,0 +1,11 @@
+name: 'Mermaid Diagram field'
+description: 'Adds a Mermaid diagram field capable of rendering Mermaid'
+type: module
+configure: entity.cm_document.config_form
+core_version_requirement: ^9 || ^10
+package: 'Field types'
+
+# Information added by Drupal.org packaging script on 2024-02-28
+version: '1.0.2'
+project: 'mermaid_diagram_field'
+datestamp: 1709133939

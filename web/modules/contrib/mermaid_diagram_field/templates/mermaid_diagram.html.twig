@@ -1,0 +1,36 @@
+{{ preface }}
+{% if mermaid %}
+  <figure class="mermaid-diagram">
+    <h2>{{ title }}</h2>
+    <div class="mermaid">
+      {{ mermaid }}
+    </div>
+    {% if caption %}
+      <figcaption>{{ caption }}</figcaption>
+    {% endif %}
+
+    {% if key %}
+      <h3>Key</h3>
+      <div class="mermaid">
+        {{ key }}
+      </div>
+    {% endif %}
+  </figure>
+{% endif %}
+
+{% if show_code and mermaid %}
+  <details class="mermaid-code">
+    <summary role="button">Mermaid code</summary>
+    <pre>
+      <code>
+        ## Diagram code ##
+{{ mermaid }}
+
+        ## Key code ##
+{{ key }}
+
+      </code>
+    </pre>
+  </details>
+{% endif %}
+{{ postface }}

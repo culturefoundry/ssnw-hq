@@ -1,0 +1,21 @@
+diagram:
+  version: VERSION
+  css:
+    theme:
+      css/diagram.css: {}
+  js:
+    js/diagram.js: {}
+  dependencies:
+    - core/drupal
+    - core/jquery
+    - mermaid_diagram_field/mermaid
+
+mermaid:
+  version: 9.1.3
+  remote: https://github.com/mermaid-js/mermaid
+  license:
+    name: MIT
+    gpl-compatible: false
+  js:
+    https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js: { type: external, minified: true }
+    # /libraries/mermaid/mermaid.min.js: { minified: true }
