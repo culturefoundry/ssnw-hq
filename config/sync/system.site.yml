@@ -1,14 +1,14 @@
 _core:
-  default_config_hash: ijfbzDTN4CbE7Sr-6ubWzy_t1vH4OtU1doNCLssVz-4
+  default_config_hash: HlN7eAN2N4JIHsYv56V4E7sqC9bS609KwvGFjyD_mgk
 langcode: en
-uuid: fa9872a1-26af-4be3-9fb8-32ed3f3ec179
-name: 'Drush Site-Install'
+uuid: c603114f-8cb3-4eda-b62f-00ac2f3095b6
+name: 'Security Services Northwest'
 mail: admin@example.com
 slogan: ''
 page:
   403: ''
   404: ''
-  front: /node
+  front: /node/3
 admin_compact_mode: false
 weight_select_max: 100
 default_langcode: en

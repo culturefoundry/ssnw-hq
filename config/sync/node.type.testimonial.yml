@@ -1,0 +1,17 @@
+uuid: 91ab5171-7095-4d4c-bab1-ad5ad70544e7
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: Testimonial
+type: testimonial
+description: 'A review created by an end-user (e.g. consumer, purchaser, attendee etc.).'
+help: 'A review created by an end-user (e.g. consumer, purchaser, attendee etc.).'
+new_revision: true
+preview_mode: 1
+display_submitted: false

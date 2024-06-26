@@ -1,0 +1,11 @@
+uuid: d020b654-c8d5-4ee3-8685-e08dc8211a33
+langcode: en
+status: true
+dependencies:
+  module:
+    - media
+id: media.breakout
+label: Breakout
+description: 'Breakout width - wider than content on wide screens, but not full bleed.'
+targetEntityType: media
+cache: true

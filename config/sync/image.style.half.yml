@@ -1,0 +1,15 @@
+uuid: 1381fc93-e5e0-4859-8854-31a60f615300
+langcode: en
+status: true
+dependencies: {  }
+name: half
+label: 'Half content width'
+effects:
+  69c2020f-b402-4ac3-ab36-514f7729e8b2:
+    uuid: 69c2020f-b402-4ac3-ab36-514f7729e8b2
+    id: image_scale
+    weight: 1
+    data:
+      width: 600
+      height: null
+      upscale: false

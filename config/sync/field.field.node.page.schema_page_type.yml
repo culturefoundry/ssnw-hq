@@ -1,0 +1,21 @@
+uuid: eb944155-0177-4ef6-acd5-7c7ec6920012
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.schema_page_type
+    - node.type.page
+  module:
+    - options
+id: node.page.schema_page_type
+field_name: schema_page_type
+entity_type: node
+bundle: page
+label: Type
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

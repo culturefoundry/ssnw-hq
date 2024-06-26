@@ -1,0 +1,22 @@
+uuid: b9cd4e75-0c38-4415-b085-f509a4468072
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.action
+    - field.field.block_content.action.body
+    - field.field.block_content.action.schema_image
+    - field.field.block_content.action.schema_name
+    - field.field.block_content.action.schema_url
+  module:
+    - block_content
+id: block_content.action
+target_entity_type_id: block_content
+target_bundle: action
+schema_type: Action
+schema_properties:
+  body: description
+  schema_image: image
+  schema_name: name
+  schema_url: url
+additional_mappings: {  }

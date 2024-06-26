@@ -1,0 +1,27 @@
+uuid: 4c30cd37-a19b-4b74-a82d-4ccc67f959e4
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.action
+    - field.storage.block_content.schema_image
+    - media.type.image
+id: block_content.action.schema_image
+field_name: schema_image
+entity_type: block_content
+bundle: action
+label: Image
+description: 'An image of the item.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'schemadotorg:media'
+  handler_settings:
+    target_type: media
+    schema_types:
+      ImageObject: ImageObject
+    target_bundles:
+      image: image
+field_type: entity_reference

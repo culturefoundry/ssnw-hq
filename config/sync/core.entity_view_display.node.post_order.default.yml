@@ -1,0 +1,74 @@
+uuid: d7e3abb1-21b3-4344-b00b-fc1558756929
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.post_order.body
+    - field.field.node.post_order.field_address
+    - field.field.node.post_order.field_customer
+    - field.field.node.post_order.field_document
+    - field.field.node.post_order.field_location
+    - field.field.node.post_order.field_qualifications
+    - node.type.post_order
+  module:
+    - address
+    - file
+    - text
+    - user
+id: node.post_order.default
+targetEntityType: node
+bundle: post_order
+mode: default
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_address:
+    type: address_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 104
+    region: content
+  field_customer:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 103
+    region: content
+  field_document:
+    type: file_default
+    label: above
+    settings:
+      use_description_as_link_text: true
+    third_party_settings: {  }
+    weight: 107
+    region: content
+  field_location:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 105
+    region: content
+  field_qualifications:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 106
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden: {  }

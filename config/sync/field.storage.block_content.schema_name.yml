@@ -1,0 +1,21 @@
+uuid: d197179a-c142-4cfa-bb0d-7d89465e711e
+langcode: en
+status: true
+dependencies:
+  module:
+    - block_content
+id: block_content.schema_name
+field_name: schema_name
+entity_type: block_content
+type: string
+settings:
+  max_length: 255
+  case_sensitive: false
+  is_ascii: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

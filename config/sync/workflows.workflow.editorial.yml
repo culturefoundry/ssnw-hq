@@ -1,7 +1,12 @@
-uuid: 6d76ffa1-bf06-4b83-8d06-f667730d4512
+uuid: 7b499075-31a3-4a15-ada2-a261db5b68d2
 langcode: en
 status: true
 dependencies:
+  config:
+    - node.type.blog
+    - node.type.page
+    - node.type.service
+    - node.type.testimonial
   module:
     - content_moderation
 _core:
@@ -59,5 +64,10 @@ type_settings:
         - published
       to: published
       weight: 1
-  entity_types: {  }
+  entity_types:
+    node:
+      - blog
+      - page
+      - service
+      - testimonial
   default_moderation_state: draft

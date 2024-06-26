@@ -1,0 +1,62 @@
+uuid: 818ac51e-8bcf-4cce-85aa-987b1832e784
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.service.body
+    - field.field.node.service.field_image
+    - field.field.node.service.field_metatag
+    - field.field.node.service.field_tags
+    - node.type.service
+  module:
+    - field_group
+    - text
+    - user
+third_party_settings:
+  field_group:
+    group_taxonomy:
+      children:
+        - field_tags
+      label: 'Categories and Services'
+      parent_name: ''
+      region: content
+      weight: 99
+      format_type: fieldset
+      format_settings: {  }
+id: node.service.default
+targetEntityType: node
+bundle: service
+mode: default
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 12
+    region: content
+  field_image:
+    type: entity_reference_entity_view
+    label: hidden
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_tags:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 200
+    region: content
+hidden:
+  content_moderation_control: true
+  field_metatag: true

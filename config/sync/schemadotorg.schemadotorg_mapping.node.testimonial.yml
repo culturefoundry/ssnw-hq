@@ -1,0 +1,28 @@
+uuid: 73b42956-bdeb-4bfd-a4ae-52ea82ead6a9
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.testimonial
+  module:
+    - node
+id: node.testimonial
+target_entity_type_id: node
+target_bundle: testimonial
+schema_type: UserReview
+schema_properties:
+  created: dateCreated
+  changed: dateModified
+  langcode: inLanguage
+  title: name
+  body: text
+additional_mappings:
+  WebPage:
+    schema_type: WebPage
+    schema_properties:
+      created: dateCreated
+      changed: dateModified
+      langcode: inLanguage
+      title: name
+      schema_image: primaryImageOfPage
+      schema_related_link: relatedLink

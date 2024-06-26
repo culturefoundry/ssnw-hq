@@ -1,4 +1,4 @@
-uuid: 26a5ae36-aad6-457f-8124-28ab0821e137
+uuid: 27b0c8d1-87e2-45f3-b431-2f51854b9c5e
 langcode: en
 status: true
 dependencies:
@@ -9,7 +9,7 @@ dependencies:
   module:
     - image
 _core:
-  default_config_hash: 73xaTNkI5J6sfFcBmNYeuk070X3mQS_iwwWaPYyfG2M
+  default_config_hash: t2YAVeSqMs3Gpnfp_plCnQ2TsoC0u57VCUWl8e2jMMM
 id: media.image.default
 targetEntityType: media
 bundle: image
@@ -28,7 +28,6 @@ content:
     region: content
 hidden:
   created: true
-  langcode: true
   name: true
   thumbnail: true
   uid: true

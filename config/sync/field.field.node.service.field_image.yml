@@ -1,0 +1,27 @@
+uuid: 69593057-c03a-4c2f-95ba-1cec93d563f0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_image
+    - media.type.image
+    - node.type.service
+id: node.service.field_image
+field_name: field_image
+entity_type: node
+bundle: service
+label: Image
+description: 'An image of the item.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'schemadotorg:media'
+  handler_settings:
+    target_type: media
+    schema_types:
+      ImageObject: ImageObject
+    target_bundles:
+      image: image
+field_type: entity_reference

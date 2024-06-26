@@ -1,13 +1,11 @@
-uuid: 33444220-dec6-44ef-81c6-0530c09117a4
+uuid: 646e3c82-5cc8-4ef7-be47-a211afdd1f7d
 langcode: en
 status: true
 dependencies:
   config:
     - field.field.user.user.user_picture
-    - image.style.thumbnail
   module:
     - image
-    - path
     - user
 _core:
   default_config_hash: FaQ9Ptcpxpg30AtiqRDtl_8zbJArHP1LPfug_s59TOA
@@ -25,12 +23,6 @@ content:
   language:
     weight: 0
     region: content
-  path:
-    type: path
-    weight: 30
-    region: content
-    settings: {  }
-    third_party_settings: {  }
   timezone:
     weight: 6
     region: content
@@ -42,5 +34,4 @@ content:
       progress_indicator: throbber
       preview_image_style: thumbnail
     third_party_settings: {  }
-hidden:
-  langcode: true
+hidden: {  }

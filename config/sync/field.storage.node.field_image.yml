@@ -1,34 +1,22 @@
-uuid: c9b8fcda-b680-4562-90f3-0b46efd19a0e
+uuid: 4e2cdc14-36ce-4002-b77a-4e29dcae8a12
 langcode: en
 status: true
 dependencies:
   module:
-    - file
-    - image
+    - media
     - node
 _core:
-  default_config_hash: EymokncRIZ7SgQT2IdOQhQJicX4nNc0K89ik-LxmOHE
+  default_config_hash: LsfrPbqqMr_ktFwXGhqpZYVLVjyu5xtaDGYJA0GMv-E
 id: node.field_image
 field_name: field_image
 entity_type: node
-type: image
+type: entity_reference
 settings:
-  target_type: file
-  display_field: false
-  display_default: false
-  uri_scheme: public
-  default_image:
-    uuid: null
-    alt: ''
-    title: ''
-    width: null
-    height: null
-module: image
+  target_type: media
+module: core
 locked: false
 cardinality: 1
 translatable: true
-indexes:
-  target_id:
-    - target_id
+indexes: {  }
 persist_with_no_fields: false
 custom_storage: false

@@ -1,0 +1,28 @@
+uuid: 1e22dc54-2d3f-48fd-8102-53855c5976e9
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.page.body
+    - field.field.node.page.field_image
+    - field.field.node.page.field_tags
+    - field.field.node.page.schema_description
+    - field.field.node.page.schema_page_type
+    - node.type.page
+  module:
+    - node
+id: node.page
+target_entity_type_id: node
+target_bundle: page
+schema_type: WebPage
+schema_properties:
+  schema_page_type: additionalType
+  created: dateCreated
+  changed: dateModified
+  schema_description: description
+  langcode: inLanguage
+  field_tags: keywords
+  title: name
+  field_image: primaryImageOfPage
+  body: text
+additional_mappings: {  }

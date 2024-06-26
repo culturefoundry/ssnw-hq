@@ -1,4 +1,4 @@
-uuid: b1c59e25-0fea-46d3-a603-cf8319d39e3a
+uuid: cc35eda1-6ff8-4de6-a041-1969fc928993
 langcode: en
 status: true
 dependencies:
@@ -11,7 +11,7 @@ _core:
 id: gin_help
 theme: gin
 region: help
-weight: 0
+weight: -4
 provider: null
 plugin: help_block
 settings:

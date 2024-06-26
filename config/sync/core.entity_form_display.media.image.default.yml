@@ -1,4 +1,4 @@
-uuid: 4e02188f-69a1-4115-9062-9fa94d8356dd
+uuid: 4be68c3d-8ed2-461f-8be9-0a5e1bf5462d
 langcode: en
 status: true
 dependencies:
@@ -10,7 +10,7 @@ dependencies:
     - focal_point
     - path
 _core:
-  default_config_hash: JSY4-JPyNZBiYYo6imdRYF6_SdtWQexPndrLvn3-vw4
+  default_config_hash: N2Imq6kLhAPzzFt_VZQCkWItt-UfqPOkcQlyC-3yTgM
 id: media.image.default
 targetEntityType: media
 bundle: image
@@ -31,13 +31,6 @@ content:
       preview_image_style: medium
       preview_link: true
       offsets: '50,50'
-    third_party_settings: {  }
-  langcode:
-    type: language_select
-    weight: 2
-    region: content
-    settings:
-      include_locked: true
     third_party_settings: {  }
   path:
     type: path

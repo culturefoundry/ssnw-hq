@@ -1,0 +1,16 @@
+uuid: d8a1df15-be0e-4da4-8dba-b56580e79efc
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.employee_role
+  module:
+    - taxonomy
+id: taxonomy_term.employee_role
+target_entity_type_id: taxonomy_term
+target_bundle: employee_role
+schema_type: EmployeeRole
+schema_properties:
+  description: description
+  name: roleName
+additional_mappings: {  }

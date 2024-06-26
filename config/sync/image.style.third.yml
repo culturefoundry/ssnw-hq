@@ -1,0 +1,15 @@
+uuid: b25bd236-f069-4d4b-91c6-d88aa13c05bc
+langcode: en
+status: true
+dependencies: {  }
+name: third
+label: 'Third content width'
+effects:
+  77d25b1d-e48d-4929-8114-37ec67a34eee:
+    uuid: 77d25b1d-e48d-4929-8114-37ec67a34eee
+    id: image_scale
+    weight: 1
+    data:
+      width: 400
+      height: null
+      upscale: false

@@ -1,0 +1,18 @@
+uuid: 6942c24a-93b0-41f1-8869-0e1640a5908f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.location.schema_geo
+    - taxonomy.vocabulary.location
+  module:
+    - taxonomy
+id: taxonomy_term.location
+target_entity_type_id: taxonomy_term
+target_bundle: location
+schema_type: Place
+schema_properties:
+  description: description
+  schema_geo: geo
+  name: name
+additional_mappings: {  }

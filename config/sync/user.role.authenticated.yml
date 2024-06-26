@@ -1,4 +1,4 @@
-uuid: 3b2e8e70-9a4e-4263-a530-7a8dfad85aa8
+uuid: 286f6889-3ede-41db-99ac-3840b46bccc5
 langcode: en
 status: true
 dependencies:
@@ -6,16 +6,20 @@ dependencies:
     - filter.format.basic_html
     - filter.format.webform_default
   module:
+    - antibot
     - comment
-    - contact
     - file
     - filter
+    - help
+    - honeypot
     - media
+    - media_entity_download
+    - node
     - search
     - shortcut
     - system
 _core:
-  default_config_hash: cFrlqjtkTfvY3RGccjJkPf1SGIfJ942IrxTLWAO4mgA
+  default_config_hash: dJ0L2DNSj5q6XVZAGsuVDpJTh5UeYkIPwKrUOOpr8YI
 id: authenticated
 label: 'Authenticated user'
 weight: 1
@@ -23,12 +27,18 @@ is_admin: false
 permissions:
   - 'access comments'
   - 'access content'
+  - 'access help pages'
   - 'access shortcuts'
-  - 'access site-wide contact form'
+  - 'access user profiles'
+  - 'bypass honeypot protection'
   - 'delete own files'
+  - 'download media'
   - 'post comments'
   - 'search content'
+  - 'skip antibot'
   - 'skip comment approval'
+  - 'use advanced search'
   - 'use text format basic_html'
   - 'use text format webform_default'
   - 'view media'
+  - 'view own unpublished content'

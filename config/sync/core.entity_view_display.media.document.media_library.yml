@@ -1,10 +1,9 @@
-uuid: 105bf75b-200f-4dc3-a4b1-c1b0ecf4e4fb
+uuid: 25af34a1-d556-43e8-a431-da1e8095c68c
 langcode: en
 status: true
 dependencies:
   config:
     - core.entity_view_mode.media.media_library
-    - field.field.media.document.field_media_audio_file
     - field.field.media.document.field_media_document
     - image.style.thumbnail
     - media.type.document
@@ -30,8 +29,6 @@ content:
     region: content
 hidden:
   created: true
-  field_media_audio_file: true
   field_media_document: true
-  langcode: true
   name: true
   uid: true

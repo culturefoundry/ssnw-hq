@@ -1,0 +1,15 @@
+uuid: e09ae0b9-3a7e-4fcc-8ce6-97bd7a3525f5
+langcode: en
+status: true
+dependencies: {  }
+name: bleed
+label: Bleed
+effects:
+  0d010479-4176-480b-a4f5-b8800cc6c29b:
+    uuid: 0d010479-4176-480b-a4f5-b8800cc6c29b
+    id: image_scale
+    weight: 1
+    data:
+      width: 1900
+      height: null
+      upscale: false

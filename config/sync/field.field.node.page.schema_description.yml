@@ -1,0 +1,22 @@
+uuid: a86cd426-9a38-4aea-9b28-19d727b83075
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.schema_description
+    - node.type.page
+  module:
+    - text
+id: node.page.schema_description
+field_name: schema_description
+entity_type: node
+bundle: page
+label: Description
+description: 'Description is shown above the main page image, in larger text than the page body.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats: {  }
+field_type: text_long

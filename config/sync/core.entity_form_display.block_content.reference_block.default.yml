@@ -1,0 +1,41 @@
+uuid: 359dce24-232a-4fe9-98b4-afd2f6afbeb1
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.reference_block
+    - field.field.block_content.reference_block.field_referenced_content
+  module:
+    - inline_entity_form
+id: block_content.reference_block.default
+targetEntityType: block_content
+bundle: reference_block
+mode: default
+content:
+  field_referenced_content:
+    type: inline_entity_form_complex
+    weight: 26
+    region: content
+    settings:
+      form_mode: default
+      override_labels: true
+      label_singular: Content
+      label_plural: Content
+      allow_new: true
+      allow_existing: true
+      match_operator: CONTAINS
+      allow_duplicate: false
+      collapsible: false
+      collapsed: false
+      revision: false
+      removed_reference: optional
+    third_party_settings: {  }
+  info:
+    type: string_textfield
+    weight: -5
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden: {  }

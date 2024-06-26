@@ -1,17 +1,42 @@
-uuid: d7da8ad4-5200-41b8-9d55-38971d4411f8
+uuid: 7b05c55e-9f22-4571-8ac2-b538f2d6050f
 langcode: en
 status: true
 dependencies:
   module:
+    - menu_ui
+    - scheduler
     - type_tray
 third_party_settings:
+  scheduler:
+    expand_fieldset: when_required
+    fields_display_mode: vertical_tab
+    publish_enable: true
+    publish_past_date: error
+    publish_past_date_created: false
+    publish_required: false
+    publish_revision: true
+    publish_touch: true
+    show_message_after_update: true
+    unpublish_enable: true
+    unpublish_required: false
+    unpublish_revision: true
   type_tray:
+    type_category: web
+    type_thumbnail: ''
+    type_icon: /modules/contrib/schemadotorg/modules/schemadotorg_type_tray/images/schemadotorg_type_tray/icon/creative_work.png
+    type_description: 'Use for public pages added to the menu.'
     existing_nodes_link_text: 'View existing <em class="placeholder">Basic page</em> content'
+    type_weight: -20
+  menu_ui:
+    available_menus:
+      - main
+      - footer
+    parent: ''
 _core:
-  default_config_hash: i0snV8Wj--OkRW12UdachUiYiz3FbeMwHu_pZYfzKLc
+  default_config_hash: qbb_LoEyZzzcgbseJxTHhEgDTtADMV2iz1sm2Q7cUAU
 name: 'Basic page'
 type: page
-description: "Use <em>basic pages</em> for your static content, such as an 'About us' page."
+description: 'Use "basic pages" for your static content, such as an ''About us'' page.'
 help: null
 new_revision: true
 preview_mode: 1

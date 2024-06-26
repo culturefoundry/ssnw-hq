@@ -1,0 +1,55 @@
+uuid: 684b4033-6146-48f2-8b87-a830027f6004
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.media.half
+    - field.field.media.remote_video.field_media_oembed_video
+    - media.type.remote_video
+  module:
+    - layout_builder
+    - media
+    - sdc_display
+third_party_settings:
+  layout_builder:
+    enabled: false
+    allow_custom: false
+  sdc_display:
+    enabled: false
+    component:
+      machine_name: ''
+    mappings:
+      static:
+        props: {  }
+        slots: {  }
+      dynamic:
+        props: {  }
+        slots: {  }
+_core:
+  default_config_hash: ZdPcl2hPxl5pgv3pI-07R7h51OjeUeKJTy-ab1NfM34
+id: media.remote_video.half
+targetEntityType: media
+bundle: remote_video
+mode: half
+content:
+  field_media_oembed_video:
+    type: oembed
+    label: hidden
+    settings:
+      max_width: 600
+      max_height: 0
+      loading:
+        attribute: lazy
+    third_party_settings:
+      sdc_display:
+        enabled: 0
+        component:
+          machine_name: null
+          show_deprecated: 0
+    weight: 0
+    region: content
+hidden:
+  created: true
+  name: true
+  thumbnail: true
+  uid: true

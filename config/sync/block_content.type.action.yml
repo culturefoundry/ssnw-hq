@@ -1,0 +1,8 @@
+uuid: 494bde98-558c-4748-9ed7-59dfe0175e2c
+langcode: en
+status: true
+dependencies: {  }
+id: action
+label: Action
+revision: false
+description: 'Box used as a call to action'

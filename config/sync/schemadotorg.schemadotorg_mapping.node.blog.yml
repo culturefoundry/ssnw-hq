@@ -1,0 +1,35 @@
+uuid: c5309313-e693-4f6c-87c6-da3c5dcade97
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.blog
+  module:
+    - node
+    - schemadotorg_jsonld_custom
+third_party_settings:
+  schemadotorg_jsonld_custom:
+    json: "{\r\n    \"publisher\": {\r\n        \"@context\": \"https://schema.org\",\r\n        \"@type\": \"Organization\",\r\n        \"name\": \"[site:name]\",\r\n        \"url\": \"[site:url]\"\r\n    }\r\n}"
+id: node.blog
+target_entity_type_id: node
+target_bundle: blog
+schema_type: Article
+schema_properties:
+  schema_blog_type: additionalType
+  body: articleBody
+  created: dateCreated
+  changed: dateModified
+  title: headline
+  field_image: image
+  langcode: inLanguage
+additional_mappings:
+  WebPage:
+    schema_type: WebPage
+    schema_properties:
+      created: dateCreated
+      changed: dateModified
+      langcode: inLanguage
+      title: name
+      schema_image: primaryImageOfPage
+      schema_related_link: relatedLink
+      schema_significant_link: significantLink

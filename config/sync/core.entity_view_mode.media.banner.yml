@@ -1,0 +1,11 @@
+uuid: 06dfa296-99d4-4cbd-9afb-676921268eca
+langcode: en
+status: true
+dependencies:
+  module:
+    - media
+id: media.banner
+label: Banner
+description: 'Banner/full bleed - go edge-to-edge'
+targetEntityType: media
+cache: true

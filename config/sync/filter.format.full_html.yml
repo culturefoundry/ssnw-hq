@@ -1,11 +1,19 @@
-uuid: 94824e6d-2df1-4cde-aff9-38e8741a5d24
+uuid: 8d19bc2b-2389-41bb-ba54-c5608129e7b9
 langcode: en
 status: true
 dependencies:
+  config:
+    - core.entity_view_mode.media.banner
+    - core.entity_view_mode.media.breakout
+    - core.entity_view_mode.media.full
+    - core.entity_view_mode.media.half
+    - core.entity_view_mode.media.third
   module:
     - editor
+    - linkit
+    - media
 _core:
-  default_config_hash: vpZysv3RHJjhYzq7O_q5q8mVlHdrSzKELmXyiX6RtV0
+  default_config_hash: YGu9J4dsZIMPK-B86AaWlX_TCEHfF-I8oE97Iocw1AQ
 name: 'Full HTML'
 format: full_html
 weight: 2
@@ -28,6 +36,15 @@ filters:
     status: true
     weight: 9
     settings: {  }
+  filter_html:
+    id: filter_html
+    provider: filter
+    status: false
+    weight: -10
+    settings:
+      allowed_html: ''
+      filter_html_help: true
+      filter_html_nofollow: false
   filter_htmlcorrector:
     id: filter_htmlcorrector
     provider: filter
@@ -40,3 +57,32 @@ filters:
     status: true
     weight: 15
     settings: {  }
+  filter_url:
+    id: filter_url
+    provider: filter
+    status: false
+    weight: 0
+    settings:
+      filter_url_length: 72
+  linkit:
+    id: linkit
+    provider: linkit
+    status: true
+    weight: 0
+    settings:
+      title: true
+  media_embed:
+    id: media_embed
+    provider: media
+    status: true
+    weight: 100
+    settings:
+      default_view_mode: default
+      allowed_view_modes:
+        default: default
+        banner: banner
+        breakout: breakout
+        full: full
+        half: half
+        third: third
+      allowed_media_types: {  }

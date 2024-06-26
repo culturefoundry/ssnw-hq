@@ -1,0 +1,40 @@
+uuid: 26d5dcf8-39b9-406f-8b91-8c261bd2fd1e
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+    - scheduler
+    - type_tray
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
+  scheduler:
+    expand_fieldset: when_required
+    fields_display_mode: vertical_tab
+    publish_enable: true
+    publish_past_date: publish
+    publish_past_date_created: false
+    publish_required: false
+    publish_revision: false
+    publish_touch: true
+    show_message_after_update: true
+    unpublish_enable: true
+    unpublish_required: false
+    unpublish_revision: false
+  type_tray:
+    type_category: organization
+    type_thumbnail: ''
+    type_icon: ''
+    type_description: 'Internal content is visible to employees only.'
+    existing_nodes_link_text: ''
+    type_weight: 0
+name: Internal
+type: internal
+description: 'Pages visible only to logged on users (employees).'
+help: null
+new_revision: true
+preview_mode: 1
+display_submitted: false

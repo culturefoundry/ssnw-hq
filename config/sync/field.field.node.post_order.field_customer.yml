@@ -1,0 +1,29 @@
+uuid: 9ddf881c-f315-4f35-b884-08e3c662be54
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_customer
+    - node.type.post_order
+    - taxonomy.vocabulary.customer
+id: node.post_order.field_customer
+field_name: field_customer
+entity_type: node
+bundle: post_order
+label: Customer
+description: 'What customer?'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      customer: customer
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

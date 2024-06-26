@@ -1,0 +1,9 @@
+uuid: d17ba17c-01e6-42d9-b06a-9b3f3483d64f
+langcode: en
+status: true
+dependencies: {  }
+name: Location
+vid: location
+description: 'City/State/Region, used to group post orders in particular places.'
+weight: 0
+new_revision: false

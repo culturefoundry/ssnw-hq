@@ -1,0 +1,27 @@
+uuid: 8a0420fe-9488-4ec8-9d9b-1cb5f3d5401c
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - options
+id: node.schema_page_type
+field_name: schema_page_type
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: AboutPage
+      label: 'About Page'
+    -
+      value: ContactPage
+      label: 'Contact Page'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

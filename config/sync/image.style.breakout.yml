@@ -1,0 +1,15 @@
+uuid: 4d3d87bf-f832-4e06-941d-813e376f604e
+langcode: en
+status: true
+dependencies: {  }
+name: breakout
+label: Breakout
+effects:
+  81d9996f-9d40-4165-93fb-24ef82fbe8b8:
+    uuid: 81d9996f-9d40-4165-93fb-24ef82fbe8b8
+    id: image_scale
+    weight: 1
+    data:
+      width: 1400
+      height: null
+      upscale: false

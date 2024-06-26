@@ -1,0 +1,9 @@
+uuid: 306142a7-2528-41cb-ae24-a804549e01e2
+langcode: en
+status: true
+dependencies: {  }
+name: 'Employee Role'
+vid: employee_role
+description: null
+weight: 0
+new_revision: false

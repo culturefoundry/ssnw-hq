@@ -1,0 +1,25 @@
+uuid: b0afc235-d600-4582-b701-6a5c1062b49e
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: schema_node_thing
+label: 'Schema.org: Content - Thing'
+type: 'canonical_entities:node'
+pattern: '[node:schemadotorg:base-path]/[node:title]'
+selection_criteria:
+  c62f29a2-8678-4b17-90aa-127f850f0c68:
+    id: 'entity_bundle:node'
+    negate: false
+    uuid: c62f29a2-8678-4b17-90aa-127f850f0c68
+    context_mapping:
+      node: node
+    bundles:
+      blog: blog
+      page: page
+      service: service
+      testimonial: testimonial
+selection_logic: and
+weight: -10
+relationships: {  }

@@ -1,0 +1,11 @@
+uuid: ae810661-d136-49dd-a7e0-275d30ea5a72
+langcode: en
+status: true
+dependencies:
+  module:
+    - media
+id: media.third
+label: Third
+description: 'Third-width of content'
+targetEntityType: media
+cache: true

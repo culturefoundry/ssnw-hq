@@ -1,0 +1,21 @@
+uuid: 47a04279-e9c8-4433-8c22-a3931efa22e1
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.employee_role
+  module:
+    - text
+id: taxonomy_term.employee_role.default
+targetEntityType: taxonomy_term
+bundle: employee_role
+mode: default
+content:
+  description:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 12
+    region: content
+hidden: {  }

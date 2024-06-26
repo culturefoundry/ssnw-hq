@@ -1,0 +1,25 @@
+uuid: fd9072a5-2f2a-4aa0-b2f0-8b0227fb1df2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_tags
+    - node.type.service
+    - taxonomy.vocabulary.tags
+id: node.service.field_tags
+field_name: field_tags
+entity_type: node
+bundle: service
+label: Tags
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      tags: tags
+    auto_create: true
+field_type: entity_reference

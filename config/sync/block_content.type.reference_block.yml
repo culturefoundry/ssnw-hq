@@ -1,0 +1,8 @@
+uuid: 6d51dffc-eb60-42e0-b2b3-185b402412da
+langcode: en
+status: true
+dependencies: {  }
+id: reference_block
+label: 'Reference Block'
+revision: false
+description: 'A pass-through block that can be used to place other content using Layout Builder (e.g. the "Joe & Midnight tile").'

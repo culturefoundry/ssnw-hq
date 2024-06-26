@@ -1,0 +1,41 @@
+uuid: 374656bc-1d5c-4d4c-822f-c1c54ade5a75
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.reference_block
+    - field.field.block_content.reference_block.field_referenced_content
+  module:
+    - sdc_display
+third_party_settings:
+  sdc_display:
+    enabled: false
+    component:
+      machine_name: ''
+    mappings:
+      static:
+        props: {  }
+        slots: {  }
+      dynamic:
+        props: {  }
+        slots: {  }
+id: block_content.reference_block.default
+targetEntityType: block_content
+bundle: reference_block
+mode: default
+content:
+  field_referenced_content:
+    type: entity_reference_entity_view
+    label: hidden
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings:
+      sdc_display:
+        enabled: 0
+        component:
+          machine_name: null
+          show_deprecated: 0
+    weight: 0
+    region: content
+hidden: {  }

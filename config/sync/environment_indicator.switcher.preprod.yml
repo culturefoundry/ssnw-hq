@@ -1,0 +1,11 @@
+uuid: 274b8356-f719-471e-bdfa-366d123b671f
+langcode: en
+status: true
+dependencies: {  }
+machine: preprod
+description: null
+name: Preprod
+weight: null
+url: 'https://preprod.ssnw.freelock.net'
+fg_color: '#ffffff'
+bg_color: '#e01b24'

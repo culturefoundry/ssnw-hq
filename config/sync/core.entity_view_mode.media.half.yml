@@ -1,0 +1,11 @@
+uuid: 3e1bfbf6-ce31-4d33-a680-12c9fe4810c6
+langcode: en
+status: true
+dependencies:
+  module:
+    - media
+id: media.half
+label: Half
+description: 'Show media at half the width of the main content area. '
+targetEntityType: media
+cache: true

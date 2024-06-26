@@ -1,47 +1,142 @@
-uuid: 888ed716-679b-4b46-8b49-dcb93a7b1506
+uuid: 361b2f13-337b-4b71-8388-752d03efac36
 langcode: en
 status: true
 dependencies:
   config:
-    - node.type.article
+    - block_content.type.action
+    - block_content.type.basic
+    - block_content.type.reference_block
+    - core.entity_view_display.node.page.default
+    - filter.format.basic_html
+    - filter.format.full_html
+    - filter.format.restricted_html
+    - media.type.audio
+    - media.type.document
+    - media.type.image
+    - media.type.remote_video
+    - media.type.video
+    - node.type.blog
     - node.type.page
+    - node.type.service
+    - node.type.testimonial
+    - taxonomy.vocabulary.employee_role
+    - taxonomy.vocabulary.location
     - taxonomy.vocabulary.tags
+    - workflows.workflow.editorial
   module:
+    - block_content
+    - coffee
     - comment
+    - content_model_documentation
+    - content_moderation
     - contextual
     - file
+    - filter
+    - layout_builder
+    - media
     - node
     - path
+    - quick_node_clone
+    - redirect
+    - scheduler
     - system
     - taxonomy
     - toolbar
 _core:
-  default_config_hash: e_wG1u7SrGaJbY2-Szgbgl-c8T3kdirU3uTNq2c_QJQ
+  default_config_hash: joOuS3sQ8LG5aKUH_EkwUM-TlrS1uBOVfx5D1x9GQsU
 id: content_editor
 label: 'Content editor'
 weight: 2
 is_admin: false
 permissions:
+  - 'Administer Quick Node Clone Settings'
   - 'access administration pages'
+  - 'access block library'
+  - 'access coffee'
   - 'access content overview'
   - 'access contextual links'
-  - 'access files overview'
+  - 'access media overview'
+  - 'access site in maintenance mode'
   - 'access toolbar'
+  - 'administer comments'
+  - 'administer redirects'
   - 'administer url aliases'
-  - 'create article content'
+  - 'clone blog content'
+  - 'clone page content'
+  - 'clone service content'
+  - 'configure all page node layout overrides'
+  - 'configure editable page node layout overrides'
+  - 'create action block content'
+  - 'create and edit custom blocks'
+  - 'create audio media'
+  - 'create basic block content'
+  - 'create blog content'
+  - 'create document media'
+  - 'create image media'
+  - 'create media'
   - 'create page content'
+  - 'create reference_block block content'
+  - 'create remote_video media'
+  - 'create service content'
+  - 'create terms in location'
   - 'create terms in tags'
+  - 'create testimonial content'
   - 'create url aliases'
-  - 'delete article revisions'
-  - 'delete own article content'
+  - 'create video media'
+  - 'delete any action block content'
+  - 'delete any audio media'
+  - 'delete any basic block content'
+  - 'delete any blog content'
+  - 'delete any document media'
+  - 'delete any image media'
+  - 'delete any page content'
+  - 'delete any reference_block block content'
+  - 'delete any remote_video media'
+  - 'delete any service content'
+  - 'delete any testimonial content'
+  - 'delete any video media'
+  - 'delete blog revisions'
   - 'delete own files'
-  - 'delete own page content'
   - 'delete page revisions'
-  - 'edit own article content'
+  - 'edit any action block content'
+  - 'edit any audio media'
+  - 'edit any basic block content'
+  - 'edit any blog content'
+  - 'edit any document media'
+  - 'edit any image media'
+  - 'edit any page content'
+  - 'edit any reference_block block content'
+  - 'edit any remote_video media'
+  - 'edit any service content'
+  - 'edit any testimonial content'
+  - 'edit any video media'
   - 'edit own comments'
-  - 'edit own page content'
+  - 'edit terms in employee_role'
   - 'edit terms in tags'
   - 'revert all revisions'
+  - 'revert blog revisions'
+  - 'revert page revisions'
+  - 'revert service revisions'
+  - 'revert testimonial revisions'
+  - 'schedule publishing of nodes'
+  - 'update media'
+  - 'use editorial transition archive'
+  - 'use editorial transition archived_draft'
+  - 'use editorial transition archived_published'
+  - 'use editorial transition create_new_draft'
+  - 'use editorial transition publish'
+  - 'use text format basic_html'
+  - 'use text format full_html'
+  - 'use text format restricted_html'
+  - 'view all media revisions'
   - 'view all revisions'
-  - 'view own unpublished content'
+  - 'view any unpublished content'
+  - 'view blog revisions'
+  - 'view content model documentation'
+  - 'view latest version'
+  - 'view own unpublished media'
+  - 'view page revisions'
+  - 'view scheduled content'
+  - 'view service revisions'
+  - 'view testimonial revisions'
   - 'view the administration theme'

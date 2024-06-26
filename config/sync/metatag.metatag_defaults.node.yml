@@ -1,4 +1,4 @@
-uuid: abedd0e0-8226-43d3-8b71-3fb7808dcba8
+uuid: fd0a6ad9-6f53-4458-8663-5300140a7ad5
 langcode: en
 status: true
 dependencies: {  }
@@ -10,3 +10,15 @@ tags:
   title: '[node:title] | [site:name]'
   description: '[node:summary]'
   canonical_url: '[node:url]'
+  og_url: '[node:url]'
+  og_title: '[node:title]'
+  og_description: '[node:summary]'
+  article_modified_time: '[node:changed:html_datetime]'
+  og_updated_time: '[node:changed:html_datetime]'
+  image_src: '[node:schema_image:entity:field_media_image:medium]'
+  og_image: '[node:schema_image:entity:field_media_image:medium]'
+  og_image_secure_url: '[node:schema_image:entity:field_media_image:medium]'
+  og_image_alt: '[node:schema_image:entity:field_media_image:alt]'
+  og_image_height: '[node:schema_image:entity:field_media_image:medium:height]'
+  og_image_type: '[node:schema_image:entity:field_media_image:medium:mimetype]'
+  og_image_width: '[node:schema_image:entity:field_media_image:medium:width]'

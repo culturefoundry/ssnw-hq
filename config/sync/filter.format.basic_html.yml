@@ -1,11 +1,19 @@
-uuid: ca031774-dd78-4959-9586-fbc71ad9366c
+uuid: 26bea549-aa54-49d6-9673-46c66e00a7bc
 langcode: en
 status: true
 dependencies:
+  config:
+    - core.entity_view_mode.media.banner
+    - core.entity_view_mode.media.breakout
+    - core.entity_view_mode.media.full
+    - core.entity_view_mode.media.half
+    - core.entity_view_mode.media.third
   module:
     - editor
+    - linkit
+    - media
 _core:
-  default_config_hash: mclCbTlJwWJORez4Y1eX2MqA0aGjSMAoJb3TaBABcK8
+  default_config_hash: OgVEstBmATQIbakSkMSpqXvb1DolMMMDpCuYd273Q3g
 name: 'Basic HTML'
 format: basic_html
 weight: 0
@@ -34,7 +42,7 @@ filters:
     status: true
     weight: -10
     settings:
-      allowed_html: '<br> <p> <h2 id> <h3 id> <h4 id> <h5 id> <h6 id> <cite> <dl> <dt> <dd> <a hreflang href> <blockquote cite> <ul type> <ol start type> <strong> <em> <code> <li> <img src alt data-entity-uuid data-entity-type height width data-caption data-align>'
+      allowed_html: '<br> <p> <h2 id> <h3 id> <h4 id> <h5 id> <h6 id> <cite> <dl> <dt> <dd> <a hreflang href data-entity-type data-entity-uuid data-entity-substitution> <blockquote cite> <ul type> <ol type start> <strong> <em> <li> <drupal-media data-entity-type data-entity-uuid alt data-view-mode data-caption data-align>'
       filter_html_help: false
       filter_html_nofollow: false
   filter_html_image_secure:
@@ -49,3 +57,32 @@ filters:
     status: true
     weight: 15
     settings: {  }
+  filter_url:
+    id: filter_url
+    provider: filter
+    status: false
+    weight: 0
+    settings:
+      filter_url_length: 72
+  linkit:
+    id: linkit
+    provider: linkit
+    status: true
+    weight: 0
+    settings:
+      title: true
+  media_embed:
+    id: media_embed
+    provider: media
+    status: true
+    weight: 100
+    settings:
+      default_view_mode: default
+      allowed_view_modes:
+        default: default
+        banner: banner
+        breakout: breakout
+        full: full
+        half: half
+        third: third
+      allowed_media_types: {  }

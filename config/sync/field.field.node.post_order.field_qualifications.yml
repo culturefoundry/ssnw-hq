@@ -1,0 +1,29 @@
+uuid: da1e3d6b-3e47-4819-ad76-ccc42eb07f64
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_qualifications
+    - node.type.post_order
+    - taxonomy.vocabulary.employee_role
+id: node.post_order.field_qualifications
+field_name: field_qualifications
+entity_type: node
+bundle: post_order
+label: Qualifications
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      employee_role: employee_role
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

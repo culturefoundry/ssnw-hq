@@ -1,4 +1,4 @@
-uuid: 88827124-f925-412d-8879-53937bb225b8
+uuid: fadca8d9-a12d-4a4f-98fc-2c6b33b8dbc7
 langcode: en
 status: true
 dependencies:
@@ -32,6 +32,5 @@ hidden:
   created: true
   field_media_oembed_video: true
   field_media_video_file: true
-  langcode: true
   name: true
   uid: true

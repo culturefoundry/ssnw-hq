@@ -1,4 +1,4 @@
-uuid: cdc20f87-539a-4e10-8eca-bc6f6f9e6f1f
+uuid: 27bfa215-7da8-4f8f-9a66-0fdb2389013d
 langcode: en
 status: true
 dependencies:
@@ -12,14 +12,7 @@ id: media.remote_video.media_library
 targetEntityType: media
 bundle: remote_video
 mode: media_library
-content:
-  langcode:
-    type: language_select
-    weight: 2
-    region: content
-    settings:
-      include_locked: true
-    third_party_settings: {  }
+content: {  }
 hidden:
   created: true
   field_media_oembed_video: true

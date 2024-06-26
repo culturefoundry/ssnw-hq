@@ -1,0 +1,41 @@
+uuid: afe5ced2-9120-4f9e-9c4c-b8b3b963c0c2
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+    - scheduler
+    - type_tray
+third_party_settings:
+  scheduler:
+    expand_fieldset: when_required
+    fields_display_mode: vertical_tab
+    publish_enable: true
+    publish_past_date: error
+    publish_past_date_created: false
+    publish_required: false
+    publish_revision: false
+    publish_touch: false
+    show_message_after_update: true
+    unpublish_enable: false
+    unpublish_required: false
+    unpublish_revision: false
+  type_tray:
+    type_category: web
+    type_thumbnail: ''
+    type_icon: /modules/contrib/schemadotorg/modules/schemadotorg_type_tray/images/schemadotorg_type_tray/icon/creative_work.png
+    type_description: ''
+    existing_nodes_link_text: 'View existing <em class="placeholder">Blog post</em> content'
+    type_weight: -20
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+_core:
+  default_config_hash: tyFM6AkhQkXVrcWQ8QG7wdbZcgF4mE94DmhxsiHpAPc
+name: 'Blog post'
+type: blog
+description: 'A simple blog post with an image, tags, and comments.'
+help: null
+new_revision: true
+preview_mode: 1
+display_submitted: false

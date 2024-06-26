@@ -1,0 +1,19 @@
+uuid: bced1a65-b096-4775-8f70-c8611e8be173
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.service.body
+    - field.field.node.service.field_image
+    - node.type.service
+  module:
+    - node
+id: node.service
+target_entity_type_id: node
+target_bundle: service
+schema_type: Product
+schema_properties:
+  body: description
+  field_image: image
+  title: name
+additional_mappings: {  }

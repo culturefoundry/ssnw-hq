@@ -1,0 +1,27 @@
+uuid: 0e59769c-5053-45ae-8995-55db8f665a52
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_document
+    - node.type.post_order
+  module:
+    - file
+id: node.post_order.field_document
+field_name: field_document
+entity_type: node
+bundle: post_order
+label: Document
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:file'
+  handler_settings: {  }
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: 'txt doc docx ppt pptx xls xlsx pdf'
+  max_filesize: ''
+  description_field: true
+field_type: file

@@ -1,0 +1,33 @@
+uuid: 94232c67-7d60-4532-8ecd-c5d487064885
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.action
+    - block_content.type.basic
+    - block_content.type.reference_block
+    - field.storage.node.field_featured_block
+    - node.type.page
+id: node.page.field_featured_block
+field_name: field_featured_block
+entity_type: node
+bundle: page
+label: 'Featured Block'
+description: 'Featured blocks by default appear below the description, and above the body.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:block_content'
+  handler_settings:
+    target_bundles:
+      action: action
+      basic: basic
+      reference_block: reference_block
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: true
+    auto_create_bundle: action
+field_type: entity_reference

@@ -1,0 +1,47 @@
+uuid: b7a046a6-55c1-4045-a6ab-29d630b33fc0
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.embed
+    - field.field.node.internal.body
+    - field.field.node.internal.field_image
+    - field.field.node.internal.layout_builder__layout
+    - field.field.node.internal.schema_description
+    - image.style.wide_16_9_focal_point
+    - node.type.internal
+  module:
+    - media
+    - text
+    - user
+id: node.internal.embed
+targetEntityType: node
+bundle: internal
+mode: embed
+content:
+  field_image:
+    type: media_thumbnail
+    label: hidden
+    settings:
+      image_link: ''
+      image_style: wide_16_9_focal_point
+      image_loading:
+        attribute: eager
+    third_party_settings: {  }
+    weight: -1
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+  schema_description:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  body: true
+  layout_builder__layout: true

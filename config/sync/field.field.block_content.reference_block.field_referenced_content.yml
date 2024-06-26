@@ -1,0 +1,31 @@
+uuid: 58b617d5-6e64-45a5-9ec4-b3f89bac4bf0
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.reference_block
+    - field.storage.block_content.field_referenced_content
+    - node.type.blog
+    - node.type.page
+id: block_content.reference_block.field_referenced_content
+field_name: field_referenced_content
+entity_type: block_content
+bundle: reference_block
+label: 'Referenced Content'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      page: page
+      blog: blog
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: page
+field_type: entity_reference

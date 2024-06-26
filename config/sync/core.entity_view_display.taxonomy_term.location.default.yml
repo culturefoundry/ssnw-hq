@@ -1,0 +1,30 @@
+uuid: 33833e39-0612-493c-80a4-dd0929ea30db
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.location.schema_geo
+    - taxonomy.vocabulary.location
+  module:
+    - geolocation
+    - text
+id: taxonomy_term.location.default
+targetEntityType: taxonomy_term
+bundle: location
+mode: default
+content:
+  description:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 12
+    region: content
+  schema_geo:
+    type: geolocation_latlng
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 150
+    region: content
+hidden: {  }

@@ -1,31 +1,19 @@
-uuid: d2e29385-b5fe-4126-af20-bf7248a6b830
+uuid: 33f8c2f0-abbc-46c2-bd58-c5bdb8b3127b
 langcode: en
 status: true
 dependencies:
   config:
-    - field.field.media.document.field_media_audio_file
     - field.field.media.document.field_media_document
     - media.type.document
   module:
     - file
 _core:
-  default_config_hash: XxUyhaTuM0OUUZpr8G6jdrFBEh5eag7auWxBKhm6cvY
+  default_config_hash: Ue2D9UBZwS3Brs8Z06aU9o2B8a6OLpSbd83kmX9bkfU
 id: media.document.default
 targetEntityType: media
 bundle: document
 mode: default
 content:
-  field_media_audio_file:
-    type: file_audio
-    label: visually_hidden
-    settings:
-      controls: true
-      autoplay: false
-      loop: false
-      multiple_file_display_type: tags
-    third_party_settings: {  }
-    weight: 0
-    region: content
   field_media_document:
     type: file_default
     label: visually_hidden
@@ -36,7 +24,6 @@ content:
     region: content
 hidden:
   created: true
-  langcode: true
   name: true
   thumbnail: true
   uid: true

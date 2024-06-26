@@ -1,0 +1,54 @@
+uuid: 7f40439c-757c-46c3-9ee4-8700ab06c6d8
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.internal.body
+    - field.field.node.internal.field_image
+    - field.field.node.internal.layout_builder__layout
+    - field.field.node.internal.schema_description
+    - image.style.medium_focal_point
+    - node.type.internal
+  module:
+    - media
+    - text
+    - user
+id: node.internal.teaser
+targetEntityType: node
+bundle: internal
+mode: teaser
+content:
+  body:
+    type: text_summary_or_trimmed
+    label: hidden
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_image:
+    type: media_thumbnail
+    label: hidden
+    settings:
+      image_link: content
+      image_style: medium_focal_point
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+  schema_description:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 12
+    region: content
+hidden:
+  layout_builder__layout: true

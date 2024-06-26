@@ -1,0 +1,30 @@
+uuid: 464528f5-a60c-4bc2-a3ad-52ca273f9a8b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - filter.format.basic_html
+    - filter.format.full_html
+    - filter.format.restricted_html
+    - node.type.post_order
+  module:
+    - text
+id: node.post_order.body
+field_name: body
+entity_type: node
+bundle: post_order
+label: Description
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: true
+  required_summary: false
+  allowed_formats:
+    - basic_html
+    - restricted_html
+    - full_html
+field_type: text_with_summary

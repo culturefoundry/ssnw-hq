@@ -1,5 +1,3 @@
-_core:
-  default_config_hash: 4FqIfPhCWlI0rYrFw01hKpJ20iPVltJvwl52M0K2qFM
 add_more_label: 'Add another item'
 remove_label: Remove
 help_text_singular: '@count additional item can be added'

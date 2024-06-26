@@ -1,0 +1,26 @@
+uuid: ee4557c3-d0b4-4050-82c0-06ebb1d0c6b5
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.schema_image
+    - node.type.testimonial
+id: node.testimonial.schema_image
+field_name: schema_image
+entity_type: node
+bundle: testimonial
+label: 'Primary image of page'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'schemadotorg:media'
+  handler_settings:
+    target_type: media
+    schema_types:
+      ImageObject: ImageObject
+    target_bundles:
+      image: image
+field_type: entity_reference

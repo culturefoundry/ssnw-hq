@@ -1,0 +1,27 @@
+uuid: 967599fa-e20b-48f3-91c5-adae21bf39bc
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_image
+    - media.type.image
+    - node.type.page
+id: node.page.field_image
+field_name: field_image
+entity_type: node
+bundle: page
+label: 'Primary image of page'
+description: 'Indicates the main image on the page.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'schemadotorg:media'
+  handler_settings:
+    target_type: media
+    schema_types:
+      ImageObject: ImageObject
+    target_bundles:
+      image: image
+field_type: entity_reference

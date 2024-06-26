@@ -1,0 +1,11 @@
+uuid: 1c0804f1-f166-4ce1-b1bc-50efeb5ad13b
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.embed
+label: Embed
+description: 'Embed content on a page - e.g. the "Joe and Midnight" tile.'
+targetEntityType: node
+cache: true

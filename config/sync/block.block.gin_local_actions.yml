@@ -1,15 +1,15 @@
-uuid: 10d68235-712d-49d2-a80f-ec39d4bf68e6
+uuid: 7fcbbe3b-964b-42f2-9c02-3f21a9687b00
 langcode: en
 status: true
 dependencies:
   theme:
     - gin
 _core:
-  default_config_hash: OQ9aJ-4qVwK1x00o9EOYK4eFDjQr_HLpbPiJaPSVZiQ
+  default_config_hash: ABoKnlk20KHqZRw_2Qr4EvaFvH4lnQ2nuhunHeE1JIU
 id: gin_local_actions
 theme: gin
 region: content
-weight: -10
+weight: -3
 provider: null
 plugin: local_actions_block
 settings:

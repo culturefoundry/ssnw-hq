@@ -1,0 +1,27 @@
+uuid: 955a98a3-4212-4bfe-b314-1ad43b04b493
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.admin
+  module:
+    - system
+  theme:
+    - olivero
+_core:
+  default_config_hash: 5MfnyzXbzrDa_OJuFfZfpiBYkMiuRp4mk4GM7HYc8eM
+id: olivero_admin
+theme: olivero
+region: header
+weight: 1
+provider: null
+plugin: 'system_menu_block:admin'
+settings:
+  id: 'system_menu_block:admin'
+  label: Administration
+  label_display: visible
+  provider: system
+  level: 1
+  depth: 0
+  expand_all_items: false
+visibility: {  }

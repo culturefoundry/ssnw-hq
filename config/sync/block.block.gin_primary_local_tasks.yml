@@ -1,15 +1,15 @@
-uuid: 8b76c184-f88d-47ea-8c15-30a20eb20586
+uuid: f2197547-f7b0-4389-aacd-48a2c548356e
 langcode: en
 status: true
 dependencies:
   theme:
     - gin
 _core:
-  default_config_hash: Hh01DLj9k7UnNdPpOQXHZHW7GHf2OPNDQyCJF7_R9ac
+  default_config_hash: nGE3EoPQQaQCuqTUtZgw0-KIzmrqdKDzdNQf2JyPUt4
 id: gin_primary_local_tasks
 theme: gin
-region: header
-weight: 0
+region: highlighted
+weight: -2
 provider: null
 plugin: local_tasks_block
 settings:
