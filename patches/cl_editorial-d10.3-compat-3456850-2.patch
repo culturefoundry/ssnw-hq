@@ -1,0 +1,204 @@
+diff --git a/cl_editorial.module b/cl_editorial.module
+index c9b6a252bb511565d122e3858a83185b0bd16047..d48cd2f485d5bc10f54bbcb3bafb7da958ea6667 100644
+--- a/cl_editorial.module
++++ b/cl_editorial.module
+@@ -7,7 +7,7 @@
+ 
+ use Drupal\cl_editorial\Form\ComponentInputToForm;
+ use Drupal\Core\Form\FormStateInterface;
+-use Drupal\sdc\ComponentPluginManager;
++use Drupal\Core\Theme\ComponentPluginManager;
+ use SchemaForms\Drupal\FormGeneratorDrupal;
+ 
+ /**
+@@ -40,7 +40,7 @@ function cl_editorial_theme($existing, $type, $theme, $path) {
+  * @return array
+  *   The form with the mappings.
+  *
+- * @throws \Drupal\sdc\Exception\ComponentNotFoundException
++ * @throws \Drupal\Core\Exception\ComponentNotFoundException
+  */
+ function cl_editorial_component_mappings_form(
+   string $selected_component,
+diff --git a/modules/sdc_tags/src/Controller/ComponentTaggingController.php b/modules/sdc_tags/src/Controller/ComponentTaggingController.php
+index 88f3b82294a5a85d3e8ac4303cf1df9aa0090191..955bc681b8a233d00272a7c025868ffc63bf38e4 100644
+--- a/modules/sdc_tags/src/Controller/ComponentTaggingController.php
++++ b/modules/sdc_tags/src/Controller/ComponentTaggingController.php
+@@ -4,12 +4,11 @@ namespace Drupal\sdc_tags\Controller;
+ 
+ use Drupal\cl_editorial\NoThemeComponentManager;
+ use Drupal\Component\Render\MarkupInterface;
+-use Drupal\Core\Controller\ControllerBase;
+ use Drupal\Core\Config\ConfigFactoryInterface;
+-use Drupal\Core\Form\FormStateInterface;
++use Drupal\Core\Controller\ControllerBase;
++use Drupal\Core\Plugin\Component;
++use Drupal\Core\Theme\ComponentPluginManager;
+ use Drupal\Core\Url;
+-use Drupal\sdc\ComponentPluginManager;
+-use Drupal\sdc\Plugin\Component;
+ use Drupal\sdc_tags\ComponentTagPluginManager;
+ use Symfony\Component\DependencyInjection\ContainerInterface;
+ use Symfony\Component\Routing\Exception\RouteNotFoundException;
+@@ -36,7 +35,7 @@ class ComponentTaggingController extends ControllerBase {
+   /**
+    * The component manager.
+    *
+-   * @var \Drupal\sdc\ComponentPluginManager
++   * @var \Drupal\Core\Theme\ComponentPluginManager
+    */
+   private ComponentPluginManager $componentManager;
+ 
+diff --git a/src/Element/ComponentSelectorElement.php b/src/Element/ComponentSelectorElement.php
+index a4c43725a543279d1a97f9431284964e11dd5046..e5f286a0f907893e8f1505d9de17e5e9240987cc 100644
+--- a/src/Element/ComponentSelectorElement.php
++++ b/src/Element/ComponentSelectorElement.php
+@@ -4,16 +4,16 @@ namespace Drupal\cl_editorial\Element;
+ 
+ use Drupal\cl_editorial\NoThemeComponentManager;
+ use Drupal\Component\Utility\Xss;
++use Drupal\Core\Exception\ComponentNotFoundException;
+ use Drupal\Core\Extension\ExtensionLifecycle;
+ use Drupal\Core\File\FileUrlGeneratorInterface;
+ use Drupal\Core\Form\FormStateInterface;
++use Drupal\Core\Plugin\Component;
+ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+ use Drupal\Core\Render\Element;
+ use Drupal\Core\Render\Element\FormElement;
+ use Drupal\Core\Render\Element\Radios;
+ use Drupal\Core\Utility\Error;
+-use Drupal\sdc\Exception\ComponentNotFoundException;
+-use Drupal\sdc\Plugin\Component;
+ use League\CommonMark\CommonMarkConverter;
+ use Symfony\Component\DependencyInjection\ContainerInterface;
+ 
+diff --git a/src/Form/ComponentFiltersFormTrait.php b/src/Form/ComponentFiltersFormTrait.php
+index c484bfcb6ac68414f7d4f8fa59411e6d8e415e16..d8293d93182f3c2ee4abb8db70c21865e8af583f 100644
+--- a/src/Form/ComponentFiltersFormTrait.php
++++ b/src/Form/ComponentFiltersFormTrait.php
+@@ -2,12 +2,12 @@
+ 
+ namespace Drupal\cl_editorial\Form;
+ 
+-use Drupal\Core\Extension\ExtensionLifecycle;
+-use Drupal\sdc\Plugin\Component;
+ use Drupal\cl_editorial\NoThemeComponentManager;
+ use Drupal\Component\Render\MarkupInterface;
+ use Drupal\Component\Utility\NestedArray;
++use Drupal\Core\Extension\ExtensionLifecycle;
+ use Drupal\Core\Form\FormStateInterface;
++use Drupal\Core\Plugin\Component;
+ 
+ /**
+  * Trait to create a for to configure filters for the component selector.
+diff --git a/src/Form/ComponentInputToForm.php b/src/Form/ComponentInputToForm.php
+index 8ed65db2b2db8d2ea6a26295faa9d5fa52dcc409..1aa37615b9e00d42e9fc7b0b6bb1ad0f26037d34 100644
+--- a/src/Form/ComponentInputToForm.php
++++ b/src/Form/ComponentInputToForm.php
+@@ -3,9 +3,9 @@
+ namespace Drupal\cl_editorial\Form;
+ 
+ use Drupal\Core\Form\FormStateInterface;
++use Drupal\Core\Plugin\Component;
+ use Drupal\Core\StringTranslation\StringTranslationTrait;
+-use Drupal\sdc\ComponentPluginManager;
+-use Drupal\sdc\Plugin\Component;
++use Drupal\Core\Theme\ComponentPluginManager;
+ use SchemaForms\FormGeneratorInterface;
+ use Shaper\Util\Context;
+ 
+@@ -16,7 +16,7 @@ class ComponentInputToForm {
+   /**
+    * Creates the object.
+    *
+-   * @param \Drupal\sdc\ComponentPluginManager $componentManager
++   * @param \Drupal\Core\Theme\ComponentPluginManager $componentManager
+    *   The component manager.
+    * @param \SchemaForms\FormGeneratorInterface $formGenerator
+    *   The form generator.
+@@ -42,7 +42,7 @@ class ComponentInputToForm {
+    * @return array
+    *   The form with the mappings.
+    *
+-   * @throws \Drupal\sdc\Exception\ComponentNotFoundException
++   * @throws \Drupal\Core\Exception\ComponentNotFoundException
+    */
+   function buildForm(
+     string $selected_component,
+@@ -87,7 +87,7 @@ class ComponentInputToForm {
+   /**
+    * Get the component schema based on the component ID.
+    *
+-   * @param \Drupal\sdc\Plugin\Component $component
++   * @param \Drupal\Core\Plugin\Component $component
+    *   The component.
+    *
+    * @return mixed
+diff --git a/src/NoThemeComponentManager.php b/src/NoThemeComponentManager.php
+index 12218067cb3bc86df62f6f54cff37a4028c6de4f..b761c72d3fdc37173fee38c5711440d035c451bf 100644
+--- a/src/NoThemeComponentManager.php
++++ b/src/NoThemeComponentManager.php
+@@ -3,11 +3,9 @@
+ namespace Drupal\cl_editorial;
+ 
+ use Drupal\Core\Extension\ExtensionLifecycle;
+-use Drupal\sdc\Component\ComponentMetadata;
+-use Drupal\sdc\ComponentPluginManager;
+-use Drupal\sdc\Exception\ComponentNotFoundException;
+-use Drupal\sdc\ExtensionType;
+-use Drupal\sdc\Plugin\Component;
++use Drupal\Core\Plugin\Component;
++use Drupal\Core\Render\Component\Exception\ComponentNotFoundException;
++use Drupal\Core\Theme\ComponentPluginManager;
+ 
+ /**
+  * Decorates the component plugin manager to add more features.
+@@ -17,7 +15,7 @@ class NoThemeComponentManager {
+   /**
+    * Constructs a NoThemeComponentManager.
+    *
+-   * @param \Drupal\sdc\ComponentPluginManager $pluginManager
++   * @param \Drupal\Core\Theme\ComponentPluginManager $pluginManager
+    *   The component plugin manager.
+    */
+   public function __construct(protected readonly ComponentPluginManager $pluginManager) {
+@@ -33,7 +31,7 @@ class NoThemeComponentManager {
+    * @param array $statuses
+    *   The allowed component statuses.
+    *
+-   * @return \Drupal\sdc\Plugin\Component[]
++   * @return \Drupal\Core\Plugin\Component[]
+    *   The list of allowed values.
+    *
+    * @internal
+@@ -115,7 +113,7 @@ class NoThemeComponentManager {
+   /**
+    * Proxies the find method.
+    *
+-   * @throws \Drupal\sdc\Exception\ComponentNotFoundException
++   * @throws \Drupal\Core\Render\Component\Exception\ComponentNotFoundException
+    */
+   public function find(string $id): Component {
+     return $this->pluginManager->find($id);
+diff --git a/src/Util.php b/src/Util.php
+index 0299de476cf5c81729324e5b800e334740efa980..063d71c35a1e583984bddfc3ec36c068307c0f79 100644
+--- a/src/Util.php
++++ b/src/Util.php
+@@ -4,7 +4,7 @@ declare(strict_types=1);
+ 
+ namespace Drupal\cl_editorial;
+ 
+-use Drupal\sdc\Plugin\Component;
++use Drupal\Core\Plugin\Component;
+ 
+ /**
+  * Utility methods.
+@@ -14,7 +14,7 @@ class Util {
+   /**
+    * Checks if the input parameter is a prop or a slot.
+    *
+-   * @param \Drupal\sdc\Plugin\Component $component
++   * @param \Drupal\Core\Plugin\Component $component
+    *   The component.
+    * @param string $input
+    *   The name of the input parameter.

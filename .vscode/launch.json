@@ -1,7 +1,13 @@
 {
   "configurations": [
+  {
+    "name": "Listen for Xdebug",
+    "type": "php",
+    "request": "launch",
+    "port": 9000
+  },
     {
-      "name": "Listen for Xdebug",
+      "name": "Listen for Xdebug-ddev",
       "type": "php",
       "request": "launch",
       "hostname": "0.0.0.0",
