@@ -95,6 +95,7 @@ saveables
 SFDUG
 sharedtempstore
 SIDPLACEHOLDER
+Solcast
 someprop
 STORAGELOAD
 storageload
@@ -114,3 +115,4 @@ VIEWMODEALTER
 viewmodealter
 Webform
 webform
+Webprofiler

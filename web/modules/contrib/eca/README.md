@@ -1,49 +1,31 @@
-**ECA is the no-code solution that empowers you to orchestrate your Drupal 
-site.** 
+**ECA is the no-code solution that empowers you to orchestrate your Drupal
+site.**
 
 ECA is a powerful, versatile, and user-friendly rules engine for Drupal 9+. The
-core module is a processor that validates and executes event-condition-action 
-plugins. Integrated with graphical user interfaces like 
+core module is a processor that validates and executes event-condition-action
+plugins. Integrated with graphical user interfaces like
 [BPMN.iO](https://www.drupal.org/project/bpmn_io),
 [Camunda](https://www.drupal.org/project/camunda),
 [ECA Classic Modeller](https://www.drupal.org/project/eca_cm)
 or other possible future modellers, ECA is a robust system for building
 conditionally triggered action sets.
 
-<div class="note-version">
-
-#### Invitation to online ECA meetings
-
-We used to meet every other Wednesday in the 
-[#ECA Drupal Slack Channel](https://drupal.slack.com/archives/C0287U62CSG/p1663170749133939) 
-where all topics around ECA got discussed. This was for maintainers, users,
-friends and everyone else with some sort of interest in ECA and its 
-ecosystem. Since the attendance declined, that regular meeting is on hold as
-we're all present in that channel all around the clock.
-
-On Friday afternoons (1pm UTC), there is usually an ECA live session where we
-build something for or with ECA. Anyone can join, either in watch-only mode or
-by getting into the session as a co-host. The schedule, content and links are
-always announced before the session in the Slack channel linked above.
-
-</div>
-
 ### How it works
 
 ECA gets triggered for every Drupal event. It validates these events against
-event-condition-action models and processes all the models for the current 
+event-condition-action models and processes all the models for the current
 event. Like Drupal Rules, ECA leverages existing components of Drupal core, i.e.
-events and actions. It comes with its own plugin manager for conditions, which 
+events and actions. It comes with its own plugin manager for conditions, which
 results in all three components (events, conditions, actions) being available as
-plugins that can easily be extended by other modules. ECA models are stored in 
+plugins that can easily be extended by other modules. ECA models are stored in
 config, so they can be imported and exported via the admin UI or Drush.
 
 <div class="note-version">
 
 #### ECA Guide
 
-To learn all about ECA, and it's growing ecosystem, please visit the 
-[ECA Guide](https://ecaguide.org) 
+To learn all about ECA, and it's growing ecosystem, please visit the
+[ECA Guide](https://ecaguide.org)
 which provides a range of useful content:
 
 - Explaining ECA and how it works
@@ -59,11 +41,11 @@ There is more to come all the time. So, it's always worth checking back.
 ### User interface
 
 ECA Core is a processing engine that runs in the background. It needs an
-integrated modeller – a front-end tool with which you define 
+integrated modeller – a front-end tool with which you define
 event-condition-action models (a.k.a. rules). ECA provides a plugin manager with
-an interface to easily integrate existing tools that already provide that 
+an interface to easily integrate existing tools that already provide that
 capability. And if the modeller supports templates for events, conditions and
-actions, ECA will provide them for all the plugins that are available on the 
+actions, ECA will provide them for all the plugins that are available on the
 current Drupal site.
 
 #### Modellers
@@ -82,7 +64,7 @@ ECA is currently integrated with the following modellers:
 
 You will find instructions on how to install and use the modeller you select
 over at their respective project pages and in the documentation. On production
-sites, however, you can run ECA models without having any modeller being 
+sites, however, you can run ECA models without having any modeller being
 available or enabled.
 
 ### Features
@@ -104,7 +86,7 @@ available or enabled.
 
 Installing ECA Core has no dependencies other than Drupal Core! Additional
 functionality with extra events, conditions and actions can be tailored to the
-needs of each Drupal site. Currently, these sub-modules are packaged with ECA 
+needs of each Drupal site. Currently, these sub-modules are packaged with ECA
 and can be enabled individually:
 
 - **ECA Access:** Events and actions to control access on entities and fields
@@ -114,7 +96,9 @@ and can be enabled individually:
 - **ECA Content:** Content entity events, conditions and actions
 - **ECA Endpoint - since 1.1.0:** Events to define your own endpoint/routes on
   the fly and actions to interact with their requests and responses
+- **ECA File:** File system related actions
 - **ECA Form:** Form API events, conditions and actions
+- **ECA Language:** Language and translation events and actions
 - **ECA Log:** Events and actions for Drupal log messages
 - **ECA Migrate:** Migrate events
 - **ECA Misc:** Miscellaneous events and conditions from Drupal core and the
@@ -140,7 +124,7 @@ further configuration required.
 
 ### More integrations
 
-The maintainers are interested to help maintainers of other Drupal modules to 
+The maintainers are interested to help maintainers of other Drupal modules to
 integrate their projects with ECA by providing either event, condition or action
 plugins - or all three of them. In
 [this issue](https://www.drupal.org/project/eca/issues/3222620)
@@ -157,39 +141,53 @@ started and where you can follow its progress.
   - [ECA Commerce](https://www.drupal.org/project/eca_commerce)
   - [ECA Content Access](https://www.drupal.org/project/eca_content_access)
   - [ECA Context](https://www.drupal.org/project/eca_context)
+  - [ECA Entity Print](https://www.drupal.org/project/eca_entity_print)
   - [ECA Entity Share](https://www.drupal.org/project/eca_entity_share)
   - [ECA Flag](https://www.drupal.org/project/eca_flag)
+  - [ECA Helper](https://www.drupal.org/project/eca_helper)
+  - [ECA Maestro](https://www.drupal.org/project/eca_maestro)
   - [ECA Metatag](https://www.drupal.org/project/eca_metatag)
+  - [ECA Mustache](https://www.drupal.org/project/eca_mustache)
   - [ECA Parameters](https://www.drupal.org/project/eca_parameters)
+  - [ECA Site Building Tools](https://www.drupal.org/project/eca_site_building)
   - [ECA State Machine](https://www.drupal.org/project/eca_state_machine)
   - [ECA Tamper](https://www.drupal.org/project/eca_tamper)
+  - [ECA Tour](https://www.drupal.org/project/eca_tour)
+  - [ECA Variety Pack](https://www.drupal.org/project/eca_variety_pack)
   - [ECA VBO](https://www.drupal.org/project/eca_vbo)
   - [ECA View data export](https://www.drupal.org/project/eca_views_data_export)
   - [ECA Webform](https://www.drupal.org/project/eca_webform)
+  - [ECA Webprofiler](https://www.drupal.org/project/eca_webprofiler)
 - Other modules:
   - [Augmentor AI](https://www.drupal.org/project/augmentor)
   - [Bookable Calendar](https://www.drupal.org/project/bookable_calendar)
   - [CrowdSec](https://www.drupal.org/project/crowdsec)
   - [DANSE](https://www.drupal.org/project/danse)
+  - [DiscordPHP](https://www.drupal.org/project/discord_php)
   - [Drupal Remote Dashboard](https://www.drupal.org/project/drd)
   - [Easy Email](https://www.drupal.org/project/easy_email)
   - [Group Actions](https://www.drupal.org/project/group_action)
   - [HTTP Client Manager](https://www.drupal.org/project/http_client_manager)
   - [HTTP Client Manager Issuu Oembed](https://www.drupal.org/project/http_client_manager_issuu_oembed)
   - [IOC: Internet Of Contributors](https://www.drupal.org/project/ioc)
+  - [Message Notify ECA](https://www.drupal.org/project/message_notify_eca)
   - [Prompt AI](https://www.drupal.org/project/prompt)
   - [Push Framework](https://www.drupal.org/project/push_framework)
+  - [Shelly](https://www.drupal.org/project/shelly)
+  - [Solcast](https://www.drupal.org/project/solcast)
+  - [Token ECA Alter](https://www.drupal.org/project/token_eca_alter)
+  - [Workflow ECA](https://www.drupal.org/project/workflow_eca)
 
 ### Requirements
 
-- Drupal 10+
+- Drupal 10+ (ECA 2 requires Drupal 10.3 or 11)
 - PHP 8.1+
 
 <div class="note-version">
 
 #### Documentation
 
-Please follow the links in the right column, especially the documentation link 
+Please follow the links in the right column, especially the documentation link
 which gets you to the
 [ECA Guide](https://ecaguide.org).
 And if you want to help out, please get in touch. Contributors are very welcome,
