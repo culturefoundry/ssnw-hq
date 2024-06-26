@@ -1,0 +1,120 @@
+<?php
+
+/**
+ * @file
+ * Drupal hooks for supporting content_model_documentation.
+ */
+
+use Drupal\Component\Utility\Html;
+use Drupal\content_model_documentation\DocumentableEntityProvider;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Render\Element;
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\markdown\Markdown;
+
+/**
+ * Implements hook_form_FORM_alter().
+ */
+function content_model_documentation_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  if ($form_id === 'cm_document_add_form' || $form_id === 'cm_document_edit_form') {
+    // Check for the existing value so we don't remove it.
+    $cm_document = $form_state->getFormObject()->getEntity();
+    $current_documented_entity = $cm_document->get('documented_entity')->value;
+    $form["documented_entity"]["widget"]["#options"] = DocumentableEntityProvider::removeDocumentedEntities($current_documented_entity, $form["documented_entity"]["widget"]["#options"]);
+  }
+}
+
+/**
+ * Implements hook_views_data_alter().
+ */
+function content_model_documentation_views_data_alter(array &$data) {
+  // Find each instance where config_views supplied operations.
+  // Attach our operations view field implementation (no delete).
+  foreach ($data as $table_name => $settings) {
+    if (array_key_exists('operation', $settings)) {
+      $data[$table_name]['non_delete_operations'] = [
+        'title' => t('Operations'),
+        'help' => t('Operations without delete option'),
+        'field' => [
+          'id' => 'non_delete_operations',
+        ],
+      ];
+    }
+  }
+  $data['config_field_field']['field_cardinality setting'] = [
+    'title' => t('Field cardinality setting'),
+    'group' => t('ConfigFieldBase'),
+    'field' => [
+      'title' => t('Field cardinality setting'),
+      'help' => t('The base field setting revealed to the field instance.'),
+      'id' => 'configuration_field_cardinality',
+      'click sortable' => FALSE,
+    ],
+  ];
+  $data['config_field_field']['field_entity_reference_targets'] = [
+    'title' => t('Entity reference targets'),
+    'group' => t('Config'),
+    'field' => [
+      'title' => t('Field entity reference targets setting'),
+      'help' => t('The field setting for allowed entity reference targets.'),
+      'id' => 'configuration_field_entity_reference_targets',
+      'click sortable' => FALSE,
+    ],
+  ];
+}
+
+/**
+ * Implements hook_help().
+ */
+function content_model_documentation_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'help.page.content_model_documentation':
+      if (\Drupal::moduleHandler()->moduleExists('markdown')) {
+        // Use the Markdown filter to render the README.
+        return Markdown::create()->loadFile(__DIR__ . '/README.md');
+      }
+      else {
+        $text = file_get_contents(__DIR__ . '/README.md');
+        return '<pre>' . Html::escape($text) . '</pre>';
+      }
+  }
+  return NULL;
+}
+
+/**
+ * Prepares CMDocument variables for twig template.
+ */
+function template_preprocess_content_model_documentation(&$variables) {
+  /** @var \Drupal\content_model_documentation\Entity\ContentModelDocumentationInterface $content_model_documentation */
+  $content_model_documentation = $variables['elements']['#content_model_documentation'];
+  $variables['content_model_documentation'] = $content_model_documentation;
+
+  $variables['view_mode'] = $variables['elements']['#view_mode'];
+  $variables['label'] = $content_model_documentation->label();
+
+  $variables['id'] = $content_model_documentation->id();
+  $variables['uuid'] = $content_model_documentation->uuid();
+
+  $variables['attributes']['class'] = [
+    'cm-document',
+  ];
+
+  // Helpful $content variable for template.
+  $variables['content'] = [];
+  foreach (Element::children($variables['elements']) as $key) {
+    $variables['content'][$key] = $variables['elements'][$key];
+  }
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK().
+ */
+function content_model_documentation_theme_suggestions_content_model_documentation(array $variables) {
+  $suggestions = [];
+  /** @var \Drupal\content_model_documentation\Entity\ContentModelDocumentationInterface $content_model_documentation */
+  $content_model_documentation = $variables['elements']['#content_model_documentation'];
+
+  $suggestions[] = 'content_model_documentation__' . $content_model_documentation->getStyle();
+
+  return $suggestions;
+}

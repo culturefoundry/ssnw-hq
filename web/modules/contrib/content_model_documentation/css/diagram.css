@@ -1,0 +1,23 @@
+/* Stylesheet for Content Model Documentation Entity Diagram */
+
+#content-model-documentation-diagram-form,
+#content-model-documentation-workflow-form {
+  display: flex;
+  max-width: 1000px;
+  border: #ccc solid 1px;
+  padding: 8px;
+  margin-bottom: 20px;
+}
+
+#content-model-documentation-diagram-form .form-item,
+#content-model-documentation-diagram-form #bundles,
+#content-model-documentation-workflow-form .form-item,
+#content-model-documentation-workflow-form #workflows_list {
+  flex: auto;
+  margin: 0 12px;
+}
+
+#content-model-documentation-diagram-form #submit_button,
+#content-model-documentation-workflow-form #submit_button {
+  margin: 10px 12px;
+}

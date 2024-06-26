@@ -1,0 +1,34 @@
+diagram:
+  version: VERSION
+  css:
+    theme:
+      css/diagram.css: {}
+  dependencies:
+    - core/drupal
+
+sortable-init:
+  css:
+    theme:
+      css/sortable.css: {}
+  dependencies:
+    - core/drupal
+    - core/jquery
+    - core/once
+    - content_model_documentation/sortable
+
+sortable:
+  remote: https://github.com/tofsjonas/sortable
+  version: VERSION
+  license:
+      name: MIT
+      url: https://github.com/tofsjonas/sortable/blob/main/LICENSE
+      gpl-compatible: true
+  js:
+    https://cdn.jsdelivr.net/gh/tofsjonas/sortable@latest/sortable.min.js: { type: external, minified: true }
+    https://cdn.jsdelivr.net/gh/tofsjonas/sortable@latest/sortable.a11y.min.js: { type: external, minified: true }
+
+search_fields_form:
+  version: VERSION
+  css:
+    theme:
+      css/search-fields-form.css: {}

@@ -1,0 +1,28 @@
+{
+  "name": "drupal/content_model_documentation",
+  "type": "drupal-module",
+  "description": "Provide reports and documentation for fields and entities.",
+  "keywords": ["Drupal"],
+  "license": "GPL-2.0+",
+  "homepage": "https://www.drupal.org/project/content_model_documentation",
+  "minimum-stability": "dev",
+  "support": {
+    "issues": "http://drupal.org/project/issues/content_model_documentation",
+    "source": "http://cgit.drupalcode.org/content_model_documentation"
+  },
+  "require": {
+    "drupal/config_views": "~2.1",
+    "drupal/mermaid_diagram_field": "~1.0"
+  },
+  "conflict": {
+    "drush/drush": "<9.0"
+   },
+   "extra": {
+    "drush": {
+      "services": {
+        "drush.services.yml": "<11.0"
+      }
+    }
+  }
+
+}

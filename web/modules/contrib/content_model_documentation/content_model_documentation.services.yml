@@ -1,0 +1,24 @@
+services:
+  content_model_documentation.cm_document_manager:
+    class: Drupal\content_model_documentation\CMDocumentManager
+    arguments: [ '@entity_type.manager', '@datetime.time' ]
+  content_model_documentation.documentation_renderer:
+    class: Drupal\content_model_documentation\CMDocumentRenderer
+    arguments: [ '@config.factory', '@router.admin_context', '@current_user' ]
+  content_model_documentation.documentable.entity.provider:
+    class: Drupal\content_model_documentation\DocumentableEntityProvider
+    arguments:
+      - '@config.factory'
+      - '@content_model_documentation.documentable.modules'
+      - '@entity_field.manager'
+  content_model_documentation.documentable.modules:
+    class: Drupal\content_model_documentation\DocumentableModules
+    arguments:
+      - '@config.factory'
+      - '@extension.list.module'
+      - '@module_handler'
+  content_model_documentation.fields_report:
+    class: Drupal\content_model_documentation\FieldsReportManager
+    arguments:
+      - '@entity_type.manager'
+      - '@entity_field.manager'

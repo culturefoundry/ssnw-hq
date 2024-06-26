@@ -1,0 +1,41 @@
+content_model_documentation.settings_tab:
+  route_name: entity.cm_document.config_form
+  title: 'Settings'
+  base_route: entity.cm_document.config_form
+
+entity.content_model_documentation.collection:
+  base_route: system.admin_structure
+  route_name: entity.cm_document.collection
+  title: 'Content Model Documents'
+
+entity.content_model_documentation.canonical:
+  route_name: entity.cm_document.canonical
+  base_route: entity.cm_document.canonical
+  title: 'View'
+
+entity.content_model_documentation.edit_form:
+  route_name: entity.cm_document.edit_form
+  base_route: entity.cm_document.canonical
+  title: 'Edit'
+
+entity.content_model_documentation.version_history:
+  route_name: entity.cm_document.version_history
+  base_route: entity.cm_document.canonical
+  title: 'Revisions'
+
+entity.content_model_documentation.delete_form:
+  route_name:  entity.cm_document.delete_form
+  base_route:  entity.cm_document.canonical
+  title: Delete
+  weight: 10
+
+content_model_documentation.fields.search:
+  route_name: content_model_documentation.fields.search
+  title: 'Field search'
+  base_route: entity.field_storage_config.collection
+  weight: 9
+
+content_model_documentation.documentation_tab:
+  class: \Drupal\Core\Menu\LocalTaskDefault
+  deriver: \Drupal\content_model_documentation\Plugin\Derivative\DocumentLocalTab
+  weight: 20

@@ -1,0 +1,15 @@
+.search-fields-form .details-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 2rem;
+}
+
+.search-fields-form .details-wrapper > .js-form-type-checkbox {
+  flex: 1;
+  width: calc(10% - 2rem);
+}
+
+.search-fields-form .details-wrapper .form-actions {
+  flex: 1 100%;
+}

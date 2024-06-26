@@ -1,0 +1,66 @@
+<?php
+
+/**
+ * @file
+ * Install file for content_model_documentation.
+ */
+
+use Drupal\Core\Database\Database;
+
+/**
+ * @file
+ * Handling module install.
+ */
+
+/**
+ * Update the entity type to remove the setting of data table.
+ */
+function content_model_documentation_update_9001(&$sandbox) {
+  $messages = '';
+  $schema = Database::getConnection()->schema();
+
+  // Due to previously mis-formed entity annotation, there is a data table that
+  // should not exist that drupal will try to migrate, but has no revision
+  // column. The migration attempt fails.  So we need to add the field.
+  $errant_table_name = 'cm_document_field_data';
+  if ($schema->tableExists($errant_table_name)) {
+    $spec = [
+      'type' => 'int',
+      'description' => "Revisions",
+      'not null' => FALSE,
+    ];
+    $schema->addField($errant_table_name, 'revision', $spec);
+    $messages .= "Added 'revision' column to {$errant_table_name} table to prevent update from erroring.\n";
+  }
+
+  \Drupal::entityTypeManager()->clearCachedDefinitions();
+
+  $definition_update_manager = \Drupal::entityDefinitionUpdateManager();
+  $entity_type = $definition_update_manager->getEntityType('cm_document');
+  $entity_type->set('data_table', '');
+
+  /** @var \Drupal\Core\Entity\EntityLastInstalledSchemaRepositoryInterface $last_installed_schema_repository */
+  $last_installed_schema_repository = \Drupal::service('entity.last_installed_schema.repository');
+  $field_storage_definitions = $last_installed_schema_repository->getLastInstalledFieldStorageDefinitions('cm_document');
+  $definition_update_manager->updateFieldableEntityType($entity_type, $field_storage_definitions, $sandbox);
+  $messages .= "Updated cm_docment entity type to not be translatable.\n";
+
+  // Removing errant table, it contains no data.
+  if ($schema->tableExists($errant_table_name)) {
+    $schema->dropTable($errant_table_name);
+    $messages .= "Dropped table {$errant_table_name}.\n";
+  }
+
+  \Drupal::entityTypeManager()->clearCachedDefinitions();
+
+  return $messages;
+}
+
+/**
+ * Reminder to enable Mermaid Diagram Field module.
+ */
+function content_model_documentation_update_9019(&$sandbox) {
+  $messages = 'Content Model Documentation Module 1.0.19 now requires the Mermaid Diagram Field module. ';
+  $messages .= 'Please be sure to enable it and export the config.';
+  return $messages;
+}

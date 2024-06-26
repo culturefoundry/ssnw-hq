@@ -1,0 +1,30 @@
+administer content model documentation:
+  title: 'Administer Content Model Documentation module settings'
+
+view content model documentation:
+  title: 'View content model documentation reports and Document entities'
+  description: 'Allows users with this permission to see content model displays
+  and documentation.'
+
+administer content model document entities:
+  title: 'Administer Content Model Document entities'
+  description: 'Allow to access the administration form to configure Content Model Document entities.'
+
+add content model document entities:
+  title: 'Create new Content Model Document entities'
+
+delete content model document entities:
+  title: 'Delete Content Model Document entities'
+
+edit content model document entities:
+  title: 'Edit Content Model Document entities'
+
+view unpublished content model document entities:
+  title: 'View unpublished Content Model Document entities'
+
+view all content model document revisions:
+  title: 'View all Content Model Document revisions'
+
+manage all content model document revisions:
+  title: 'Manage all Content Model Document revisions'
+  description: 'Role requires permission <em>View all Content Model Document revisions</em> and <em>edit rights</em> for Content Model Document entities in question or <em>Administer Content Model Document entities</em>.'

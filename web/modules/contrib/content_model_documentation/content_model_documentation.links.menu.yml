@@ -1,0 +1,94 @@
+# Administrative.
+entity.cm_document.config_form:
+  title: 'Content Model Documentation'
+  route_name: entity.cm_document.config_form
+  description: 'Manage settings for Content Model Documentation'
+  parent: system.admin_config_system
+
+# Content Model Documents.
+entity.cm_document.collection:
+  title: 'Content Model Documents'
+  route_name: view.content_model_documents.cm_documents
+  description: 'List content model documents'
+  parent: system.admin_structure
+  weight: 5
+
+# Content model reports.
+entity.content_model_documentation.base:
+  title: 'Content model'
+  route_name: entity.content_model_documentation.base
+  parent: system.admin_reports
+  description: 'Content Model Reports'
+  weight: -1
+
+entity.content_model_documentation.report.node_count:
+  title: 'Node count'
+  description: 'Shows a summary of our node content types.'
+  parent: entity.content_model_documentation.base
+  route_name: entity.content_model_documentation.content_model_reports
+  route_parameters: { report_name: 'node-count' }
+  weight: 1
+
+entity.content_model_documentation.report.vocabulary_count:
+  title: 'Taxonomy: Vocabulary count'
+  description: 'Shows a summary of our vocabulary types.'
+  parent: entity.content_model_documentation.base
+  route_name: entity.content_model_documentation.content_model_reports
+  route_parameters: { report_name: 'vocabulary-count' }
+  weight: 2
+
+content_model_documentation.fields.search:
+  title: 'Field search'
+  parent: entity.content_model_documentation.base
+  description: 'Navigate through all active fields of this site.'
+  route_name: content_model_documentation.fields.search
+  weight: 5
+
+entity.content_model_documentation.reports_fields:
+  title: 'Content model fields'
+  description: 'Display settings for fields in the content model.'
+  parent: entity.content_model_documentation.base
+  # Can't use route_name because it breaks the site if the View goes away.
+  # This happens if using config sync for deployment on initial install.
+  #route_name: view.content_model_fields.content_model_documentation_fields
+  url: internal:/admin/reports/content-model/fields
+  weight: 10
+
+entity.content_model_documentation.diagram:
+  title: 'Entity relationship diagram'
+  parent: entity.content_model_documentation.base
+  description: 'Visualize Drupal entities and their relationships.'
+  route_name: entity.content_model_documentation.diagram
+  weight: 15
+
+
+# System reports.
+entity.content_model_documentation.system_base:
+  title: 'System'
+  route_name: entity.content_model_documentation.system_base
+  parent: system.admin_reports
+  description: 'System Reports'
+  weight: -1
+
+entity.content_model_documentation.report.user_roles:
+  title: 'User roles'
+  description: 'Breaks down user counts by role.'
+  parent: entity.content_model_documentation.system_base
+  route_name: entity.content_model_documentation.system_reports
+  route_parameters: { report_name: 'user-roles' }
+  weight: 1
+
+entity.content_model_documentation.report.enabled_modules:
+  title: 'Enabled modules'
+  description: 'Shows all the enabled modules on the site.'
+  parent: entity.content_model_documentation.system_base
+  route_name: entity.content_model_documentation.system_reports
+  route_parameters: { report_name: 'enabled-modules' }
+  weight: 2
+
+entity.content_model_documentation.workflow_diagram:
+  title: 'Workflow diagram'
+  parent: entity.content_model_documentation.system_base
+  description: 'Visualize Drupal content moderation states and transitions.'
+  route_name: entity.content_model_documentation.workflow_diagram
+  weight: 5

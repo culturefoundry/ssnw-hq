@@ -1,0 +1,143 @@
+# Administrative
+entity.cm_document.config_form:
+  path: '/admin/config/system/cm_document'
+  defaults:
+    _form: '\Drupal\content_model_documentation\Form\ContentModelDocumentationConfigForm'
+    _title: 'Content Model Documentation Global Settings'
+  requirements:
+    _permission: 'administer content model documentation'
+  options:
+    _admin_route: TRUE
+
+# Content model documents.
+entity.content_model_documentation.canonical:
+  path: '/admin/structure/cm_document/{cm_document}'
+  defaults:
+    _entity_form: 'cm_document.edit'
+  options:
+    _admin_route: TRUE
+  requirements:
+    _entity_access: 'cm_document.update'
+    block_content: \d+
+
+entity.content_model_documentation.edit_form:
+  path: '/admin/structure/cm_document/{cm_document}/edit'
+  defaults:
+    _entity_form: 'cm_document.edit'
+  options:
+    _admin_route: TRUE
+  requirements:
+    _entity_access: 'cm_document.update'
+    block_content: \d+
+
+# Content reports.
+entity.content_model_documentation.base:
+  path: '/admin/reports/content-model'
+  defaults:
+    _controller: '\Drupal\system\Controller\SystemController::systemAdminMenuBlockPage'
+    _title: 'Content Model'
+  requirements:
+    _permission: 'view content model documentation'
+
+entity.content_model_documentation.content_model_reports:
+  path: '/admin/reports/content-model/{report_name}/{alternate_format}'
+  defaults:
+    _controller: '\Drupal\content_model_documentation\Controller\ReportController::display'
+    _title_callback: '\Drupal\content_model_documentation\Controller\ReportController::getTitle'
+    report_name: null
+    alternate_format: null
+  requirements:
+    _permission: 'view content model documentation'
+
+entity.content_model_documentation.diagram:
+  path: '/admin/reports/content-model/entity-diagram/{entity}/{bundle}'
+  defaults:
+    _controller: '\Drupal\content_model_documentation\Controller\EntityDiagramController::display'
+    entity: null
+    bundle: null
+  requirements:
+    _permission: 'view content model documentation'
+
+# System reports.
+entity.content_model_documentation.system_base:
+  path: '/admin/reports/system'
+  defaults:
+    _controller: '\Drupal\system\Controller\SystemController::systemAdminMenuBlockPage'
+    _title: 'System'
+  requirements:
+    _permission: 'view content model documentation'
+
+entity.content_model_documentation.system_reports:
+  path: '/admin/reports/system/{report_name}/{alternate_format}'
+  defaults:
+    _controller: '\Drupal\content_model_documentation\Controller\ReportController::display'
+    _title_callback: '\Drupal\content_model_documentation\Controller\ReportController::getTitle'
+    report_name: null
+    alternate_format: null
+  requirements:
+    _permission: 'view content model documentation'
+
+
+entity.content_model_documentation.workflow_diagram:
+  path: '/admin/reports/system/workflow/{workflow_type}/{workflow}/{transition}'
+  defaults:
+    _controller: '\Drupal\content_model_documentation\Controller\WorkflowDiagramController::display'
+    workflow_type: null
+    workflow: null
+    transition: null
+  requirements:
+    _permission: 'view content model documentation'
+
+# Fields report (form).
+content_model_documentation.fields.search:
+  path: '/admin/reports/content-model/field-search'
+  defaults:
+    _form: '\Drupal\content_model_documentation\Form\SearchFieldsForm'
+    _title: 'Field search'
+  requirements:
+    _permission: 'view content model documentation'
+
+# Fields report (menu off canvas).
+content_model_documentation.fields.details:
+  path: '/admin/reports/content-model/field-search/{entity_type}/{field}'
+  defaults:
+    _controller: '\Drupal\content_model_documentation\Controller\FieldsController::fieldDetails'
+    _title_callback: '\Drupal\content_model_documentation\Controller\FieldsController::fieldDetailsTitle'
+  requirements:
+    _permission: 'view content model documentation'
+
+# For showing the documentation tabs on nodes.
+entity.node_type.document:
+  path: '/admin/structure/types/manage/{node_type}/document'
+  requirements:
+    _permission: 'view content model documentation'
+
+# For showing the documentation tabs on blocks.
+entity.block_content_type.document:
+  path: '/admin/structure/block/block-content/manage/{block_content_type}/document'
+  requirements:
+    _permission: 'view content model documentation'
+
+# For showing the documentation tabs on paragraphs.
+entity.paragraphs_type.document:
+  path: '/admin/structure/paragraphs_type/{paragraphs_type}/document'
+  requirements:
+    _permission: 'view content model documentation'
+
+# For showing the documentation tabs on vocabulary.
+entity.taxonomy_vocabulary.document:
+  path: '/admin/structure/taxonomy/manage/{taxonomy_vocabulary}/document'
+  requirements:
+    _permission: 'view content model documentation'
+
+# For showing the documentation tabs on media.
+entity.media_type.document:
+  path: '/admin/structure/media/manage/{media_type}/document'
+  requirements:
+    _permission: 'view content model documentation'
+
+# For showing the documentation tabs on menus.
+entity.menu.document:
+  path: '/admin/structure/menu/manage/{menu}/document'
+  requirements:
+    _permission: 'view content model documentation'

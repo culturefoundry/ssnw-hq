@@ -1,0 +1,5 @@
+entity.content_model_documentation.add_form:
+  route_name: entity.cm_document.add_form
+  title: 'Add new Content Model Document'
+  appears_on:
+    - entity.cm_document.collection
