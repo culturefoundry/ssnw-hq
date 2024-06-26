@@ -1,0 +1,45 @@
+--- src/ProjectBrowser/ProjectsResultsPage.php
++++ src/ProjectBrowser/ProjectsResultsPage.php
+@@ -7,13 +7,20 @@ namespace Drupal\project_browser\ProjectBrowser;
+  */
+ class ProjectsResultsPage {
+ 
++  /**
++   * The projects in this result page.
++   *
++   * @var \Drupal\project_browser\ProjectBrowser\Project[]
++   */
++  public readonly array $list;
++
+   /**
+    * Constructor for project browser results page.
+    *
+    * @param int $totalResults
+    *   Number of results.
+-   * @param array $list
+-   *   Array containing the results.
++   * @param \Drupal\project_browser\ProjectBrowser\Project[] $list
++   *   The projects in this result page.
+    * @param string $pluginLabel
+    *   The plugin label.
+    * @param string $pluginId
+@@ -22,11 +29,13 @@ class ProjectsResultsPage {
+    *   True if package manager is required.
+    */
+   public function __construct(
+-    public int $totalResults,
+-    public array $list,
+-    public string $pluginLabel,
+-    public string $pluginId,
+-    public bool $isPackageManagerRequired,
+-  ) {}
++    public readonly int $totalResults,
++    array $list,
++    public readonly string $pluginLabel,
++    public readonly string $pluginId,
++    public readonly bool $isPackageManagerRequired,
++  ) {
++    $this->list = array_values($list);
++  }
+ 
+ }

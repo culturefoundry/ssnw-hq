@@ -1,0 +1,6 @@
+name: Project Browser test
+type: module
+description: 'Support module for testing Project Browser.'
+package: Testing
+dependencies:
+  - project_browser:project_browser

@@ -1,0 +1,10 @@
+--- project_browser.services.yml
++++ project_browser.services.yml
+@@ -30,3 +30,7 @@ services:
+     arguments: ['@config.factory']
+     tags:
+       - { name: event_subscriber }
++  Drupal\project_browser\RecipeTracker:
++    autowire: true
++    tags:
++      - { name: event_subscriber }

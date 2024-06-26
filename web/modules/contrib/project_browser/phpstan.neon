@@ -1,0 +1,11 @@
+parameters:
+  level: 1
+  reportUnmatchedIgnoredErrors: true
+  excludePaths:
+    # The node_modules contains some PHP to ignore.
+    - sveltejs
+  # Every ignore should be documented.
+  ignoreErrors:
+    -
+      # @see https://www.drupal.org/docs/develop/development-tools/phpstan/handling-unsafe-usage-of-new-static#s-ignoring-the-issue
+      identifier: new.static

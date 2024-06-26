@@ -1,0 +1,6 @@
+name: Project Browser Source Example
+type: module
+description: Provides an example Project Browser source plugin.
+core_version_requirement: ^10 || ^11
+dependencies:
+  - project_browser:project_browser
