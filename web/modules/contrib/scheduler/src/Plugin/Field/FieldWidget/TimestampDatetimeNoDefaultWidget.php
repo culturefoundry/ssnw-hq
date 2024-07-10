@@ -40,7 +40,9 @@ class TimestampDatetimeNoDefaultWidget extends TimestampDatetimeWidget {
     FieldDefinitionInterface $field_definition,
     array $settings,
     array $third_party_settings,
-    $scheduler_settings,
+    // Trailing comma is incompatible with PHPUnit 9.6.19 in Drupal 9.5 PHP 7.4.
+    // phpcs:ignore Drupal.Functions.MultiLineFunctionDeclaration.MissingTrailingComma
+    $scheduler_settings
   ) {
     parent::__construct($plugin_id, $plugin_definition, $field_definition, $settings, $third_party_settings);
     $this->schedulerSettings = $scheduler_settings;

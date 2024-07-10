@@ -165,6 +165,20 @@ class SchedulerViewsAccessTest extends SchedulerBrowserTestBase {
     $assert->pageTextNotContains("$entityTypeId created by Scheduler Editor for unpublishing");
     $assert->pageTextContains("$entityTypeId created by Scheduler Viewer for publishing");
     $assert->pageTextContains("$entityTypeId created by Scheduler Viewer for unpublishing");
+
+    // Access the scheduled tab for the admin user, and check for the 'empty'
+    // text. This verifies that the uid argument plugin is working. In 10.2 the
+    // user id shown, but from 10.3+ the user entity is returned so the view
+    // displays the user name instead.
+    $this->drupalGet("user/{$this->adminUser->id()}/$url_end");
+    $assert->statusCodeEquals(200);
+    if (version_compare(\Drupal::VERSION, '10.3', '>=')) {
+      $assert->pageTextMatches("/No scheduled (content|media) for user {$this->adminUser->getDisplayName()}/");
+    }
+    else {
+      $assert->pageTextMatches("/No scheduled (content|media) for user {$this->adminUser->id()}/");
+    }
+
   }
 
   /**

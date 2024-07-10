@@ -56,15 +56,6 @@ parameters:
       path: src/Routing/SchedulerRouteSubscriber.php
 
     -
-      message: """
-        #^Call to deprecated method loadRevision\\(\\) of class Drupal\\\\Core\\\\Entity\\\\EntityStorageInterface\\:
-        in drupal\\:10\\.1\\.0 and is removed from drupal\\:11\\.0\\.0\\. Use
-        \\\\Drupal\\\\Core\\\\Entity\\\\RevisionableStorageInterface\\:\\:loadRevision instead\\.$#
-      """
-      count: 1
-      path: src/SchedulerManager.php
-
-    -
       message: "#^\\\\Drupal calls should be avoided in classes, use dependency injection instead$#"
       count: 17
       path: src/SchedulerManager.php

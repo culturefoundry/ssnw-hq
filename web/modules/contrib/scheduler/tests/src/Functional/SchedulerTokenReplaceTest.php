@@ -80,13 +80,12 @@ class SchedulerTokenReplaceTest extends SchedulerBrowserTestBase {
    * @dataProvider dataSchedulerWithoutTokenModule()
    */
   public function testSchedulerWithoutTokenModule($entityTypeId, $bundle) {
-    // This test is not run for commerce products because that module requires
-    // the token module, so it has to be uninstalled too.
-    $this->container->get('module_installer')->uninstall(['commerce_product']);
-    $this->container->get('module_installer')->uninstall(['token']);
+    // Commerce product requires the token module, so that has to be uninstalled
+    // also. Using FALSE allows both to be uninstalled in the same call.
+    $this->container->get('module_installer')->uninstall(['commerce_product', 'token'], FALSE);
 
     $this->drupalLogin($this->schedulerUser);
-    // Check that the entity add page can be accessed successfully, so show that
+    // Check that the entity add page can be accessed successfully, to show that
     // the token.entity_mapper service is avoided when not available.
     $this->drupalGet($this->entityAddUrl($entityTypeId, $bundle));
     $this->assertSession()->statusCodeEquals(200);
@@ -115,6 +114,7 @@ class SchedulerTokenReplaceTest extends SchedulerBrowserTestBase {
   public function dataSchedulerWithoutTokenModule() {
     $data = $this->dataStandardEntityTypes();
     unset($data['#commerce_product']);
+    unset($data['#taxonomy_term']);
     return $data;
   }
 

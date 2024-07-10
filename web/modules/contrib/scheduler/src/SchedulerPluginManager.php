@@ -29,7 +29,9 @@ class SchedulerPluginManager extends DefaultPluginManager {
     \Traversable $namespaces,
     CacheBackendInterface $cacheBackend,
     ModuleHandlerInterface $module_handler,
-    EntityTypeManagerInterface $entity_type_manager,
+    // Trailing comma is incompatible with PHPUnit 9.6.19 in Drupal 9.5 PHP 7.4.
+    // phpcs:ignore Drupal.Functions.MultiLineFunctionDeclaration.MissingTrailingComma
+    EntityTypeManagerInterface $entity_type_manager
   ) {
     $subdir = 'Plugin/Scheduler';
     $plugin_interface = SchedulerPluginInterface::class;
