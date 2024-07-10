@@ -6,7 +6,7 @@ dependencies:
   - address:address
   - drupal:views
 
-# Information added by Drupal.org packaging script on 2024-02-19
-version: '2.0.1'
+# Information added by Drupal.org packaging script on 2024-07-04
+version: '2.0.2'
 project: 'address'
-datestamp: 1708373995
+datestamp: 1720108678
