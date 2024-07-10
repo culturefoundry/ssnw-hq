@@ -24,6 +24,10 @@ libraries-override:
     js:
       misc/tableselect.js: js/overrides/tableselect.js
 
+  core/drupal.tabledrag:
+    js:
+      misc/tabledrag.js: js/overrides/tabledrag.js
+
   # Gin overrides: disable
   # needed override to overcome dialog styling issues
   claro/claro.drupal.dialog:
@@ -48,6 +52,10 @@ libraries-override:
   core/drupal.tableheader:
     js:
       misc/tableheader.js: false
+    css:
+      component:
+        css/components/sticky-header.module.css: false
+        misc/components/sticky-header.module.css: false
 
 libraries-extend:
   core/drupal.message:
@@ -68,6 +76,8 @@ libraries-extend:
     - gin/dialog
   core/drupal.ajax:
     - gin/ajax
+  core/drupal.dropbutton:
+    - gin/dropbutton
   media/media_embed_ckeditor_theme:
     - gin/gin_media_embed_ckeditor_theme
   media_library/view:
@@ -104,6 +114,7 @@ libraries-extend:
     - gin/webform
   webform_ui/webform_ui:
     - gin/webform
+    - gin/webform_ui
   webform/webform.element.help:
     - gin/webform
   webform/webform.element.details.toggle:
@@ -125,6 +136,8 @@ libraries-extend:
     - gin/responsive_preview
   workspaces/drupal.workspaces.overview:
     - gin/workspaces
+  project_browser/project_browser:
+    - gin/project_browser
 
 ckeditor_stylesheets:
   - dist/css/theme/accent.css

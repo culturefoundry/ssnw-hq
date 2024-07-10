@@ -1,41 +1,24 @@
 .gin-table-scroll-wrapper {
-  overflow: auto;
+  clear: both;
+  overflow-x: auto;
+  overflow-y: hidden;
   overscroll-behavior-x: contain;
   -webkit-overflow-scrolling: touch;
   margin-top: calc(var(--gin-spacing-xs) * -1);
 }
 
-table.sticky-header,
-.gin--sticky-table-header,
-.gin--sticky-table-header.sticky-header {
-  z-index: 98;
+table.gin--sticky-table-header {
+  visibility: hidden;
+  z-index: 97;
   position: sticky;
   top: calc(var(--gin-toolbar-y-offset) + var(--gin-height-sticky) - 1px);
-}
+  width: auto !important;
+  margin-top: -8px;
+  overflow: hidden;
 
-table.sticky-header {
-  visibility: hidden;
-  left: auto !important;
-  max-width: fit-content;
-  background: transparent;
-
-  &::before,
-  &::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    width: 1.5rem;
-    height: 100%;
-  }
-
-  &::before {
-    left: calc(var(--gin-spacing-l) * -1);
-    background: linear-gradient(90deg, rgba(255, 255, 255, 0), var(--gin-bg-layer));
-  }
-
-  &::after {
-    right: calc(var(--gin-spacing-l) * -1);
-    background: linear-gradient(90deg, var(--gin-bg-layer), rgba(255, 255, 255, 0));
+  tr {
+    display: block;
+    width: max-content;
   }
 }
 
@@ -52,26 +35,15 @@ table.sticky-header {
   background-attachment: local, local, scroll, scroll;
 }
 
-.gin--sticky-table-header,
-.gin--sticky-table-header.sticky-header {
-  margin-top: -8px;
-  overflow: hidden;
-
-  tr {
-    display: block;
-    width: max-content;
-  }
+table.sticky-header {
+  left: auto !important;
+  min-width: 100%;
+  max-width: fit-content;
+  background: transparent;
 }
 
-.gin--sticky-table-header.sticky-header {
-  width: auto !important;
-
-  &::after {
-    display: none;
-  }
-}
-
-table.position-sticky {
+table.position-sticky,
+table.sticky-header {
   thead {
     position: static;
   }
@@ -130,6 +102,7 @@ table {
   }
 
   tr,
+  tr:focus-within,
   .draggable-table.tabledrag-disabled tr {
     color: var(--gin-color-text);
     background-color: transparent;

@@ -777,43 +777,6 @@ html:not(.admin-toolbar-expanded) .toolbar-menu__item--to-title > button.toolbar
   width: 1px;
 }
 
-/**
- * @file
- * Tooltip styles.
- */
-
-.tooltip,
-.cloned-tooltip {
-  position: absolute;
-  top: var(--space-xs);
-  background-color: var(--gin-tooltip-bg);
-  color: white;
-  padding: .25rem var(--space-xs);
-  border-radius: var(--space-xs);
-  font-size: var(--font-size-xxs);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: .08em;
-  line-height: var(--space-m);
-  z-index: 601;
-}
-
-[dir="ltr"] .tooltip,
-[dir="ltr"] .cloned-tooltip {
-  left: 100%;
-}
-
-[dir="rtl"] .tooltip,
-[dir="rtl"] .cloned-tooltip {
-  right: 100%;
-}
-
-/* Hide the origin value of the Tooltip if the Admin toolbar is expanded. */
-
-html:not(.admin-toolbar-expanded) .toolbar-menu__item--level-1:not(.toolbar-menu__item--has-dropdown) .toolbar-link span {
-  display: none;
-}
-
 :root {
   --gin-toolbar-height: 39px;
   --gin-toolbar-secondary-height: 48px;
@@ -892,13 +855,11 @@ html:not(.admin-toolbar-expanded) .toolbar-menu__item--level-1:not(.toolbar-menu
 }
 
 [dir="ltr"] .gin--navigation .admin-toolbar {
-  border-right: 0;
-  box-shadow: 1px 0 0 var(--gin-border-color-layer);
+  border-right: 1px solid var(--gin-border-color-layer);
 }
 
 [dir="rtl"] .gin--navigation .admin-toolbar {
-  border-left: 0;
-  box-shadow: -1px 0 0 var(--gin-border-color-layer);
+  border-left: 1px solid var(--gin-border-color-layer);
 }
 
 @media (max-width: 60.99em) {
@@ -989,10 +950,6 @@ html:not(.admin-toolbar-expanded) .toolbar-menu__item--level-1:not(.toolbar-menu
   margin-bottom: calc(var(--gin-spacing-xxs) * -1);
 }
 
-.gin--navigation .navigation-menu-wrapper.menu--logo {
-  margin-bottom: -5px;
-}
-
 .gin--navigation .menu-item.current > .toolbar-link {
   color: var(--gin-color-primary);
 }
@@ -1020,6 +977,18 @@ html:not(.admin-toolbar-expanded) .toolbar-menu__item--level-1:not(.toolbar-menu
 .gin--navigation .toolbar-menu__item--level-2.active-path > .toolbar-link::before,
 .gin--navigation .toolbar-menu__item--level-2.active-path > .toolbar-link::after {
   background: var(--gin-color-primary);
+}
+
+@media (forced-colors: active) {
+  .gin--navigation .toolbar-menu__item--level-1.menu-item--expanded > .toolbar-link::before, .gin--navigation .toolbar-menu__item--level-1.menu-item--expanded > .toolbar-link::after,
+  .gin--navigation .toolbar-menu__item--level-1.current > .toolbar-link::before,
+  .gin--navigation .toolbar-menu__item--level-1.current > .toolbar-link::after,
+  .gin--navigation .toolbar-menu__item--level-1.active-path > .toolbar-link::before,
+  .gin--navigation .toolbar-menu__item--level-1.active-path > .toolbar-link::after,
+  .gin--navigation .toolbar-menu__item--level-2.active-path > .toolbar-link::before,
+  .gin--navigation .toolbar-menu__item--level-2.active-path > .toolbar-link::after {
+    background-color: LinkText;
+  }
 }
 
 .gin--navigation .toolbar-menu__item--level-1.menu-item--expanded > .toolbar-link:hover, .gin--navigation .toolbar-menu__item--level-1.menu-item--expanded > .toolbar-link:focus,
@@ -1064,6 +1033,28 @@ html:not(.admin-toolbar-expanded) .toolbar-menu__item--level-1:not(.toolbar-menu
 .gin--navigation .toolbar-link--sidebar-toggle:focus::before,
 .gin--navigation .toolbar-link--sidebar-toggle:focus::after {
   background: var(--gin-color-primary);
+}
+
+@media (forced-colors: active) {
+  .gin--navigation .toolbar-menu__item--level-1 > .toolbar-link:hover::before, .gin--navigation .toolbar-menu__item--level-1 > .toolbar-link:hover::after,
+  .gin--navigation .toolbar-menu__item--level-1 > .toolbar-link:focus::before,
+  .gin--navigation .toolbar-menu__item--level-1 > .toolbar-link:focus::after,
+  .gin--navigation .toolbar-menu__item--level-2 > .toolbar-link:hover::before,
+  .gin--navigation .toolbar-menu__item--level-2 > .toolbar-link:hover::after,
+  .gin--navigation .toolbar-menu__item--level-2 > .toolbar-link:focus::before,
+  .gin--navigation .toolbar-menu__item--level-2 > .toolbar-link:focus::after,
+  .gin--navigation .toolbar-menu__item--level-2 .toolbar-link:hover::before,
+  .gin--navigation .toolbar-menu__item--level-2 .toolbar-link:hover::after,
+  .gin--navigation .toolbar-menu__item--level-2 .toolbar-link:focus::before,
+  .gin--navigation .toolbar-menu__item--level-2 .toolbar-link:focus::after,
+  .gin--navigation .toolbar-menu__item.toolbar-menu__item--expanded:not(.current) > .toolbar-link::before,
+  .gin--navigation .toolbar-menu__item.toolbar-menu__item--expanded:not(.current) > .toolbar-link::after,
+  .gin--navigation .toolbar-link--sidebar-toggle:hover::before,
+  .gin--navigation .toolbar-link--sidebar-toggle:hover::after,
+  .gin--navigation .toolbar-link--sidebar-toggle:focus::before,
+  .gin--navigation .toolbar-link--sidebar-toggle:focus::after {
+    background-color: LinkText;
+  }
 }
 
 .gin--navigation .toolbar-menu__item--level-1 > .toolbar-link--manage-fields,
@@ -1229,9 +1220,21 @@ button.toolbar-link--sidebar-toggle:hover::before, button.toolbar-link--sidebar-
   background: var(--gin-color-primary) !important;
 }
 
+@media (forced-colors: active) {
+  .admin-toolbar__logo .toolbar-link--gin-home, .admin-toolbar__logo .toolbar-link--gin-home:hover, .admin-toolbar__logo .toolbar-link--gin-home:focus {
+    background: CanvasText !important;
+  }
+}
+
 .admin-toolbar__logo .toolbar-link--gin-home::before {
   --icon: url("../../media/sprite.svg#drupal-view");
   background: var(--gin-bg-layer2) !important;
+}
+
+@media (forced-colors: active) {
+  .admin-toolbar__logo .toolbar-link--gin-home::before {
+    background: Canvas !important;
+  }
 }
 
 .admin-toolbar__logo .toolbar-link--gin-home span {

@@ -6,7 +6,6 @@
 @import "../navigation/toolbar-menu";
 @import "../navigation/toolbar-block";
 @import "../navigation/toolbar-link";
-@import "../navigation/tooltip";
 
 // Toolbar Variables
 :root {
@@ -67,8 +66,7 @@ body.gin--navigation {
     overflow-y: initial;
     padding-inline: 0;
     padding-block-start: 0;
-    border-right: 0;
-    box-shadow: 1px 0 0 var(--gin-border-color-layer);
+    border-right: 1px solid var(--gin-border-color-layer);
 
     // Hide on smaller screens for now as this is not ready yet.
     @include mq($to: medium) {
@@ -158,10 +156,6 @@ body.gin--navigation {
     }
   }
 
-  .navigation-menu-wrapper.menu--logo {
-    margin-bottom: -5px;
-  }
-
   .menu-item.current > .toolbar-link {
     color: var(--gin-color-primary);
   }
@@ -185,6 +179,10 @@ body.gin--navigation {
       &::before,
       &::after {
         background: var(--gin-color-primary);
+
+        @media (forced-colors: active) {
+          background-color: LinkText;
+        }
       }
 
       &:hover,
@@ -212,6 +210,10 @@ body.gin--navigation {
     &::before,
     &::after {
       background: var(--gin-color-primary);
+
+      @media (forced-colors: active) {
+        background-color: LinkText;
+      }
     }
   }
 
@@ -390,11 +392,19 @@ button.toolbar-link--sidebar-toggle {
 
     &, &:hover, &:focus {
       background: var(--gin-color-primary) !important;
+
+      @media (forced-colors: active) {
+        background: CanvasText !important;
+      }
     }
 
     &::before {
       --icon: #{icon('drupal')};
       background: var(--gin-bg-layer2) !important;
+
+      @media (forced-colors: active) {
+        background: Canvas !important;
+      }
     }
 
     span {
