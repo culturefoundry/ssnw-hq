@@ -21,6 +21,12 @@ nodejs_version: "18"
 corepack_enable: false
 ddev_version_constraint: '>=1.23.0'
 
+web_extra_exposed_ports:
+  - name: vite
+    container_port: 5257
+    http_port: 5256
+    https_port: 5257
+
 # Key features of DDEV's config.yaml:
 
 # name: <projectname> # Name of the project, automatically provides

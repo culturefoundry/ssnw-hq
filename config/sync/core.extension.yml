@@ -77,7 +77,6 @@ module:
   metatag: 0
   metatag_open_graph: 0
   mysql: 0
-  navigation: 0
   node: 0
   options: 0
   page_cache: 0
@@ -148,4 +147,6 @@ theme:
   olivero: 0
   claro: 0
   gin: 0
+  stable9: 0
+  midnight_theme: 0
 profile: minimal

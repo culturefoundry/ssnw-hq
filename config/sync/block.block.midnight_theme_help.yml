@@ -1,0 +1,22 @@
+uuid: f29676e0-dcc5-4b49-b165-047fce43693c
+langcode: en
+status: true
+dependencies:
+  module:
+    - help
+  theme:
+    - midnight_theme
+_core:
+  default_config_hash: VfPFqqxfkomud5CO8DUijw85QIl9GIxh_nIxLOYESxg
+id: midnight_theme_help
+theme: midnight_theme
+region: header
+weight: 0
+provider: null
+plugin: help_block
+settings:
+  id: help_block
+  label: Help
+  label_display: '0'
+  provider: help
+visibility: {  }
