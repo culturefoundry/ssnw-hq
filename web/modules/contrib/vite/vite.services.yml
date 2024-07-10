@@ -1,0 +1,4 @@
+services:
+  vite.vite:
+    class: Drupal\vite\Vite
+    arguments: ['@messenger', '@logger.factory', '@extension.list.theme', '@extension.list.module', '@http_client', '@string_translation', '%app.root%']
