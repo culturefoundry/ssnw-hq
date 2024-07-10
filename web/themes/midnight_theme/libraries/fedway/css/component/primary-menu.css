@@ -1,0 +1,109 @@
+
+:root {
+  /** These are defined for Olivero primary menu **/
+  --sp: 0.9em;
+  --sp0-5: 0.45em;
+  --sp1-5: 1.35em;
+  --sp2: 1.8em;
+  --sp3: 1.5em;
+  --color--primary-40: theme('colors.blue.600');
+  --color--primary-50: theme('colors.blue.700');
+  --color--white: theme('colors.white');
+  --mobile-nav-width: 25em;
+  --mobile-btn-h: 50px;
+  --mobile-bth-w: 58px;
+  --mobile-btn-t: 10px;
+  --mobile-btn-d: 135deg;
+  /** end olivero stuff */
+}
+#header-nav nav.menu--main {
+  position: static;
+}
+#header-nav .menu-level-0 {
+  @apply desk:flex gap-4;
+  > .primary-nav__menu-item {
+    @apply inline-flex;
+    .icon--menu-toggle {
+      @apply color-main bg-accent1;
+    }
+    > .menu_link_content {
+      --link-color: var(--color-highlight1);
+      max-width: calc(100vw - 1rem);
+      width: 100%;
+      padding-inline: 0;
+      margin-inline: 0;
+      .field--name-field-cta-links a {
+        @apply bg-highlight1 w-full;
+        line-height: 2;
+      }
+      @apply desk:absolute
+      desk:grid bg-background
+      border-b-highlight2 border-b-solid border-b-8 border-t-none;
+      /*top: calc(5em + var(--drupal-displace-offset-top));*/
+      :is(a) {
+        @apply font-bold;
+      }
+      :is(p) {
+        line-height: 1.4;
+      }
+    }
+  }
+}
+body:not(.is-active-menu-parent, .is-overlay-active) #block-fedway-theme-main-menu li.menu-item--expanded /*:has(.is-active-menu-parent)*/ {
+  @apply position-inherit;
+  .is-active-menu-parent {
+    top: calc(4.7em + var(--drupal-displace-offset-top, 0px));
+  }
+}
+
+.two-col-menu > ul {
+  columns: 200px 2;
+  > li {
+    display: contents !important;
+  }
+}
+
+body.is-overlay-active .burger-icon button {
+  position: fixed;
+  right: 0.6em;
+  top: calc(0.4em + var(--drupal-displace-offset-top, 0px));
+  background: var(--background-color);
+}
+
+body.is-overlay-active .header-nav {
+  @apply w-xl max-w-screen pt-25;
+  margin-top: var(--drupal-displace-offset-top, 0px);
+
+  .menu_link_content.is-active-menu-parent {
+    display: block;
+    margin-top: .2em;
+    > div {
+      display: block;
+      padding-left: 1em;
+    }
+  }
+  .field--name-field-description {
+    display: none;
+  }
+
+  .region-secondary-menu {
+    @apply grid grid-cols-1 text-base pl-6;
+    :is(nav) {
+      @apply my-5;
+      .menu-item {
+        padding-left: 0;
+        line-height: 1.5;
+      }
+    }
+  }
+  .block-gtranslate {
+    display: block;
+  }
+  .expand-search {
+    width: 100%;
+    :is(input.form-text) {
+      width: calc(100% - 5em);
+    }
+    display: block;
+  }
+}

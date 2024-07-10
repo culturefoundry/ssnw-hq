@@ -1,0 +1,37 @@
+'$schema': 'https://git.drupalcode.org/project/drupal/-/raw/10.1.x/core/modules/sdc/src/metadata.schema.json'
+name: Event Slug
+status: stable
+description: Individual event with day/month, type, and title
+props:
+  type: object
+  properties:
+    day:
+      type: string
+      title: Day
+      description: Day of the month
+      # @todo Add examples here.
+      examples: []
+    month:
+      type: string
+      title: Month
+      description: Month name
+      # @todo Add examples here.
+      examples: []
+    type:
+      type: string
+      title: Type
+      description: Category of event
+      # @todo Add examples here.
+      examples: []
+    title:
+      type: string
+      title: Title
+      description: Title of event
+      # @todo Add examples here.
+      examples: []
+    url:
+      type: string
+      title: Url
+      description: Link to event
+      # @todo Add examples here.
+      examples: []

@@ -1,0 +1,26 @@
+{
+  "name": "fedway_theme",
+  "version": "1.0.0",
+  "description": "Theme generated from Drupal core starterkit, with partials, components and templates from Freelock's standard base",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@iconify-json/bi": "^1.1.23",
+    "@iconify-json/dashicons": "^1.1.9",
+    "@iconify-json/gg": "^1.1.9",
+    "@iconify-json/mdi": "^1.1.66",
+    "@unocss/postcss": "^0.61.0",
+    "glob": "^10.4.1",
+    "swiper": "^11.1.4",
+    "unocss": "^0.61.0",
+    "unocss-preset-grid-areas": "^1.0.4",
+    "vite": "^5.3.0",
+    "vite-plugin-live-reload": "^3.0.3"
+  }
+}

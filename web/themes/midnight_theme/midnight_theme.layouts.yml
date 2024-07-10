@@ -1,0 +1,59 @@
+midnight_site_bg_x_wing:
+  label: 'BG X-Wing'
+  category: 'Midnight site Layouts'
+  path: layouts/bg_x_wing
+  template: bg-x-wing
+  regions:
+    background:
+      label: Background
+    ul:
+      label: Upper Left
+    ur:
+      label: Upper Right
+    main:
+      label: Main
+    bl:
+      label: Bottom Left
+    br:
+      label: Bottom Right
+  default_region: main
+  icon_map:
+    - [ul, background, ur]
+    - [main, main, main]
+    - [bl, background, br]
+
+midnight_site_bg_two_col:
+  label: 'BG Two Col'
+  category: 'Midnight site Layouts'
+  path: layouts/bg_two_col
+  template: bg-two-col
+  regions:
+    background:
+      label: Background
+    main:
+      label: Main
+    right:
+      label: Right
+    bottom:
+      label: Bottom
+  default_region: main
+  icon_map:
+    - [background, background]
+    - [main, right]
+    - [bottom, bottom]
+midnight_site_one_two:
+  label: 'One Two'
+  category: 'Midnight site Layouts'
+  path: layouts/one_two
+  template: one-two
+  regions:
+    one:
+      label: Position one - full-width
+    two:
+      label: Bottom left
+    three:
+      label: Bottom right
+  default_region: main
+  icon_map:
+    - [one, one]
+    - [two, three]

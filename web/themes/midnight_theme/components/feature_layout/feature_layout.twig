@@ -1,0 +1,16 @@
+<div {{ attributes }}>
+  {# Keep the outer div whenever possible it is a nice way to ensure the presence of "attributes" #}
+  <div class="grid-wrapper">
+  <div class="fl_body">
+    <h3 class="border-b-6 border-b-solid border-b-highlight2 pb-2 font-sans font-light text-2xl pb-6">{{ title }}</h3>
+    {% block text_block %}
+      Text in here
+    {% endblock %}
+  </div>
+  <div class="fl_image w-fit rounded border-solid border-6 border-highlight2">
+    {% block image_block %}
+      The contents of the example block
+    {% endblock %}
+  </div>
+  </div>
+</div>

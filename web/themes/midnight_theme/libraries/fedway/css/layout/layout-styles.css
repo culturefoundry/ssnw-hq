@@ -1,0 +1,7 @@
+.waves-bg {
+  background: #F7F7F7 url(/themes/fedway_theme/images/wavesbg.webp) no-repeat center center / contain;
+}
+
+.sound-bg {
+  background: var(--color-highlight1) url(/themes/fedway_theme/images/bg-upcoming-events.jpg) no-repeat center center / cover;
+}

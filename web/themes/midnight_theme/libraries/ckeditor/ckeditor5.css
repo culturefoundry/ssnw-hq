@@ -1,0 +1,69 @@
+/* Image align */
+
+.ck.ck-content .image-inline.image-style-align-left {
+  margin-right: 2rem;
+}
+.ck.ck-content .image-inline.image-style-align-right {
+  margin-left: 2rem;
+}
+
+/* Typography */
+.bigger {
+  font-size: larger;
+}
+.smaller {
+  font-size: smaller;
+}
+
+/* Column text */
+div.three-column-text {
+  columns: 3 200px;
+}
+
+div.two-column-text {
+  columns: 2 300px;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.ck-editor__editable {
+
+  .three-column-text,
+  .two-column-text {
+    border: 3px dotted pink;
+  }
+
+  ;
+}
+
+.two-column-text,
+.three-column-text {
+
+  :is(h2),
+  :is(h3),
+  :is(h4),
+  :is(h5) {
+    break-after: avoid-column;
+  }
+}
+
+div.two-column-text ul {
+  margin-left: 0;
+  list-style-position: outside;
+  list-style-type: none;
+  break-inside: avoid;
+}
+
+/** Button styles */
+a.button {
+  background-color: var(--color-highlight1);
+  color: var(--color-background);
+  font-family: sans-serif;
+  text-transform: uppercase;
+  font-weight: bold;
+  border-radius: 1em;
+  padding-inline: 2.5em;
+  padding-block: 1em;
+  text-align: center;
+}
+

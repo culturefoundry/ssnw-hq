@@ -1,0 +1,59 @@
+{#
+/**
+ * @file
+ * Default theme implementation to display a menu.
+ *
+ * Available variables:
+ * - classes: A list of classes to apply to the top level <ul> element.
+ * - dropdown_classes: A list of classes to apply to the dropdown <ul> element.
+ * - menu_name: The machine name of the menu.
+ * - items: A nested list of menu items. Each menu item contains:
+ *   - attributes: HTML attributes for the menu item.
+ *   - below: The menu item child items.
+ *   - title: The menu link title.
+ *   - url: The menu link url, instance of \Drupal\Core\Url
+ *   - localized_options: Menu link localized options.
+ *
+ * @ingroup templates
+ */
+#}
+{# Works well in a Bootstrap based theme. Other themes it might not be as pretty. #}
+{% import _self as menus %}
+{%
+  set classes = [
+    'menu',
+    'group-menu',
+    'nav',
+    'navbar-nav',
+  ]
+%}
+{{ attach_library('midnight_theme/jumpmenu') }}
+<select data-fedway-jumpmenu="active" {{ attributes.addClass('menu') }}>
+{{ menus.menu_links(items, attributes, 0) }}
+</select>
+
+{% macro menu_links(items, attributes, menu_level) %}
+  {% import _self as menus %}
+  {% if items %}
+    {% for item in items %}
+      {%
+        set classes = [
+        'menu-item',
+        item.is_expanded ? 'menu-item--expanded',
+        item.is_collapsed ? 'menu-item--collapsed',
+        item.in_active_trail ? 'menu-item--active-trail',
+      ]
+      %}
+      {% if menu_level == 0 %}
+          <option value="{{ item.url }}">{{ item.title }}</option>
+          {% if item.below %}
+            {{ menus.menu_links(item.below, attributes, menu_level + 1) }}
+          {% endif %}
+      {% else %}
+        <option value="{{ item.url }}" {{ item.attributes.addClass(classes) }}>
+          {{ item.title }}
+        </option>
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+{% endmacro %}

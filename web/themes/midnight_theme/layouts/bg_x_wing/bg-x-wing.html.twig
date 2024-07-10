@@ -1,0 +1,45 @@
+{#
+/**
+ * @file
+ * Default theme implementation to display bg x-wing layout.
+ *
+ * Available variables:
+ * - content: The content for this layout.
+ * - attributes: HTML attributes for the layout wrapper.
+ *
+ * @ingroup themeable
+ */
+#}
+{% if content %}
+
+  {# @DCG Drupal naming convention for CSS classes in layouts seems weird. Feel free to change it. #}
+  {%
+    set classes = [
+      'layout',
+      'layout--bg-x-wing',
+      'grid grid-areas-xwingstacked md:grid-areas-xwing justify-items-center text-center',
+      'align-items-center layoutbuilder:grid-areas-xwinglb min-h-120 program-header'
+    ]
+  %}
+  <div{{ attributes.addClass(classes) }}>
+    <div {{ region_attributes.background.addClass('layout__region', 'layout__region--background', 'row-span-full col-span-full layoutbuilder:(row-auto grid-in-background)') }}>
+      {{ content.background }}
+    </div>
+    <div {{ region_attributes.ul.addClass('layout__region', 'layout__region--ul', 'grid-in-ul', 'backdrop-opacity-10', 'w-[100%]', 'italic', 'underline', 'md:text-left') }}>
+      {{ content.ul }}
+    </div>
+    <div {{ region_attributes.ur.addClass('layout__region', 'layout__region--ur', 'grid-in-ur', 'backdrop-opacity-10', 'w-[100%]', 'underline', 'md:text-right') }}>
+      {{ content.ur }}
+    </div>
+    <div {{ region_attributes.main.addClass('layout__region', 'layout__region--main', 'grid-in-main', 'backdrop-opacity-10') }}>
+      {{ content.main }}
+    </div>
+    <div {{ region_attributes.bl.addClass('layout__region', 'layout__region--bl', 'grid-in-bl', 'backdrop-opacity-10', 'w-[100%]', 'items-end', 'inline-flex', 'justify-center', 'md:justify-start', 'md:pb-[20px]' ) }}>
+      {{ content.bl }}
+    </div>
+    <div {{ region_attributes.br.addClass('layout__region', 'layout__region--br', 'grid-in-br', 'backdrop-opacity-10', 'w-[100%]', 'inline-flex', 'justify-end', 'items-end', 'contents','pb-[20px]', 'md:text-right') }}>
+      {{ content.br }}
+    </div>
+  </div>
+
+{% endif %}

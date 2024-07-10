@@ -1,0 +1,18 @@
+/**
+ Footer
+ */
+.region-footer {
+  text-align: center;
+  :is(ul).menu {
+    @apply flex justify-center flex-wrap gap-2 mx-0 md:gap-8;
+  }
+  .menu--footer---main-menu ul.menu {
+    @apply uppercase text-lg;
+    :is(li) {
+      @apply font-bold;
+      :is(a) {
+        @apply my-0;
+      }
+    }
+  }
+}

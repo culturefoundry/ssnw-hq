@@ -1,0 +1,11 @@
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+table {
+  @apply border-collapse;
+}
+td, th {
+  @apply border-base border-1 border-solid text-left p-2;
+}

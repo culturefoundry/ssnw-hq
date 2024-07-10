@@ -1,0 +1,70 @@
+
+input {
+  @apply border border-main;
+}
+
+button, .button, .field--name-field-cta-links a {
+  @apply bg-highlight1 text-background font-sans text-sm font-bold uppercase rounded-lg px-10 py-4 tracking-wide transform scale-y-95 inline-block text-center;
+  &.light {
+    @apply bg-highlight2;
+  }
+}
+
+button a {
+  @apply text-background;
+}
+
+a.btn-light, .btn-light a {
+  @apply bg-highlight2 text-shadow;
+}
+a.btn-medium, .btn-medium a {
+  @apply bg-highlight3 text-shadow;
+}
+
+input, select, textarea, .gtranslate_wrapper, .expand-search .button {
+  @apply border-highlight2 border-solid border-4 rounded-md accent-highlight2;
+  max-width: calc(100vw - 5.5rem);
+  max-width: calc(100cqw - 3rem);
+}
+
+
+@container (min-width: 40rem) {
+  input {
+    max-width: calc(100cqw - 14rem);
+  }
+}
+
+
+label {
+  @apply block @2xl:inline-block @2xl:text-right @2xl:w-40;
+}
+
+.form-type-textarea label {
+  @apply text-left mb-1;
+}
+
+
+.form-type-checkbox {
+  @apply ml-1 lg:ml-42;
+}
+
+/** Notify buttons on comments have extra padding, needs pulled left */
+.form-radios {
+  @apply ml--6 lg:ml-34;
+}
+
+
+
+
+.form-item .description {
+  @apply @2xl:ml-42 mt-1;
+}
+
+/** no visible label on address line2 - align */
+.form-item.form-no-label {
+  @apply @2xl:ml-41 mt-1;
+}
+
+.address-container-inline > .form-item {
+  @apply lt-lg:mr-0;
+}

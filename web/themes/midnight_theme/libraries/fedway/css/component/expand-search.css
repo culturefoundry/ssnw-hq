@@ -1,0 +1,29 @@
+
+/**
+ * Expand-Search
+ */
+.expand-search {
+  @apply overflow-hidden float-right bold h-10 w-10 rounded-md bg-highlight1
+  shadow-md transition-all duration-300
+  relative inline-block justify-self-end
+  align-bottom text-md
+  md:hover:(w-130)
+  md:focus:(w-130)
+  md:focus-within:(w-130);
+}
+
+.expand-search .button, .expand-search input[type=search], .expand-search input[type=text] {
+  @apply w-106 p-10 max-w-[80vw];
+}
+.expand-search input[type=search], .expand-search input[type=text] {
+  @apply absolute right-13 top-1 h-6 mt-0 bg-background color-main strong p-0
+  rounded-md
+  shadow-md text-shadow-md px-3
+  hover:(outline-none shadow)
+  focus:(outline-none shadow);
+}
+.expand-search .button {
+  @apply text-background align-items-center justify-content-center i-mdi-search
+  text-2xl font-bold cursor-pointer absolute m-0 p-0 top-0 right-0 lg:top-0 lg:right-0
+  active:(border-0 text-shadow-none);
+}

@@ -1,0 +1,31 @@
+[data-component-id="fedway_theme:feature_layout"] {
+  container: featlay / inline-size;
+  .grid-wrapper {
+  /* @todo Add your styles here. */
+    display: grid;
+    grid-template-areas: "bodyarea" "image";
+  }
+  .fl_body {
+    grid-area: bodyarea;
+  }
+  .fl_image {
+    grid-area: image;
+    width: calc(100% - 12px);
+    :is(img) {
+      width: 100%;
+      height: auto;
+    }
+  }
+  @container (min-width: 600px) {
+    .grid-wrapper {
+      grid-template-areas: "image bodyarea";
+    }
+    .fl_image {
+      justify-self: end;
+      max-width: 500px;
+    }
+    .fl_body > * {
+      padding-left: 2rem;
+    }
+  }
+}

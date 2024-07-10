@@ -1,0 +1,15 @@
+<div {{ attributes.addClass('grid') }}>
+  {% if title %}
+    {% if url %}<a href="{{ url }}">{% endif %}
+    <h2>{{ title }}</h2>
+    {% if url %}</a>{% endif %}
+  {% endif %}
+  {% if url %}<a href="{{ url }}">{% endif %}
+  {% block image_block %}
+    The contents of the example block
+  {% endblock %}
+  {% if url %}</a>{% endif %}
+  {% block text_block %}
+    The contents of the example block
+  {% endblock %}
+</div>

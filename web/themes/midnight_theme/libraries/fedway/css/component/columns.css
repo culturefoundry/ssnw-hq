@@ -1,0 +1,21 @@
+div.three-column-text {
+  columns: 3 200px;
+}
+
+div.two-column-text {
+  columns: 2 300px;
+  width: auto;
+}
+
+.two-column-text,
+.three-column-text {
+  :is(h2),
+  h3,
+  h4,
+  h5 {
+    break-after: avoid-column;
+  }
+  :first-child {
+    margin-top: 0;
+  }
+}

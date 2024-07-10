@@ -1,0 +1,48 @@
+name: Midnight Theme
+type: theme
+'base theme': stable9
+starterkit: true
+version: 1.0.0
+logo: images/SSNW logo transparent.png
+ckeditor5-stylesheets:
+  - libraries/ckeditor/ckeditor5.css
+  - libraries/global/css/base/typography.css
+libraries:
+  - midnight_theme/unocss
+  - midnight_theme/global
+#  - midnight_theme/fedway
+  - midnight_theme/messages
+libraries-extend:
+  user/drupal.user:
+    - midnight_theme/user
+  core/drupal.dropbutton:
+    - midnight_theme/dropbutton
+  core/drupal.dialog:
+    - midnight_theme/dialog
+  file/drupal.file:
+    - midnight_theme/file
+  core/drupal.progress:
+    - midnight_theme/progress
+core_version_requirement: ^10
+generator: 'starterkit_theme:10.1.7'
+regions:
+  header: Header
+  primary_menu: Primary menu
+  secondary_menu: Secondary menu (above primary)
+  # search: Search
+  breadcrumb: Breadcrumb - unused
+  hero: Hero
+  highlighted: Highlighted
+  help: Help
+  # facets: Facets (Search page only)
+  # drawer: Mobile Drawer (Search page only)
+  content: Content
+  sidebar_first: First sidebar - unused
+  sidebar_second: Second sidebar - unused
+  post_content: Post Content
+  action_footer: Action Buttons
+  top_footer: Top Footer
+  footer: Footer
+vite:
+  enableInAllComponents: true
+  enableInAllLibraries: true

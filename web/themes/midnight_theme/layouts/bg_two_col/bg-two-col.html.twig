@@ -1,0 +1,43 @@
+{#
+/**
+ * @file
+ * Default theme implementation to display bg x-wing layout.
+ *
+ * Available variables:
+ * - content: The content for this layout.
+ * - attributes: HTML attributes for the layout wrapper.
+ *
+ * @ingroup themeable
+ */
+#}
+{% if content %}
+
+	{# @DCG Drupal naming convention for CSS classes in layouts seems weird. Feel free to change it. #}
+	{%
+    set classes = [
+      'layout',
+      'layout--bg-two-col',
+      'grid justify-items-center bg-main grid-flow-col',
+      '@container/hero'
+    ]
+  %}
+	<div{{attributes.addClass(classes)}}>
+		<div {{ region_attributes.background.addClass('layout__region', 'layout__region--background', 'full-width w-full grid-row-start-1 grid-row-end-3 layoutbuilder:grid-in-background') }}>
+			{{ content.background }}
+		</div>
+    <div class="wave-overlay-target hidden full-width w-full grid-row-start-1 bg-bottom z-0 grid-row-end-4 bg-cover layoutbuilder:hidden bg-[url(/themes/fedway_theme/images/hero-waves.png)]">
+
+    </div>
+      <div {{ region_attributes.main.addClass('layout__region', 'layout__region--main', 'grid-row-start-1 place-self-start p-12 hero-teaser', 'backdrop-opacity-10') }}>
+			{{ content.main }}
+		</div>
+		<div {{ region_attributes.right.addClass('layout__region', 'layout__region--right', 'grid-row-start-2 py-5 @3xl:grid-row-start-1 small-headers @container/slider', 'backdrop-opacity-10') }}>
+			{{ content.right }}
+		</div>
+    <div {{ region_attributes.bottom.addClass('layout__region', 'layout__region--bottom', 'grid-row-start-3 @3xl:grid-row-start-2 py-5 small-headers layoutbuilder:row-start-2 cta-menu-buttons', 'backdrop-opacity-10') }}>
+      {{ content.bottom }}
+    </div>
+	</div>
+
+{% endif %}
+

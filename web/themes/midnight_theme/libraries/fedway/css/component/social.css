@@ -1,0 +1,29 @@
+/**
+ * Social
+ */
+.social-icons .menu-item {
+  @apply flex flex-wrap p-1 rounded-lg border-2 border-solid;
+  :is(a) {
+    @apply text-xl;
+  }
+}
+
+.icon-twitter {
+  @apply i-bi-twitter-x;
+}
+.icon-facebook {
+  @apply i-dashicons-facebook-alt;
+}
+.icon-linkedin {
+  @apply i-dashicons-linkedin;
+}
+.icon-instagram {
+  @apply i-dashicons-instagram;
+}
+.icon-youtube {
+  @apply i-mdi-youtube;
+}
+
+.mastodon {
+  @apply i-mdi-mastodon;
+}

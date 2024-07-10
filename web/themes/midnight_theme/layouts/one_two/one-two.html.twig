@@ -1,0 +1,44 @@
+{#
+/**
+ * @file
+ * Default theme implementation to display one two layout.
+ *
+ * Available variables:
+ * - content: The content for this layout.
+ * - attributes: HTML attributes for the layout wrapper.
+ *
+ * @ingroup themeable
+ */
+#}
+{% if content %}
+
+  {# @DCG Drupal naming convention for CSS classes in layouts seems weird. Feel free to change it. #}
+  {%
+    set classes = [
+      'layout',
+      'layout--one-two',
+    ]
+  %}
+
+  <div{{ attributes.addClass(classes) }}>
+    <div class="grid lg:grid-cols-2">
+    {% if content.one %}
+      <div {{ region_attributes.one.addClass('layout__region', 'layout__region--one', 'col-span-full') }}>
+        {{ content.one }}
+      </div>
+    {% endif %}
+
+    {% if content.two %}
+      <div {{ region_attributes.two.addClass('layout__region', 'layout__region--two') }}>
+        {{ content.two }}
+      </div>
+    {% endif %}
+    {% if content.three %}
+      <div {{ region_attributes.three.addClass('layout__region', 'layout__region--three') }}>
+        {{ content.three }}
+      </div>
+    {% endif %}
+    </div>
+  </div>
+
+{% endif %}

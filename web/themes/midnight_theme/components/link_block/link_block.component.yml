@@ -1,0 +1,27 @@
+'$schema': 'https://git.drupalcode.org/project/drupal/-/raw/10.1.x/core/modules/sdc/src/metadata.schema.json'
+name: Link Block
+status: stable
+description: Block for use in a swiper, linking the image with a URL.
+props:
+  type: object
+  properties:
+    title:
+      type: string
+      title: Title
+      # @todo Add examples here.
+      examples: []
+    url:
+      type: string
+      title: URL
+      description: Link used for title and image
+      # @todo Add examples here.
+      examples: []
+slots:
+  image_block:
+    title: Image
+    description: Image
+    examples: []
+  text_block:
+    title: Text
+    description: Body text
+    examples: []

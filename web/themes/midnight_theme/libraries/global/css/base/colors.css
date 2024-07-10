@@ -1,0 +1,55 @@
+/**
+ * Define color palette here.
+ *
+ *
+ */
+:root {
+
+  /** Semantic colors */
+  --color-main: theme('colors.primary');
+  --color-highlight1: theme('colors.secondary');
+  --color-highlight2: theme('colors.tertiary');
+  --color-pagebg: theme('colors.white');
+  --color-footerbg: theme('colors.black');
+  --color-offsetbg: theme('colors.secondary');
+  --color-accent1: #E4F7FD;
+  --color-accent2: theme('colors.amber.800');
+  --filter-highlight1: invert(12%) sepia(71%) saturate(4235%) hue-rotate(216deg) brightness(94%) contrast(107%);
+  --filter-highlight2: invert(67%) sepia(32%) saturate(7241%) hue-rotate(157deg) brightness(106%) contrast(109%);
+
+  /** Functional colors */
+  --text-color: var(--color-main);
+  --link-color: var(--color-highlight1);
+  --active-color: var(--color-highlight2);
+  --hover-color: var(--color-highlight2);
+  --button-bg-color: var(--color-highlight1);
+  --button-text-color: var(--color-pagebg);
+  --header-color: var(--color-main);
+  --background-color: var(--color-pagebg);
+  --main-color: var(--color-main);
+}
+
+/* Themes */
+.dark {
+  --color-main: theme('colors.slate.100');
+  --color-highlight1: theme('colors.blue.300');
+  --color-highlight2: theme('colors.green.300');
+  --color-pagebg: theme('colors.slate.900');
+  --color-footerbg: theme('colors.slate.100');
+  --color-offsetbg: theme('colors.stone.600');
+  --color-accent1: theme('colors.blue.900');
+  --color-accent2: theme('colors.green.800');
+}
+
+.dark .site-logo img {
+  filter: invert(25%);
+}
+
+.white-text {
+  @apply text-pagebg layoutbuilder:text-main;
+  --text-color: var(--color-pagebg);
+  --link-color: var(--color-pagebg);
+  --hover-color: var(--color-pagebg);
+  --background-color: var(--color-main);
+  --main-color: var(--color-pagebg);
+}

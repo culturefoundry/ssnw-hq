@@ -1,0 +1,125 @@
+{
+  "components/event_slug/event_slug.css": {
+    "file": "event_slug.css",
+    "src": "components/event_slug/event_slug.css",
+    "isEntry": true
+  },
+  "components/feature_layout/feature_layout.css": {
+    "file": "feature_layout.css",
+    "src": "components/feature_layout/feature_layout.css",
+    "isEntry": true
+  },
+  "components/link_block/link_block.css": {
+    "file": "link_block.css",
+    "src": "components/link_block/link_block.css",
+    "isEntry": true
+  },
+  "components/link_block/link_block.js": {
+    "file": "link_block.js",
+    "name": "link_block",
+    "src": "components/link_block/link_block.js",
+    "isEntry": true
+  },
+  "components/swiper/swiper.js": {
+    "file": "swiper.js",
+    "name": "swiper",
+    "src": "components/swiper/swiper.js",
+    "isEntry": true,
+    "css": [
+      "swiper.css"
+    ]
+  },
+  "components/swiper/swiper_styles.css": {
+    "file": "swiper_styles.css",
+    "src": "components/swiper/swiper_styles.css",
+    "isEntry": true
+  },
+  "libraries/ckeditor/ckeditor5.css": {
+    "file": "ckeditor5.css",
+    "src": "libraries/ckeditor/ckeditor5.css",
+    "isEntry": true
+  },
+  "libraries/components/dialog.css": {
+    "file": "dialog.css",
+    "src": "libraries/components/dialog.css",
+    "isEntry": true
+  },
+  "libraries/components/dropbutton.css": {
+    "file": "dropbutton.css",
+    "src": "libraries/components/dropbutton.css",
+    "isEntry": true
+  },
+  "libraries/components/file.css": {
+    "file": "file.css",
+    "src": "libraries/components/file.css",
+    "isEntry": true
+  },
+  "libraries/components/image-widget.css": {
+    "file": "image-widget.css",
+    "src": "libraries/components/image-widget.css",
+    "isEntry": true
+  },
+  "libraries/components/indented.css": {
+    "file": "indented.css",
+    "src": "libraries/components/indented.css",
+    "isEntry": true
+  },
+  "libraries/components/messages.css": {
+    "file": "messages.css",
+    "src": "libraries/components/messages.css",
+    "isEntry": true
+  },
+  "libraries/components/node.css": {
+    "file": "node.css",
+    "src": "libraries/components/node.css",
+    "isEntry": true
+  },
+  "libraries/components/progress.css": {
+    "file": "progress.css",
+    "src": "libraries/components/progress.css",
+    "isEntry": true
+  },
+  "libraries/components/search-results.css": {
+    "file": "search-results.css",
+    "src": "libraries/components/search-results.css",
+    "isEntry": true
+  },
+  "libraries/components/user.css": {
+    "file": "user.css",
+    "src": "libraries/components/user.css",
+    "isEntry": true
+  },
+  "libraries/fedway/fedway.js": {
+    "file": "fedway.js",
+    "name": "fedway",
+    "src": "libraries/fedway/fedway.js",
+    "isEntry": true,
+    "css": [
+      "fedway.css"
+    ]
+  },
+  "libraries/global/base.css": {
+    "file": "base.css",
+    "src": "libraries/global/base.css",
+    "isEntry": true
+  },
+  "libraries/global/component.css": {
+    "file": "component.css",
+    "src": "libraries/global/component.css",
+    "isEntry": true
+  },
+  "libraries/global/layout.css": {
+    "file": "layout.css",
+    "src": "libraries/global/layout.css",
+    "isEntry": true
+  },
+  "libraries/unocss/unocss.js": {
+    "file": "unocss.js",
+    "name": "unocss",
+    "src": "libraries/unocss/unocss.js",
+    "isEntry": true,
+    "css": [
+      "unocss.css"
+    ]
+  }
+}

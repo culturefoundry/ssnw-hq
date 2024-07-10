@@ -1,0 +1,42 @@
+'$schema': 'https://git.drupalcode.org/project/drupal/-/raw/10.1.x/core/modules/sdc/src/metadata.schema.json'
+name: swiper
+status: stable
+libraryOverrides:
+  dependencies:
+    - core/once
+  js:
+    swiper.js: {}
+  css:
+    component:
+      swiper_styles.css: {}
+props:
+  type: object
+  properties:
+    wrapperclass:
+      type: string
+      title: Wrapper Classes
+      examples:
+        - white-box
+        - pad-container
+    peek:
+      type: string
+      title: Peek
+      examples:
+        - 'auto'
+        - 1.2
+    parallax:
+      type: string
+      title: Parallax effect
+      examples: []
+    delay:
+      type: string
+      title: delay
+      description: Delay on autoplay, between slides
+      # @todo Add examples here.
+      examples: []
+slots:
+  slides:
+    title: Slides
+    description: Slide elements with class=swiper-slide, or swiper-slide component
+    examples: []
+

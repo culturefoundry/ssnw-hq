@@ -1,0 +1,60 @@
+/* header */
+
+#header {
+  @apply grid items-center;
+  grid-template-columns: minmax(200px, 360px) auto fit-content(80px);
+}
+
+.region.region-primary-menu, .region .block-responsive-menu {
+  @apply grid-in-nav justify-self-end self-start font-secondary text-xl
+   desk:text-md text-main font-bold;
+  --link-color: theme('colors.main');
+  --hover-color: theme('colors.main');
+}
+.region.region-primary-menu .primary-nav__menu-link--level-1 {
+  /* @apply uppercase; */
+}
+
+/** .is-active applied to region is mobile menu. .is-active > span is the active link. */
+.is-active nav .primary-nav__menu-link {
+  @apply leading-snug;
+}
+
+.region.region-secondary-menu {
+  @apply grid-in-user font-secondary items-center grid grid-cols-[auto_2.5em_11.5em] gap-2 justify-self-end self-end text-sm
+  text-main;
+  --link-color: theme('colors.main');
+  --hover-color: theme('colors.main');
+}
+.region.region-secondary-menu ul.menu {
+  @apply desk:flex my-0;
+}
+.region.region-secondary-menu ul.menu li {
+  padding-inline-start: 3em;
+}
+.region.region-search {
+  @apply grid-in-search justify-self-end lg:pl-4;
+}
+
+ul.menu.primary-nav__menu.primary-nav__menu--level-1 {
+  @apply desk:flex me-0 ms-5;
+}
+ul.menu.primary-nav__menu.primary-nav__menu--level-1 a {
+  @apply hover:no-underline ms-1 my-1;
+}
+
+.user-logged-in li.hide-logged-in {
+  display: none;
+}
+
+.block-gtranslate {
+  @apply w-45 h-10 relative;
+}
+.gtranslate_wrapper {
+  @apply absolute w-43.5;
+}
+
+.how-do-i > select {
+  max-width: calc(100% - 2em);
+}
+/* end header */

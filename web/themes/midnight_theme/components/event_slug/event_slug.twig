@@ -1,0 +1,13 @@
+<div {{ attributes.addClass('grid grid-cols-[4em_auto] items-center my-4') }}>
+  {# Keep the outer div whenever possible it is a nice way to ensure the presence of "attributes" #}
+  <div class="cal grid justify-items-center rounded-lg pt-1 pl-3 pr-5 pb-5 bg-white h-8 w-8">
+    <div class="text-xl font-bold text-background">{{ day }}</div>
+    <div class="text-sm font-bold uppercase text-background">{{ month }}</div>
+  </div>
+  <div class="text">
+    <div class="uppercase text-main">{{ type }}</div>
+    <div class="text-base font-bold text-highlight1"><a href="{{ url }}">{{ title|striptags }}</a></div>
+    {% block example_block %}
+    {% endblock %}
+  </div>
+</div>
