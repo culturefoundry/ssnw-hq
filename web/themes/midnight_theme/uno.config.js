@@ -14,7 +14,7 @@ export default defineConfig({
     }),
     presetWebFonts({
       fonts: {
-        sans: 'Hind',
+        sans: 'Hind:300,400,500,600,700',
         serif: 'EB Garamond',
         secondary: 'Roboto',
       },

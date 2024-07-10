@@ -1,10 +1,12 @@
 unocss:
+  vite: true
   version: VERSION
   js:
     libraries/unocss/unocss.js:
       attributes:
         type: module
 global:
+  vite: true
   version: VERSION
   css:
     base:
@@ -33,29 +35,34 @@ global:
 #    - core/tabbable
 #
 dialog:
+  vite: true
   version: VERSION
   css:
     component:
       libraries/components/dialog.css:
         weight: -10
 dropbutton:
+  vite: true
   version: VERSION
   css:
     component:
       libraries/components/dropbutton.css:
         weight: -10
 file:
+  vite: true
   version: VERSION
   css:
     component:
       libraries/components/file.css:
         weight: -10
 image-widget:
+  vite: true
   version: VERSION
   css:
     component:
       libraries/components/image-widget.css: {  }
 indented:
+  vite: true
   version: VERSION
   css:
     component:
@@ -97,6 +104,7 @@ user:
 #    - core/once
 #
 navigation-primary:
+  vite: true
   css:
     component:
       libraries/fedway/css/component/navigation/header-navigation.css: {}
