@@ -4,6 +4,10 @@ unocss:
     libraries/unocss/unocss.js:
       attributes:
         type: module
+  css:
+    base:
+      dist/unocss.css:
+        weight: -10
 global:
   version: VERSION
   css:
