@@ -132,6 +132,7 @@ module:
   update: 0
   user: 0
   views_ui: 0
+  vite: 0
   webform: 0
   webform_ui: 0
   workflows: 0

@@ -1,0 +1,47 @@
+<?php
+
+/**
+ * @file
+ * Vite module.
+ */
+
+declare(strict_types=1);
+
+use Drupal\Component\Utility\Html;
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_library_info_alter().
+ *
+ * Process libraries configured with vite.
+ */
+function vite_library_info_alter(array &$libraries, string $extension): void {
+  \Drupal::service('vite.vite')->processLibraries($libraries, $extension);
+}
+
+/**
+ * Implements hook_help().
+ */
+function vite_help(string $route_name, RouteMatchInterface $route_match): string {
+  switch ($route_name) {
+    case 'help.page.vite':
+      $text = file_get_contents(__DIR__ . '/README.md');
+      if ($text === FALSE) {
+        return '';
+      }
+
+      if (!\Drupal::moduleHandler()->moduleExists('markdown')) {
+        return '<pre>' . Html::escape($text) . '</pre>';
+      }
+      else {
+        // Use the Markdown filter to render the README.
+        $filter_manager = \Drupal::service('plugin.manager.filter');
+        $settings = \Drupal::configFactory()->get('markdown.settings')->getRawData();
+        $config = ['settings' => $settings];
+        /** @var \Drupal\filter\Plugin\FilterInterface */
+        $filter = $filter_manager->createInstance('markdown', $config);
+        return (string) $filter->process($text, 'en');
+      }
+  }
+  return '';
+}

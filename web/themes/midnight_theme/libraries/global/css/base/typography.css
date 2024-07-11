@@ -63,14 +63,14 @@ html.xlarge {
 }
 
 body {
-  @apply type-base;
+  @apply font-sans text-main;
 }
 p {
   @apply my-4 mx-0;
 }
 
 h1, h2, h3, h5, h6 {
-  @apply font-sans my-5 text-textDefaultColor;
+  @apply font-sans my-5;
 }
 
 h1 {

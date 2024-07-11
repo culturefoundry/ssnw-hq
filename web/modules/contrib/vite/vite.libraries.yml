@@ -1,0 +1,5 @@
+vite-dev-client:
+  vite: true
+  header: true
+  js:
+    '@vite/client': { attributes: { type: module } }

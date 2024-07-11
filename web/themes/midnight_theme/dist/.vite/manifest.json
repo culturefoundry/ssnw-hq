@@ -113,12 +113,18 @@
     "src": "libraries/global/layout.css",
     "isEntry": true
   },
+  "libraries/unocss/unocss.css": {
+    "file": "unocss.css",
+    "src": "libraries/unocss/unocss.css",
+    "isEntry": true
+  },
   "libraries/unocss/unocss.js": {
     "file": "unocss.js",
     "name": "unocss",
     "src": "libraries/unocss/unocss.js",
     "isEntry": true,
     "css": [
+      "unocss2.css",
       "unocss.css"
     ]
   }

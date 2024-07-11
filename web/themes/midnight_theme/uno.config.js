@@ -13,8 +13,9 @@ export default defineConfig({
       preflight: true
     }),
     presetWebFonts({
+      provider: 'google',
       fonts: {
-        sans: 'Hind',
+        sans: 'Hind:300,400,500,600,700',
         serif: 'EB Garamond',
         secondary: 'Roboto',
       },
