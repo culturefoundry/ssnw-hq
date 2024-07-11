@@ -12,6 +12,8 @@ global:
     base:
       libraries/global/base.css:
         weight: -10
+      libraries/unocss/unocss.css:
+        weight: -10
     layout:
       libraries/global/layout.css:
         weight: -10
