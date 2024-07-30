@@ -45,12 +45,12 @@
             // like maxlength that needs to listen to the update.
             this.dispatchEvent(event);
           })
-          // We need to clear ckeditors too!
+          // We need to clear CKEditor editors too!
           $('textarea.text-full', $tr).each(function() {
-            // Determine the if we are using ckeditor 4 or 5.
+            // Determine the if we are using CKEditor 4 or 5.
             if (this.dataset && this.dataset.ckeditor5Id) {
-              const ckid = this.dataset.ckeditor5Id;
-              Drupal.CKEditor5Instances.get(ckid).setData('', function() { this.updateElement(); } );
+              const ckeditor5Id = this.dataset.ckeditor5Id;
+              Drupal.CKEditor5Instances.get(ckeditor5Id).setData('', function() { this.updateElement(); } );
             } else if (CKEDITOR && CKEDITOR.instances[this.getAttribute('data-drupal-selector')]) {
               CKEDITOR.instances[this.getAttribute('data-drupal-selector')].setData('', function() { this.updateElement(); } );
             }

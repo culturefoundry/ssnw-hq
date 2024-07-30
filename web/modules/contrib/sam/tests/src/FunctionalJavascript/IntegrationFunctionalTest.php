@@ -32,7 +32,7 @@ class IntegrationFunctionalTest extends SamFunctionalJavascriptTestBase {
     $field_widget = $assert_session->elementExists('css', "form .field--name-field-node__link");
     // Only one empty element is visible.
     $rows = $field_widget->findAll('css', 'table tr.draggable');
-    $this->assertSame(3, count($rows));
+    $this->assertCount(3, $rows);
     $this->assertTrue($rows[0]->isVisible());
     $value = $assert_session->elementExists('css', 'input[name="field_node__link[0][uri]"]', $rows[0])
       ->getValue();
@@ -47,7 +47,7 @@ class IntegrationFunctionalTest extends SamFunctionalJavascriptTestBase {
     $button->press();
     $session->wait(200);
     $rows = $field_widget->findAll('css', 'table tr.draggable');
-    $this->assertSame(3, count($rows));
+    $this->assertCount(3, $rows);
     $this->assertTrue($rows[0]->isVisible());
     $this->assertTrue($rows[1]->isVisible());
     $this->assertFalse($rows[2]->isVisible());
@@ -58,7 +58,7 @@ class IntegrationFunctionalTest extends SamFunctionalJavascriptTestBase {
     $button->press();
     $session->wait(200);
     $rows = $field_widget->findAll('css', 'table tr.draggable');
-    $this->assertSame(3, count($rows));
+    $this->assertCount(3, $rows);
     $this->assertTrue($rows[0]->isVisible());
     $this->assertTrue($rows[1]->isVisible());
     $this->assertTrue($rows[2]->isVisible());
@@ -79,7 +79,7 @@ class IntegrationFunctionalTest extends SamFunctionalJavascriptTestBase {
     $this->drupalGet($node->toUrl('edit-form'));
     $field_widget = $assert_session->elementExists('css', "form .field--name-field-node__link");
     $rows = $field_widget->findAll('css', 'table tr.draggable');
-    $this->assertSame(3, count($rows));
+    $this->assertCount(3, $rows);
     $this->assertTrue($rows[0]->isVisible());
     $value = $assert_session->elementExists('css', 'input[name="field_node__link[0][uri]"]', $rows[0])
       ->getValue();
@@ -94,7 +94,7 @@ class IntegrationFunctionalTest extends SamFunctionalJavascriptTestBase {
     $button->press();
     $session->wait(200);
     $rows = $field_widget->findAll('css', 'table tr.draggable');
-    $this->assertSame(3, count($rows));
+    $this->assertCount(3, $rows);
     $this->assertTrue($rows[0]->isVisible());
     $this->assertTrue($rows[1]->isVisible());
     $this->assertFalse($rows[2]->isVisible());
@@ -112,7 +112,7 @@ class IntegrationFunctionalTest extends SamFunctionalJavascriptTestBase {
     $assert_session->pageTextContains("Create {$this->nodeType->label()}");
     $field_widget = $assert_session->elementExists('css', "form .field--name-field-node__link");
     $rows = $field_widget->findAll('css', 'table tr.draggable');
-    $this->assertSame(3, count($rows));
+    $this->assertCount(3, $rows);
     $this->assertTrue($rows[0]->isVisible());
     $this->assertTrue($rows[1]->isVisible());
     $this->assertTrue($rows[2]->isVisible());
@@ -130,7 +130,7 @@ class IntegrationFunctionalTest extends SamFunctionalJavascriptTestBase {
     $assert_session->pageTextContains("Create {$this->nodeType->label()}");
     $field_widget = $assert_session->elementExists('css', "form .field--name-field-node__link");
     $rows = $field_widget->findAll('css', 'table tr.draggable');
-    $this->assertSame(3, count($rows));
+    $this->assertCount(3, $rows);
     $this->assertTrue($rows[0]->isVisible());
     $this->assertFalse($rows[1]->isVisible());
     $this->assertFalse($rows[2]->isVisible());
@@ -156,7 +156,7 @@ class IntegrationFunctionalTest extends SamFunctionalJavascriptTestBase {
     $field_widget = $assert_session->elementExists('css', "form .field--name-field-node__link");
     // Only one empty element is visible.
     $rows = $field_widget->findAll('css', 'table tr.draggable');
-    $this->assertSame(3, count($rows));
+    $this->assertCount(3, $rows);
     $this->assertTrue($rows[0]->isVisible());
     $value = $assert_session->elementExists('css', 'input[name="field_node__link[0][uri]"]', $rows[0])
       ->getValue();
@@ -171,7 +171,7 @@ class IntegrationFunctionalTest extends SamFunctionalJavascriptTestBase {
     $button->press();
     $session->wait(200);
     $rows = $field_widget->findAll('css', 'table tr.draggable');
-    $this->assertSame(3, count($rows));
+    $this->assertCount(3, $rows);
     $this->assertTrue($rows[0]->isVisible());
     $this->assertTrue($rows[1]->isVisible());
     $this->assertFalse($rows[2]->isVisible());
@@ -191,7 +191,7 @@ class IntegrationFunctionalTest extends SamFunctionalJavascriptTestBase {
     $assert_session->statusMessageContains($message, 'error');
 
     $rows = $field_widget->findAll('css', 'table tr.draggable');
-    $this->assertSame(3, count($rows));
+    $this->assertCount(3, $rows);
     $this->assertTrue($rows[0]->isVisible());
     // Second link is still visible.
     $this->assertTrue($rows[1]->isVisible());
@@ -214,7 +214,7 @@ class IntegrationFunctionalTest extends SamFunctionalJavascriptTestBase {
     $assert_session->statusMessageContains($message, 'error');
 
     $rows = $field_widget->findAll('css', 'table tr.draggable');
-    $this->assertSame(3, count($rows));
+    $this->assertCount(3, $rows);
     $this->assertTrue($rows[0]->isVisible());
     // Second link is still visible.
     $this->assertTrue($rows[1]->isVisible());

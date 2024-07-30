@@ -32,7 +32,7 @@ class ItemRemovalFunctionalTest extends SamFunctionalJavascriptTestBase {
     $field_widget = $assert_session->elementExists('css', "form .field--name-field-node__link");
     // Only one empty element is visible.
     $rows = $field_widget->findAll('css', 'table tr.draggable');
-    $this->assertSame(3, count($rows));
+    $this->assertCount(3, $rows);
     $this->assertTrue($rows[0]->isVisible());
     $value = $assert_session->elementExists('css', 'input[name="field_node__link[0][uri]"]', $rows[0])
       ->getValue();
@@ -45,7 +45,7 @@ class ItemRemovalFunctionalTest extends SamFunctionalJavascriptTestBase {
 
     // We have 2 removal buttons.
     $removeButtons = $field_widget->findAll('css', 'table tr.draggable .sam-remove-button');
-    $this->assertSame(2, count($removeButtons));
+    $this->assertCount(2, $removeButtons);
     $this->assertFalse($removeButtons[0]->isVisible());
     $this->assertFalse($removeButtons[1]->isVisible());
 
@@ -54,7 +54,7 @@ class ItemRemovalFunctionalTest extends SamFunctionalJavascriptTestBase {
     $button->press();
     $session->wait(200);
     $removeButtons = $field_widget->findAll('css', 'table tr.draggable .sam-remove-button');
-    $this->assertSame(2, count($removeButtons));
+    $this->assertCount(2, $removeButtons);
     $this->assertTrue($removeButtons[0]->isVisible());
     $this->assertFalse($removeButtons[1]->isVisible());
 
@@ -66,7 +66,7 @@ class ItemRemovalFunctionalTest extends SamFunctionalJavascriptTestBase {
     $removeButtons[0]->press();
     $session->wait(200);
     $rows = $field_widget->findAll('css', 'table tr.draggable');
-    $this->assertSame(3, count($rows));
+    $this->assertCount(3, $rows);
     $this->assertTrue($rows[0]->isVisible());
     $this->assertFalse($rows[1]->isVisible());
     $this->assertFalse($rows[2]->isVisible());
@@ -88,7 +88,7 @@ class ItemRemovalFunctionalTest extends SamFunctionalJavascriptTestBase {
     $removeButtons[1]->press();
     $session->wait(200);
     $rows = $field_widget->findAll('css', 'table tr.draggable');
-    $this->assertSame(3, count($rows));
+    $this->assertCount(3, $rows);
     $this->assertTrue($rows[0]->isVisible());
     $this->assertTrue($rows[1]->isVisible());
     $this->assertFalse($rows[2]->isVisible());

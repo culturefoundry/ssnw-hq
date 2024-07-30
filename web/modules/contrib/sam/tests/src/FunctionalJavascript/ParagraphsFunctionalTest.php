@@ -36,6 +36,7 @@ class ParagraphsFunctionalTest extends SamFunctionalJavascriptTestBase {
     // Create a paragraph with a limited-cardinality text field and add it to
     // our test content type.
     $this->addParagraphsType("paragraph_sam");
+    // cSpell:ignore Fieldto
     $this->addFieldtoParagraphType("paragraph_sam", "field_text", 'string');
     $this->addParagraphsField($this->nodeType->id(), 'field_paragraphs', 'node');
     FieldStorageConfig::loadByName('paragraph', 'field_text')
@@ -71,7 +72,7 @@ class ParagraphsFunctionalTest extends SamFunctionalJavascriptTestBase {
     $subform = $assert_session->waitForElementVisible('css', '.ajax-new-content .paragraphs-subform[data-drupal-selector="edit-field-paragraphs-0-subform"]');
     // Only one empty element is visible.
     $rows = $subform->findAll('css', 'table tr.draggable');
-    $this->assertSame(4, count($rows));
+    $this->assertCount(4, $rows);
     $this->assertTrue($rows[0]->isVisible());
     $value = $assert_session->elementExists('css', 'input[name="field_paragraphs[0][subform][field_text][0][value]"]', $rows[0])
       ->getValue();
@@ -87,7 +88,7 @@ class ParagraphsFunctionalTest extends SamFunctionalJavascriptTestBase {
     $button->press();
     $session->wait(200);
     $rows = $subform->findAll('css', 'table tr.draggable');
-    $this->assertSame(4, count($rows));
+    $this->assertCount(4, $rows);
     $this->assertTrue($rows[0]->isVisible());
     $this->assertTrue($rows[1]->isVisible());
     $this->assertFalse($rows[2]->isVisible());

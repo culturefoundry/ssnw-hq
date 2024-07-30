@@ -12,7 +12,14 @@
   },
   "require": { },
   "require-dev": {
-    "drupal/entity_reference_revisions": "~1.0",
-    "drupal/paragraphs": "~1.0"
+    "drupal/paragraphs": "dev-1.x"
+  },
+  "extra": {
+    "patches": {
+      "drupal/paragraphs": {
+          "Issue #3433816: D11 compatibility (paragraphs)": "https://git.drupalcode.org/project/paragraphs/-/merge_requests/115.patch"
+      }
+    }
   }
+
 }
