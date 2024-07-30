@@ -35,6 +35,10 @@ class ComposerStaticInitfbb7d02f5c688e4445e1231cd1318d30
     );
 
     public static $prefixLengthsPsr4 = array (
+        'w' => 
+        array (
+            'weitzman\\DrupalTestTraits\\' => 26,
+        ),
         'p' => 
         array (
             'phpowermove\\docblock\\' => 21,
@@ -142,6 +146,7 @@ class ComposerStaticInitfbb7d02f5c688e4445e1231cd1318d30
         'D' => 
         array (
             'Drush\\' => 6,
+            'Drupal\\rat\\' => 11,
             'Drupal\\Core\\' => 12,
             'Drupal\\Composer\\Plugin\\Scaffold\\' => 32,
             'Drupal\\Composer\\Plugin\\ProjectMessage\\' => 38,
@@ -156,6 +161,7 @@ class ComposerStaticInitfbb7d02f5c688e4445e1231cd1318d30
         ),
         'C' => 
         array (
+            'CssLint\\' => 8,
             'Cron\\' => 5,
             'Consolidation\\SiteProcess\\' => 26,
             'Consolidation\\SiteAlias\\' => 24,
@@ -175,6 +181,10 @@ class ComposerStaticInitfbb7d02f5c688e4445e1231cd1318d30
     );
 
     public static $prefixDirsPsr4 = array (
+        'weitzman\\DrupalTestTraits\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/weitzman/drupal-test-traits/src',
+        ),
         'phpowermove\\docblock\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpowermove/docblock/src',
@@ -440,6 +450,10 @@ class ComposerStaticInitfbb7d02f5c688e4445e1231cd1318d30
         array (
             0 => __DIR__ . '/..' . '/drush/drush/src',
         ),
+        'Drupal\\rat\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/drupal/rat/src',
+        ),
         'Drupal\\Core\\' => 
         array (
             0 => __DIR__ . '/../..' . '/web/core/lib/Drupal/Core',
@@ -483,6 +497,10 @@ class ComposerStaticInitfbb7d02f5c688e4445e1231cd1318d30
         'Dflydev\\DotAccessData\\' => 
         array (
             0 => __DIR__ . '/..' . '/dflydev/dot-access-data/src',
+        ),
+        'CssLint\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/neilime/php-css-lint/src/CssLint',
         ),
         'Cron\\' => 
         array (
@@ -989,6 +1007,10 @@ class ComposerStaticInitfbb7d02f5c688e4445e1231cd1318d30
         'Cron\\HoursField' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/HoursField.php',
         'Cron\\MinutesField' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/MinutesField.php',
         'Cron\\MonthField' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/MonthField.php',
+        'CssLint\\Cli' => __DIR__ . '/..' . '/neilime/php-css-lint/src/CssLint/Cli.php',
+        'CssLint\\CliArgs' => __DIR__ . '/..' . '/neilime/php-css-lint/src/CssLint/CliArgs.php',
+        'CssLint\\Linter' => __DIR__ . '/..' . '/neilime/php-css-lint/src/CssLint/Linter.php',
+        'CssLint\\Properties' => __DIR__ . '/..' . '/neilime/php-css-lint/src/CssLint/Properties.php',
         'DateError' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateError.php',
         'DateException' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateException.php',
         'DateInvalidOperationException' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateInvalidOperationException.php',
@@ -3209,6 +3231,8 @@ class ComposerStaticInitfbb7d02f5c688e4445e1231cd1318d30
         'Drupal\\Core\\Validation\\Plugin\\Validation\\Constraint\\ValidKeysConstraint' => __DIR__ . '/../..' . '/web/core/lib/Drupal/Core/Validation/Plugin/Validation/Constraint/ValidKeysConstraint.php',
         'Drupal\\Core\\Validation\\Plugin\\Validation\\Constraint\\ValidKeysConstraintValidator' => __DIR__ . '/../..' . '/web/core/lib/Drupal/Core/Validation/Plugin/Validation/Constraint/ValidKeysConstraintValidator.php',
         'Drupal\\Core\\Validation\\TranslatorInterface' => __DIR__ . '/../..' . '/web/core/lib/Drupal/Core/Validation/TranslatorInterface.php',
+        'Drupal\\rat\\v1\\RenderArray' => __DIR__ . '/..' . '/drupal/rat/src/v1/RenderArray.php',
+        'Drupal\\rat\\v1\\RenderArrayBase' => __DIR__ . '/..' . '/drupal/rat/src/v1/RenderArrayBase.php',
         'Drush\\Application' => __DIR__ . '/..' . '/drush/drush/src/Application.php',
         'Drush\\Attributes\\Argument' => __DIR__ . '/..' . '/drush/drush/src/Attributes/Argument.php',
         'Drush\\Attributes\\Bootstrap' => __DIR__ . '/..' . '/drush/drush/src/Attributes/Bootstrap.php',
@@ -6468,6 +6492,26 @@ class ComposerStaticInitfbb7d02f5c688e4445e1231cd1318d30
         'phpowermove\\docblock\\tags\\UnknownTag' => __DIR__ . '/..' . '/phpowermove/docblock/src/tags/UnknownTag.php',
         'phpowermove\\docblock\\tags\\VarTag' => __DIR__ . '/..' . '/phpowermove/docblock/src/tags/VarTag.php',
         'phpowermove\\docblock\\tags\\VersionTag' => __DIR__ . '/..' . '/phpowermove/docblock/src/tags/VersionTag.php',
+        'weitzman\\DrupalTestTraits\\AddPsr4' => __DIR__ . '/..' . '/weitzman/drupal-test-traits/src/AddPsr4.php',
+        'weitzman\\DrupalTestTraits\\BrowserKitTrait' => __DIR__ . '/..' . '/weitzman/drupal-test-traits/src/BrowserKitTrait.php',
+        'weitzman\\DrupalTestTraits\\DrupalTrait' => __DIR__ . '/..' . '/weitzman/drupal-test-traits/src/DrupalTrait.php',
+        'weitzman\\DrupalTestTraits\\Drush\\Generators\\ExistingGenerator' => __DIR__ . '/..' . '/weitzman/drupal-test-traits/src/Drush/Generators/ExistingGenerator.php',
+        'weitzman\\DrupalTestTraits\\Drush\\Generators\\ExistingJsGenerator' => __DIR__ . '/..' . '/weitzman/drupal-test-traits/src/Drush/Generators/ExistingJsGenerator.php',
+        'weitzman\\DrupalTestTraits\\EntityCrawlerTrait' => __DIR__ . '/..' . '/weitzman/drupal-test-traits/src/EntityCrawlerTrait.php',
+        'weitzman\\DrupalTestTraits\\Entity\\MediaCreationTrait' => __DIR__ . '/..' . '/weitzman/drupal-test-traits/src/Entity/MediaCreationTrait.php',
+        'weitzman\\DrupalTestTraits\\Entity\\NodeCreationTrait' => __DIR__ . '/..' . '/weitzman/drupal-test-traits/src/Entity/NodeCreationTrait.php',
+        'weitzman\\DrupalTestTraits\\Entity\\TaxonomyCreationTrait' => __DIR__ . '/..' . '/weitzman/drupal-test-traits/src/Entity/TaxonomyCreationTrait.php',
+        'weitzman\\DrupalTestTraits\\Entity\\UserCreationTrait' => __DIR__ . '/..' . '/weitzman/drupal-test-traits/src/Entity/UserCreationTrait.php',
+        'weitzman\\DrupalTestTraits\\Exception\\LoggedMessageException' => __DIR__ . '/..' . '/weitzman/drupal-test-traits/src/Exception/LoggedMessageException.php',
+        'weitzman\\DrupalTestTraits\\Exception\\PhpWatchdogException' => __DIR__ . '/..' . '/weitzman/drupal-test-traits/src/Exception/PhpWatchdogException.php',
+        'weitzman\\DrupalTestTraits\\ExistingSiteBase' => __DIR__ . '/..' . '/weitzman/drupal-test-traits/src/ExistingSiteBase.php',
+        'weitzman\\DrupalTestTraits\\ExistingSiteSelenium2DriverTestBase' => __DIR__ . '/..' . '/weitzman/drupal-test-traits/src/ExistingSiteSelenium2DriverTestBase.php',
+        'weitzman\\DrupalTestTraits\\LoggerTrait' => __DIR__ . '/..' . '/weitzman/drupal-test-traits/src/LoggerTrait.php',
+        'weitzman\\DrupalTestTraits\\Mail\\MailCollectionAssertTrait' => __DIR__ . '/..' . '/weitzman/drupal-test-traits/src/Mail/MailCollectionAssertTrait.php',
+        'weitzman\\DrupalTestTraits\\Mail\\MailCollectionTrait' => __DIR__ . '/..' . '/weitzman/drupal-test-traits/src/Mail/MailCollectionTrait.php',
+        'weitzman\\DrupalTestTraits\\Mail\\TestMailCollection' => __DIR__ . '/..' . '/weitzman/drupal-test-traits/src/Mail/TestMailCollection.php',
+        'weitzman\\DrupalTestTraits\\ScreenShotTrait' => __DIR__ . '/..' . '/weitzman/drupal-test-traits/src/ScreenShotTrait.php',
+        'weitzman\\DrupalTestTraits\\Selenium2DriverTrait' => __DIR__ . '/..' . '/weitzman/drupal-test-traits/src/Selenium2DriverTrait.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
