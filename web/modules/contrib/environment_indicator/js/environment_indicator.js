@@ -19,7 +19,7 @@
         // Only apply text and background color if not using gin_toolbar
         if (!$body.hasClass('gin--vertical-toolbar') && !$body.hasClass('gin--horizontal-toolbar')) {
           $('#toolbar-bar', context).css('background-color', settings.environmentIndicator.bgColor);
-          $('#toolbar-bar .toolbar-item, #toolbar-bar .toolbar-item a', context).css('color', settings.environmentIndicator.fgColor);
+          $('#toolbar-bar .toolbar-item a', context).not('.is-active').css('color', settings.environmentIndicator.fgColor);
         }
 
         // Set environment color for gin_toolbar vertical toolbar.

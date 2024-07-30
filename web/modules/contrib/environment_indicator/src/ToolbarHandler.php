@@ -5,7 +5,7 @@ namespace Drupal\environment_indicator;
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Config\ImmutableConfig;
-use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\Core\Site\Settings;
@@ -13,12 +13,11 @@ use Drupal\Core\State\StateInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Url;
 use Drupal\environment_indicator\Entity\EnvironmentIndicator;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Toolbar integration handler.
  */
-class ToolbarHandler implements ContainerInjectionInterface {
+class ToolbarHandler {
 
   use StringTranslationTrait;
 
@@ -65,34 +64,45 @@ class ToolbarHandler implements ContainerInjectionInterface {
   protected Settings $settings;
 
   /**
+   * Entity Type Manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected EntityTypeManagerInterface $entityTypeManager;
+
+  /**
    * ToolbarHandler constructor.
    *
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
+   *   The module handler service.
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The config factory.
    * @param \Drupal\Core\Session\AccountProxyInterface $account
    *   The current user.
+   * @param \Drupal\Core\State\StateInterface $state
+   *   The state system.
+   * @param \Drupal\Core\Site\Settings $settings
+   *   The settings.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager.
    */
-  public function __construct(ModuleHandlerInterface $module_handler, ConfigFactoryInterface $config_factory, AccountProxyInterface $account, StateInterface $state, Settings $settings) {
+  public function __construct(
+    ModuleHandlerInterface $module_handler,
+    ConfigFactoryInterface $config_factory,
+    AccountProxyInterface $account,
+    StateInterface $state,
+    Settings $settings,
+    EntityTypeManagerInterface $entity_type_manager,
+  ) {
     $this->moduleHandler = $module_handler;
     $this->config = $config_factory->get('environment_indicator.settings');
     $this->activeEnvironment = $config_factory->get('environment_indicator.indicator');
     $this->account = $account;
     $this->state = $state;
     $this->settings = $settings;
+    $this->entityTypeManager = $entity_type_manager;
   }
 
-  /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container): ToolbarHandler {
-    return new static(
-      $container->get('module_handler'),
-      $container->get('config.factory'),
-      $container->get('current_user'),
-      $container->get('state'),
-      $container->get('settings')
-    );
-  }
 
   /**
    * User can access all indicators.
@@ -171,7 +181,7 @@ class ToolbarHandler implements ContainerInjectionInterface {
               'addFavicon' => $this->config->get('favicon'),
             ],
           ],
-        ]
+        ],
       ];
 
       if ($this->account->hasPermission('administer environment indicator settings')) {
@@ -186,7 +196,7 @@ class ToolbarHandler implements ContainerInjectionInterface {
       }
 
       if ($links = $this->getLinks()) {
-        $items['environment_indicator']['tray']['environment_links'] =  [
+        $items['environment_indicator']['tray']['environment_links'] = [
           '#theme' => 'links__toolbar_shortcuts',
           '#links' => $links,
           '#attributes' => [
@@ -259,17 +269,7 @@ class ToolbarHandler implements ContainerInjectionInterface {
    *   The cache tags.
    */
   public function getCacheTags(): array {
-    /* @var EnvironmentIndicator[] $environment_entities */
-    if (!$environment_entities = EnvironmentIndicator::loadMultiple()) {
-      return [];
-    }
-
-    $cache_tags = [];
-    foreach ($environment_entities as $entity) {
-      $cache_tags = Cache::mergeTags($cache_tags, $entity->getCacheTags());
-    }
-
-    return $cache_tags;
+    return $this->entityTypeManager->getDefinition('environment_indicator')->getListCacheTags();
   }
 
   /**
@@ -317,4 +317,5 @@ class ToolbarHandler implements ContainerInjectionInterface {
 
     return $links;
   }
+
 }

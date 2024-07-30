@@ -198,8 +198,7 @@ function _environment_indicator_parse_style(string $style): array {
  * Implements hook_toolbar().
  */
 function environment_indicator_toolbar() {
-  return \Drupal::service('class_resolver')
-    ->getInstanceFromDefinition(ToolbarHandler::class)
+  return \Drupal::service('environment_indicator.toolbar_handler')
     ->toolbar();
 }
 
@@ -210,8 +209,7 @@ function environment_indicator_toolbar() {
  *   A renderable array with the links.
  */
 function _environment_indicator_switcher_links(): array {
-  return \Drupal::service('class_resolver')
-    ->getInstanceFromDefinition(ToolbarHandler::class)
+  return \Drupal::service('environment_indicator.toolbar_handler')
     ->getLinks();
 }
 
@@ -225,8 +223,7 @@ function _environment_indicator_switcher_links(): array {
  *   TRUE if integration is enabled. FALSE otherwise.
  */
 function _environment_indicator_external_integration_is_enabled(string $integration): bool {
-  return \Drupal::service('class_resolver')
-    ->getInstanceFromDefinition(ToolbarHandler::class)
+  return \Drupal::service('environment_indicator.toolbar_handler')
     ->externalIntegration($integration);
 }
 
@@ -237,8 +234,7 @@ function _environment_indicator_external_integration_is_enabled(string $integrat
  *   The cache tags.
  */
 function _environment_indicator_switcher_cache_tags(): array {
-  return \Drupal::service('class_resolver')
-    ->getInstanceFromDefinition(ToolbarHandler::class)
+  return \Drupal::service('environment_indicator.toolbar_handler')
     ->getCacheTags();
 }
 
