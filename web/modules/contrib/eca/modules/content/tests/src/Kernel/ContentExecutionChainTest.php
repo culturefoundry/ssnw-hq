@@ -454,7 +454,7 @@ class ContentExecutionChainTest extends KernelTestBase {
     $query->sort('vid');
     $query->allRevisions();
     $vids = $query->execute();
-    $this->assertSame(2, count($vids), "Node must have exactly two revisions.");
+    $this->assertCount(2, $vids, "Node must have exactly two revisions.");
     $revision = \Drupal::entityTypeManager()->getStorage('node')->loadRevision(key($vids));
     $this->assertEquals("Changed title of node!", $revision->label());
 

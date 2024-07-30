@@ -401,7 +401,7 @@ class FormActionsTest extends KernelTestBase {
 
     /** @var \Drupal\Core\Render\RendererInterface $renderer */
     $renderer = \Drupal::service('renderer');
-    $rendered = $renderer->renderPlain($build);
+    $rendered = $renderer->renderInIsolation($build);
     $this->assertStringContainsString('name="mycheckboxes[0]" value="0"', $rendered);
     $this->assertStringNotContainsString('name="mycheckboxes[0]" value="0" checked="checked"', $rendered);
     $this->assertStringContainsString('name="mycheckboxes[1]" value="1" checked="checked"', $rendered);
@@ -462,7 +462,7 @@ class FormActionsTest extends KernelTestBase {
 
     /** @var \Drupal\Core\Render\RendererInterface $renderer */
     $renderer = \Drupal::service('renderer');
-    $rendered = $renderer->renderPlain($build);
+    $rendered = $renderer->renderInIsolation($build);
     $this->assertStringContainsString('name="mycheckboxes[0]" value="0" checked="checked"', $rendered);
     $this->assertStringContainsString('name="mycheckboxes[1]" value="1" checked="checked"', $rendered);
     $this->assertStringContainsString('name="mycheckboxes[2]" value="2" checked="checked"', $rendered);

@@ -75,7 +75,7 @@ class CompareScalarTest extends KernelTestBase {
    * @return array
    *   The string test cases.
    */
-  public function stringDataProvider(): array {
+  public static function stringDataProvider(): array {
     return [
       [
         'my test string',
@@ -194,7 +194,7 @@ class CompareScalarTest extends KernelTestBase {
    * @return array
    *   The numeric test cases.
    */
-  public function numericDataProvider(): array {
+  public static function numericDataProvider(): array {
     return [
       [
         '5',

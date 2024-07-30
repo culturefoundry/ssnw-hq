@@ -29,6 +29,13 @@ use Symfony\Contracts\EventDispatcher\Event;
 class LogEvent extends EventBase {
 
   /**
+   * An instance holding log data accessible as token.
+   *
+   * @var \Drupal\eca\Plugin\DataType\DataTransferObject|null
+   */
+  protected ?DataTransferObject $logData = NULL;
+
+  /**
    * {@inheritdoc}
    */
   public static function definitions(): array {
@@ -142,10 +149,10 @@ class LogEvent extends EventBase {
   public function getData(string $key): mixed {
     $event = $this->event;
     if ($key === 'log' && $event instanceof LogMessageEvent) {
-      if ($logData = $event->getLogData()) {
+      if ($this->logData === NULL) {
         $message = str_replace('@backtrace_string', '', $event->getMessage());
         $context = $this->cleanupIterableForDto($event->getContext());
-        $logData = DataTransferObject::create([
+        $this->logData = DataTransferObject::create([
           'severity' => DataTransferObject::create($event->getSeverity()),
           'message' => [
             'raw' => DataTransferObject::create($event->getMessage()),
@@ -154,7 +161,7 @@ class LogEvent extends EventBase {
           'context' => DataTransferObject::create($context),
         ]);
       }
-      return $logData;
+      return $this->logData;
     }
     return parent::getData($key);
   }

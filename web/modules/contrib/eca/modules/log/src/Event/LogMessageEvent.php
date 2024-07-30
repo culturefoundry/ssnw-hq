@@ -2,7 +2,6 @@
 
 namespace Drupal\eca_log\Event;
 
-use Drupal\eca\Plugin\DataType\DataTransferObject;
 use Symfony\Contracts\EventDispatcher\Event;
 
 /**
@@ -36,13 +35,6 @@ class LogMessageEvent extends Event {
    * @var array
    */
   protected array $context;
-
-  /**
-   * An instance holding log data accessible as token.
-   *
-   * @var \Drupal\eca\Plugin\DataType\DataTransferObject|null
-   */
-  protected ?DataTransferObject $logData = NULL;
 
   /**
    * Construct a LogMessageEvent.
@@ -88,16 +80,6 @@ class LogMessageEvent extends Event {
    */
   public function getContext(): array {
     return $this->context;
-  }
-
-  /**
-   * Get the log data.
-   *
-   * @return \Drupal\eca\Plugin\DataType\DataTransferObject|null
-   *   The log data or NULL.
-   */
-  public function getLogData(): ?DataTransferObject {
-    return $this->logData;
   }
 
 }

@@ -135,7 +135,7 @@ class ExportRecipe {
       }
     }
 
-    $this->fileSystem->saveData(json_encode($this->getComposer($eca->id(), $namespace, $name, $dependencies['module']), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) . PHP_EOL, $composerJson, FileExists::Replace);
+    $this->fileSystem->saveData(json_encode($this->getComposer($eca->id(), $namespace, $name, $dependencies['module']), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) . PHP_EOL, $composerJson, FileExists::Replace);
     $this->fileSystem->saveData(Yaml::encode($this->getRecipe($name, $description, $dependencies['module'], $actions, $imports)), $recipeYml, FileExists::Replace);
     $this->fileSystem->saveData($this->getReadme($eca->id(), $name, $description, $namespace), $readmeMd, FileExists::Replace);
   }
@@ -197,7 +197,9 @@ class ExportRecipe {
       'license' => 'GPL-2.0-or-later',
     ];
     if ($modules) {
-      $composer['require'] = [];
+      $composer['require'] = [
+        'drupal/core' => '>=10.3',
+      ];
       foreach ($modules as $module) {
         if ($this->moduleExtensionList->getExtensionInfo($module)['package'] !== 'Core') {
           $composer['require']['drupal/' . $module] = '*';

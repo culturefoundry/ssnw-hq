@@ -161,7 +161,7 @@ class CompareFieldValueTest extends KernelTestBase {
    * @return array
    *   The string test cases.
    */
-  public function fieldValueDataProvider(): array {
+  public static function fieldValueDataProvider(): array {
     return [
       [
         'First article',

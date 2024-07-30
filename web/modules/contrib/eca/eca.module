@@ -69,8 +69,8 @@ function _eca_post_update_token_rename(array $tokenNames): void {
         if (!empty($item['configuration'])) {
           foreach ($item['configuration'] as $key => $value) {
             foreach ($tokenNames as $oldTokenName => $newTokenName) {
-              $oldToken = '[' . $oldTokenName . ']';
-              $newToken = '[' . $newTokenName . ']';
+              $oldToken = '[' . $oldTokenName;
+              $newToken = '[' . $newTokenName;
               if (str_contains($value, $oldToken)) {
                 $item['configuration'][$key] = str_replace($oldToken, $newToken, $value);
                 $modelData = str_replace($oldToken, $newToken, $modelData);

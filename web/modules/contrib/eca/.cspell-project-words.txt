@@ -86,6 +86,7 @@ prestate
 privatetempstore
 QUERYALTER
 QUERYSUBSTITUTIONS
+rawid
 REVISIONCREATE
 revisioncreate
 REVISIONDELETE

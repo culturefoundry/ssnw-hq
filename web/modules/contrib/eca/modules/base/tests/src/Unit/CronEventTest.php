@@ -58,7 +58,7 @@ class CronEventTest extends UnitTestCase {
    * @return \string[][]
    *   The data records for testing.
    */
-  public function cronTestDueDatesAndTimesData(): array {
+  public static function cronTestDueDatesAndTimesData(): array {
     return [
       [
         '2022-06-17 15:30',
@@ -144,7 +144,7 @@ class CronEventTest extends UnitTestCase {
    * @return \string[][]
    *   The data records for testing.
    */
-  public function appliesData(): array {
+  public static function appliesData(): array {
     $weekday_today = (int) (new \DateTime('now', new \DateTimeZone('UTC')))->format('w');
     $weekday_tomorrow = ($weekday_today + 1) % 7;
     $weekday_after_tomorrow = ($weekday_today + 2) % 7;

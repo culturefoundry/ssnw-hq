@@ -102,14 +102,14 @@ class BuildTest extends RenderActionsTestBase {
     $action = $this->actionManager->createInstance('eca_render_build', [
       'value' => '[build]',
       'use_yaml' => FALSE,
-      'name' => 'testkey',
+      'name' => 'test_key',
       'token_name' => '',
       'weight' => '100',
       'mode' => 'merge',
     ]);
 
     $build = [
-      'testkey' => [
+      'test_key' => [
         '#type' => 'markup',
         '#markup' => "Hello I am a markup",
       ],
@@ -128,7 +128,7 @@ class BuildTest extends RenderActionsTestBase {
 
     $build = array_intersect_key($build, array_flip(Element::children($build)));
     $this->assertSame([
-      'testkey' => [
+      'test_key' => [
         '#type' => 'markup',
         '#markup' => "Hello I am a markup",
         '#weight' => "100",

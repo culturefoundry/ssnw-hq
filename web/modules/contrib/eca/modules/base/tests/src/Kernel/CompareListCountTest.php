@@ -84,7 +84,7 @@ class CompareListCountTest extends KernelTestBase {
    * @return array
    *   The list item count test cases.
    */
-  public function listDataProvider(): array {
+  public static function listDataProvider(): array {
     return [
       [
         ['a', 'b', 'c'],

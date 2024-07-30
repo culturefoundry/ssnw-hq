@@ -29,3 +29,12 @@ function eca_post_update_rename_tokens_2_0_0(): void {
   ];
   _eca_post_update_token_rename($tokenNames);
 }
+
+/**
+ * Re-run the 2.0.0 post update hook.
+ *
+ * @see https://www.drupal.org/project/eca/issues/3460491
+ */
+function eca_post_update_rename_tokens_2_0_1(): void {
+  eca_post_update_rename_tokens_2_0_0();
+}

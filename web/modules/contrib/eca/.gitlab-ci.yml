@@ -5,12 +5,13 @@ include:
       - '/includes/include.drupalci.main.yml'
       - '/includes/include.drupalci.variables.yml'
       - '/includes/include.drupalci.workflows.yml'
-
 variables:
   _CSPELL_IGNORE_PATHS: '"**/eca.eca.*.yml", "**/eca.model.*.yml", "**/empty.bpmn"'
-  OPT_IN_TEST_CURRENT: 0
   OPT_IN_TEST_NEXT_MINOR: 1
   OPT_IN_TEST_NEXT_MAJOR: 1
+  RUN_JOB_UPGRADE_STATUS: 1
+cspell:
+  allow_failure: false
 phpcs:
   allow_failure: false
 phpstan:
@@ -22,4 +23,6 @@ phpstan (next major):
 phpunit (next minor):
   allow_failure: false
 phpunit (next major):
-  allow_failure: true
+  allow_failure: false
+upgrade status:
+  allow_failure: false

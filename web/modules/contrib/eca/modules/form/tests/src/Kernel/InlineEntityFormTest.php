@@ -83,8 +83,8 @@ class InlineEntityFormTest extends KernelTestBase {
     $form_state = new FormState();
     $form = \Drupal::formBuilder()->buildForm($form_object, $form_state);
 
-    $this->assertSame(TRUE, $form['field_pages']['widget'][0]['inline_entity_form']['title']['widget'][0]['#disabled'], "The model has set the title field to be disabled.");
-    $this->assertSame(TRUE, $form['field_paragraphs']['widget'][0]['subform']['field_text']['widget'][0]['#disabled'], "The model has set the field_text field to be disabled.");
+    $this->assertTrue($form['field_pages']['widget'][0]['inline_entity_form']['title']['widget'][0]['#disabled'], "The model has set the title field to be disabled.");
+    $this->assertTrue($form['field_paragraphs']['widget'][0]['subform']['field_text']['widget'][0]['#disabled'], "The model has set the field_text field to be disabled.");
   }
 
 }

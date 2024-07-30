@@ -443,6 +443,7 @@ final class DocsCommands extends DrushCommands {
     }
 
     $values = [
+      'rawid' => $eca->id(),
       'id' => str_replace([':', ' '], '_', mb_strtolower($eca->label())),
       'label' => $eca->label(),
       'version' => $eca->get('version'),

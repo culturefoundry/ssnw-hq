@@ -3,12 +3,15 @@
 namespace Drupal\eca_queue;
 
 use Drupal\Component\Datetime\TimeInterface;
+use Drupal\Core\DependencyInjection\DependencySerializationTrait;
 use Drupal\eca\Token\DataProviderInterface;
 
 /**
  * Task that will be processed in a queue.
  */
 class Task implements DataProviderInterface {
+
+  use DependencySerializationTrait;
 
   /**
    * The time service.

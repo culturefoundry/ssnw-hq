@@ -410,7 +410,7 @@ class SetFieldValueTest extends KernelTestBase {
     $this->assertTrue(!isset($node->field_string_multi[1]), 'Second value must not be set anymore.');
     $this->assertTrue(!isset($node->field_string_multi[2]), 'Third value must not be set anymore.');
     $this->assertEquals('123', $node->field_string_multi[0]->value, 'After action execution, the field_string_multi value must have been changed.');
-    $this->assertSame(1, $node->get('field_string_multi')->count());
+    $this->assertCount(1, $node->get('field_string_multi'));
 
     // Same as above, but using the "value" column explicitly.
     $action = $action_manager->createInstance('eca_set_field_value', [
@@ -630,8 +630,7 @@ class SetFieldValueTest extends KernelTestBase {
       'field_value' => 'v8',
     ] + $defaults);
     $action->execute($node);
-    $this->assertSame(0, $node->get('field_string_multi')
-      ->count(), 'The field must be empty.');
+    $this->assertCount(0, $node->get('field_string_multi'), 'The field must be empty.');
 
     $account_switcher->switchBack();
 
@@ -678,7 +677,7 @@ class SetFieldValueTest extends KernelTestBase {
     $this->assertTrue(!isset($node->field_text_multi[2]), 'Third value must not be set anymore.');
     $this->assertEquals('123', $node->field_text_multi[0]->value, 'After action execution, the field_text_multi value must have been changed.');
     $this->assertEquals($summary, $node->field_text_multi[0]->summary, 'Original field_text_multi[0] summary must remain the same.');
-    $this->assertSame(1, $node->get('field_text_multi')->count());
+    $this->assertCount(1, $node->get('field_text_multi'));
 
     // Same as above, but using the "value" column explicitly.
     $action = $action_manager->createInstance('eca_set_field_value', [
@@ -1192,12 +1191,9 @@ class SetFieldValueTest extends KernelTestBase {
     $action->execute($node1);
     $this->assertTrue(isset($node1->field_node_multi->target_id), 'Reference target must be set.');
     $this->assertEquals($node2->id(), $node1->field_node_multi->target_id, 'The target ID must match with the ID of node #2.');
-    $this->assertSame(1, $node1->get('field_node_multi')
-      ->count(), 'Exactly one item must be present in node1.');
-    $this->assertSame(0, $node2->get('field_node_multi')
-      ->count(), 'No item must be present in node2.');
-    $this->assertSame(0, $node3->get('field_node_multi')
-      ->count(), 'No item must be present in node3.');
+    $this->assertCount(1, $node1->get('field_node_multi'), 'Exactly one item must be present in node1.');
+    $this->assertCount(0, $node2->get('field_node_multi'), 'No item must be present in node2.');
+    $this->assertCount(0, $node3->get('field_node_multi'), 'No item must be present in node3.');
 
     $action = $action_manager->createInstance('eca_set_field_value', [
       'method' => 'set:clear',

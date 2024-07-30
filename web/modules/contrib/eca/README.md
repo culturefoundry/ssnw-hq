@@ -1,13 +1,10 @@
 **ECA is the no-code solution that empowers you to orchestrate your Drupal
 site.**
 
-ECA is a powerful, versatile, and user-friendly rules engine for Drupal 9+. The
+ECA is a powerful, versatile, and user-friendly rules engine for Drupal. The
 core module is a processor that validates and executes event-condition-action
-plugins. Integrated with graphical user interfaces like
-[BPMN.iO](https://www.drupal.org/project/bpmn_io),
-[Camunda](https://www.drupal.org/project/camunda),
-[ECA Classic Modeller](https://www.drupal.org/project/eca_cm)
-or other possible future modellers, ECA is a robust system for building
+plugins. Integrated with the graphical user interface
+[BPMN.iO](https://www.drupal.org/project/bpmn_io), ECA is a robust system for building
 conditionally triggered action sets.
 
 ### How it works
@@ -41,24 +38,25 @@ There is more to come all the time. So, it's always worth checking back.
 ### User interface
 
 ECA Core is a processing engine that runs in the background. It needs an
-integrated modeller – a front-end tool with which you define
+integrated modeller - a front-end tool with which you define
 event-condition-action models (a.k.a. rules). ECA provides a plugin manager with
 an interface to easily integrate existing tools that already provide that
 capability. And if the modeller supports templates for events, conditions and
 actions, ECA will provide them for all the plugins that are available on the
 current Drupal site.
-
 #### Modellers
 
-ECA is currently integrated with the following modellers:
+[BPMN.iO](https://www.drupal.org/project/bpmn_io) is the recommended ECA
+modeller. It's a JavaScript-based implementation for building models as
+two-dimensional diagrams, integrated into the Drupal admin UI.
 
-- [BPMN.iO](https://www.drupal.org/project/bpmn_io):
-  JavaScript-based implementation for building models as two-dimensional
-  diagrams, integrated into the Drupal admin UI
+Alternatively, you can use these modellers. Please do not use them unless you
+have no other option:
+
 - [Camunda](https://www.drupal.org/project/camunda):
-  user-friendly desktop client for designing and deploying automated processes
+  User-friendly desktop client for designing and deploying automated processes
 - [ECA Classic Modeller](https://www.drupal.org/project/eca_cm):
-  "low-level" modelling tool using Drupal core's form API
+  "Low-level" modelling tool using Drupal core's form API
 
 #### Important: You will need to install the modeller separately
 
@@ -117,10 +115,12 @@ for ECA developers.
 
 ### Installation
 
-It is simple to get started with ECA on any existing Drupal 9+ site: download
-the code with Composer; download your choice of integrated modeller (see above)
-with Composer; enable ECA, the sub-modules you want to use, and the modeller. No
-further configuration required.
+It is easy to get started with ECA:
+
+- Download the ECA module and a modeller, BPMN.iO is recommended
+- Install ECA, the sub-modules you want to use, and the modeller
+
+For a Quick Start, see the [Install section in the ECA Guide](https://ecaguide.org/eca/install).
 
 ### More integrations
 
@@ -159,6 +159,7 @@ started and where you can follow its progress.
   - [ECA Webform](https://www.drupal.org/project/eca_webform)
   - [ECA Webprofiler](https://www.drupal.org/project/eca_webprofiler)
 - Other modules:
+  - [AI](https://www.drupal.org/project/ai)
   - [Augmentor AI](https://www.drupal.org/project/augmentor)
   - [Bookable Calendar](https://www.drupal.org/project/bookable_calendar)
   - [CrowdSec](https://www.drupal.org/project/crowdsec)
@@ -166,6 +167,7 @@ started and where you can follow its progress.
   - [DiscordPHP](https://www.drupal.org/project/discord_php)
   - [Drupal Remote Dashboard](https://www.drupal.org/project/drd)
   - [Easy Email](https://www.drupal.org/project/easy_email)
+  - [GitLab API](https://www.drupal.org/project/gitlab_api)
   - [Group Actions](https://www.drupal.org/project/group_action)
   - [HTTP Client Manager](https://www.drupal.org/project/http_client_manager)
   - [HTTP Client Manager Issuu Oembed](https://www.drupal.org/project/http_client_manager_issuu_oembed)

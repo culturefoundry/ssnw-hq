@@ -41,7 +41,7 @@ class TextTest extends RenderActionsTestBase {
     $this->assertSame('processed_text', $build[0]['#type']);
     $this->assertSame('plain_text', $build[0]['#format']);
 
-    $rendered = trim((string) \Drupal::service('renderer')->renderPlain($build));
+    $rendered = trim((string) \Drupal::service('renderer')->renderInIsolation($build));
     $this->assertEquals('<p>&lt;h1&gt;Hello from ECA&lt;/h1&gt;</p>', $rendered);
   }
 
