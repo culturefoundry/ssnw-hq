@@ -46,14 +46,14 @@ class FavoritesTest extends TypeTrayWebDriverTestBase {
       ->click();
     $this->saveHtmlOutput();
     $page->selectFieldOption('Category', 'categ1');
-    $page->pressButton('Save content type');
+    $page->pressButton('Save');
     $assert_session->pageTextContains('The content type Type One has been updated');
     $this->drupalGet('/admin/structure/types/manage/two');
     $assert_session->elementExists('css', '.vertical-tabs li a[href="#edit-type-tray"]')
       ->click();
     $this->saveHtmlOutput();
     $page->selectFieldOption('Category', 'categ2');
-    $page->pressButton('Save content type');
+    $page->pressButton('Save');
     $assert_session->pageTextContains('The content type Type Two has been updated');
 
     $this->drupalGet('/node/add');
@@ -76,7 +76,7 @@ class FavoritesTest extends TypeTrayWebDriverTestBase {
     $assert_session->pageTextNotContains('Type Two');
     // Favorites category isn't on the page.
     $assert_session->pageTextNotContains('Favorites');
-    $assert_session->elementNotExists('css', '.type-tray-category.category--type_tray__favorites');
+    $assert_session->elementNotExists('css', '.type-tray-category.category--type-tray__favorites');
     // We have the markup to select it as favorite.
     $assert_session->elementExists('css', '.type-tray-teaser--one a[aria-checked="false"]');
     $assert_session->elementNotExists('css', '.type-tray-teaser--one a[aria-checked="true"]');
@@ -89,8 +89,8 @@ class FavoritesTest extends TypeTrayWebDriverTestBase {
     $this->saveHtmlOutput();
     // We now have a favorites category, with type one in there.
     $assert_session->pageTextContains('Favorites');
-    $assert_session->elementExists('css', '.type-tray-category.category--type_tray__favorites');
-    $assert_session->elementExists('css', '.type-tray-category.category--type_tray__favorites .type-tray-teaser--one');
+    $assert_session->elementExists('css', '.type-tray-category.category--type-tray__favorites');
+    $assert_session->elementExists('css', '.type-tray-category.category--type-tray__favorites .type-tray-teaser--one');
     // The element is still at its original category.
     $assert_session->elementExists('css', '.type-tray-category.category--categ1 .type-tray-teaser--one');
     // The markup now offers to remove it from favorites.
@@ -105,7 +105,7 @@ class FavoritesTest extends TypeTrayWebDriverTestBase {
     $this->saveHtmlOutput();
     // We are back to where we started.
     $assert_session->pageTextNotContains('Favorites');
-    $assert_session->elementNotExists('css', '.type-tray-category.category--type_tray__favorites');
+    $assert_session->elementNotExists('css', '.type-tray-category.category--type-tray__favorites');
     $assert_session->elementExists('css', '.type-tray-teaser--one a[aria-checked="false"]');
     $assert_session->elementNotExists('css', '.type-tray-teaser--one a[aria-checked="true"]');
     // Mark it as favorites again.
@@ -125,7 +125,7 @@ class FavoritesTest extends TypeTrayWebDriverTestBase {
     $assert_session->pageTextContains('GRID | LIST');
     // Favorites category isn't on the page.
     $assert_session->pageTextNotContains('Favorites');
-    $assert_session->elementNotExists('css', '.type-tray-category.category--type_tray__favorites');
+    $assert_session->elementNotExists('css', '.type-tray-category.category--type-tray__favorites');
     // We have links to mark types one and two as favorites. Mark "two" as such.
     $assert_session->elementExists('css', '.type-tray-teaser--one .favorite-link');
     $assert_session->elementExists('css', '.type-tray-category.category--categ2 .type-tray-teaser--two');
@@ -133,25 +133,25 @@ class FavoritesTest extends TypeTrayWebDriverTestBase {
     $favorite_link2->click();
     $this->saveHtmlOutput();
     $assert_session->pageTextContains('Favorites');
-    $assert_session->elementExists('css', '.type-tray-category.category--type_tray__favorites');
+    $assert_session->elementExists('css', '.type-tray-category.category--type-tray__favorites');
     $assert_session->elementExists('css', '.type-tray-category.category--categ2 .type-tray-teaser--two');
-    $assert_session->elementExists('css', '.type-tray-category.category--type_tray__favorites .type-tray-teaser--two');
+    $assert_session->elementExists('css', '.type-tray-category.category--type-tray__favorites .type-tray-teaser--two');
 
     // Switch users back and forth and check there's no stale cache served.
     $this->drupalLogout();
     $this->drupalLogin($user1);
     $this->drupalGet('/node/add');
-    $assert_session->elementExists('css', '.type-tray-category.category--type_tray__favorites');
+    $assert_session->elementExists('css', '.type-tray-category.category--type-tray__favorites');
     $assert_session->elementExists('css', '.type-tray-category.category--categ1 .type-tray-teaser--one');
-    $assert_session->elementExists('css', '.type-tray-category.category--type_tray__favorites .type-tray-teaser--one');
-    $assert_session->elementNotExists('css', '.type-tray-category.category--type_tray__favorites .type-tray-teaser--two');
+    $assert_session->elementExists('css', '.type-tray-category.category--type-tray__favorites .type-tray-teaser--one');
+    $assert_session->elementNotExists('css', '.type-tray-category.category--type-tray__favorites .type-tray-teaser--two');
     $this->drupalLogout();
     $this->drupalLogin($user2);
     $this->drupalGet('/node/add');
-    $assert_session->elementExists('css', '.type-tray-category.category--type_tray__favorites');
+    $assert_session->elementExists('css', '.type-tray-category.category--type-tray__favorites');
     $assert_session->elementExists('css', '.type-tray-category.category--categ2 .type-tray-teaser--two');
-    $assert_session->elementExists('css', '.type-tray-category.category--type_tray__favorites .type-tray-teaser--two');
-    $assert_session->elementNotExists('css', '.type-tray-category.category--type_tray__favorites .type-tray-teaser--one');
+    $assert_session->elementExists('css', '.type-tray-category.category--type-tray__favorites .type-tray-teaser--two');
+    $assert_session->elementNotExists('css', '.type-tray-category.category--type-tray__favorites .type-tray-teaser--one');
   }
 
 }

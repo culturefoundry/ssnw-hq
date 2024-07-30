@@ -219,10 +219,8 @@ class TypeTrayController extends NodeController {
           // make this translatable. Not ideal, but worth in this case.
           // @codingStandardsIgnoreLine
           $all_nodes_label = $this->t($settings['existing_nodes_link_text']);
-          // Since sites could be using a different view to deliver the content
-          // overview page, we create the link here based on the actual path,
-          // instead of creating from the view route.
-          $all_nodes_url = Url::fromUserInput('/admin/content', ['query' => ['type' => $type->id()]]);
+          $admin_content_url = Url::fromRoute('system.admin_content')->toString();
+          $all_nodes_url = Url::fromUserInput($admin_content_url, ['query' => ['type' => $type->id()]]);
           $build['#items'][$category][$type->id()]['#nodes_by_type_link'] = Link::fromTextAndUrl($all_nodes_label, $all_nodes_url);
         }
 

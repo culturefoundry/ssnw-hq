@@ -47,21 +47,21 @@ class FunctionalTest extends TypeTrayWebDriverTestBase {
       ->click();
     $this->saveHtmlOutput();
     $page->selectFieldOption('Category', 'categ1');
-    $page->pressButton('Save content type');
+    $page->pressButton('Save');
     $assert_session->pageTextContains('The content type Type One has been updated');
     $this->drupalGet('/admin/structure/types/manage/two');
     $assert_session->elementExists('css', '.vertical-tabs li a[href="#edit-type-tray"]')
       ->click();
     $this->saveHtmlOutput();
     $page->selectFieldOption('Category', 'categ2');
-    $page->pressButton('Save content type');
+    $page->pressButton('Save');
     $assert_session->pageTextContains('The content type Type Two has been updated');
 
     $this->drupalGet('/node/add');
     $assert_session->pageTextContains('GRID | LIST');
     $assert_session->elementTextContains('css', '.type-tray-category.category--categ1', 'Type One');
     $assert_session->elementTextContains('css', '.type-tray-category.category--categ2', 'Type Two');
-    $assert_session->elementTextContains('css', '.type-tray-category.category--_none', 'Type Three');
+    $assert_session->elementTextContains('css', '.type-tray-category.category---none', 'Type Three');
 
     // Make sure sorting by weight works as expected.
     $this->drupalGet('/admin/structure/types/manage/one');
@@ -71,7 +71,7 @@ class FunctionalTest extends TypeTrayWebDriverTestBase {
     $page->selectFieldOption('Category', 'categ1');
     $assert_session->elementExists('css', '#edit-type-tray-type-weight')
       ->setValue(3);
-    $page->pressButton('Save content type');
+    $page->pressButton('Save');
     $assert_session->pageTextContains('The content type Type One has been updated');
     $this->drupalGet('/admin/structure/types/manage/two');
     $assert_session->elementExists('css', '.vertical-tabs li a[href="#edit-type-tray"]')
@@ -80,7 +80,7 @@ class FunctionalTest extends TypeTrayWebDriverTestBase {
     $page->selectFieldOption('Category', 'categ1');
     $assert_session->elementExists('css', '#edit-type-tray-type-weight')
       ->setValue(2);
-    $page->pressButton('Save content type');
+    $page->pressButton('Save');
     $assert_session->pageTextContains('The content type Type Two has been updated');
     $this->drupalGet('/admin/structure/types/manage/three');
     $assert_session->elementExists('css', '.vertical-tabs li a[href="#edit-type-tray"]')
@@ -89,7 +89,7 @@ class FunctionalTest extends TypeTrayWebDriverTestBase {
     $page->selectFieldOption('Category', 'categ1');
     $assert_session->elementExists('css', '#edit-type-tray-type-weight')
       ->setValue(1);
-    $page->pressButton('Save content type');
+    $page->pressButton('Save');
     $assert_session->pageTextContains('The content type Type Three has been updated');
     $this->drupalGet('/node/add');
     $assert_session->pageTextContains('GRID | LIST');
@@ -121,7 +121,7 @@ class FunctionalTest extends TypeTrayWebDriverTestBase {
       ->setValue('Extended description for type one');
     $assert_session->elementExists('css', '#edit-type-tray-existing-nodes-link-text')
       ->setValue('View existing Type One content');
-    $page->pressButton('Save content type');
+    $page->pressButton('Save');
     $assert_session->pageTextContains('The content type Type One has been updated');
     $this->drupalGet('/admin/structure/types/manage/two');
     $assert_session->elementExists('css', '.vertical-tabs li a[href="#edit-type-tray"]')
@@ -130,7 +130,7 @@ class FunctionalTest extends TypeTrayWebDriverTestBase {
     $page->selectFieldOption('Category', 'categ1');
     $assert_session->elementExists('css', '#edit-type-tray-existing-nodes-link-text')
       ->setValue('View existing Type Two content');
-    $page->pressButton('Save content type');
+    $page->pressButton('Save');
     $assert_session->pageTextContains('The content type Type Two has been updated');
     $this->drupalGet('/admin/structure/types/manage/three');
     $assert_session->elementExists('css', '.vertical-tabs li a[href="#edit-type-tray"]')
@@ -139,7 +139,7 @@ class FunctionalTest extends TypeTrayWebDriverTestBase {
     $page->selectFieldOption('Category', 'categ1');
     $assert_session->elementExists('css', '#edit-type-tray-existing-nodes-link-text')
       ->setValue('View existing Type Three content');
-    $page->pressButton('Save content type');
+    $page->pressButton('Save');
     $assert_session->pageTextContains('The content type Type Three has been updated');
     $this->drupalGet('/node/add');
     $assert_session->pageTextContains('GRID | LIST');
@@ -160,7 +160,7 @@ class FunctionalTest extends TypeTrayWebDriverTestBase {
     $this->saveHtmlOutput();
     $assert_session->elementExists('css', '#edit-type-tray-existing-nodes-link-text')
       ->setValue('New link for type one');
-    $page->pressButton('Save content type');
+    $page->pressButton('Save');
     $assert_session->pageTextContains('The content type Type One has been updated');
     $this->drupalGet('/admin/structure/types/manage/two');
     $assert_session->elementExists('css', '.vertical-tabs li a[href="#edit-type-tray"]')
@@ -168,7 +168,7 @@ class FunctionalTest extends TypeTrayWebDriverTestBase {
     $this->saveHtmlOutput();
     $assert_session->elementExists('css', '#edit-type-tray-existing-nodes-link-text')
       ->setValue('');
-    $page->pressButton('Save content type');
+    $page->pressButton('Save');
     $assert_session->pageTextContains('The content type Type Two has been updated');
     $this->drupalGet('/node/add');
     $assert_session->pageTextNotContains('View existing Type One content');
