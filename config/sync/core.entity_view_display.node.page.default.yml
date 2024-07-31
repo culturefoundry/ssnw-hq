@@ -50,18 +50,41 @@ third_party_settings:
             region: content
             configuration:
               id: 'field_block:node:page:field_image'
+              label: 'Primary image of page'
               label_display: '0'
+              provider: layout_builder
               context_mapping:
                 entity: layout_builder.entity
+                view_mode: view_mode
               formatter:
                 type: entity_reference_entity_view
                 label: hidden
                 settings:
-                  view_mode: default
-                  link: false
-                third_party_settings: {  }
+                  view_mode: breakout
+                third_party_settings:
+                  sdc_display:
+                    enabled: 0
+                    component:
+                      machine_name: null
+                      show_deprecated: 0
             weight: 2
-            additional: {  }
+            additional:
+              component_attributes:
+                block_attributes:
+                  id: ''
+                  class: breakout
+                  style: ''
+                  data: ''
+                block_title_attributes:
+                  id: ''
+                  class: ''
+                  style: ''
+                  data: ''
+                block_content_attributes:
+                  id: ''
+                  class: ''
+                  style: ''
+                  data: ''
           4b5d4e9f-6acd-4b13-9a2f-474745ab2ad3:
             uuid: 4b5d4e9f-6acd-4b13-9a2f-474745ab2ad3
             region: content

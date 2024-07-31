@@ -1,0 +1,282 @@
+
+/*@import "../../../../core/assets/vendor/normalize-css/normalize.css";*/
+
+/* Base */
+/*@import "component/colors.css" layer(base);*/
+/*@import "css/base/typography.css" layer(base);*/
+
+/* Components */
+/*@import "component/../css/components/menu.css" ;*/
+
+/*@import "component/primary-menu.css" ;*/
+/*@import "component/forms.css" layer(component);*/
+/*@import "component/action-box.css" layer(component);*/
+/*@import "component/header.css" layer(component);*/
+/*@import "component/footer.css" layer(component);*/
+/*@import "component/expand-search.css";*/
+/*@import "component/social.css" layer(component);*/
+/*@import "component/columns.css" layer(component);*/
+@import "component/action-box.css";
+@import "component/columns.css";
+@import "component/expand-search.css";
+@import "component/footer.css";
+@import "component/forms.css";
+@import "component/header.css";
+@import "component/primary-menu.css" ;
+@import "component/social.css";
+
+@import "component/navigation/header-navigation.css";
+@import "component/navigation/nav-button-mobile.css";
+@import "component/navigation/nav-primary.css";
+@import "component/navigation/nav-primary-button.css";
+@import "component/navigation/nav-primary-wide.css";
+/*@import "component/navigation/responsive_menu.css";*/
+
+@import "layout/layout.css";
+@import "layout/layout-styles.css";
+
+/*@import "component/../css/components/field.css" layer(component);*/
+/*@import "component/../css/components/table.css" layer(component);*/
+
+/*@layer typography {*/
+/*  @unocss typography;*/
+
+  /*.text-formatted {*/
+  /*  @apply max-w-full;*/
+  /*}*/
+/*}*/
+
+/*@layer base {*/
+/*  @unocss base;*/
+
+  section {
+    @apply my-5;
+  }
+
+  /*.text-formatted img {*/
+  /*  @apply max-w-full h-auto;*/
+  /*}*/
+/*}*/
+
+/********************
+* Components below
+ */
+
+/*@layer component {*/
+/*  @unocss components;*/
+/*}*/
+
+
+
+.menu-pipe {
+  :is(ul).menu {
+    @apply gap-0;
+    :is(li).menu-item:before {
+      content: '|';
+      @apply mx-4;
+    }
+    :is(li).menu-item:first-child:before {
+      content: '';
+    }
+  }
+}
+
+.swiper-slide {
+  max-width: 90vw;
+}
+.swiper-slide img {
+  max-width: 100%;
+  height: auto;
+}
+
+.swiper-slide > .swiper-inner {
+  @apply m-8;
+}
+
+.layout__region--background > .block {
+  height: 100%;
+}
+
+/** CTA buttons at bottom of hero -- ignore wrappers so field__item s can get flexed with dropdown  */
+.cta-menu-buttons .block-field-blockgroupdepartmentfield-cta-links, .field--name-field-cta-links.field__items {
+  display: contents;
+}
+
+/* buttons in hero section -- on groups page, now moved out to a new action box */
+.cta-menu-buttons {
+  @apply flex gap-4 items-center justify-between;
+}
+
+.cta-button-bar {
+  > .layout__region {
+    @apply grid @md:grid-cols-2 @3xl:grid-cols-4 gap-4 items-center justify-items-center;
+    > .block-field-blockgroupdepartmentfield-cta-links {
+      display: contents;
+    }
+    :is(select), .field__item {
+      @apply w-full self-center;
+      :is(a) {
+        line-height: 1.2;
+      }
+    }
+  }
+}
+
+.view-id-calendar.view-display-id-block_3 {
+  .view-content {
+    columns: 2 350px;
+  }
+  .view-footer {
+    --link-color: var(--color-highlight2);
+    .button {
+      @apply text-white;
+      display: inline-block;
+    }
+  }
+}
+
+.home-social {
+  > .menu {
+    @apply flex flex-wrap justify-evenly text-background;
+    > .menu-item {
+      @apply bg-highlight1 border-white border-2 border-solid rounded-lg;
+      > :is(a) {
+        @apply block w-3 h-5 px-5 py-3 m-1;
+      }
+    }
+  }
+}
+.waves-bg {
+  :is(h2) {
+    @apply text-4xl font-bold;
+  }
+
+}
+.waves-bg [data-component-id="fedway_theme:swiper"] {
+  max-width: 90vw;
+  .swiper-buttons {
+    @apply mr-0 md:mr-16 relative bottom-4 md:bottom-20 lg:bottom-52
+    margin-right: 4em;
+    position: relative;
+    bottom: 13em;
+    .buttons {
+      @apply bg-highlight1 md:bg-transparent;
+    }
+  }
+}
+
+.more_link_arrow {
+  @apply flex mt-12 after:content-empty after:i-mdi-arrow-right after:inline-flex after:bg-white after:pl-4;
+}
+
+.search-pull-icon {
+  @apply inline-flex flex-row border-4 border-highlight2 border-solid rounded-xl relative bg-highlight1;
+  /* child elements: input, button with icon selected */
+  > input {
+    @apply border-none focus:outline-none focus-within:outline-1 focus-within:outline-highlight2 rounded-r-none;
+    flex-grow: 2;
+  }
+  > button {
+    @apply bg-white w-12 h-8 p-2 border-white border-2 border-solid inline-block
+    text-transparent cursor-pointer i-mdi-search;
+
+  }
+}
+
+.bottom-bar {
+  @apply border-b-8 border-b-solid border-b-highlight2
+}
+
+.center-header h2 {
+  text-align: center;
+}
+
+.media--view-mode-hero-slider {
+  @apply text-center;
+}
+.media--view-mode-hero-slider img {
+  @apply rounded-lg;
+}
+
+.views-field-search-api-excerpt strong {
+  @apply text-accent2;
+}
+
+/***********
+ * Utilities
+ *
+ */
+
+.bleed-container {
+  @apply mx-bleed px-unbleed;
+}
+/* div.container {
+  width: calc(100% - 4em);
+}*/
+
+
+.layout-builder .white-text, .layout-builder-block {
+  --text-color: var(--color-main);
+  --link-color: var(--color-main);
+  --hover-color: var(--color-main);
+}
+
+img.image-style-ca {
+  @apply w-full h-auto;
+}
+
+.media--view-mode-featured {
+  @apply text-center;
+}
+
+img.image-style-featured {
+  @apply border-8 border-highlight2 border-solid rounded-xl;
+  max-width: calc(100% - 16px);
+}
+
+.menu_link_content .field--name-field-cta-links .field__item {
+  @apply my-3 w-fit;
+}
+
+.wave-overlay .wave-overlay-target {
+  display: block;
+}
+
+.pad-content {
+  padding-block: 1em;
+}
+.extrapad-content {
+  padding-block: 3em;
+}
+
+:root {
+  --divider-gap: 4rem;
+  --divider-line-thickness: 2px;
+  --divider-line-color: var(--color-accent1);
+  --divider-size: 96%;
+}
+.divider {
+  --divider-line-offset: calc(var(--divider-gap) / 2);
+  --divider-vertical-pad: calc(calc(100% - var(--divider-size)) / 2);
+
+  &.layout--twocol-section--67-33 {
+    @apply grid lg:grid-cols-[2fr_1fr]
+  }
+  @apply overflow-hidden;
+  gap: var(--divider-gap);
+
+  > div {
+    @apply relative;
+  }
+  > div:before {
+    @apply content-empty absolute z-1;
+    background-color: var(--divider-line-color);
+  }
+  > div:before {
+    inline-size: var(--divider-line-thickness);
+    block-size: var(--divider-size);
+    inset-inline-start: calc(var(--divider-line-offset) * -1);
+    inset-block-start: var(--divider-vertical-pad);
+    inset-block-end: var(--divider-vertical-pad);
+  }
+}

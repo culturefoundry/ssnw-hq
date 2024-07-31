@@ -1,7 +1,8 @@
 /**
  * Layout -- technique from https://www.youtube.com/watch?v=c13gpBrnGEw.
  */
-.content-grid {
+.node-grid,
+.content-grid:not(:has(.node-grid)) {
   --padding-inline: 1rem;
   --content-max-width: 1350px;
   --breakout-max-width: 1700px;
@@ -27,7 +28,6 @@
       minmax(var(--padding-inline), 1fr) [full-width-end];
 }
 
-.content-view-grid > .view-content > :not(breakout, .full-width),
 .content-grid > :not(.breakout, .full-width),
 .node-grid > :not(.breakout, .full-width),
 .full-width > :not(.breakout, .full-width) {
@@ -41,29 +41,15 @@
 }
 
 .node-grid > .full-width,
-.content-grid > .full-width,
-.full-width > .full-width {
+.full-width > .full-width,
+.content-grid > .full-width {
   grid-column: full-width;
   display: grid;
   grid-template-columns: inherit;
 }
 
-.full-width > .content-grid,
-.content-grid > .content-grid {
-  grid-template-columns: inherit;
-  grid-column: full-width;
-  display: grid;
-}
-
-.breakout {
-  grid-column: breakout;
-}
-
-img.full-width,
-img.image-style-breakout,
-img.breakout {
+img.full-width {
   width: 100%;
-  height: auto;
   max-height: 45vh;
   object-fit: cover;
 }
@@ -79,8 +65,4 @@ img.breakout {
   .media--banner {
     @apply min-h-[400px] @5xl:min-h-[600px];
   }
-}
-
-.bg-secondary{
-  @apply bg-secondary;
 }
