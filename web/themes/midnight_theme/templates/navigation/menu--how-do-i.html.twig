@@ -42,7 +42,7 @@
         ]
       %}
       {% if menu_level == 0 %}
-      <select data-fedway-jumpmenu="active" {{ attributes.addClass('menu') }}>
+      <select data-ssnw-jumpmenu="active" {{ attributes.addClass('menu') }}>
         <option value="">{{ item.title }}</option>
         {% if item.below %}
           {{ menus.menu_links(item.below, attributes, menu_level + 1) }}

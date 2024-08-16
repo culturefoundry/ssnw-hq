@@ -1,20 +1,6 @@
 {#
 /**
  * @file
- * Theme override for a branding block.
- *
- * Each branding element variable (logo, name, slogan) is only available if
- * enabled in the block configuration.
- *
- * Available variables:
- * - site_logo: Logo for site as defined in Appearance or theme settings.
- * - site_name: Name for site as defined in Site information settings.
- * - site_slogan: Slogan for site as defined in Site information settings.
- */
-#}
-{#
-/**
- * @file
  * Theme override to display a block.
  *
  * Available variables:
@@ -45,28 +31,36 @@
     'block',
     'block-' ~ configuration.provider|clean_class,
     'block-' ~ plugin_id|clean_class,
-    'max-w-[360px]'
-  ]
+    'overflow-hidden relative full-width py-8',
+    content.field_background_image ? 'grey-text' : ''
+]
+  
 %}
 <div{{ attributes.addClass(classes) }}>
-  {{ title_prefix }}
-  {% if label %}
-    <h2{{ title_attributes }}>{{ label }}</h2>
-  {% endif %}
-  {{ title_suffix }}
-  {% block content %}
-    {% if site_logo %}
-      <a href="{{ path('<front>') }}" rel="home" class="site-logo">
-        <img src="{{ site_logo }}" alt="{{ 'Home'|t }}" class="max-w-full md:max-w-90" />
-      </a>
+
+    {% if content.field_background_image %}
+        <div class="bg-image absolute top-0 left-0 w-full h-full z-[-1] full-width">{{content.field_background_image}}</div>
     {% endif %}
-    {% if site_name %}
-      <div class="site-name">
-        <a href="{{ path('<front>') }}" rel="home">{{ site_name }}</a>
-      </div>
-    {% endif %}
-    
-      <div class="site-slogan "> Serving Since 1977</div>
-  {% endblock %}
+
+    <div class="spacing grid grid-cols-1 md:grid-cols-2 relative">
+        {{ title_prefix }}
+        {% if label %}
+            {% if content.field_background_image %}
+                <h2{{ title_attributes }} class="md:col-span-2 text-white">{{ label }}</h2>
+            {% else %}
+                <h2{{ title_attributes }} class="md:col-span-2">{{ label }}</h2>
+            {% endif %}
+        {% endif %}
+
+        {{ title_suffix }}
+
+        {% block content %}
+            {{ content|without('field_background_image', 'field_logo') }}
+        {% endblock %}
+
+        {% if content.field_logo %}
+            <div class="floating-logo absolute right-0 top-0 md:bottom-0 md:top-[initial]"> {{content.field_logo}} </div>
+        {% endif %}
+    </div>
 
 </div>

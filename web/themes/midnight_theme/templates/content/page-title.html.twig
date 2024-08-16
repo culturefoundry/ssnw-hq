@@ -12,8 +12,27 @@
  *   displayed after the main title tag that appears in the template.
  */
 #}
+
+{#
+ * I do not like the if solution, but if the title field is in layout builder or a normal piece of content, 
+ * the 'title' variable prints field--node--title.html.twig, which has a h1 tag in it, whereas on non-content-type pages like forms,
+ * the 'title; variable is only the string. This causes normal pages with that block in the title block in the block structure to
+ * Print Duplicate h1 tags
+ * A different solution should be provided between page-title.html.twig and field--node--title.html.twig
+#}
+
 {{ title_prefix }}
 {% if title %}
-  <h1{{ title_attributes.addClass('page-title') }}>{{ title }}</h1>
+    {# {% if 'h1' in title|render %}
+    <div{{ title_attributes.addClass('page-title') }}>
+  {% else %} #}
+    <h1{{ title_attributes.addClass('page-title') }}>
+  {# {% endif %} #}
+      {{ title }}
+  {# {% if 'h1' in title|render %} #}
+    {# </div>
+  {% else %} #}
+    </h1>
+  {# {% endif %} #}
 {% endif %}
 {{ title_suffix }}

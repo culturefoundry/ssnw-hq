@@ -1,20 +1,6 @@
 {#
 /**
  * @file
- * Theme override for a branding block.
- *
- * Each branding element variable (logo, name, slogan) is only available if
- * enabled in the block configuration.
- *
- * Available variables:
- * - site_logo: Logo for site as defined in Appearance or theme settings.
- * - site_name: Name for site as defined in Site information settings.
- * - site_slogan: Slogan for site as defined in Site information settings.
- */
-#}
-{#
-/**
- * @file
  * Theme override to display a block.
  *
  * Available variables:
@@ -43,9 +29,10 @@
 {%
   set classes = [
     'block',
+    'block-call-to-action',
     'block-' ~ configuration.provider|clean_class,
     'block-' ~ plugin_id|clean_class,
-    'max-w-[360px]'
+    content.field_layout[0]['#markup']|clean_class,
   ]
 %}
 <div{{ attributes.addClass(classes) }}>
@@ -55,18 +42,6 @@
   {% endif %}
   {{ title_suffix }}
   {% block content %}
-    {% if site_logo %}
-      <a href="{{ path('<front>') }}" rel="home" class="site-logo">
-        <img src="{{ site_logo }}" alt="{{ 'Home'|t }}" class="max-w-full md:max-w-90" />
-      </a>
-    {% endif %}
-    {% if site_name %}
-      <div class="site-name">
-        <a href="{{ path('<front>') }}" rel="home">{{ site_name }}</a>
-      </div>
-    {% endif %}
-    
-      <div class="site-slogan "> Serving Since 1977</div>
+    {{ content|without('field_layout') }}
   {% endblock %}
-
 </div>

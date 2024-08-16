@@ -1,20 +1,6 @@
 {#
 /**
  * @file
- * Theme override for a branding block.
- *
- * Each branding element variable (logo, name, slogan) is only available if
- * enabled in the block configuration.
- *
- * Available variables:
- * - site_logo: Logo for site as defined in Appearance or theme settings.
- * - site_name: Name for site as defined in Site information settings.
- * - site_slogan: Slogan for site as defined in Site information settings.
- */
-#}
-{#
-/**
- * @file
  * Theme override to display a block.
  *
  * Available variables:
@@ -45,28 +31,14 @@
     'block',
     'block-' ~ configuration.provider|clean_class,
     'block-' ~ plugin_id|clean_class,
-    'max-w-[360px]'
   ]
 %}
 <div{{ attributes.addClass(classes) }}>
-  {{ title_prefix }}
-  {% if label %}
-    <h2{{ title_attributes }}>{{ label }}</h2>
-  {% endif %}
-  {{ title_suffix }}
-  {% block content %}
-    {% if site_logo %}
-      <a href="{{ path('<front>') }}" rel="home" class="site-logo">
-        <img src="{{ site_logo }}" alt="{{ 'Home'|t }}" class="max-w-full md:max-w-90" />
-      </a>
-    {% endif %}
-    {% if site_name %}
-      <div class="site-name">
-        <a href="{{ path('<front>') }}" rel="home">{{ site_name }}</a>
-      </div>
-    {% endif %}
-    
-      <div class="site-slogan "> Serving Since 1977</div>
-  {% endblock %}
-
+       {{ title_prefix }}
+            {% if label %}
+                <h2{{ title_attributes }}>{{ label }}</h2>
+            {% endif %}
+        {{ title_suffix }}
+    {% embed 'midnight_theme:swiper_cards' with { slides: content.field_cards, navigation:true } %}
+    {% endembed %}
 </div>
