@@ -1,0 +1,2 @@
+(function(n,i){n.behaviors.toggleMainMenu={attach:function(t){i("toggleMainMenu",".menu-toggle",t).forEach(e=>{e.addEventListener("click",a=>{r(e)})})}},n.behaviors.triggerClick={attach(t){i("button-click",".toggle").forEach(e=>{e.addEventListener("keypress",function(a){a.key==="Enter"&&(a.preventDefault(),e.click())})})}};function r(t){t.getAttribute("aria-expanded")==="true"?t.setAttribute("aria-expanded","false"):t.setAttribute("aria-expanded","true")}})(Drupal,once);
+//# sourceMappingURL=menu-toggle2.js.map

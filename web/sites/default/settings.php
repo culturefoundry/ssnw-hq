@@ -15,7 +15,7 @@ $settings['container_yamls'][] = $app_root . '/' . $site_path . '/services.yml';
   '^plib\.freelock\.com$',
   'plib\.ddev\.site$',
 ];*/
-$settings['file_private_path'] = '/var/www/conf/fedway/private';
+$settings['file_private_path'] = '/var/www/conf/ssnw/private';
 
 $settings['file_scan_ignore_directories'] = [
   'node_modules',

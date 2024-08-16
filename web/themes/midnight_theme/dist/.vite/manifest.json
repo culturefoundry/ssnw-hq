@@ -9,24 +9,51 @@
     "src": "components/feature_layout/feature_layout.css",
     "isEntry": true
   },
+  "components/header/header_menu/header_menu.css": {
+    "file": "header_menu.css",
+    "src": "components/header/header_menu/header_menu.css",
+    "isEntry": true
+  },
+  "components/header/header_menu/header_menu.js": {
+    "file": "header_menu.js",
+    "name": "header_menu",
+    "src": "components/header/header_menu/header_menu.js",
+    "isEntry": true
+  },
+  "components/header/menu-toggle/menu-toggle.css": {
+    "file": "menu-toggle.css",
+    "src": "components/header/menu-toggle/menu-toggle.css",
+    "isEntry": true
+  },
+  "components/header/menu-toggle/menu-toggle.js": {
+    "file": "menu-toggle2.js",
+    "name": "menu-toggle",
+    "src": "components/header/menu-toggle/menu-toggle.js",
+    "isEntry": true
+  },
   "components/link_block/link_block.css": {
     "file": "link_block.css",
     "src": "components/link_block/link_block.css",
     "isEntry": true
   },
   "components/link_block/link_block.js": {
-    "file": "link_block.js",
+    "file": "link_block2.js",
     "name": "link_block",
     "src": "components/link_block/link_block.js",
     "isEntry": true
   },
-  "components/swiper/swiper.js": {
-    "file": "swiper.js",
-    "name": "swiper",
-    "src": "components/swiper/swiper.js",
+  "components/marquee/marquee.css": {
+    "file": "marquee.css",
+    "src": "components/marquee/marquee.css",
+    "isEntry": true
+  },
+  "components/swiper/swiper-script.js": {
+    "file": "swiper-script.js",
+    "name": "swiper-script",
+    "src": "components/swiper/swiper-script.js",
     "isEntry": true,
     "css": [
-      "swiper.css"
+      "swiper-script.css"
     ]
   },
   "components/swiper/swiper_styles.css": {
@@ -89,15 +116,6 @@
     "src": "libraries/components/user.css",
     "isEntry": true
   },
-  "libraries/fedway/fedway.js": {
-    "file": "fedway.js",
-    "name": "fedway",
-    "src": "libraries/fedway/fedway.js",
-    "isEntry": true,
-    "css": [
-      "fedway.css"
-    ]
-  },
   "libraries/global/base.css": {
     "file": "base.css",
     "src": "libraries/global/base.css",
@@ -108,10 +126,25 @@
     "src": "libraries/global/component.css",
     "isEntry": true
   },
+  "libraries/global/footer-menu-toggle.js": {
+    "file": "footer-menu-toggle.js",
+    "name": "footer-menu-toggle",
+    "src": "libraries/global/footer-menu-toggle.js",
+    "isEntry": true
+  },
   "libraries/global/layout.css": {
     "file": "layout.css",
     "src": "libraries/global/layout.css",
     "isEntry": true
+  },
+  "libraries/ssnw/ssnw.js": {
+    "file": "ssnw.js",
+    "name": "ssnw",
+    "src": "libraries/ssnw/ssnw.js",
+    "isEntry": true,
+    "css": [
+      "ssnw.css"
+    ]
   },
   "libraries/unocss/unocss.css": {
     "file": "unocss.css",

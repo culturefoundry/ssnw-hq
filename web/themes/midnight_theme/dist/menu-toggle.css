@@ -1,0 +1,1 @@
+.menu-toggle{display:flex;justify-content:end;cursor:pointer;align-items:center;background:transparent;border:0px}.menu-toggle .icon.close,.menu-toggle[aria-expanded=true] .icon.open,.header-menu_wrapper{display:none}.menu-toggle .icon.open,.menu-toggle[aria-expanded=true] .icon.close{display:block}.header-menu_wrapper[aria-expanded=true]{display:grid}
