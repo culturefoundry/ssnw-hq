@@ -1,0 +1,47 @@
+uuid: 10f3f1c5-4b45-42f4-af29-c42ac21ce495
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.card_grid
+    - field.field.block_content.card_grid.field_cards
+  module:
+    - nomarkup
+    - sdc_display
+id: block_content.card_grid.default
+targetEntityType: block_content
+bundle: card_grid
+mode: default
+content:
+  field_cards:
+    type: entity_reference_entity_view
+    label: hidden
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings:
+      nomarkup:
+        enabled: false
+        separator: '|'
+        referenced_entity: '0'
+      sdc_display:
+        component:
+          machine_name: 'midnight_theme:swiper'
+          show_deprecated: 0
+        mappings:
+          static:
+            props:
+              wrapperclass: ''
+              peek: ''
+              parallax: ''
+              delay: ''
+            slots:
+              slides:
+                value: ''
+                format: basic_html
+          dynamic:
+            mapped: slides
+        enabled: 0
+    weight: 0
+    region: content
+hidden: {  }

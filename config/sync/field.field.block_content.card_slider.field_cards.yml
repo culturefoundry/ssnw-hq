@@ -1,0 +1,29 @@
+uuid: 2f0d8f3f-61ce-4dbb-b9ba-208f216d6bf9
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.card_slider
+    - block_content.type.card_with_icon
+    - field.storage.block_content.field_cards
+id: block_content.card_slider.field_cards
+field_name: field_cards
+entity_type: block_content
+bundle: card_slider
+label: Cards
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:block_content'
+  handler_settings:
+    target_bundles:
+      card_with_icon: card_with_icon
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

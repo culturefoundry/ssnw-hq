@@ -1,0 +1,25 @@
+uuid: dae98280-cb0c-4de9-92c8-7553cb4d7103
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.footer
+  module:
+    - system
+  theme:
+    - midnight_theme
+id: midnight_theme_footer
+theme: midnight_theme
+region: footer
+weight: -9
+provider: null
+plugin: 'system_menu_block:footer'
+settings:
+  id: 'system_menu_block:footer'
+  label: 'Footer Menu'
+  label_display: '0'
+  provider: system
+  level: 1
+  depth: 0
+  expand_all_items: false
+visibility: {  }

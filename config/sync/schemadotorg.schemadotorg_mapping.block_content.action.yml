@@ -7,7 +7,6 @@ dependencies:
     - field.field.block_content.action.body
     - field.field.block_content.action.schema_image
     - field.field.block_content.action.schema_name
-    - field.field.block_content.action.schema_url
   module:
     - block_content
 id: block_content.action
@@ -18,5 +17,4 @@ schema_properties:
   body: description
   schema_image: image
   schema_name: name
-  schema_url: url
 additional_mappings: {  }

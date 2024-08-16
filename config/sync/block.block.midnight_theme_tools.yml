@@ -1,6 +1,6 @@
 uuid: b698148b-03ff-4a14-929f-0d5d3b0fc2f5
 langcode: en
-status: true
+status: false
 dependencies:
   config:
     - system.menu.tools
@@ -13,7 +13,7 @@ _core:
 id: midnight_theme_tools
 theme: midnight_theme
 region: header
-weight: 0
+weight: -4
 provider: null
 plugin: 'system_menu_block:tools'
 settings:

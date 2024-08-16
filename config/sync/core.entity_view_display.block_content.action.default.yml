@@ -5,12 +5,27 @@ dependencies:
   config:
     - block_content.type.action
     - field.field.block_content.action.body
+    - field.field.block_content.action.field_call_to_action
+    - field.field.block_content.action.field_layout
     - field.field.block_content.action.schema_image
     - field.field.block_content.action.schema_name
-    - field.field.block_content.action.schema_url
   module:
     - link
+    - options
+    - sdc_display
     - text
+third_party_settings:
+  sdc_display:
+    enabled: false
+    component:
+      machine_name: ''
+    mappings:
+      static:
+        props: {  }
+        slots: {  }
+      dynamic:
+        props: {  }
+        slots: {  }
 id: block_content.action.default
 targetEntityType: block_content
 bundle: action
@@ -21,7 +36,26 @@ content:
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    weight: 12
+    weight: 2
+    region: content
+  field_call_to_action:
+    type: link
+    label: hidden
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_layout:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 4
     region: content
   schema_image:
     type: entity_reference_entity_view
@@ -30,7 +64,7 @@ content:
       view_mode: default
       link: false
     third_party_settings: {  }
-    weight: 5
+    weight: 1
     region: content
   schema_name:
     type: string
@@ -38,18 +72,6 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 2
-    region: content
-  schema_url:
-    type: link
-    label: above
-    settings:
-      trim_length: 80
-      url_only: false
-      url_plain: false
-      rel: ''
-      target: ''
-    third_party_settings: {  }
-    weight: 141
+    weight: 0
     region: content
 hidden: {  }

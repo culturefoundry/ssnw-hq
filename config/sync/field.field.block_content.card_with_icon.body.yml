@@ -1,0 +1,24 @@
+uuid: 560cf765-a7de-4b3b-b1fc-81fdd8466452
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.card_with_icon
+    - field.storage.block_content.body
+  module:
+    - text
+id: block_content.card_with_icon.body
+field_name: body
+entity_type: block_content
+bundle: card_with_icon
+label: Body
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: false
+  required_summary: false
+  allowed_formats: {  }
+field_type: text_with_summary

@@ -42,7 +42,7 @@ filters:
     status: false
     weight: -10
     settings:
-      allowed_html: ''
+      allowed_html: '<a class="button button-secondary arrow-link"> <p class="text-xl2 text-xl4"> <div class="quote-text">'
       filter_html_help: true
       filter_html_nofollow: false
   filter_htmlcorrector:
@@ -57,13 +57,6 @@ filters:
     status: true
     weight: 15
     settings: {  }
-  filter_url:
-    id: filter_url
-    provider: filter
-    status: false
-    weight: 0
-    settings:
-      filter_url_length: 72
   linkit:
     id: linkit
     provider: linkit

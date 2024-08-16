@@ -1,0 +1,24 @@
+uuid: d88831df-a0c7-4c4a-a03b-aac3911cd778
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.cta_block_with_background
+    - field.storage.block_content.body
+  module:
+    - text
+id: block_content.cta_block_with_background.body
+field_name: body
+entity_type: block_content
+bundle: cta_block_with_background
+label: Body
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: false
+  required_summary: false
+  allowed_formats: {  }
+field_type: text_with_summary

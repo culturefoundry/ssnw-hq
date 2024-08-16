@@ -4,14 +4,24 @@ status: true
 dependencies:
   config:
     - block_content.type.reference_block
+    - field.field.block_content.reference_block.field_call_to_action
     - field.field.block_content.reference_block.field_referenced_content
   module:
     - inline_entity_form
+    - link
 id: block_content.reference_block.default
 targetEntityType: block_content
 bundle: reference_block
 mode: default
 content:
+  field_call_to_action:
+    type: link_default
+    weight: 29
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
   field_referenced_content:
     type: inline_entity_form_complex
     weight: 26

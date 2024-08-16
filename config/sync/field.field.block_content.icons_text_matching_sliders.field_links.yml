@@ -1,0 +1,23 @@
+uuid: a720d4e4-1b27-41a8-b6c5-83c81715bd25
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.icons_text_matching_sliders
+    - field.storage.block_content.field_links
+  module:
+    - link
+id: block_content.icons_text_matching_sliders.field_links
+field_name: field_links
+entity_type: block_content
+bundle: icons_text_matching_sliders
+label: Links
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  title: 1
+  link_type: 17
+field_type: link

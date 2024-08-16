@@ -16,6 +16,7 @@ settings:
       - bold
       - italic
       - underline
+      - style
       - strikethrough
       - superscript
       - subscript
@@ -58,6 +59,26 @@ settings:
       multiBlock: true
     ckeditor5_sourceEditing:
       allowed_tags: {  }
+    ckeditor5_style:
+      styles:
+        -
+          label: Button
+          element: '<a class="button">'
+        -
+          label: 'Secondary Button'
+          element: '<a class="button-secondary">'
+        -
+          label: 'Arrow Link'
+          element: '<a class="arrow-link">'
+        -
+          label: 'Large Text'
+          element: '<p class="text-xl2">'
+        -
+          label: 'XL Text'
+          element: '<p class="text-xl4">'
+        -
+          label: 'Quote Text'
+          element: '<div class="quote-text">'
     linkit_extension:
       linkit_enabled: true
       linkit_profile: default

@@ -1,0 +1,25 @@
+uuid: a7361f73-c372-4cf9-a483-24b765053fa7
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.main
+  module:
+    - system
+  theme:
+    - midnight_theme
+id: midnight_theme_mainnavigation
+theme: midnight_theme
+region: footer
+weight: -10
+provider: null
+plugin: 'system_menu_block:main'
+settings:
+  id: 'system_menu_block:main'
+  label: 'Main navigation'
+  label_display: '0'
+  provider: system
+  level: 1
+  depth: 0
+  expand_all_items: true
+visibility: {  }

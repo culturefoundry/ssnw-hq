@@ -1,0 +1,25 @@
+uuid: 5f2bbd52-4ee3-4220-b0ef-4608929ba1b5
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:ef407234-5dc0-43f6-9a2d-5cea7fef3248'
+  module:
+    - block_content
+  theme:
+    - midnight_theme
+id: midnight_theme_footerlogo
+theme: midnight_theme
+region: footer
+weight: -11
+provider: null
+plugin: 'block_content:ef407234-5dc0-43f6-9a2d-5cea7fef3248'
+settings:
+  id: 'block_content:ef407234-5dc0-43f6-9a2d-5cea7fef3248'
+  label: 'Footer Logo'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility: {  }

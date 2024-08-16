@@ -1,0 +1,21 @@
+uuid: a4e662df-4697-4cc2-8aa2-77f41371b1c3
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.action
+    - field.storage.block_content.field_layout
+  module:
+    - options
+id: block_content.action.field_layout
+field_name: field_layout
+entity_type: block_content
+bundle: action
+label: Layout
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

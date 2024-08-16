@@ -1,0 +1,11 @@
+uuid: 8af917ca-1a20-4f21-b447-c44a6d50314d
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.promo
+label: Promo
+description: 'Used for a feature on other pages, like "Joe & Midnight" on the ''About Us'' page'
+targetEntityType: node
+cache: true

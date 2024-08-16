@@ -1,0 +1,8 @@
+uuid: 79d0ac83-5c75-42e5-a5d1-d705e440b72b
+langcode: en
+status: true
+dependencies: {  }
+id: card_slider
+label: 'Card Slider'
+revision: false
+description: null

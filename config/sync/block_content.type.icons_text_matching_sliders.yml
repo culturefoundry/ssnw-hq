@@ -1,0 +1,8 @@
+uuid: d06d7407-462a-45f6-be0e-925d43fd5bf5
+langcode: en
+status: true
+dependencies: {  }
+id: icons_text_matching_sliders
+label: 'Icons & Text Matching Sliders'
+revision: false
+description: null

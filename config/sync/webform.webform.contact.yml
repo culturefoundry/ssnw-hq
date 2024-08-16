@@ -25,7 +25,7 @@ id: contact
 title: Contact
 description: 'Basic email contact webform.'
 categories: {  }
-elements: |
+elements: |-
   name:
     '#title': 'Your Name'
     '#type': textfield
@@ -36,11 +36,27 @@ elements: |
     '#type': email
     '#required': true
     '#default_value': '[current-user:mail]'
-  subject:
-    '#title': Subject
+  phone:
+    '#type': tel
+    '#title': Phone
+    '#placeholder': (XXX-XXX-XXXX)
+  location:
     '#type': textfield
-    '#required': true
-    '#test': 'Testing contact webform from [site:name]'
+    '#title': Location
+    '#placeholder': (City/State)
+  select_services_interested_in:
+    '#type': select
+    '#title': '- Select Services Interested In -'
+    '#title_display': none
+    '#options':
+      'Digital Security': 'Digital Security'
+      'On-Site Security': 'On-Site Security'
+      'Maritime Services': 'Maritime Services'
+      'Remote Monitoring': 'Remote Monitoring'
+      'Alarm Systems': 'Alarm Systems'
+      'Robots & Drones': 'Robots & Drones'
+      'Answering Services': 'Answering Services'
+    '#empty_option': '- Select Services Interested In -'
   message:
     '#title': Message
     '#type': textarea

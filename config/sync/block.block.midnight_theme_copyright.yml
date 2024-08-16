@@ -1,0 +1,25 @@
+uuid: 5aa9663a-ef8a-4527-b7d1-d3674b999142
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:97d19a14-dd77-4761-aaf5-410bf49f5dab'
+  module:
+    - block_content
+  theme:
+    - midnight_theme
+id: midnight_theme_copyright
+theme: midnight_theme
+region: footer
+weight: -8
+provider: null
+plugin: 'block_content:97d19a14-dd77-4761-aaf5-410bf49f5dab'
+settings:
+  id: 'block_content:97d19a14-dd77-4761-aaf5-410bf49f5dab'
+  label: Copyright
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility: {  }

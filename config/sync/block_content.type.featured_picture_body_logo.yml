@@ -1,0 +1,8 @@
+uuid: b9be16ab-c418-45fe-8506-23fd8401a197
+langcode: en
+status: true
+dependencies: {  }
+id: featured_picture_body_logo
+label: 'Featured Picture/Body/Logo'
+revision: false
+description: null

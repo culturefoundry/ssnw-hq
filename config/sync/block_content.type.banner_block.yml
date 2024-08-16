@@ -1,0 +1,8 @@
+uuid: 98d55e32-d98d-48ca-9144-590c2f04af9d
+langcode: en
+status: true
+dependencies: {  }
+id: banner_block
+label: 'Banner Block'
+revision: false
+description: 'Block used at the top of pages. Image with text that resolves to the bottom of the page. Potential for fade in per homepage Hero banner Discussed'

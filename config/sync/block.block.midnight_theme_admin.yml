@@ -1,6 +1,6 @@
 uuid: c6432721-820d-444e-8be1-bea747cc491b
 langcode: en
-status: true
+status: false
 dependencies:
   config:
     - system.menu.admin
@@ -13,7 +13,7 @@ _core:
 id: midnight_theme_admin
 theme: midnight_theme
 region: header
-weight: 1
+weight: -3
 provider: null
 plugin: 'system_menu_block:admin'
 settings:

@@ -1,0 +1,59 @@
+uuid: 42db9da5-d334-40ac-b91a-44637d7f360b
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.card_slider
+    - field.field.block_content.card_slider.field_cards
+  module:
+    - nomarkup
+    - sdc_display
+third_party_settings:
+  sdc_display:
+    enabled: false
+    component:
+      machine_name: ''
+    mappings:
+      static:
+        props: {  }
+        slots: {  }
+      dynamic:
+        props: {  }
+        slots: {  }
+id: block_content.card_slider.default
+targetEntityType: block_content
+bundle: card_slider
+mode: default
+content:
+  field_cards:
+    type: entity_reference_entity_view
+    label: hidden
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings:
+      nomarkup:
+        enabled: false
+        separator: '|'
+        referenced_entity: '0'
+      sdc_display:
+        component:
+          machine_name: 'midnight_theme:swiper'
+          show_deprecated: 0
+        mappings:
+          static:
+            props:
+              wrapperclass: ''
+              peek: ''
+              parallax: ''
+              delay: ''
+            slots:
+              slides:
+                value: ''
+                format: basic_html
+          dynamic:
+            mapped: slides
+        enabled: 0
+    weight: 0
+    region: content
+hidden: {  }

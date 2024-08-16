@@ -1,0 +1,8 @@
+uuid: 1d0d5f13-6884-4bdc-99a2-a08e655baf4e
+langcode: en
+status: true
+dependencies: {  }
+id: card_grid
+label: 'Card Grid'
+revision: false
+description: null

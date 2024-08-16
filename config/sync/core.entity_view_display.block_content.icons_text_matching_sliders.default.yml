@@ -1,0 +1,50 @@
+uuid: 9326cbfd-2263-494c-b05c-e2ede9c8c007
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.icons_text_matching_sliders
+    - field.field.block_content.icons_text_matching_sliders.field_icons
+    - field.field.block_content.icons_text_matching_sliders.field_links
+  module:
+    - link
+    - sdc_display
+third_party_settings:
+  sdc_display:
+    enabled: false
+    component:
+      machine_name: ''
+    mappings:
+      static:
+        props: {  }
+        slots: {  }
+      dynamic:
+        props: {  }
+        slots: {  }
+id: block_content.icons_text_matching_sliders.default
+targetEntityType: block_content
+bundle: icons_text_matching_sliders
+mode: default
+content:
+  field_icons:
+    type: entity_reference_entity_view
+    label: hidden
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_links:
+    type: link
+    label: hidden
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 3
+    region: content
+hidden: {  }

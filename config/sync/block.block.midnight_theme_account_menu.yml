@@ -1,6 +1,6 @@
 uuid: e320586a-b3df-435c-a122-a2dfd8a394e6
 langcode: en
-status: true
+status: false
 dependencies:
   config:
     - system.menu.account
@@ -12,8 +12,8 @@ _core:
   default_config_hash: gmxYWWHmgbe0Pnv8y48ZLSLH5mEHejOjAP6RLxUfdzU
 id: midnight_theme_account_menu
 theme: midnight_theme
-region: secondary_menu
-weight: -4
+region: primary_menu
+weight: -7
 provider: null
 plugin: 'system_menu_block:account'
 settings:

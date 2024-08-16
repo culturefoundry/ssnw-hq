@@ -1,0 +1,8 @@
+uuid: 6a5a3a63-c7e7-40a3-a9f0-c5e5adc39500
+langcode: en
+status: true
+dependencies: {  }
+id: card_with_icon
+label: 'Card With Icon'
+revision: false
+description: null

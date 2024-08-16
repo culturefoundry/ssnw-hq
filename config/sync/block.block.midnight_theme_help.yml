@@ -11,7 +11,7 @@ _core:
 id: midnight_theme_help
 theme: midnight_theme
 region: header
-weight: 0
+weight: -7
 provider: null
 plugin: help_block
 settings:
