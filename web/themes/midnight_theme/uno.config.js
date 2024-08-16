@@ -5,7 +5,7 @@ import {
   transformerVariantGroup,
 } from 'unocss';
 import presetIcons from '@unocss/preset-icons';
-import presetGridAreas from 'unocss-preset-grid-areas';
+// import presetGridAreas from 'unocss-preset-grid-areas';
 
 export default defineConfig({
   presets: [
@@ -20,20 +20,20 @@ export default defineConfig({
         secondary: 'Roboto',
       },
     }),
-    presetGridAreas({
-      gridTemplateAreas: {
-        header: [
-          'logo menu burger',
-        ],
-        headerm: [
-          'logo burger',
-        ],
-        flip: [
-          'user',
-          'nav',
-        ],
-      },
-    }),
+    // presetGridAreas({
+    //   gridTemplateAreas: {
+    //     header: [
+    //       'logo menu burger',
+    //     ],
+    //     headerm: [
+    //       'logo burger',
+    //     ],
+    //     flip: [
+    //       'user',
+    //       'nav',
+    //     ],
+    //   },
+    // }),
     // presetTypography({
     //   selectorName: 'text-formatted',
     // }),
@@ -43,6 +43,7 @@ export default defineConfig({
         'gg': () => import('@iconify-json/gg/icons.json').then(i => i.default),
         'bi': () => import('@iconify-json/bi/icons.json').then(i => i.default),
         'dashicons': () => import('@iconify-json/dashicons/icons.json').then(i => i.default),
+        'ssnw': () => import('./images/icons/icons.json').then(i => i.default),
       },
     }),
   ],
@@ -87,6 +88,10 @@ export default defineConfig({
       linkcolor: 'var(--link-color)',
       hovercolor: 'var(--hover-color)',
       theme: 'var(--color-theme)',
+      // other colors
+      dark1: '#202020',
+      dark2: '#333333',
+      themeblue: '#00549F'
     },
     spacing: {
       bleed: 'calc(50% - 50vw)', // container padding
