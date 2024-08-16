@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\field_group\Element;
+namespace Drupal\field_group_accordion\Element;
 
 use Drupal\Core\Render\Element\RenderElement;
 
