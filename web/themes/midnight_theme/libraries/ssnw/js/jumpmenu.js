@@ -9,7 +9,7 @@
     attach(context) {
       once(
         'jumpmenu',
-        '[data-fedway-jumpmenu="active"]',
+        '[data-ssnw-jumpmenu="active"]',
         context
       ).forEach((item) => {
         item.onchange = jumpTo;

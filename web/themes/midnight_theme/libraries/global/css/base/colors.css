@@ -23,7 +23,11 @@
   --active-color: var(--color-highlight2);
   --hover-color: var(--color-highlight2);
   --button-bg-color: var(--color-highlight1);
-  --button-text-color: var(--color-pagebg);
+  --button-secondary-bg-color: theme('colors.themeblue');
+  --button-text-color: var(--color-main);
+  --button-secondary-text-color: theme('colors.white');
+  --button-hover-bg-color: var(--color-main);
+  --button-hover-text-color: var(--color-highlight1);
   --header-color: var(--color-main);
   --background-color: var(--color-pagebg);
   --main-color: var(--color-main);
@@ -44,7 +48,10 @@
 .dark .site-logo img {
   filter: invert(25%);
 }
-
+.grey-text, .grey-text .text-formatted{
+  --main-color: #CBCED2;
+  --link-color: #EFE5CA;
+}
 .white-text {
   @apply text-pagebg layoutbuilder:text-main;
   --text-color: var(--color-pagebg);

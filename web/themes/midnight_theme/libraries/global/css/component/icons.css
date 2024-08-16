@@ -19,3 +19,39 @@
   text-indent: -9999px;
   background: url(../../images/icons/feed.svg) no-repeat;
 }
+
+
+
+.icon-facebook{
+  @apply content-["_"] bg-black h-8 w-8 rounded-full bg-black z-[5] relative m-4 inline-block;
+  @apply after:bg-white z-10 after:block after:w-6 after:h-6 after:content-["_"] after:absolute after:top-1 after:left-1;
+  @apply after:i-dashicons-facebook-alt;
+  font-size:0px;
+}
+
+.icon-twitter {
+  @apply inline-block content-["_"] bg-black h-8 w-8 rounded-full bg-black z-[5] relative Dm-4;
+  @apply after:bg-white z-10 after:block after:w-6 after:h-6 after:content-["_"] after:absolute after:top-1 after:left-1;
+  @apply after:i-bi-twitter-x;
+  font-size:0px;
+}
+
+.icon-linkedin {
+  @apply inline-block content-["_"] bg-black h-8 w-8 rounded-full bg-black z-[5] relative m-4;
+  @apply after:bg-white z-10 after:block after:w-6 after:h-6 after:content-["_"] after:absolute after:top-1 after:left-1;
+  @apply after:i-dashicons-linkedin;
+  font-size:0px;
+}
+.icon-instagram {
+  @apply inline-block content-["_"] bg-black h-8 w-8 rounded-full bg-black z-[5] relative m-4;
+  @apply after:bg-white z-10 after:block after:w-6 after:h-6 after:content-["_"] after:absolute after:top-1 after:left-1;
+  @apply after:i-dashicons-instagram;
+  font-size:0px;
+
+}
+.icon-youtube {
+  @apply inline-block content-["_"] bg-black h-8 w-8 rounded-full bg-black z-[5] relative m-4;
+  @apply after:bg-white z-10 after:block after:w-6 after:h-6 after:content-["_"] after:absolute after:top-1 after:left-1;
+  @apply after:i-mdi-youtube;
+  font-size:0px;
+}

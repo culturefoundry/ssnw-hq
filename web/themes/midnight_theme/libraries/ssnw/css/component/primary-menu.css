@@ -49,7 +49,7 @@
     }
   }
 }
-body:not(.is-active-menu-parent, .is-overlay-active) #block-fedway-theme-main-menu li.menu-item--expanded /*:has(.is-active-menu-parent)*/ {
+body:not(.is-active-menu-parent, .is-overlay-active) #block-ssnw-theme-main-menu li.menu-item--expanded /*:has(.is-active-menu-parent)*/ {
   @apply position-inherit;
   .is-active-menu-parent {
     top: calc(4.7em + var(--drupal-displace-offset-top, 0px));

@@ -27,3 +27,24 @@ ul.menu {
   margin: 0;
   padding-top: 0.2em;
 }
+
+footer .menu-item-no-footer{
+  display:none!important;
+}
+
+.primary-nav__button-toggle{
+  @apply bg-white border-0 i-mdi-chevron-down?mask text-white inline-block w-6 h-6 cursor-pointer;
+}
+.primary-nav__button-toggle[aria-expanded=true]{
+  @apply i-mdi-chevron-up?mask w-6 h-6;
+}
+
+.menu--main>ul>li {
+  border-bottom:1px solid #8A8C8E;
+}
+.region-footer .menu--main>ul>li ul{
+  @apply hidden;
+}
+.region-footer .menu--main>ul>li ul[aria-expanded=true]{
+  @apply block;
+}

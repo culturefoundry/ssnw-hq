@@ -4,12 +4,55 @@
  */
 
 .button,
-.image-button {
+.image-button,
+a.button, .field--name-field-call-to-action a {
+  box-sizing:border-box;
+  display: inline-block;
   margin-right: 1em;
   margin-left: 1em;
+  background-color: var(--button-bg-color);
+  padding:.75em 1.25em;
+  color: var(--button-text-color);
+  font-weight: 700;
+  min-width:250px;
+  font-size:28px;
+  text-align:center;
+  text-transform:uppercase;
+}
+.button:hover, .button:focus, .button:active,
+.image-button:focus, .image-button:hover,.image-button:active,
+a.button:hover, a.button:focus, a.button:active {
+  text-decoration: none;;
 }
 .button:first-child,
 .image-button:first-child {
   margin-right: 0;
   margin-left: 0;
+}
+.bg-secondary .button,
+.bg-secondary .image-button,
+.bg-secondary a.button, 
+.bg-secondary .field--name-field-call-to-action a{
+  border:2px solid black;
+}
+
+a.button-secondary {
+  background-color: var(--button-secondary-bg-color);
+  color: var(--button-secondary-text-color)!important;
+}
+
+a.button-large{
+  max-width:600px;
+  font-size:56px;
+}
+
+a.button-small{
+  min-width:0px;
+  font-size: 18px;
+}
+a.arrow-link, .card-w-icon .field--type-link a {
+  @apply after:i-ssnw-arrow?mask after:inline-block after:bg-yellow after:content-["_"] after:ml-4 after:h-6 after:w-6;
+}
+a.arrow-link:hover::after {
+  background-color: var(--hover-color);
 }

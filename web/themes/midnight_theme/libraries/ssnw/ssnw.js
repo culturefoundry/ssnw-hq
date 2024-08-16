@@ -2,7 +2,7 @@ import "./js/jumpmenu.js";
 import "./js/navigation.js";
 import "./js/navigation-utils.js";
 import "./js/second-level-navigation.js";
-import "./css/fedway.css";
+import "./css/ssnw.css";
 
 window.toggleDarkMode = function () {
   const currentTheme = localStorage.getItem('theme');

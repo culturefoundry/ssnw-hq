@@ -152,7 +152,7 @@
   }
 
 }
-.waves-bg [data-component-id="fedway_theme:swiper"] {
+.waves-bg [data-component-id="midnight_theme:swiper"] {
   max-width: 90vw;
   .swiper-buttons {
     @apply mr-0 md:mr-16 relative bottom-4 md:bottom-20 lg:bottom-52

@@ -1,5 +1,4 @@
 @import "css/component/form.css";
-@import "css/component/icons.css";
 @import "css/component/inline-form.css";
 @import "css/component/item-list.css";
 @import "css/component/link.css";
@@ -12,3 +11,6 @@
 @import "css/component/tabs.css";
 @import "css/component/textarea.css";
 @import "css/component/ui-dialog.css";
+@import "css/component/button.css";
+@import "css/component/footer.css";
+@import "css/component/icons.css";

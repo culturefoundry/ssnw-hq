@@ -128,6 +128,12 @@ strong {
   }
 }
 
+.bg-dark, .bg-dark1 {
+  --main-color: white;
+  --color-main:white;
+  color:white;
+}
+
 .text-formatted {
   @apply type-formatted;
 
@@ -149,4 +155,23 @@ strong {
   img.align-right {
     margin-left: 2rem;
   }
+}
+
+.text-2xl{
+  @apply text-2xl;
+}
+
+.text-4xl{
+  @apply text-4xl;
+}
+
+.quote-text{
+  @apply relative mx-8;
+  @apply before:block before:content-['“'] before:top-0 before:left-[-1.5em]
+
+}
+
+
+.body-text-bottom{
+  @apply h-max mt-auto;
 }
