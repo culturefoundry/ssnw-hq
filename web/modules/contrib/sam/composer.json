@@ -13,13 +13,5 @@
   "require": { },
   "require-dev": {
     "drupal/paragraphs": "dev-1.x"
-  },
-  "extra": {
-    "patches": {
-      "drupal/paragraphs": {
-          "Issue #3433816: D11 compatibility (paragraphs)": "https://git.drupalcode.org/project/paragraphs/-/merge_requests/115.patch"
-      }
-    }
   }
-
 }
