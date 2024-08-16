@@ -24,16 +24,18 @@ global:
     component:
       libraries/global/component.css:
         weight: -10
+  js:
+    libraries/global/footer-menu-toggle.js: {}
   dependencies:
     - core/normalize
-#fedway:
+#ssnw:
 #  version: VERSION
 ##  css:
 ##    theme:
-##      libraries/fedway/fedway.css:
+##      libraries/ssnw/ssnw.css:
 ##        weight: -5
 #  js:
-#    libraries/fedway/fedway.js:
+#    libraries/ssnw/ssnw.js:
 #      weight: -5
 #  dependencies:
 #    - core/drupal
@@ -102,10 +104,9 @@ user:
     component:
       libraries/components/user.css:
         weight: -10
-
 #jumpmenu:
 #  js:
-#    libraries/fedway/js/jumpmenu.js: {}
+#    libraries/ssnw/js/jumpmenu.js: {}
 #  dependencies:
 #    - core/once
 #
@@ -113,16 +114,16 @@ navigation-primary:
   vite: true
   css:
     component:
-      libraries/fedway/css/component/navigation/header-navigation.css: {}
-      libraries/fedway/css/component/navigation/nav-primary.css: {}
-      libraries/fedway/css/component/navigation/nav-primary-button.css: {}
-      libraries/fedway/css/component/navigation/nav-primary-wide.css: {}
-      libraries/fedway/css/component/navigation/nav-button-mobile.css: {}
+      libraries/ssnw/css/component/navigation/header-navigation.css: {}
+      libraries/ssnw/css/component/navigation/nav-primary.css: {}
+      libraries/ssnw/css/component/navigation/nav-primary-button.css: {}
+      libraries/ssnw/css/component/navigation/nav-primary-wide.css: {}
+      libraries/ssnw/css/component/navigation/nav-button-mobile.css: {}
   js:
-    libraries/fedway/js/navigation-utils.js: {}
-    libraries/fedway/js/navigation.js: {}
-    libraries/fedway/js/second-level-navigation.js: {}
-    libraries/fedway/js/nav-resize.js: {}
+    libraries/ssnw/js/navigation-utils.js: {}
+    libraries/ssnw/js/navigation.js: {}
+    libraries/ssnw/js/second-level-navigation.js: {}
+    libraries/ssnw/js/nav-resize.js: {}
   dependencies:
     - core/drupal
     - core/once

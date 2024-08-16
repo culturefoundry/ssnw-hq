@@ -3,14 +3,15 @@ type: theme
 'base theme': stable9
 starterkit: true
 version: 1.0.0
-logo: images/SSNW logo transparent.png
+logo: images/SSNW_header_logo.svg
+slogan: "Serving Since 1977"
 ckeditor5-stylesheets:
   - libraries/ckeditor/ckeditor5.css
   - libraries/global/css/base/typography.css
 libraries:
   - midnight_theme/unocss
   - midnight_theme/global
-#  - midnight_theme/fedway
+#  - midnight_theme/ssnw
   - midnight_theme/messages
 libraries-extend:
   user/drupal.user:
