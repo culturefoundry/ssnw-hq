@@ -2589,6 +2589,7 @@ return array(
     'Drupal\\Core\\TypedData\\Validation\\RecursiveValidator' => $baseDir . '/web/core/lib/Drupal/Core/TypedData/Validation/RecursiveValidator.php',
     'Drupal\\Core\\TypedData\\Validation\\TypedDataAwareValidatorTrait' => $baseDir . '/web/core/lib/Drupal/Core/TypedData/Validation/TypedDataAwareValidatorTrait.php',
     'Drupal\\Core\\TypedData\\Validation\\TypedDataMetadata' => $baseDir . '/web/core/lib/Drupal/Core/TypedData/Validation/TypedDataMetadata.php',
+    'Drupal\\Core\\Update\\EquivalentUpdate' => $baseDir . '/web/core/lib/Drupal/Core/Update/EquivalentUpdate.php',
     'Drupal\\Core\\Update\\RemovedPostUpdateNameException' => $baseDir . '/web/core/lib/Drupal/Core/Update/RemovedPostUpdateNameException.php',
     'Drupal\\Core\\Update\\UpdateBackend' => $baseDir . '/web/core/lib/Drupal/Core/Update/UpdateBackend.php',
     'Drupal\\Core\\Update\\UpdateCacheBackendFactory' => $baseDir . '/web/core/lib/Drupal/Core/Update/UpdateCacheBackendFactory.php',
