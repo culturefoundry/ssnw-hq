@@ -1,5 +1,5 @@
 {
-  "name": "fedway_theme",
+  "name": "midnight_theme",
   "version": "1.0.0",
   "description": "Theme generated from Drupal core starterkit, with partials, components and templates from Freelock's standard base",
   "type": "module",
@@ -17,9 +17,8 @@
     "@iconify-json/mdi": "^1.1.66",
     "@unocss/postcss": "^0.61.0",
     "glob": "^10.4.1",
-    "swiper": "^11.1.4",
+    "swiper": "^11.1.9",
     "unocss": "^0.61.0",
-    "unocss-preset-grid-areas": "^1.0.4",
     "vite": "^5.3.0",
     "vite-plugin-live-reload": "^3.0.3"
   }

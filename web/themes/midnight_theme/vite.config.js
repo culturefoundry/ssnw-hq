@@ -21,7 +21,9 @@ export default defineConfig({
     rollupOptions: {
       input: [
         ...globSync('libraries/*/*.{css,js}'),
-        ...globSync(['components/**/*.{css,js}', '!components/**/css/**']),
+        ...globSync('libraries/*/js/*.{js}'),
+        ...globSync('components/**/*.css'),
+        ...globSync('components/**/*.js'),
         // ...globSync('layouts/**/*.{css,js}'),
       ],
       // Print file without hash.
@@ -33,21 +35,21 @@ export default defineConfig({
   },
   // CSS sourcemaps in dev mode.
   css: { devSourcemap: true },
-  server: {
-    // Listen for connections.
-    host: true,
-    // Use vite server for generated paths (@unocss-devtools-update).
-    origin: 'https://ssnw.ddev.site:5257',
-    port: 5257,
-    headers: {
-      'Access-Control-Allow-Origin': 'https://ssnw.ddev.site',
-    },
-    cors: {
-      origin: true,
-    },
-    hmr: {
-      host: process.env.DDEV_HOSTNAME,
-      protocol: 'wss',
-    },
-  },
+  // server: {
+  //   // Listen for connections.
+  //   host: true,
+  //   // Use vite server for generated paths (@unocss-devtools-update).
+  //   origin: 'https://ssnw.ddev.site:5257',
+  //   port: 5257,
+  //   headers: {
+  //     'Access-Control-Allow-Origin': 'https://ssnw.ddev.site',
+  //   },
+  //   cors: {
+  //     origin: true,
+  //   },
+  //   hmr: {
+  //     host: process.env.DDEV_HOSTNAME,
+  //     protocol: 'wss',
+  //   },
+  // },
 });
