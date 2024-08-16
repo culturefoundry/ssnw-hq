@@ -1,0 +1,82 @@
+include:
+  ################
+  # DrupalCI includes:
+  # As long as you include this, any future includes added by the Drupal Association will be accessible to your pipelines automatically.
+  # View these include files at https://git.drupalcode.org/project/gitlab_templates/
+  ################
+  - project: $_GITLAB_TEMPLATES_REPO
+    ref: $_GITLAB_TEMPLATES_REF
+    file:
+      - '/includes/include.drupalci.main.yml'
+      - '/includes/include.drupalci.variables.yml'
+      - '/includes/include.drupalci.workflows.yml'
+
+################
+# Pipeline configuration variables
+# https://git.drupalcode.org/project/gitlab_templates/-/blob/1.0.x/includes/include.drupalci.variables.yml
+################
+variables:
+  # Skip composer-lint job since it runs `composer validate` on expanded composer.json instead of the original.
+  # Its functionality is replaced by two custom jobs: composer-validate and php-lint.
+  SKIP_COMPOSER_LINT: '1'
+
+################
+# Make included jobs not allow failure.
+################
+phpcs:
+  allow_failure: false
+phpstan:
+  allow_failure: false
+stylelint:
+  allow_failure: false
+eslint:
+  allow_failure: false
+
+composer-validate:
+  stage: validate
+  script:
+    - composer validate
+
+# Extracted from https://git.drupalcode.org/project/gitlab_templates/-/blob/4c954c514fa5ed644b1009f46fc08ab5642dbc59/includes/include.drupalci.main.yml#L229.
+php-lint:
+  stage: validate
+  needs:
+    - composer
+  script:
+    - vendor/bin/parallel-lint --no-progress -e php,module,install,inc $_PARALLEL_LINT_EXTRA --exclude $_WEB_ROOT --exclude ./vendor .
+
+composer-original:
+  stage: build
+  variables:
+    COMPOSER_NO_INTERACTION: 1
+  artifacts:
+    expire_in: 1 week
+    expose_as: 'web-vendor'
+    when: always
+    exclude:
+      - .git
+      - .git/**/*
+    paths:
+      - .
+  script:
+    - composer install
+
+composer-normalize:
+  stage: validate
+  needs:
+    - composer-original
+  script:
+    - composer normalize --dry-run
+
+editorconfig:
+  stage: validate
+  needs:
+    - composer-original
+  script:
+    - vendor/bin/ec --no-interaction -d .
+
+markdownlint:
+  stage: validate
+  image: registry.gitlab.com/pipeline-components/markdownlint-cli2:latest
+  script:
+    - markdownlint-cli2 .

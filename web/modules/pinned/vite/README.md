@@ -45,14 +45,28 @@ It's designed to work with [Vite](https://vitejs.dev) 3 or newer.
  })
 ```
 
-* In the `<theme|module>.libraries.yml`, for the library you would like to use
-   assets build by vite, add property `vite: true` and when defining assets
-   provide their paths to entry points used in vite instead of paths to build
-   assets. For example:
+* Enable vite support for asset libraries you would like to use it with:
+  * To enable for all libraries/components of the theme/module, in its
+    `.info.yml` file, add `vite:` section with one or both of:
+    * `enableInAllLibraries: true` to enable vite support for all libraries,
+    * `enableInAllComponents: true` to enable vite support for all components.
+  * To enable for single library, in the `<theme|module>.libraries.yml`, for
+    the library you would like to use assets build by vite, add property
+    `vite: true`.
+* Replace paths to assets in library definition with paths to assets sources:
 
 ```diff
+ # theme.info.yml
+ name: My theme
+ type: theme
+ [...]
++ vite:
++   enableInAllLibraries: true
+```
+
+```diff
+ # theme.libaries.yml
  global-styling:
-+  vite: true
    js:
 -    dist/script.js: {}
 +    src/script.ts: {}

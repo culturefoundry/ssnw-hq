@@ -1,4 +1,4 @@
-# Fedway Theme
+# ssnw Theme
 
 ## Important
 
@@ -89,12 +89,12 @@ To actively develop with this project:
 1. ddev start (the vite port is configured in .ddev/config.yml)
 2. Create a web/sites/default/settings.local.php file with the line:
 ```
-$settings['vite']['devServerUrl'] = 'https://fedway.ddev.site:5243';
+$settings['vite']['devServerUrl'] = 'https://ssnw.ddev.site:5243';
 ```
 3. Run the npm build inside the ddev web container:
 ```
 ddev ssh
-cd web/themes/fedway_theme
+cd web/themes/midnight_theme
 npm run dev
 ```
 4. Clear the Drupal cache in another terminal (or in the website):
@@ -116,4 +116,4 @@ $settings['cache']['bins']['render'] = 'cache.backend.null';
 ```
 
 ## Generator
-fedway_theme theme, generated from starterkit_theme. Additional information on generating themes can be found in the [Starterkit documentation](https://www.drupal.org/docs/core-modules-and-themes/core-themes/starterkit-theme).
+midnight_theme theme, generated from starterkit_theme. Additional information on generating themes can be found in the [Starterkit documentation](https://www.drupal.org/docs/core-modules-and-themes/core-themes/starterkit-theme).

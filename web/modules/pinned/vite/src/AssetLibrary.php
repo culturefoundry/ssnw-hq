@@ -151,14 +151,66 @@ class AssetLibrary {
    * Checks if library should be managed by vite.
    */
   public function shouldBeManagedByVite(): bool {
+
+    // Check if vite is enabled for this library in site settings.
     $enabledInSettings = $this->getViteSetting('enabled');
     if (!is_bool($enabledInSettings)) {
       $enabledInSettings = FALSE;
     }
+
+    // Check if vite is enabled for this library in extension definition.
+    $enabledInExtensionDefinition = FALSE;
+    $setting = 'enableInAllLibraries';
+    if ($this->isSdc()) {
+      $setting = 'enableInAllComponents';
+    }
+    $enabledInExtensionDefinition = $this->getViteSettingFromExtensionDefinition($setting);
+    if (!is_bool($enabledInExtensionDefinition)) {
+      $enabledInExtensionDefinition = FALSE;
+    }
+
+    // Check if vite is enabled for this library in library definition.
     $enabledInLibraryDefinition = isset($this->library['vite'])
       && $this->library['vite'] !== FALSE
       && (!isset($this->library['vite']['enabled']) || $this->library['vite']['enabled'] === TRUE);
-    return $enabledInSettings || $enabledInLibraryDefinition;
+
+    return $enabledInSettings || $enabledInExtensionDefinition || $enabledInLibraryDefinition;
+  }
+
+  /**
+   * Returns vite setting from extension definition.
+   */
+  private function getViteSettingFromExtensionDefinition(string $setting): bool|string|null {
+
+    // Get extension definition.
+    $extensionDefinition = [];
+    if ($this->modules->exists($this->extension)) {
+      $extensionDefinition = $this->modules->getExtensionInfo($this->extension);
+    }
+    elseif ($this->themes->exists($this->extension)) {
+      $extensionDefinition = $this->themes->getExtensionInfo($this->extension);
+    }
+
+    // Check if extension definition has vite settings.
+    if (
+      !is_array($extensionDefinition)
+      || !isset($extensionDefinition['vite'])
+      || !is_array($extensionDefinition['vite'])
+    ) {
+      return NULL;
+    }
+
+    // Check if setting is present in extension definition.
+    if (!isset($extensionDefinition['vite'][$setting])) {
+      return NULL;
+    }
+
+    // Return setting value.
+    $value = $extensionDefinition['vite'][$setting];
+    if (!is_bool($value)) {
+      $value = strval($value);
+    }
+    return $value;
   }
 
   /**

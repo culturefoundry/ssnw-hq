@@ -71,7 +71,18 @@ class Manifest {
    * Returns styles paths of given chunk.
    */
   public function getStyles(string $chunk, bool $prependBaseUri = TRUE): array {
-    return $this->getChunkPropertyPaths('css', $chunk, $prependBaseUri);
+    if (
+      !$this->chunkExists($chunk)
+      || empty($this->manifest[$chunk]['css'])
+      || !is_array($this->manifest[$chunk]['css'])
+    ) {
+      return [];
+    }
+
+    return array_filter(array_map(
+      fn($import) => $this->getPath($import, $prependBaseUri),
+      $this->manifest[$chunk]['css'],
+    ));
   }
 
   /**

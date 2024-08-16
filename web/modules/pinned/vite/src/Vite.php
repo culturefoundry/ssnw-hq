@@ -44,14 +44,22 @@ class Vite {
     foreach ($libraries as $libraryId => $library) {
       $libraryExtension = $extension;
       $isSdc = FALSE;
-      if ($extension === 'sdc' && isset($library['vite']) && $library['vite'] === TRUE) {
-        $componentExtension = explode('--', $libraryId)[0];
-        $libraryExtension = $componentExtension;
-        $isSdc = TRUE;
+      $prefix = 'components.';
+      $componentId = '';
+
+      if (str_starts_with($libraryId, $prefix)) {
+        if (substr($libraryId, 0, strlen($prefix)) == $prefix) {
+          $componentId = substr($libraryId, strlen($prefix));
+          $libraryExtension = explode('--', $componentId)[0];
+          $isSdc = TRUE;
+        }
+        else {
+          continue;
+        }
       }
 
       $assetLibrary = new AssetLibrary(
-        $libraryId,
+        $componentId ?: $libraryId,
         $library,
         $libraryExtension,
         $this->messenger,
