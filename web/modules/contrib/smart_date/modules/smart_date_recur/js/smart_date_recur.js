@@ -118,7 +118,7 @@
       ).forEach(function (element) {
         element.title = element.textContent;
         element.tabIndex = 0;
-        // Check the input on spacebar or return.
+        // Check the input on space bar or return.
         element.addEventListener(
           'keydown',
           function (event) {

@@ -5,6 +5,7 @@
  * Provides tokens for the smart_date_recur module.
  */
 
+use Drupal\Component\Utility\DeprecationHelper;
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Render\BubbleableMetadata;
 use Drupal\smart_date\Plugin\Field\FieldType\SmartDateFieldItemList;
@@ -86,6 +87,9 @@ function smart_date_recur_tokens($type, $tokens, array $data, array $options, Bu
     return $replacements;
   }
 
+  /** @var \Drupal\Core\Render\RendererInterface $renderer */
+  $renderer = \Drupal::service('renderer');
+
   foreach ($tokens as $token => $original) {
     $list = $data[$data['field_name']];
     if (!$list instanceof SmartDateFieldItemList) {
@@ -136,7 +140,16 @@ function smart_date_recur_tokens($type, $tokens, array $data, array $options, Bu
         $rrules_processed[] = $rrid;
       }
       // @todo More structure or markup around multiple values?
-      $output = \Drupal::service('renderer')->renderPlain($rule_text);
+      if (!class_exists(DeprecationHelper::class)) {
+        // @phpstan-ignore-next-line
+        $output = $renderer->renderPlain($rule_text);
+      }
+      $output = DeprecationHelper::backwardsCompatibleCall(
+        currentVersion: \Drupal::VERSION,
+        deprecatedVersion: '10.3',
+        currentCallable: fn() => $renderer->renderInIsolation($rule_text),
+        deprecatedCallable: fn() => $renderer->renderPlain($rule_text),
+      );
       $replacements[$original] = $output;
       continue;
       // End rule_text token processing.
@@ -218,7 +231,16 @@ function smart_date_recur_tokens($type, $tokens, array $data, array $options, Bu
       }
     }
 
-    $output = \Drupal::service('renderer')->renderPlain($values);
+    if (!class_exists(DeprecationHelper::class)) {
+      // @phpstan-ignore-next-line
+      $output = $renderer->renderPlain($values);
+    }
+    $output = DeprecationHelper::backwardsCompatibleCall(
+      currentVersion: \Drupal::VERSION,
+      deprecatedVersion: '10.3',
+      currentCallable: fn() => $renderer->renderInIsolation($values),
+      deprecatedCallable: fn() => $renderer->renderPlain($values),
+    );
     $replacements[$original] = $output;
   }
   return $replacements;

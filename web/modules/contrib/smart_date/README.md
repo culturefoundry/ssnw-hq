@@ -58,7 +58,7 @@ information, see
 1. To use the field provided by this module, add a new field to your content
    type, for example at:
    Administration » Structure » Content Types » Event » Manage Fields
-2. `"Smart date range"` will be listed in the General section of field options.
+2. `"Smart date range"` will be listed in the Date and time section of field options.
 3. In the settings, you have the option to specify:
     - a default date and time, either a fixed value (such as the start of a
       conference) or a relative date (such as '+1 Saturday').

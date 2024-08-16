@@ -164,7 +164,9 @@ tr.even .smartdate--widget .form-type--select label {
   flex-wrap: wrap;
   justify-content: center;
 }
-.smartdate--time-inline .form-datetime-wrapper:nth-of-type(2) .form-items-inline,
+.smartdate--time-inline
+  .form-datetime-wrapper:nth-of-type(2)
+  .form-items-inline,
 .smartdate--time-inline div.time-end {
   flex-wrap: wrap-reverse;
 }
@@ -180,7 +182,11 @@ tr.even .smartdate--widget .form-type--select label {
   .fieldset__wrapper .smartdate--time-inline .smartdate--separator {
     margin: 0 0.5rem 0.75rem;
   }
-  .field-multiple-table tr .fieldset__wrapper .smartdate--time-inline .form-item {
+  .field-multiple-table
+    tr
+    .fieldset__wrapper
+    .smartdate--time-inline
+    .form-item {
     margin-top: 0;
     margin-bottom: 0;
   }
@@ -192,7 +198,9 @@ tr.even .smartdate--widget .form-type--select label {
     align-items: center;
     justify-content: flex-end;
   }
-  .smartdate--time-inline .form-datetime-wrapper:nth-of-type(2) .form-items-inline,
+  .smartdate--time-inline
+    .form-datetime-wrapper:nth-of-type(2)
+    .form-items-inline,
   .smartdate--time-inline div.time-end {
     flex-direction: row-reverse;
     flex-wrap: wrap;

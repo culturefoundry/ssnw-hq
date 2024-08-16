@@ -13,7 +13,12 @@ use Drupal\Core\TypedData\DataDefinition;
  * @FieldType(
  *   id = "smartdate",
  *   label = @Translation("Smart date range"),
- *   description = @Translation("Create and store timestamp ranges, with an intelligent UI."),
+ *   description = {
+ *     @Translation("Create and store events as timestamp ranges, for maximum performance."),
+ *     @Translation("Able to handle timezones and recurring dates (with an optional submodule)"),
+ *     @Translation("Provides an intuitive widget for easy entry, natural language formatting, and handles all day events too"),
+ *   },
+ *   category = "date_time",
  *   default_widget = "smartdate_inline",
  *   default_formatter = "smartdate_default",
  *   list_class = "\Drupal\smart_date\Plugin\Field\FieldType\SmartDateFieldItemList",

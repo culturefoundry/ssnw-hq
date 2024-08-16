@@ -167,7 +167,7 @@
         if (duration === 'custom') {
           const wrapper = element.closest('.smartdate--widget');
           duration = calcDuration(wrapper);
-        } else if (duration === 0) {
+        } else if (+duration === 0) {
           // Call this to hide the end date and time.
           durationChanged(element);
         }
@@ -175,7 +175,7 @@
         element.dataset.duration = duration;
         // Handle cases where only one non-custom value is allowed.
         if (element.options.length === 1 && duration !== 'custom') {
-          if (duration === 0) {
+          if (+duration === 0) {
             // Hide the entire duration wrapper.
             element.parentElement.style.display = 'none';
           } else {
@@ -229,7 +229,7 @@
       function setDuration(element) {
         const wrapper = element.closest('.smartdate--widget');
         const duration = calcDuration(wrapper);
-        if (duration === 0) {
+        if (+duration === 0) {
           return;
         }
         const durationSelect = wrapper.querySelector('select.field-duration');
@@ -285,7 +285,7 @@
         const durationWrapper = duration.parentElement;
 
         if (checkbox.checked === true) {
-          if (checkbox.dataset.duration === 0) {
+          if (+checkbox.dataset.duration === 0) {
             const endDate = wrapper.querySelector('input.time-end.form-date');
             endDate.style.display = '';
             const endDateLabel = wrapper.querySelector('.time-start + .label');
@@ -329,11 +329,7 @@
           } else {
             endTime.value = '';
           }
-          if (
-            checkbox.dataset.duration ||
-            checkbox.dataset.duration === 0 ||
-            checkbox.dataset.duration === '0'
-          ) {
+          if (checkbox.dataset.duration || +checkbox.dataset.duration === 0) {
             duration.value = checkbox.dataset.duration;
             duration.dataset.duration = checkbox.dataset.duration;
             if (!endTime.value) {

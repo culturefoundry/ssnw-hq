@@ -74,7 +74,7 @@ class SmartDateCustomFormatter extends TimestampFormatter {
       '#type' => 'textfield',
       '#title' => $this->t('PHP Time Format - on the hour'),
       '#description' => $this->t('The PHP date code to use for formatting times that fall on the hour. Examples might be 2pm or 14h. Leave this blank to always use the standard format specified above.'),
-      '#default_value' => $this->getSetting('time_format'),
+      '#default_value' => $this->getSetting('time_hour_format'),
     ];
 
     $form['date_format'] = [
