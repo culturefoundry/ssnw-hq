@@ -15,7 +15,7 @@ class AntibotPage extends ControllerBase {
    * The Antibot page where robotic form submissions end up.
    *
    * @return string
-   *   Return Hello string.
+   *   Return message.
    */
   public function page() {
     return [

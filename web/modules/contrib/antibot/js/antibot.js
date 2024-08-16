@@ -11,10 +11,12 @@
 (function (Drupal, drupalSettings) {
   "use strict";
 
+  drupalSettings.antibot = drupalSettings.antibot || {};
   Drupal.antibot = {};
 
   Drupal.behaviors.antibot = {
-    attach: function (context) {
+    attach: function (context, settings) {
+      drupalSettings = settings;
       // Assume the user is not human, despite JS being enabled.
       drupalSettings.antibot.human = false;
 

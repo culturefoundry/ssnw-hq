@@ -31,15 +31,15 @@ function antibot_help($route_name, RouteMatchInterface $route_match) {
  * Implements hook_theme().
  */
 function antibot_theme($existing, $type, $theme, $path) {
-  $items = [];
-  $items['antibot_no_js'] = [
-    'template'  => 'antibot-no-js',
-    'variables' => [
-      'message' => NULL,
+  return [
+    'antibot_no_js' => [
+      'template'  => 'antibot-no-js',
+      'variables' => [
+        'message' => NULL,
+      ],
+      'path' => $path . '/templates',
     ],
-    'path' => $path . '/templates',
   ];
-  return $items;
 }
 
 /**
@@ -61,10 +61,14 @@ function antibot_form_alter(&$form, FormStateInterface $form_state, $form_id) {
 
   // Get the configured active form IDs for antibot.
   if ($form_ids = $config->get('form_ids')) {
+    $excluded_form_ids = $config->get('excluded_form_ids') ?? [];
+
     // Check if this form is a match.
     $pathMatcher = \Drupal::service('path.matcher');
-    if ($pathMatcher->matchPath($form_id, implode("\n", $form_ids)) || $pathMatcher->matchPath($form['#id'], implode("\n", $form_ids))) {
+    $included = $pathMatcher->matchPath($form_id, implode("\n", $form_ids)) || $pathMatcher->matchPath($form['#id'], implode("\n", $form_ids));
+    $excluded = $pathMatcher->matchPath($form_id, implode("\n", $excluded_form_ids)) || $pathMatcher->matchPath($form['#id'], implode("\n", $excluded_form_ids));
 
+    if ($included && !$excluded) {
       // Enable protection for this form if user doesn't have skip permission.
       if (!$skip_antibot) {
         antibot_protect_form($form);

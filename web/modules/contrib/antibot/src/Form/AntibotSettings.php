@@ -33,6 +33,7 @@ class AntibotSettings extends ConfigFormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config('antibot.settings');
+    $formIds = $config->get('form_ids');
     $form['message'] = [
       '#type' => 'html_tag',
       '#tag' => 'h3',
@@ -41,8 +42,14 @@ class AntibotSettings extends ConfigFormBase {
     $form['form_ids'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Form IDs'),
-      '#default_value' => implode("\r\n", $config->get('form_ids')),
+      '#default_value' => is_array($formIds) ? implode("\r\n", $formIds) : '',
       '#description' => $this->t('Specify the form IDs that should be protected by Antibot. Each form ID should be on a separate line. Wildcard (*) characters can be used.'),
+    ];
+    $form['excluded_form_ids'] = [
+      '#type' => 'textarea',
+      '#title' => $this->t('Excluded form IDs'),
+      '#default_value' => implode("\r\n", $config->get('excluded_form_ids') ?? []),
+      '#description' => $this->t('Specify the form IDs that should never be protected by Antibot. Each form ID should be on a separate line. Wildcard (*) characters can be used.'),
     ];
     $form['show_form_ids'] = [
       '#type' => 'checkbox',
@@ -53,6 +60,7 @@ class AntibotSettings extends ConfigFormBase {
     return parent::buildForm($form, $form_state);
   }
 
+
   /**
    * {@inheritdoc}
    */
@@ -61,6 +69,7 @@ class AntibotSettings extends ConfigFormBase {
 
     $this->config('antibot.settings')
       ->set('form_ids', explode("\r\n", $form_state->getValue('form_ids')))
+      ->set('excluded_form_ids', explode("\r\n", $form_state->getValue('excluded_form_ids')))
       ->set('show_form_ids', (bool) $form_state->getValue('show_form_ids'))
       ->save();
   }
