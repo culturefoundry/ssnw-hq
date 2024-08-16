@@ -187,8 +187,8 @@ class SchedulerQueryTagsTest extends SchedulerBrowserTestBase {
    * @return array
    *   Each array item has the values: [entity type id, bundle id].
    */
-  public function dataQueryTags() {
-    $data = $this->dataStandardEntityTypes();
+  public static function dataQueryTags() {
+    $data = self::dataStandardEntityTypes();
     // Remove the unrequired entity types. This caters for temporary test runs
     // where #node or #media may already be removed.
     unset($data['#commerce_product']);

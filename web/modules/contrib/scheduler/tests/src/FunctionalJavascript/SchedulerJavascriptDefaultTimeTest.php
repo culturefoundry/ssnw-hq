@@ -116,9 +116,9 @@ class SchedulerJavascriptDefaultTimeTest extends SchedulerJavascriptTestBase {
    * @return array
    *   Each array item has the values: [entity type id, bundle id, field name].
    */
-  public function dataTimeWhenSchedulingIsRequired() {
+  public static function dataTimeWhenSchedulingIsRequired() {
     $data = [];
-    foreach ($this->dataStandardEntityTypes() as $key => $values) {
+    foreach (self::dataStandardEntityTypes() as $key => $values) {
       $data["$key-1"] = array_merge($values, ['publish']);
       $data["$key-2"] = array_merge($values, ['unpublish']);
     }

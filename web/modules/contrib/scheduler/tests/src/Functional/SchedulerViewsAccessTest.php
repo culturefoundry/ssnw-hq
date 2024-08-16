@@ -190,8 +190,8 @@ class SchedulerViewsAccessTest extends SchedulerBrowserTestBase {
    * @return array
    *   Each array item has the values: [entity type id, bundle id].
    */
-  public function dataViewScheduledContentUser() {
-    $data = $this->dataStandardEntityTypes();
+  public static function dataViewScheduledContentUser() {
+    $data = self::dataStandardEntityTypes();
     unset($data['#commerce_product']);
     unset($data['#taxonomy_term']);
     return $data;

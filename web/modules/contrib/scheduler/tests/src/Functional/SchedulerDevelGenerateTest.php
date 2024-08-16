@@ -179,8 +179,8 @@ class SchedulerDevelGenerateTest extends SchedulerBrowserTestBase {
    *   Each array item has the values:
    *     [entity type id, enable for Scheduler TRUE/FALSE].
    */
-  public function dataDevelGenerate() {
-    $types = $this->dataStandardEntityTypes();
+  public static function dataDevelGenerate() {
+    $types = self::dataStandardEntityTypes();
     // Remove commerce_product, because Devel Generate does not cover products.
     unset($types['#commerce_product']);
     $data = [];

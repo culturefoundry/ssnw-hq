@@ -107,7 +107,7 @@ class SchedulerRequiredTest extends SchedulerBrowserTestBase {
    *                        required' error message
    *   message            - Descriptive text used in the body of the node
    */
-  public function dataRequiredScheduling() {
+  public static function dataRequiredScheduling() {
 
     $data = [
       // The numbering used below matches the test cases described in

@@ -1456,34 +1456,32 @@ class SchedulerManager {
       ['@issue' => $link->toString(), 'link' => $link->toString()]
     );
 
-    /**
-     * Helper function to format the list of fields on bundles.
-     */
-    function formatOutputText($fields) {
+    // Helper function to format the list of fields on bundles.
+    $formatOutputText = function ($fields) {
       return implode(', ', array_map(function ($name, $bundles) {
         return "$name (" . implode(',', $bundles) . ")";
       }, array_keys($fields), $fields));
-    }
+    };
 
     $output = [];
     if (isset($fields_displayed['publish_on'])) {
       $output[] = $this->t('Publish On field displayed for: @list', [
-        '@list' => formatOutputText($fields_displayed['publish_on']),
+        '@list' => $formatOutputText($fields_displayed['publish_on']),
       ]);
     }
     if (isset($fields_displayed['unpublish_on'])) {
       $output[] = $this->t('Unpublish On field displayed for: @list', [
-        '@list' => formatOutputText($fields_displayed['unpublish_on']),
+        '@list' => $formatOutputText($fields_displayed['unpublish_on']),
       ]);
     }
     if (isset($fields_hidden['publish_on'])) {
       $output[] = $this->t('Publish On field hidden for: @list', [
-        '@list' => formatOutputText($fields_hidden['publish_on']),
+        '@list' => $formatOutputText($fields_hidden['publish_on']),
       ]);
     }
     if (isset($fields_hidden['unpublish_on'])) {
       $output[] = $this->t('Unpublish On field hidden for: @list', [
-        '@list' => formatOutputText($fields_hidden['unpublish_on']),
+        '@list' => $formatOutputText($fields_hidden['unpublish_on']),
       ]);
     }
     return $output;

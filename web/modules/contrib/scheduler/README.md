@@ -1,6 +1,6 @@
 # Scheduler
 
-[![Build Status](https://travis-ci.org/jonathan1055/scheduler.svg?branch=8.x-1.x)](https://travis-ci.org/jonathan1055/scheduler)
+[![Build Status](https://git.drupalcode.org/project/scheduler/badges/2.x/pipeline.svg)](https://git.drupalcode.org/project/scheduler/-/pipeline_schedules)
 
 Scheduler gives website editors the ability to schedule content to be published
 and unpublished at specified dates and times in the future.
@@ -105,8 +105,8 @@ entities, Commerce Products and Taxonomy Terms are supported.
 
 ## Maintainers
 
-[//]: # cSpell:disable
-[//]: # Do not want to add all these names into the cspell-project-words file
+<!---  cSpell:disable --->
+<!---  Do not want to add these names into the cspell-project-words file --->
 
 Current maintainers:
 - [Pieter Frenssen](https://www.drupal.org/u/pfrenssen) 2014(6.x)-current

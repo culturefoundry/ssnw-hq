@@ -21,10 +21,10 @@
             '#edit-unpublish-on-0-value-date',
           );
           const values = [];
-          if (publishOn.value) {
+          if (publishOn?.value) {
             values.push(Drupal.t('Scheduled for publishing'));
           }
-          if (unpublishOn.value) {
+          if (unpublishOn?.value) {
             values.push(Drupal.t('Scheduled for unpublishing'));
           }
           if (!values.length) {

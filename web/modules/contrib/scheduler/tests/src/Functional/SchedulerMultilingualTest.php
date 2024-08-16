@@ -270,7 +270,7 @@ class SchedulerMultilingualTest extends SchedulerBrowserTestBase {
    *   Expected status of four translations before cron
    *   Expected status of four translations after cron
    */
-  public function dataPublishingTranslations() {
+  public static function dataPublishingTranslations() {
     // The key text is just for info, and shows which fields are translatable.
     $data = [
       'all fields' => [TRUE, TRUE, TRUE,

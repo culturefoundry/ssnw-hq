@@ -133,10 +133,10 @@ trait SchedulerMediaSetupTrait {
 
     // Set the media file attachments to be optional not required, to simplify
     // editing and saving media entities.
-    $configFactory->getEditable('field.field.media.test_video.field_media_video_file')
+    $configFactory->getEditable("field.field.media.{$this->mediaTypeName}.field_media_video_file")
       ->set('required', FALSE)
       ->save(TRUE);
-    $configFactory->getEditable('field.field.media.test_audio_not_enabled.field_media_audio_file')
+    $configFactory->getEditable("field.field.media.{$this->nonSchedulerMediaTypeName}.field_media_audio_file")
       ->set('required', FALSE)
       ->save(TRUE);
   }

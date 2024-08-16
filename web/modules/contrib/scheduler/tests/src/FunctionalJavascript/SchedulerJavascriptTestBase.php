@@ -56,16 +56,17 @@ abstract class SchedulerJavascriptTestBase extends WebDriverTestBase {
     parent::setUp();
     // Call the common set-up functions defined in the traits.
     $this->schedulerSetUp();
-    // $this->getName() includes the test class and the dataProvider key. We can
-    // use this to save time and resources by avoiding calls to the media and
-    // product setup functions when they are not needed.
-    if (stristr($this->getName(), 'media')) {
+    // $this->toString() includes the test class and the dataProvider key.
+    // We can use this to save time and resources by avoiding calls to the
+    // entity-specific setup functions when they are not needed.
+    $testName = $this->toString();
+    if (stristr($testName, 'media')) {
       $this->schedulerMediaSetUp();
     }
-    if (stristr($this->getName(), 'product')) {
+    if (stristr($testName, 'product')) {
       $this->SchedulerCommerceProductSetUp();
     }
-    if (stristr($this->getName(), 'taxonomy')) {
+    if (stristr($testName, 'taxonomy')) {
       $this->SchedulerTaxonomyTermSetup();
     }
   }

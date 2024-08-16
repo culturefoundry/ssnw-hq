@@ -18,12 +18,12 @@ class SchedulerJavascriptVerticalTabsTest extends SchedulerJavascriptTestBase {
     $this->drupalLogin($this->schedulerUser);
     /** @var \Drupal\Tests\WebAssert $assert */
     $assert = $this->assertSession();
+    $titleField = $this->titleField($entityTypeId);
 
     // Set the entity edit form to use a vertical tab for the Scheduler dates.
     $this->entityTypeObject($entityTypeId)
       ->setThirdPartySetting('scheduler', 'fields_display_mode', 'vertical_tab')
       ->setThirdPartySetting('scheduler', 'expand_fieldset', 'always')->save();
-    $titleField = $this->titleField($entityTypeId);
 
     // Create an entity with a scheduled publishing date.
     $entity = $this->createEntity($entityTypeId, $bundle, [
@@ -57,11 +57,13 @@ class SchedulerJavascriptVerticalTabsTest extends SchedulerJavascriptTestBase {
       $page->clickLink('Scheduling options');
     }
 
+    // Fill in a publish_on date and check the summary text.
     $page->fillField('edit-publish-on-0-value-date', '05/02/' . (date('Y') + 1));
     $page->fillField('edit-publish-on-0-value-time', '06:00:00pm');
     $assert->waitForText('Scheduled for publishing');
     $assert->pageTextContains('Scheduled for publishing');
 
+    // Remove both date values and check that the summary text is correct.
     // Setting the date and time values to '' only actually removes the first
     // component of each of the fields. But this is enough for drupal.behaviors
     // to update the summary correctly.
@@ -73,6 +75,31 @@ class SchedulerJavascriptVerticalTabsTest extends SchedulerJavascriptTestBase {
     $assert->pageTextNotContains('Scheduled for publishing');
     $assert->pageTextNotContains('Scheduled for unpublishing');
     $assert->pageTextContains('Not scheduled');
+
+    // Turn off scheduled unpublishing for this entity type to verify that the
+    // javascript behaviors still work as expected.
+    // @see https://www.drupal.org/project/scheduler/issues/3458578
+    $this->entityTypeObject($entityTypeId, $bundle)
+      ->setThirdPartySetting('scheduler', 'unpublish_enable', FALSE)->save();
+
+    $entity = $this->createEntity($entityTypeId, $bundle, [
+      'publish_on' => strtotime('+2 months'),
+      "$titleField" => "$entityTypeId - not enabled for unpublishing",
+    ]);
+    $this->drupalGet($entity->toUrl('edit-form'));
+    $assert->pageTextContains('Scheduled for publishing');
+
+    // Turn on scheduled unpublishing and turn off scheduled publishing.
+    $this->entityTypeObject($entityTypeId, $bundle)
+      ->setThirdPartySetting('scheduler', 'publish_enable', FALSE)
+      ->setThirdPartySetting('scheduler', 'unpublish_enable', TRUE)->save();
+
+    $entity = $this->createEntity($entityTypeId, $bundle, [
+      'unpublish_on' => strtotime('+3 months'),
+      "$titleField" => "$entityTypeId - not enabled for publishing",
+    ]);
+    $this->drupalGet($entity->toUrl('edit-form'));
+    $assert->pageTextContains('Scheduled for unpublishing');
   }
 
   /**

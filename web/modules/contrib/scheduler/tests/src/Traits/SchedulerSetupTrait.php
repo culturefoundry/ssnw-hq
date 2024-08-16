@@ -574,16 +574,16 @@ trait SchedulerSetupTrait {
    *   Each array item has the values: [entity type id, bundle id]. The array
    *   key is #entity_type_id, to allow easy removal of unwanted rows later.
    */
-  public function dataStandardEntityTypes() {
-    // The data provider has access to $this where the values are set in the
-    // property definition.
-    $data = [
-      '#node' => ['node', $this->type],
-      '#media' => ['media', $this->mediaTypeName],
-      '#commerce_product' => ['commerce_product', $this->productTypeName],
-      '#taxonomy_term' => ['taxonomy_term', $this->vocabularyId],
+  public static function dataStandardEntityTypes(): array {
+    // With PHPUnit 10 the dataProvider functions can no longer use $this, so
+    // the names have to be hard-coded here.
+    // @see https://www.drupal.org/project/scheduler/issues/3463141
+    return [
+      '#node' => ['node', 'testpage'],
+      '#media' => ['media', 'test_video'],
+      '#commerce_product' => ['commerce_product', 'test_product'],
+      '#taxonomy_term' => ['taxonomy_term', 'test_vocab'],
     ];
-    return $data;
   }
 
   /**
@@ -593,14 +593,13 @@ trait SchedulerSetupTrait {
    *   Each array item has the values: [entity type id, bundle id]. The array
    *   key is #entity_type_id, to allow easy removal of unwanted rows later.
    */
-  public function dataNonEnabledTypes() {
-    $data = [
-      '#node' => ['node', $this->nonSchedulerType],
-      '#media' => ['media', $this->nonSchedulerMediaTypeName],
-      '#commerce_product' => ['commerce_product', $this->nonSchedulerProductTypeName],
-      '#taxonomy_term' => ['taxonomy_term', $this->nonSchedulerVocabularyId],
+  public static function dataNonEnabledTypes(): array {
+    return [
+      '#node' => ['node', 'not_for_scheduler'],
+      '#media' => ['media', 'test_audio_not_enabled'],
+      '#commerce_product' => ['commerce_product', 'non_enabled_product'],
+      '#taxonomy_term' => ['taxonomy_term', 'vocab_not_enabled'],
     ];
-    return $data;
   }
 
 }

@@ -229,9 +229,9 @@ class SchedulerPermissionsTest extends SchedulerBrowserTestBase {
    * @return array
    *   Each array item has the values: [entity type id, bundle id, user name].
    */
-  public function dataPermissionsTest() {
+  public static function dataPermissionsTest() {
     $data = [];
-    foreach ($this->dataStandardEntityTypes() as $key => $values) {
+    foreach (self::dataStandardEntityTypes() as $key => $values) {
       $data["$key-1"] = array_merge($values, ['nodeUser']);
       $data["$key-2"] = array_merge($values, ['mediaUser']);
       $data["$key-3"] = array_merge($values, ['commerceProductUser']);

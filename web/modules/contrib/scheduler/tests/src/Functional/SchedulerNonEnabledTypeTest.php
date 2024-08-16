@@ -171,9 +171,9 @@ class SchedulerNonEnabledTypeTest extends SchedulerBrowserTestBase {
    *     publishing_enabled     - (bool) whether publishing is enabled
    *     unpublishing_enabled   - (bool) whether unpublishing is enabled
    */
-  public function dataNonEnabledScenarios() {
+  public static function dataNonEnabledScenarios() {
     $data = [];
-    foreach ($this->dataNonEnabledTypes() as $key => $values) {
+    foreach (self::dataNonEnabledTypes() as $key => $values) {
       $entityTypeId = $values[0];
       $bundle = $values[1];
       // By default check that the scheduler date fields are not displayed.

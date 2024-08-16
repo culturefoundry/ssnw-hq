@@ -17,11 +17,12 @@ include:
 variables:
   OPT_IN_TEST_CURRENT: 1
   OPT_IN_TEST_MAX_PHP: 1
-  OPT_IN_TEST_NEXT_MINOR: 1
-  OPT_IN_TEST_NEXT_MAJOR: 1
   OPT_IN_TEST_PREVIOUS_MINOR: 1
   OPT_IN_TEST_PREVIOUS_MAJOR: 1
-
+  OPT_IN_TEST_NEXT_MINOR: 1
+  OPT_IN_TEST_NEXT_MAJOR: 1
+  OPT_IN_TEST_DRUPAL8: 1
+  RUN_JOB_UPGRADE_STATUS: 1
   _SHOW_ENVIRONMENT_VARIABLES: 1
   _PHPUNIT_CONCURRENT: 1
   _PHPUNIT_TESTGROUPS: ''
@@ -50,41 +51,70 @@ variables:
 
 # -------------------------------- BUILD ---------------------------------------
 
+.opt-in-drupal8-rule: &opt-in-drupal8-rule
+  if: '$OPT_IN_TEST_DRUPAL8 != "1"'
+  when: never
+
+# Re-usable rule for running the job automatically on Merge Requests and allowing it
+# to manually triggered for all other types of pipeline.
+# Using 'when: manual' needs 'allow failure: true' otherwise the overall pipeline status
+# is shown as 'blocked' and the stages show 'running' without ever appearing to finish.
+.manual-if-not-mr-rule: &manual-if-not-mr-rule
+  - if: $CI_PIPELINE_SOURCE != "merge_request_event"
+    when: manual
+    allow_failure: true
+  - when: on_success
+
 .composer-base:
+  before_script:
+    # If testing against Drupal 11 then swap in a different composer file to load dev versions and
+    # merge-request branches of several third-party modules which which do not have a fully compatible release yet.
+    - if [[ $DRUPAL_CORE =~ ^11 ]]; then rm composer.json; mv composer_for_d11_testing.json composer.json; echo "Using composer_for_d11_testing.json"; fi;
   after_script:
-    # Delete the .eslintignore file, it is only required for DrupalCI
-    # @todo remove the file and this delete when no longer running DrupalCI
-    - rm $CI_PROJECT_DIR/$_WEB_ROOT/modules/custom/$CI_PROJECT_NAME/.eslintignore || true
+    - !reference [ .create-environment-variables ]
     # Show the last two commits. Current directory /builds/project/scheduler ($CI_PROJECT_DIR) is correct.
     - git show -2 --stat --oneline
     - *show-variables
+    # - cat composer.json
+    - COLUMNS=120 composer show | grep -E '\/(core |rules|commerce|entity|inline_entity_form|workbench|drush|devel_generate|address)'
 
 composer (max PHP version):
   # Using when: manual needs 'allow failure: true' otherwise the overall pipeline status shows 'blocked'
   rules:
     - !reference [ .opt-in-max-php-rule ]
     - when: manual
-  allow_failure: true
+      allow_failure: true
 
 composer (previous minor):
   rules:
     - !reference [ .opt-in-previous-minor-rule ]
     - when: manual
-  allow_failure: true
+      allow_failure: true
 
 composer (previous major):
   rules:
     - !reference [ .opt-in-previous-major-rule ]
+    - *manual-if-not-mr-rule
+
+composer (next minor):
+  rules:
+    - !reference [ .opt-in-next-minor-rule ]
     - when: manual
-  allow_failure: true
+      allow_failure: true
 
 composer (next major):
-  allow_failure: true
   rules:
     - !reference [ .opt-in-next-major-rule ]
-    - when: manual
+    - *manual-if-not-mr-rule
+
+composer (drupal 8):
+  extends: .composer-base
+  rules:
+    - *opt-in-drupal8-rule
+    - *manual-if-not-mr-rule
   variables:
-    _LENIENT_ALLOW_LIST: devel,devel_generate,rules,commerce,entity,address,state_machine,entity_reference_revisions,profile,inline_entity_form,token,workbench_moderation,workbench_moderation_actions
+    PHP_VERSION: 7.4
+    DRUPAL_CORE: 8.9.20
 
 # -------------------------------- VALIDATE ------------------------------------
 
@@ -106,13 +136,6 @@ phpstan:
     - test -f phpstan.neon && echo "=== This is phpstan.neon ===" && cat phpstan.neon
     - php $CI_PROJECT_DIR/scripts/phpstan-baseline-summary.php phpstan-baseline-to-fix.neon
 
-# Do not automatically run 'next minor', but allow it to be started manually.
-phpstan (next minor):
-  rules:
-    - !reference [ .opt-in-next-minor-rule ]
-    - !reference [ .skip-phpstan-rule ]
-    - when: manual
-
 # -------------------------------- TEST ----------------------------------------
 
 phpunit:
@@ -128,6 +151,7 @@ phpunit:
         - scheduler_kernel
         - scheduler_rules_integration
   before_script:
+    # If any variation also needs a before_script then add - !reference [phpunit, before_script] to include this script.
     - *show-variables
     - |
       printf "_MATRIX_VALUE               = %s\n" $_MATRIX_VALUE &&
@@ -147,17 +171,12 @@ phpunit:
           export _PHPUNIT_CONCURRENT=1
         fi
       fi
+    # Patch to disable strict config schema validation on older versions of core.
+    # See https://www.drupal.org/project/scheduler/issues/3451750
+    - if [[ $DRUPAL_CORE =~ ^(8.9|9.5|10.2) ]]; then patch -p1 --verbose < tests/3451750-strict-config-schema.patch; fi
     - echo "End of before_script _PHPUNIT_CONCURRENT=$_PHPUNIT_CONCURRENT _PHPUNIT_EXTRA=$_PHPUNIT_EXTRA"
 
-# Do not automatically run 'next minor' PHPUnit but allow it to be started
-# manually. To do this the .phpunit-tests-exist-rule has to be removed.
-# The other variants all have 'manual' on the Composer job instead.
 phpunit (next minor):
-  allow_failure: true
-  rules:
-    - !reference [ .opt-in-next-minor-rule ]
-    - !reference [ .skip-phpunit-rule ]
-    - when: manual
   variables:
     # Use core ignoreFile to show deprecations. This is only used when $_PHPUNIT_CONCURRENT=1 so make sure that is also set.
     _PHPUNIT_CONCURRENT: 1
@@ -168,3 +187,24 @@ phpunit (next major):
     # Use core ignoreFile to show deprecations. This is only used when $_PHPUNIT_CONCURRENT=1 so make sure that is also set.
     _PHPUNIT_CONCURRENT: 1
     SYMFONY_DEPRECATIONS_HELPER: "ignoreFile=$CI_PROJECT_DIR/$_WEB_ROOT/core/.deprecation-ignore.txt"
+
+phpunit (drupal 8):
+  extends: phpunit
+  rules:
+    - *opt-in-drupal8-rule
+    - !reference [ .skip-phpunit-rule ]
+    - !reference [ .phpunit-tests-exist-rule ]
+    - when: on_success
+  needs:
+    - "composer (drupal 8)"
+  allow_failure: true
+
+test-only changes:
+  # Remove the parallel definition that is defined in the customized phpunit.
+  parallel:
+
+upgrade status:
+  rules:
+    - !reference [ .skip-upgrade-status-rule ]
+    - when: manual
+      allow_failure: true

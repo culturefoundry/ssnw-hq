@@ -85,7 +85,7 @@ class SchedulerHooksTest extends SchedulerBrowserTestBase {
    * @return array
    *   Each array item has the values: [entity type id, bundle id].
    */
-  public function dataCustomEntityTypes() {
+  public static function dataCustomEntityTypes() {
     $data = [
       '#node' => ['node', 'scheduler_api_node_test'],
       '#media' => ['media', 'scheduler_api_media_test'],
