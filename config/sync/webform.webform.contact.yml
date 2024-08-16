@@ -4,15 +4,12 @@ status: open
 dependencies:
   module:
     - antibot
-    - honeypot
   enforced:
     module:
       - webform
 third_party_settings:
   antibot:
     antibot: true
-  honeypot:
-    honeypot: true
 _core:
   default_config_hash: _je-MWeeJB6gfm6iECiqjcyNetfMFbn-YIInYwZ1gIk
 weight: 0

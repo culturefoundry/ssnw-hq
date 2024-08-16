@@ -11,7 +11,6 @@ dependencies:
     - file
     - filter
     - help
-    - honeypot
     - media
     - media_entity_download
     - node
@@ -30,7 +29,6 @@ permissions:
   - 'access help pages'
   - 'access shortcuts'
   - 'access user profiles'
-  - 'bypass honeypot protection'
   - 'delete own files'
   - 'download media'
   - 'post comments'
