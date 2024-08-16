@@ -199,8 +199,20 @@ class HookHandler extends BaseHookHandler {
     }
 
     $entity = $form['#entity'];
+
     try {
       $form['#entity'] = clone $entity;
+      $original_triggering_element = $form_state->getTriggeringElement();
+      $form_state->setTriggeringElement([
+        '#limit_validation_errors' => [],
+      ]);
+      /** @var \Drupal\Core\Form\FormValidatorInterface $validator */
+      $validator = \Drupal::service('form_validator');
+      $form_state->setValidationEnforced(TRUE);
+      $validator->validateForm(\Drupal::formBuilder()->getFormId($form_state->getFormObject(), $form_state), $form, $form_state);
+      $form_state->setTriggeringElement($original_triggering_element);
+      $form_state->setValidationEnforced(TRUE);
+
       /** @var \Drupal\inline_entity_form\InlineFormInterface $handler */
       $handler = \Drupal::entityTypeManager()->getHandler($form['#entity']->getEntityTypeId(), 'inline_form');
       $handler->entityFormSubmit($form, $form_state);

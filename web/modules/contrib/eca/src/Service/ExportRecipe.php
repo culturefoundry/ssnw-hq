@@ -200,8 +200,16 @@ class ExportRecipe {
       $composer['require'] = [
         'drupal/core' => '>=10.3',
       ];
+      $list = $this->moduleExtensionList->getList();
       foreach ($modules as $module) {
-        if ($this->moduleExtensionList->getExtensionInfo($module)['package'] !== 'Core') {
+        $path = $this->moduleExtensionList->getPath($module);
+        if (!str_starts_with($path, 'core/modules')) {
+          foreach ($list[$module]->requires ?? [] as $key => $dependency) {
+            if (str_starts_with($path, $this->moduleExtensionList->getPath($key) . '/')) {
+              $module = $key;
+              break;
+            }
+          }
           $composer['require']['drupal/' . $module] = '*';
         }
       }

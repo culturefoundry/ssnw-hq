@@ -567,7 +567,13 @@ abstract class ModellerBpmnBase extends ModellerBase {
     $form_state = new FormState();
     try {
       if ($plugin instanceof ActionInterface) {
-        $form = $this->actionServices->getConfigurationForm($plugin, $form_state);
+        $form = $this->actionServices->getConfigurationForm($plugin, $form_state) ?? [
+          'error_message' => [
+            '#type' => 'checkbox',
+            '#title' => $this->t('Error in configuration form!!!'),
+            '#description' => $this->t('Details can be found in the Drupal error log.'),
+          ],
+        ];
       }
       else {
         $form = $plugin->buildConfigurationForm([], $form_state);

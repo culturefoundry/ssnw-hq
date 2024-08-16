@@ -71,10 +71,18 @@ function _eca_post_update_token_rename(array $tokenNames): void {
             foreach ($tokenNames as $oldTokenName => $newTokenName) {
               $oldToken = '[' . $oldTokenName;
               $newToken = '[' . $newTokenName;
-              if (str_contains($value, $oldToken)) {
-                $item['configuration'][$key] = str_replace($oldToken, $newToken, $value);
-                $modelData = str_replace($oldToken, $newToken, $modelData);
+              $count = 0;
+              $modelData = str_replace($oldToken, $newToken, $modelData, $count);
+              if ($count > 0) {
                 $changed = TRUE;
+              }
+              if (is_array($value)) {
+                foreach ($value as $delta => $subValue) {
+                  $item['configuration'][$key][$delta] = str_replace($oldToken, $newToken, $subValue);
+                }
+              }
+              else {
+                $item['configuration'][$key] = str_replace($oldToken, $newToken, $value);
               }
             }
           }

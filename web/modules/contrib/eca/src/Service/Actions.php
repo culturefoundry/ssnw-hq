@@ -156,8 +156,9 @@ class Actions {
         $form = $action->buildConfigurationForm([], $form_state);
       }
       catch (\Throwable | \AssertionError | \Exception $e) {
-        $this->logger->error('The configuration form of %label action plugin can not be loaded. Plugin ignored.', [
+        $this->logger->error('The configuration form of %label action plugin can not be loaded. Plugin ignored. %message', [
           '%label' => $action->getPluginId(),
+          '%message' => $e->getMessage(),
         ]);
         return NULL;
       }
