@@ -3,9 +3,10 @@ name: swiper
 status: stable
 libraryOverrides:
   dependencies:
+    - core/drupal
     - core/once
   js:
-    swiper.js: {}
+    swiper-script.js: {}
   css:
     component:
       swiper_styles.css: {}
@@ -34,6 +35,14 @@ props:
       description: Delay on autoplay, between slides
       # @todo Add examples here.
       examples: []
+    navigation:
+      type: string
+      title: Navigation
+      description: Whether or not ther is navigation
+      examples:
+        - true
+        - false
+      default: true
 slots:
   slides:
     title: Slides

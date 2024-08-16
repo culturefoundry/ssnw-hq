@@ -1,20 +1,21 @@
-<div {{ attributes }}>
-  {# Keep the outer div whenever possible it is a nice way to ensure the presence of "attributes" #}
+<div class="swiper_component" {{ attributes }} class="relative">
   <div class="swiper {{ wrapperclass }}" data-peek="{{ peek }}">
     <div class="swiper-wrapper">
       {% block slides %}
         The contents of the example block
       {% endblock %}
     </div>
-    <div class="swiper-buttons grid max-w-xs mx-auto grid-cols-[2em_auto] items-center justify-center w-fit pt-5">
-      <div class="buttons grid z-100">
-        <button class="play-btn hide-play cursor-pointer inline-block pr-0 i-mdi-play w-4 text-lg">Play</button>
-        <button class="pause-btn hide-pause cursor-pointer inline-block pr-0 i-mdi-pause w-4 text-lg">Pause</button>
+    
+    {% if navigation %}
+    <div class="grid max-w-xs mx-auto grid-cols-[30px_auto] hidden">
+      <div class="buttons hidden">
+        <button class="play-btn hide-play inline-block pr-0 i-mdi-play w-4 text-lg">Play</button>
+        <button class="pause-btn hide-pause inline-block pr-0 i-mdi-pause w-4 text-lg">Pause</button>
       </div>
-      <div class="swiper-nav divider">
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-button-next"></div>
-      </div>
+      <div class="swiper-pagination"></div>
     </div>
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
+    {% endif %}
   </div>
 </div>

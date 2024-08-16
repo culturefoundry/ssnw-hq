@@ -1,0 +1,24 @@
+.menu-toggle {
+  /* @apply flex justify-end items-center cursor-pointer; */
+  display:flex;
+  justify-content: end;
+  cursor: pointer;
+  align-items:center;
+  background:transparent;
+  border:0px;
+}
+
+.menu-toggle .icon.close, .menu-toggle[aria-expanded='true'] .icon.open, .header-menu_wrapper{
+  /* @apply hidden; */
+  display:none;
+}
+.menu-toggle .icon.open, .menu-toggle[aria-expanded='true'] .icon.close {
+  /* @apply block; */
+  display:block;
+}
+.header-menu_wrapper[aria-expanded='true']{
+  display:grid;
+}
+
+
+

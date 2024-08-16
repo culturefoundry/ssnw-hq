@@ -38,13 +38,12 @@ import 'swiper/css/bundle';
               nextEl: '.swiper-button-next',
               prevEl: '.swiper-button-prev',
             },
-            grabCursor: true,
+            grabCursor: false,
+            slidesPerView : 'auto',
+            spaceBetween : 80,
+            centeredSlides: true
           };
-          const peek = el.dataset.peek;
-          if (peek) {
-            config.slidesPerView = peek;
-            config.spaceBetween = 30;
-          }
+       
           const mySlider = new Swiper(el, config);
 
           // Prefers Reduced Motion browser flag check

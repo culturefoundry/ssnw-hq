@@ -1,0 +1,22 @@
+<div class="story-container">
+  {% embed 'midnight_theme:swiper'  with {
+      title: 'More From the Newsroom'|trans
+    }%}
+      {% block slides %}
+        {% for slide in slides %}
+          {% if slide.field_icon %}
+            <div class="swiper-slide w-max">
+              <div class="swiper-inner">
+                  <div class="relative card-w-icon white-text bg-black text-center w-88 h-128 box-border p-8">
+                      <h3> {{slide['#block_content'].info.value}}</h3>
+                      {{slide.field_icon}}
+                      {{slide.body}}
+                      {{slide.field_link_to_content}}
+                  </div>
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      {% endblock %}
+  {% endembed %}
+</div>

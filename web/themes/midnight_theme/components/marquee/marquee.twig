@@ -1,0 +1,27 @@
+<div class="marquee-container">
+  <div class="marquee_component" {{ attributes }} class="relative">
+    <div class="marquee {{ wrapperclass }}" data-peek="{{ peek }}">
+        {% block tiles %}
+      <div class="marquee-wrapper">
+          {% for tile in tiles %}
+              <div class="marquee-slide inline-block px-4 box-border">
+                    <div >
+                        {{tile.content}}
+                    </div>
+              </div>
+          {% endfor %}
+        <div class="marquee-wrapper-repeat absolute left-[100%] top-0 w-max">
+            {% for tile in tiles %}
+                <div class="marquee-slide inline-block px-4 box-border uppercase">
+                      <div >
+                          {{tile.content}}
+                      </div>
+                </div>
+            {% endfor %}
+        </div>
+      </div>
+        {% endblock %}
+      
+    </div>
+  </div>
+</div>

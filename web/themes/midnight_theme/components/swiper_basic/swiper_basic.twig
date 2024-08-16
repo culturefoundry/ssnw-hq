@@ -1,0 +1,17 @@
+<div class="story-container">
+  {% embed 'midnight_theme:swiper'  with {
+      title: 'More From the Newsroom'|trans
+    }%}
+      {% block slides %}
+        {% for slide in slides %}
+            <div class="swiper-slide w-max">
+              <div class="swiper-inner">
+                  <div class="relative text-center p-12">
+                      {{slide.content}}
+                  </div>
+              </div>
+            </div>
+        {% endfor %}
+      {% endblock %}
+  {% endembed %}
+</div>

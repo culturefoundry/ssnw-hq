@@ -1,4 +1,4 @@
-[data-component-id="fedway_theme:swiper"] {
+[data-component-id="midnight_theme:swiper"] {
   --swiper-theme-color: var(--color-highlight2);
   /* --swiper-pagination-bullet-width: calc(90% / var(--swiper-count, 3));*/
   --swiper-pagination-bullet-height: 8px;

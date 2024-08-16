@@ -1,0 +1,18 @@
+$schema: https://git.drupalcode.org/project/drupal/-/raw/10.1.x/core/modules/sdc/src/metadata.schema.json
+name: Header Nav
+props:
+  type: object
+  properties: 
+    search:
+      title: Search Block
+      type: string
+    content:
+      title: Content
+      type: string
+slots:
+  menus:
+    title: Primary Menus
+
+libraryOverrides:
+  dependencies:
+    - core/once

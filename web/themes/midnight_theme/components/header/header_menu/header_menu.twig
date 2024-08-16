@@ -1,0 +1,10 @@
+<div class="header-menu">
+    {{ include('midnight_theme:menu-toggle')}}
+    <div class="header-menu_wrapper">
+        <div class="header-grid">
+            {{ search }}
+            {% block menus %}
+            {% endblock %}
+        </div>
+    </div>
+</div>
