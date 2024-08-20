@@ -20,6 +20,7 @@
         "drupal/address": "^2.0",
         "drupal/admin_toolbar": "^3.5.0",
         "drupal/antibot": "^2.0.4",
+        "drupal/block_class": "^3.0",
         "drupal/bpmn_io": "^2.0",
         "drupal/coffee": "^1.4",
         "drupal/content_model_documentation": "^1.0",
