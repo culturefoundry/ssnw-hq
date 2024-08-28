@@ -5,7 +5,7 @@
     left:0;
     width:100%;
     z-index:20;
-    background-color: #00000090
+    background-color: #00000098;
 }
 .header-menu:has(button.menu-toggle[aria-expanded=true]) .header-menu_wrapper{
     display:block;
@@ -64,15 +64,16 @@
     }
 }
 
-.header-menu_wrapper .menu--main>ul>li>a{
-    color:white;
-    font-weight:bold;
-    font-size:1.2em;
-}
 .header-menu_wrapper .menu--main>ul>li ul a{
     color: #B8B9BA;
+    font-size: 1.2em;
+    @apply font-medium;
 }
 
+.header-menu_wrapper .menu--main>ul>li>a{
+    @apply text-white font-bold;
+    font-size:1.5em;
+}
 
 
 li{

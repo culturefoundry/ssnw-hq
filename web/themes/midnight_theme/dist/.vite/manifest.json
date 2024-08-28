@@ -61,6 +61,11 @@
     "src": "components/swiper/swiper_styles.css",
     "isEntry": true
   },
+  "components/swiper_cards/swiper_cards.css": {
+    "file": "swiper_cards.css",
+    "src": "components/swiper_cards/swiper_cards.css",
+    "isEntry": true
+  },
   "libraries/ckeditor/ckeditor5.css": {
     "file": "ckeditor5.css",
     "src": "libraries/ckeditor/ckeditor5.css",

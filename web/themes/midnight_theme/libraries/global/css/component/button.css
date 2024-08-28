@@ -51,7 +51,7 @@ a.button-small{
   font-size: 18px;
 }
 a.arrow-link, .card-w-icon .field--type-link a {
-  @apply after:i-ssnw-arrow?mask after:inline-block after:bg-yellow after:content-["_"] after:ml-4 after:h-6 after:w-6;
+  @apply uppercase font-semibold tracking-widest after:relative after:top-1 after:i-ssnw-arrow?mask after:inline-block after:bg-yellow after:content-["_"] after:ml-4 after:h-5 after:w-5;
 }
 a.arrow-link:hover::after {
   background-color: var(--hover-color);

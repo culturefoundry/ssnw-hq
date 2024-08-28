@@ -12,10 +12,12 @@
         <button class="play-btn hide-play inline-block pr-0 i-mdi-play w-4 text-lg">Play</button>
         <button class="pause-btn hide-pause inline-block pr-0 i-mdi-pause w-4 text-lg">Pause</button>
       </div>
-      <div class="swiper-pagination"></div>
     </div>
-    <div class="swiper-button-prev"></div>
-    <div class="swiper-button-next"></div>
+    <div class="swiper-navigation flex pagination m-auto max-w-[80%] items-center gap-4 my-8">
+      <div class="swiper-button-prev i-ssnw-arrow?mask scale-x-[-1] m-0 p-4 relative inline-block"></div>
+      <div class="swiper-pagination grid grid-cols-6"></div>
+      <div class="swiper-button-next i-ssnw-arrow?mask m-0 p-4 relative inline-block"></div>
+    </div>
     {% endif %}
   </div>
 </div>

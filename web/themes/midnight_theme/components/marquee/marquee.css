@@ -18,6 +18,14 @@
     -webkit-animation: scroll-left 2s linear infinite;
     animation: scroll-left 20s linear infinite;
 }
+.marquee-wrapper:hover{
+    -moz-animation-play-state: paused;
+    -webkit-animation-play-state: paused;
+    animation-play-state: paused;
+}
+.tracking-widest a{
+    @apply tracking-widest;
+}
 
 @-moz-keyframes scroll-left {
     0% {
