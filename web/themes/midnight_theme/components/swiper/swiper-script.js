@@ -17,6 +17,7 @@ import 'swiper/css/bundle';
   Drupal.behaviors.swiper = {
 
     attach(context) {
+      let i = 1;
       once('swiper-init', '.swiper', context)
         .forEach(el => {
           const config = {
@@ -24,24 +25,23 @@ import 'swiper/css/bundle';
             direction: 'horizontal',
             speed: 500,
             loop: true,
-            autoplay: {
-              delay: 5000,
-              pauseOnMouseEnter: true,
-            },
+            // autoplay: {
+            //   delay: 5000,
+            //   pauseOnMouseEnter: true,
+            // },
             keyboard: true,
             pagination: {
-              el: '.swiper-pagination',
+              el: el.querySelector('.swiper-pagination'),
               type: 'bullets',
               clickable: true,
             },
             navigation: {
-              nextEl: '.swiper-button-next',
-              prevEl: '.swiper-button-prev',
+              nextEl: el.querySelector('.swiper-button-next'),
+              prevEl: el.querySelector('.swiper-button-prev'),
             },
             grabCursor: false,
             slidesPerView : 'auto',
             spaceBetween : 80,
-            centeredSlides: true
           };
        
           const mySlider = new Swiper(el, config);
@@ -58,22 +58,25 @@ import 'swiper/css/bundle';
             setRunning(el, swiper);
           });
 
-          el.style.setProperty('--swiper-pagination-bullet-width', `calc(80% / ${mySlider.slides.length}`)
+          // el.style.setProperty('--swiper-pagination-bullet-width', `calc(80% / ${mySlider.slides.length}`)
           if (mySlider.slides.length < 2) {
             el.classList.add('hide-all');
           }
           // el.style.setProperty('--swiper-count', mySlider.slides.length);
           const playBtn = el.querySelector('.play-btn');
-          playBtn.addEventListener('click', () => {
-            mySlider.autoplay.start();
-            setRunning(el, mySlider);
-          });
+          if(playBtn){
+            playBtn.addEventListener('click', () => {
+              mySlider.autoplay.start();
+              setRunning(el, mySlider);
+            });
+          }
           const pauseBtn = el.querySelector('.pause-btn');
-          pauseBtn.addEventListener('click', () => {
-            mySlider.autoplay.stop();
-            setRunning(el, mySlider);
-          });
-
+          if(pauseBtn){
+            pauseBtn.addEventListener('click', () => {
+              mySlider.autoplay.stop();
+              setRunning(el, mySlider);
+            });
+          }
           setRunning(el, mySlider);
         });
     },

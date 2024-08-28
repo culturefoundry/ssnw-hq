@@ -1,6 +1,7 @@
 <div class="story-container">
   {% embed 'midnight_theme:swiper'  with {
-      title: 'More From the Newsroom'|trans
+      title: 'More From the Newsroom'|trans,
+      wrapperclass: 'slide-basic',
     }%}
       {% block slides %}
         {% for slide in slides %}

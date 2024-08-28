@@ -173,5 +173,9 @@ strong {
 
 
 .body-text-bottom{
-  @apply h-max mt-auto;
+  @apply h-max mt-auto mx-auto w-max;
+}
+
+.block > h2{
+  @apply uppercase text-2xl bold tracking-widest;
 }

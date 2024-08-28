@@ -103,7 +103,7 @@ img.breakout {
   @apply text-center;
 }
 .bg-image img{
-  @apply object-cover w-auto h-auto min-w-100% min-h-100%;
+  @apply object-cover w-full h-full min-w-0 min-h-0 object-center;
   grid-column:full-width!important;
 }
 .bg-image img + img{

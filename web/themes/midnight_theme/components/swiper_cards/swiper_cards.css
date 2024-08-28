@@ -1,0 +1,14 @@
+.card-w-icon .icon img{
+    @apply max-w-32 max-h-32 w-auto h-auto;
+}
+
+.card-w-icon{
+    display:grid;
+    grid-template-rows: 4em 8em auto 2em;
+    gap:2em;
+}
+
+.card-w-icon .text-formatted.field--name-body, .card-w-icon .field--name-body p {
+    @apply m-0
+    margin-block:0;
+}

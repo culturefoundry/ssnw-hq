@@ -46,9 +46,9 @@
         {{ title_prefix }}
         {% if label %}
             {% if content.field_background_image %}
-                <h2{{ title_attributes }} class="md:col-span-2 text-white">{{ label }}</h2>
+                <h2{{ title_attributes }} class="md:col-span-2 text-white @apply uppercase text-2xl bold;">{{ label }}</h2>
             {% else %}
-                <h2{{ title_attributes }} class="md:col-span-2">{{ label }}</h2>
+                <h2{{ title_attributes }} class="md:col-span-2 @apply uppercase text-2xl bold;">{{ label }}</h2>
             {% endif %}
         {% endif %}
 
@@ -59,7 +59,7 @@
         {% endblock %}
 
         {% if content.field_logo %}
-            <div class="floating-logo absolute right-0 top-0 md:bottom-0 md:top-[initial]"> {{content.field_logo}} </div>
+            <div class="floating-logo absolute right-4 top-0 md:bottom-0 md:top-[initial] w-[100px] max-w-[12vw]"> {{content.field_logo}} </div>
         {% endif %}
     </div>
 
