@@ -1,0 +1,29 @@
+uuid: c7fe86ba-23af-4133-9e0f-25d5717e2a96
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:action:ddc98133-9af6-4af7-b5e3-6b0a9970f762'
+  module:
+    - block_class
+    - block_content
+  theme:
+    - midnight_theme
+third_party_settings:
+  block_class:
+    classes: 'bg-secondary full-width py-4'
+id: midnight_theme_getintouch_2
+theme: midnight_theme
+region: content
+weight: -8
+provider: null
+plugin: 'block_content:ddc98133-9af6-4af7-b5e3-6b0a9970f762'
+settings:
+  id: 'block_content:ddc98133-9af6-4af7-b5e3-6b0a9970f762'
+  label: 'Get In Touch'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility: {  }

@@ -1,9 +1,9 @@
-uuid: 5aa9663a-ef8a-4527-b7d1-d3674b999142
+uuid: ae792425-2c1c-4d06-b950-2049deaf5a3f
 langcode: en
 status: true
 dependencies:
   content:
-    - 'block_content:basic:97d19a14-dd77-4761-aaf5-410bf49f5dab'
+    - 'block_content:basic:e636822b-f747-42ad-97e9-728d30775908'
   module:
     - block_content
   theme:
@@ -11,11 +11,11 @@ dependencies:
 id: midnight_theme_copyright
 theme: midnight_theme
 region: footer
-weight: -8
+weight: 0
 provider: null
-plugin: 'block_content:97d19a14-dd77-4761-aaf5-410bf49f5dab'
+plugin: 'block_content:e636822b-f747-42ad-97e9-728d30775908'
 settings:
-  id: 'block_content:97d19a14-dd77-4761-aaf5-410bf49f5dab'
+  id: 'block_content:e636822b-f747-42ad-97e9-728d30775908'
   label: Copyright
   label_display: '0'
   provider: block_content

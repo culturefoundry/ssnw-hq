@@ -1,9 +1,9 @@
-uuid: 56e0b207-ad92-4301-87cb-e4fbae97e061
+uuid: 82f4b0d9-4df7-44b0-99fe-0da9a22f8308
 langcode: en
 status: true
 dependencies:
   content:
-    - 'block_content:basic:d3d210c9-0085-4ce4-b141-2a19727d8315'
+    - 'block_content:basic:234ea37c-837b-4e6e-b126-dec9bc2f667d'
   module:
     - block_content
   theme:
@@ -11,11 +11,11 @@ dependencies:
 id: midnight_theme_securitynow
 theme: midnight_theme
 region: header
-weight: -8
+weight: 0
 provider: null
-plugin: 'block_content:d3d210c9-0085-4ce4-b141-2a19727d8315'
+plugin: 'block_content:234ea37c-837b-4e6e-b126-dec9bc2f667d'
 settings:
-  id: 'block_content:d3d210c9-0085-4ce4-b141-2a19727d8315'
+  id: 'block_content:234ea37c-837b-4e6e-b126-dec9bc2f667d'
   label: 'Security Now'
   label_display: '0'
   provider: block_content

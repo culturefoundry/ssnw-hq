@@ -1,9 +1,9 @@
-uuid: 5f2bbd52-4ee3-4220-b0ef-4608929ba1b5
+uuid: 90824826-00f3-4f15-a33a-eacbc4f0b664
 langcode: en
 status: true
 dependencies:
   content:
-    - 'block_content:basic:ef407234-5dc0-43f6-9a2d-5cea7fef3248'
+    - 'block_content:basic:02c58499-bedb-4049-a2b8-6b445d5edf45'
   module:
     - block_content
   theme:
@@ -13,9 +13,9 @@ theme: midnight_theme
 region: footer
 weight: -11
 provider: null
-plugin: 'block_content:ef407234-5dc0-43f6-9a2d-5cea7fef3248'
+plugin: 'block_content:02c58499-bedb-4049-a2b8-6b445d5edf45'
 settings:
-  id: 'block_content:ef407234-5dc0-43f6-9a2d-5cea7fef3248'
+  id: 'block_content:02c58499-bedb-4049-a2b8-6b445d5edf45'
   label: 'Footer Logo'
   label_display: '0'
   provider: block_content
