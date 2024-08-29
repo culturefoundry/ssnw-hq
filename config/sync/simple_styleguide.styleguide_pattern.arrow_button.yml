@@ -1,0 +1,11 @@
+uuid: 6a0796f7-804b-4d21-a0b8-123fc74cc097
+langcode: en
+status: true
+dependencies: {  }
+id: arrow_button
+label: 'Arrow Button'
+description:
+  value: '<p>This style is used to make a call to action with an arrow. This must be put on a link</p>'
+  format: full_html
+pattern: '<a href="/alarm-systems" class="arrow-link">Learn More</a>'
+weight: null
