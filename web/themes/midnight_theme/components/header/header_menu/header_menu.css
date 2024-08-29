@@ -5,7 +5,7 @@
     left:0;
     width:100%;
     z-index:20;
-    background-color: #00000098;
+    background-color: #000000cc;
 }
 .header-menu:has(button.menu-toggle[aria-expanded=true]) .header-menu_wrapper{
     display:block;
@@ -24,9 +24,7 @@
 }
 
 .header-menu_wrapper .menu--main>ul li ul{
-    flex-direction: column;
-    height: 100%;
-    gap:.25em
+    @apply flex-col h-full gap-2 py-1;
 }
 
 .header-menu_wrapper .menu--main>ul>li ul{
