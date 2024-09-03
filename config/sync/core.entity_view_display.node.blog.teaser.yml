@@ -10,10 +10,11 @@ dependencies:
     - field.field.node.blog.field_metatag
     - field.field.node.blog.field_tags
     - field.field.node.blog.schema_related_link
-    - image.style.medium_focal_point
+    - image.style.blog_teaser
     - node.type.blog
   module:
     - media
+    - nomarkup
     - sdc_display
     - text
     - user
@@ -49,10 +50,19 @@ content:
     label: hidden
     settings:
       image_link: content
-      image_style: medium_focal_point
+      image_style: blog_teaser
       image_loading:
         attribute: lazy
-    third_party_settings: {  }
+    third_party_settings:
+      nomarkup:
+        enabled: false
+        separator: '|'
+        referenced_entity: ''
+      sdc_display:
+        enabled: 0
+        component:
+          machine_name: null
+          show_deprecated: 0
     weight: 0
     region: content
   links:

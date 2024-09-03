@@ -125,3 +125,43 @@ img.breakout {
 .min-h-40vw{
   @apply min-h-[40vw];
 }
+
+.field--name-field-icons img{
+  @apply max-h-[150px] max-w-[200px] w-auto h-auto;
+}
+
+.horizontal-card{
+  @apply grid md:grid-cols-[1fr_2fr];
+}
+
+.blog-card img{
+  @apply min-w-full min-h-full object-cover;
+}
+
+.blog-card {
+  @apply gap-8 grid-rows-[auto_1fr] h-full;
+}
+
+.blog-grid .view-content{
+  @apply grid md:grid-cols-3 gap-12;
+}
+
+.blog-grid .views-field-nothing{
+  @apply h-full;
+}
+
+.blog-card .content{
+  @apply grid grid-rows-[auto_1fr];
+}
+
+.blog-footer{
+  @apply text-center mt-20;
+}
+
+.blog-grid{
+  @apply my-16;
+}
+
+.horizontal-card .content-link{
+  @apply text-center md:text-start;
+}

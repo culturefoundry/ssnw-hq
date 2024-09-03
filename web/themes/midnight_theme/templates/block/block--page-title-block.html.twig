@@ -41,9 +41,13 @@
   {% endif %}
   {{ title_suffix }}
   {% block content %}
-    <div class="container grid grid-cols-2 items-center justify-center text-center">
+    <div class="container grid md:grid-cols-2 items-center h1-text-center">
+      {% if 'h1' in content|render|render %}
         {{ content }}
-        <div class="text-xl"> "Work Hard Be Kind"</div>
+      {% else %}
+        <h1> {{content}}</h1>
+      {% endif %}
+      <div class="text-xl hidden md:block text-right"> "Work Hard Be Kind"</div>
     </div>
   {% endblock %}
 </div>

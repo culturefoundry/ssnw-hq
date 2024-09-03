@@ -48,7 +48,8 @@
     .header-menu_wrapper .menu--main>ul>li{
         border-right: 2px solid #8A8C8E;
         padding: 0px 16px;
-        height:100%;
+        @apply h-full pt-1;
+        
     }
     .header-menu_wrapper .menu--main>ul>li:first-of-type {
         padding-left: 0px;

@@ -44,7 +44,7 @@
     'field--type-' ~ field_type|clean_class,
     'field--label-' ~ label_display,
     label_display == 'inline' ? 'clearfix',
-    ''
+    'flex flex-wrap gap-8 justify-center items-center'
   ]
 %}
 {%
@@ -53,8 +53,30 @@
     label_display == 'visually_hidden' ? 'visually-hidden',
   ]
 %}
-    <div{{ attributes.addClass(classes) }}>
-        {% embed 'midnight_theme:swiper_basic' with { slides: items } %}
-            {% endembed %}
 
+{% if label_hidden %}
+  {% if multiple %}
+    <div{{ attributes.addClass(classes, 'field__items') }}>
+      {% for item in items %}
+        <div{{ item.attributes.addClass('field__item') }}>{{ item.content }}</div>
+      {% endfor %}
     </div>
+  {% else %}
+    {% for item in items %}
+      <div{{ attributes.addClass(classes, 'field__item') }}>{{ item.content }}</div>
+    {% endfor %}
+  {% endif %}
+{% else %}
+  <div{{ attributes.addClass(classes) }}>
+    <div{{ title_attributes.addClass(title_classes) }}>{{ label }}</div>
+    {% if multiple %}
+      <div class="field__items">
+    {% endif %}
+    {% for item in items %}
+      <div{{ item.attributes.addClass('field__item') }}>{{ item.content }}</div>
+    {% endfor %}
+    {% if multiple %}
+      </div>
+    {% endif %}
+  </div>
+{% endif %}

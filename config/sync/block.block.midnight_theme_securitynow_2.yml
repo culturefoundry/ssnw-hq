@@ -1,0 +1,26 @@
+uuid: fe1beccf-81a9-43ce-a7b2-db0eff919fdd
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:d3d210c9-0085-4ce4-b141-2a19727d8315'
+  module:
+    - block_class
+    - block_content
+  theme:
+    - midnight_theme
+id: midnight_theme_securitynow_2
+theme: midnight_theme
+region: header
+weight: 0
+provider: null
+plugin: 'block_content:d3d210c9-0085-4ce4-b141-2a19727d8315'
+settings:
+  id: 'block_content:d3d210c9-0085-4ce4-b141-2a19727d8315'
+  label: 'Security Now'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility: {  }

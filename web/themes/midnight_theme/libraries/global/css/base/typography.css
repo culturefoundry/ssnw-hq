@@ -74,7 +74,7 @@ h1, h2, h3, h5, h6 {
 }
 
 h1 {
-  @apply text-4xl;
+  @apply text-4xl tracking-widest uppercase;
 }
 
 h2 {
@@ -170,12 +170,49 @@ strong {
   @apply before:block before:content-['“'] before:top-0 before:left-[-1.5em]
 
 }
-
+.textshadow{
+  text-shadow: 0px 2px 2px #000000;
+}
 
 .body-text-bottom{
-  @apply h-max mt-auto mx-auto w-max;
+  @apply h-max mt-auto mx-auto w-max max-w-full;
+}
+
+.body-text-bottom * {
+  margin: 0!important;
+  margin-block:0!important;
+}
+
+.alfaslab{
+  @apply font-alfaslab;
+  font-weight:200;
+}
+.title-stretch{
+  @apply text-[5vw] xl:text-[60px];
+}
+.text-stretch{
+  @apply text-[3vw] xl:text-[36px];
+}
+.title-slab{
+  @apply font-alfaslab;
+}
+p.mobile-hidden{
+  @apply hidden md:block;
+}
+a.mobile-hidden{
+  @apply hidden md:inline-block;
+}
+p.mobile-only{
+  @apply md:hidden inline-block;
+}
+p.mobile-only{
+  @apply md:hidden block;
 }
 
 .block > h2{
   @apply uppercase text-2xl bold tracking-widest;
+}
+
+.h1-text-left .h1-text-left{
+  @apply text-left
 }

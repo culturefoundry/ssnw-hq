@@ -13,6 +13,7 @@ dependencies:
   module:
     - field_group
     - link
+    - nomarkup
     - sdc_display
     - text
     - user
@@ -56,9 +57,13 @@ content:
     type: entity_reference_entity_view
     label: hidden
     settings:
-      view_mode: banner
+      view_mode: default
       link: false
     third_party_settings:
+      nomarkup:
+        enabled: true
+        separator: '|'
+        referenced_entity: ''
       sdc_display:
         enabled: 0
         component:

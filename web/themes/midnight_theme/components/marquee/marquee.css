@@ -14,11 +14,18 @@
     -moz-transform: translateX(0%);
     -webkit-transform: translateX(0%);
     transform: translateX(0%);
-    -moz-animation: scroll-left 2s linear infinite;
-    -webkit-animation: scroll-left 2s linear infinite;
+    -moz-animation: scroll-left 20s linear infinite;
+    -webkit-animation: scroll-left 20s linear infinite;
     animation: scroll-left 20s linear infinite;
 }
-.marquee-wrapper:hover{
+@media (prefers-reduced-motion){
+    .marquee .marquee-wrapper {
+        -moz-animation: scroll-left 50s linear infinite;
+        -webkit-animation: scroll-left 50s linear infinite;
+        animation: scroll-left 50s linear infinite;
+    }
+}
+.marquee-wrapper:hover, .marquee-wrapper:focus, .marquee-wrapper:focus-within, .marquee-wrapper:has(a.active){
     -moz-animation-play-state: paused;
     -webkit-animation-play-state: paused;
     animation-play-state: paused;

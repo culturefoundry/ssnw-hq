@@ -18,6 +18,7 @@ export default defineConfig({
         sans: 'Hind:300,400,500,600,700',
         serif: 'EB Garamond',
         secondary: 'Roboto',
+        alfaslab: 'Alfa Slab One:100,200,300,400,500,600,700',
       },
     }),
     // presetGridAreas({
@@ -35,7 +36,9 @@ export default defineConfig({
     //   },
     // }),
     // presetTypography({
-    //   selectorName: 'text-formatted',
+    //   fonts: {
+        
+    //   }
     // }),
     presetIcons({
       collections: {

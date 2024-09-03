@@ -19,7 +19,7 @@
 
   /** Functional colors */
   --text-color: var(--color-main);
-  --link-color: var(--color-highlight1);
+  --link-color: theme('colors.themeblue');
   --active-color: var(--color-highlight2);
   --hover-color: var(--color-highlight2);
   --button-bg-color: var(--color-highlight1);
