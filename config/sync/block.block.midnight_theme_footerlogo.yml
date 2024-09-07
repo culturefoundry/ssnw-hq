@@ -2,12 +2,13 @@ uuid: 90824826-00f3-4f15-a33a-eacbc4f0b664
 langcode: en
 status: true
 dependencies:
-  content:
-    - 'block_content:basic:02c58499-bedb-4049-a2b8-6b445d5edf45'
   module:
-    - block_content
+    - block_class
   theme:
     - midnight_theme
+third_party_settings:
+  block_class:
+    classes: 'col-span-2 md-col-span-1'
 id: midnight_theme_footerlogo
 theme: midnight_theme
 region: footer
@@ -18,7 +19,7 @@ settings:
   id: 'block_content:02c58499-bedb-4049-a2b8-6b445d5edf45'
   label: 'Footer Logo'
   label_display: '0'
-  provider: block_content
+  provider: core
   status: true
   info: ''
   view_mode: full

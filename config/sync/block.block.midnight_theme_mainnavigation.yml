@@ -5,9 +5,13 @@ dependencies:
   config:
     - system.menu.main
   module:
+    - block_class
     - system
   theme:
     - midnight_theme
+third_party_settings:
+  block_class:
+    classes: 'col-span-2 md-col-span-1'
 id: midnight_theme_mainnavigation
 theme: midnight_theme
 region: footer
