@@ -1,7 +1,7 @@
 /**
  * Layout -- technique from https://www.youtube.com/watch?v=c13gpBrnGEw.
  */
-.content-grid:has(*) {
+.content-grid {
   --padding-inline: 1rem;
   --content-max-width: 1350px;
   --breakout-max-width: 1700px;
@@ -27,8 +27,8 @@
       minmax(var(--padding-inline), 1fr) [full-width-end];
 }
 
-.content-view-grid > .view-content > :not(breakout, .full-width),
-.content-grid > :not(.breakout, .full-width, :has(*) ),
+.content-view-grid > .view-content > :not(.breakout, .full-width),
+.content-grid > :not(.content-grid, .breakout, .full-width),
 .node-grid > :not(.breakout, .full-width),
 .full-width > :not(.breakout, .full-width) {
   grid-column: content;
@@ -48,8 +48,8 @@
   grid-template-columns: inherit;
 }
 
-.full-width > .content-grid:has(*),
-.content-grid > .content-grid:has(*) {
+.full-width > .content-grid:has(> div, > header, > article),
+.content-grid > .content-grid:has( > div, > header, > article ) {
   grid-template-columns: inherit;
   grid-column: full-width;
   display: grid;
@@ -82,7 +82,7 @@ img.breakout {
     @apply min-h-[400px] @5xl:min-h-[600px];
   }
 }
- 
+
 .bg-secondary{
   @apply bg-secondary;
 }
