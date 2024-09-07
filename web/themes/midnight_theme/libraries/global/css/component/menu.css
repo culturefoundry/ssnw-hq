@@ -46,5 +46,5 @@ footer .menu-item-no-footer{
   @apply hidden;
 }
 .region-footer .menu--main>ul>li ul[aria-expanded=true]{
-  @apply block;
+  @apply flex;
 }

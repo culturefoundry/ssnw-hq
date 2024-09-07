@@ -1,7 +1,7 @@
 /**
  * Layout -- technique from https://www.youtube.com/watch?v=c13gpBrnGEw.
  */
-.content-grid {
+.content-grid:has(*) {
   --padding-inline: 1rem;
   --content-max-width: 1350px;
   --breakout-max-width: 1700px;
@@ -28,7 +28,7 @@
 }
 
 .content-view-grid > .view-content > :not(breakout, .full-width),
-.content-grid > :not(.breakout, .full-width),
+.content-grid > :not(.breakout, .full-width, :has(*) ),
 .node-grid > :not(.breakout, .full-width),
 .full-width > :not(.breakout, .full-width) {
   grid-column: content;
@@ -48,12 +48,14 @@
   grid-template-columns: inherit;
 }
 
-.full-width > .content-grid,
-.content-grid > .content-grid {
+.full-width > .content-grid:has(*),
+.content-grid > .content-grid:has(*) {
   grid-template-columns: inherit;
   grid-column: full-width;
   display: grid;
 }
+
+
 
 .breakout {
   grid-column: breakout;
@@ -130,17 +132,7 @@ img.breakout {
   @apply max-h-[150px] max-w-[200px] w-auto h-auto;
 }
 
-.horizontal-card{
-  @apply grid md:grid-cols-[1fr_2fr];
-}
 
-.blog-card img{
-  @apply min-w-full min-h-full object-cover;
-}
-
-.blog-card {
-  @apply gap-8 grid-rows-[auto_1fr] h-full;
-}
 
 .blog-grid .view-content{
   @apply grid md:grid-cols-3 gap-12;
@@ -149,19 +141,42 @@ img.breakout {
 .blog-grid .views-field-nothing{
   @apply h-full;
 }
+.blog-grid{
+  @apply my-16;
+}
+
+.blog-card {
+  @apply gap-8 grid-rows-[auto_1fr] h-full;
+}
+
+.blog-card img{
+  @apply min-w-full h-auto object-cover;
+}
 
 .blog-card .content{
   @apply grid grid-rows-[auto_1fr];
+}
+
+.blog-card .teaser-image {
+  @apply  md:max-h-[300px];
+}
+
+.blog-card .teaser-image a{
+  @apply m-auto max-w-[500px] block;
 }
 
 .blog-footer{
   @apply text-center mt-20;
 }
 
-.blog-grid{
-  @apply my-16;
+.horizontal-card{
+  @apply grid md:grid-cols-[300px_1fr];
 }
 
 .horizontal-card .content-link{
   @apply text-center md:text-start;
+}
+
+.md-col-span-1{
+  @apply md:col-span-1;
 }

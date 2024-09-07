@@ -7,6 +7,7 @@
     z-index:20;
     background-color: #000000cc;
 }
+
 .header-menu:has(button.menu-toggle[aria-expanded=true]) .header-menu_wrapper{
     display:block;
 }
@@ -23,7 +24,7 @@
     display:grid;
 }
 
-.header-menu_wrapper .menu--main>ul li ul{
+.menu--main>ul li ul{
     @apply flex-col h-full gap-2 py-1;
 }
 
@@ -63,13 +64,13 @@
     }
 }
 
-.header-menu_wrapper .menu--main>ul>li ul a{
+.menu--main>ul>li ul a{
     color: #B8B9BA;
     font-size: 1.2em;
     @apply font-medium;
 }
 
-.header-menu_wrapper .menu--main>ul>li>a{
+.menu--main>ul>li>a{
     @apply text-white font-bold;
     font-size:1.5em;
 }
