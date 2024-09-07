@@ -5,7 +5,7 @@
     left:0;
     width:100%;
     z-index:20;
-    background-color: #000000cc;
+    background-color: #000000da;
 }
 
 .header-menu:has(button.menu-toggle[aria-expanded=true]) .header-menu_wrapper{
@@ -50,7 +50,7 @@
         border-right: 2px solid #8A8C8E;
         padding: 0px 16px;
         @apply h-full pt-1;
-        
+
     }
     .header-menu_wrapper .menu--main>ul>li:first-of-type {
         padding-left: 0px;
