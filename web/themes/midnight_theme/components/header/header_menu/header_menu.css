@@ -11,6 +11,9 @@
 .header-menu:has(button.menu-toggle[aria-expanded=true]) .header-menu_wrapper{
     display:block;
 }
+.header-menu_wrapper .primary-nav__button-toggle {
+  vertical-align: top;
+}
 
 .header-menu_wrapper .menu--main{
     width:calc(100% - 32px);
@@ -25,7 +28,7 @@
 }
 
 .menu--main>ul li ul{
-    @apply flex-col h-full gap-2 py-1;
+    @apply flex-col h-full gap-3 py-1;
 }
 
 .header-menu_wrapper .menu--main>ul>li ul{

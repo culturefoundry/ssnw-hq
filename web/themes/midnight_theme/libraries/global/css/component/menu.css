@@ -41,6 +41,8 @@ footer .menu-item-no-footer{
 
 .menu--main>ul>li {
   border-bottom:1px solid #8A8C8E;
+  padding-bottom: 12px;
+  margin-bottom: 12px;
 }
 .region-footer .menu--main>ul>li ul{
   @apply hidden;
