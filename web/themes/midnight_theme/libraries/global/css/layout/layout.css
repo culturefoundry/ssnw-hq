@@ -27,6 +27,10 @@
       minmax(var(--padding-inline), 1fr) [full-width-end];
 }
 
+.container{
+  box-sizing:border-box;
+}
+
 .content-view-grid > .view-content > :not(.breakout, .full-width),
 .content-grid > :not(.content-grid, .breakout, .full-width),
 .node-grid > :not(.breakout, .full-width),
