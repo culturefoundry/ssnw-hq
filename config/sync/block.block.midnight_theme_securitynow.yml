@@ -1,7 +1,11 @@
 uuid: 82f4b0d9-4df7-44b0-99fe-0da9a22f8308
 langcode: en
-status: false
+status: true
 dependencies:
+  content:
+    - 'block_content:basic:234ea37c-837b-4e6e-b126-dec9bc2f667d'
+  module:
+    - block_content
   theme:
     - midnight_theme
 id: midnight_theme_securitynow

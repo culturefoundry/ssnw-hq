@@ -1,0 +1,25 @@
+uuid: e52ee64a-1cb5-4f66-8f9e-47aff68bd796
+langcode: en
+status: true
+dependencies:
+  module:
+    - block_class
+    - masquerade
+  theme:
+    - midnight_theme
+third_party_settings:
+  block_class:
+    classes: col-span-2
+id: midnight_theme_masquerade
+theme: midnight_theme
+region: footer
+weight: 0
+provider: null
+plugin: masquerade
+settings:
+  id: masquerade
+  label: Masquerade
+  label_display: visible
+  provider: masquerade
+  show_unmasquerade_link: false
+visibility: {  }
