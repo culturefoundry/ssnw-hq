@@ -3,6 +3,7 @@
 namespace Drupal\eca\Plugin\ECA;
 
 use Drupal\Core\Render\Element;
+use Drupal\eca\Plugin\DataType\DataTransferObject;
 
 /**
  * Provides methods to modify plugin's configuration forms.
@@ -41,6 +42,9 @@ trait PluginFormTrait {
    */
   protected function getTokenValue(string $fieldKey, string $default): string {
     $value = $this->tokenService->getTokenData($this->buildTokenName($fieldKey));
+    if ($value instanceof DataTransferObject) {
+      $value = $value->getValue();
+    }
     return is_scalar($value) ? (string) $value : $default;
   }
 
@@ -68,6 +72,9 @@ trait PluginFormTrait {
       }
       elseif (!empty($value['#eca_token_select_option']) && isset($value['#options']) && is_array($value['#options'])) {
         $value['#options']['_eca_token'] = 'Defined by token';
+        if (($value['#required'] ?? FALSE) === FALSE) {
+          $value['#options'][''] = 'undefined';
+        }
         $description = 'When using the "Defined by token" option, make sure there is a token with this name: <em>' . $this->buildTokenName($child_key) . '</em>';
         $separator = '<br/>';
       }

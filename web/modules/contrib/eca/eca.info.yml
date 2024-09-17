@@ -7,7 +7,7 @@ dependencies:
   - drupal:system
   - drupal:user
 
-# Information added by Drupal.org packaging script on 2024-08-16
-version: '2.0.2'
+# Information added by Drupal.org packaging script on 2024-09-13
+version: '2.0.5'
 project: 'eca'
-datestamp: 1723822466
+datestamp: 1726229600

@@ -276,6 +276,7 @@ class EntityLoader {
    *   The loaded entity, or NULL if not found.
    */
   public function loadEntity(EntityInterface $entity = NULL, array $plugin_configuration = [], string $pluginId = 'eca_token_load_entity'): ?EntityInterface {
+    $this->pluginId = $pluginId;
     $config = $plugin_configuration + $this->defaultConfiguration();
     $token = $this->tokenService;
     $from = $config['from'];
@@ -360,7 +361,6 @@ class EntityLoader {
         $langcode = $this->languageManager->getCurrentLanguage()->getId();
       }
       elseif ($langcode === '_eca_token') {
-        $this->pluginId = $pluginId;
         $langcode = $this->getTokenValue('langcode', $this->languageManager->getCurrentLanguage()->getId());
       }
       if (!(($langcode === LanguageInterface::LANGCODE_DEFAULT) && $entity->isDefaultTranslation()) && ($entity->language()->getId() !== $langcode)) {

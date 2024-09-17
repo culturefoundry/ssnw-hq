@@ -511,7 +511,7 @@ class Eca extends ConfigEntityBase implements EntityWithPluginCollectionInterfac
           $errorMsg = sprintf('%s "%s" (%s): %s', $type, $plugin_label, $label, 'This field requires a token name, not a token; please remove the brackets.');
           $messenger->addError($errorMsg);
         }
-        if (!empty($form_field['#eca_token_select_option']) && isset($form_field['#options']) && is_array($form_field['#options']) && $fields[$key] === '_eca_token') {
+        if (!empty($form_field['#eca_token_select_option']) && isset($form_field['#options']) && is_array($form_field['#options']) && ($fields[$key] === '_eca_token' || $fields[$key] === '')) {
           // Remember the original configuration value.
           $replaced_fields[$key] = $fields[$key];
           $fields[$key] = array_key_first($form_field['#options']);

@@ -8,13 +8,9 @@
     "source": "https://drupal.org/project/eca"
   },
   "repositories": {
-    "drupal.inline_entity_form": {
-      "type": "git",
-      "url": "https://git.drupalcode.org/issue/inline_entity_form-3431070.git"
-    },
-    "drupal.paragraphs": {
-      "type": "git",
-      "url": "https://git.drupalcode.org/issue/paragraphs-3433816.git"
+    "webform": {
+      "type": "vcs",
+      "url": "https://git.drupalcode.org/issue/webform-3465838.git"
     }
   },
   "require": {
@@ -26,10 +22,10 @@
     "mtownsend/xml-to-array": "^2.0"
   },
   "require-dev": {
-    "drupal/entity_reference_revisions": "1.x-dev",
-    "drupal/inline_entity_form": "dev-project-update-bot-only",
-    "drupal/paragraphs": "dev-3433816-manual-drupal-11",
-    "drupal/token": "1.x-dev",
-    "roave/security-advisories": "dev-latest"
+    "drupal/entity_reference_revisions": "^1.12",
+    "drupal/inline_entity_form": "^3.0",
+    "drupal/paragraphs": "^1.18",
+    "drupal/token": "^1.15",
+    "drupal/webform": "dev-3465838-drupal-11-compatibility"
   }
 }
