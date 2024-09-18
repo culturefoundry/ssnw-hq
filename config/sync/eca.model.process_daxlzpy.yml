@@ -1,0 +1,104 @@
+uuid: f55e844c-0661-4231-b2aa-52eca0405aea
+langcode: en
+status: true
+dependencies:
+  config:
+    - eca.eca.process_daxlzpy
+id: process_daxlzpy
+label: noname
+tags:
+  - untagged
+documentation: ''
+filename: ''
+modeldata: |
+  <?xml version="1.0" encoding="UTF-8"?>
+  <bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:qa="http://some-company/schema/bpmn/qa" id="sample-diagram" targetNamespace="http://bpmn.io/schema/bpmn" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd">
+    <bpmn2:process id="Process_daxLZpy" isExecutable="true">
+      <bpmn2:startEvent id="Event_0hveah5" name="Check access" camunda:modelerTemplate="org.drupal.event.access:entity">
+        <bpmn2:extensionElements>
+          <camunda:properties>
+            <camunda:property name="pluginid" value="access:entity" />
+          </camunda:properties>
+          <camunda:field name="account_token_info">
+            <camunda:string></camunda:string>
+          </camunda:field>
+          <camunda:field name="event_token_info">
+            <camunda:string></camunda:string>
+          </camunda:field>
+          <camunda:field name="entity_type_id">
+            <camunda:string>node</camunda:string>
+          </camunda:field>
+          <camunda:field name="bundle">
+            <camunda:string>internal</camunda:string>
+          </camunda:field>
+          <camunda:field name="operation">
+            <camunda:string>view</camunda:string>
+          </camunda:field>
+        </bpmn2:extensionElements>
+        <bpmn2:outgoing>Flow_1e1d4w5</bpmn2:outgoing>
+      </bpmn2:startEvent>
+      <bpmn2:task id="Activity_0zxta2k" name="Forbid" camunda:modelerTemplate="org.drupal.action.eca_access_set_result">
+        <bpmn2:extensionElements>
+          <camunda:field name="access_result">
+            <camunda:string>forbidden</camunda:string>
+          </camunda:field>
+          <camunda:properties>
+            <camunda:property name="pluginid" value="eca_access_set_result" />
+          </camunda:properties>
+        </bpmn2:extensionElements>
+        <bpmn2:incoming>Flow_1e1d4w5</bpmn2:incoming>
+        <bpmn2:outgoing>Flow_0juz2d9</bpmn2:outgoing>
+      </bpmn2:task>
+      <bpmn2:task id="Activity_1e50l63" name="Allow" camunda:modelerTemplate="org.drupal.action.eca_access_set_result">
+        <bpmn2:extensionElements>
+          <camunda:properties>
+            <camunda:property name="pluginid" value="eca_access_set_result" />
+          </camunda:properties>
+          <camunda:field name="access_result">
+            <camunda:string>allowed</camunda:string>
+          </camunda:field>
+        </bpmn2:extensionElements>
+        <bpmn2:incoming>Flow_0juz2d9</bpmn2:incoming>
+      </bpmn2:task>
+      <bpmn2:sequenceFlow id="Flow_0juz2d9" camunda:modelerTemplate="org.drupal.condition.eca_current_user_role" sourceRef="Activity_0zxta2k" targetRef="Activity_1e50l63">
+        <bpmn2:extensionElements>
+          <camunda:properties>
+            <camunda:property name="pluginid" value="eca_current_user_role" />
+          </camunda:properties>
+          <camunda:field name="role">
+            <camunda:string>content_editor</camunda:string>
+          </camunda:field>
+          <camunda:field name="negate">
+            <camunda:string>no</camunda:string>
+          </camunda:field>
+        </bpmn2:extensionElements>
+      </bpmn2:sequenceFlow>
+      <bpmn2:sequenceFlow id="Flow_1e1d4w5" sourceRef="Event_0hveah5" targetRef="Activity_0zxta2k" />
+    </bpmn2:process>
+    <bpmndi:BPMNDiagram id="sid-b62444c8-dd68-468d-a658-75bfc3a82eb9">
+      <bpmndi:BPMNPlane id="sid-a8846f30-0d2a-4d4b-bb8e-5b3acdc1bb56" bpmnElement="Process_daxLZpy">
+        <bpmndi:BPMNShape id="Event_0hveah5_di" bpmnElement="Event_0hveah5">
+          <dc:Bounds x="942" y="312" width="36" height="36" />
+          <bpmndi:BPMNLabel>
+            <dc:Bounds x="926" y="355" width="69" height="14" />
+          </bpmndi:BPMNLabel>
+        </bpmndi:BPMNShape>
+        <bpmndi:BPMNShape id="Activity_0zxta2k_di" bpmnElement="Activity_0zxta2k">
+          <dc:Bounds x="1070" y="290" width="100" height="80" />
+          <bpmndi:BPMNLabel />
+        </bpmndi:BPMNShape>
+        <bpmndi:BPMNShape id="Activity_1e50l63_di" bpmnElement="Activity_1e50l63">
+          <dc:Bounds x="1270" y="290" width="100" height="80" />
+          <bpmndi:BPMNLabel />
+        </bpmndi:BPMNShape>
+        <bpmndi:BPMNEdge id="Flow_0juz2d9_di" bpmnElement="Flow_0juz2d9">
+          <di:waypoint x="1170" y="330" />
+          <di:waypoint x="1270" y="330" />
+        </bpmndi:BPMNEdge>
+        <bpmndi:BPMNEdge id="Flow_1e1d4w5_di" bpmnElement="Flow_1e1d4w5">
+          <di:waypoint x="978" y="330" />
+          <di:waypoint x="1070" y="330" />
+        </bpmndi:BPMNEdge>
+      </bpmndi:BPMNPlane>
+    </bpmndi:BPMNDiagram>
+  </bpmn2:definitions>

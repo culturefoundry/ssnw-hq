@@ -1,0 +1,49 @@
+uuid: 85ea9bcb-bede-49ac-97ce-d713c2a0d0d3
+langcode: en
+status: true
+dependencies:
+  module:
+    - eca_access
+    - eca_user
+id: process_daxlzpy
+modeller: bpmn_io
+label: noname
+version: ''
+weight: 0
+events:
+  Event_0hveah5:
+    plugin: 'access:entity'
+    label: 'Check access'
+    configuration:
+      entity_type_id: node
+      bundle: internal
+      operation: view
+      account_token_info: ''
+      event_token_info: ''
+    successors:
+      -
+        id: Activity_0zxta2k
+        condition: ''
+conditions:
+  Flow_0juz2d9:
+    plugin: eca_current_user_role
+    configuration:
+      negate: false
+      role: content_editor
+gateways: {  }
+actions:
+  Activity_0zxta2k:
+    plugin: eca_access_set_result
+    label: Forbid
+    configuration:
+      access_result: forbidden
+    successors:
+      -
+        id: Activity_1e50l63
+        condition: Flow_0juz2d9
+  Activity_1e50l63:
+    plugin: eca_access_set_result
+    label: Allow
+    configuration:
+      access_result: allowed
+    successors: {  }
