@@ -20,7 +20,7 @@ dependencies:
     - toolbar
 id: manager
 label: Manager
-weight: 4
+weight: -7
 is_admin: null
 permissions:
   - 'access shortcuts'
@@ -29,6 +29,7 @@ permissions:
   - 'access user profiles'
   - 'clone post_order content'
   - 'create document media'
+  - 'create media'
   - 'create post_order content'
   - 'create terms in customer'
   - 'create terms in location'
