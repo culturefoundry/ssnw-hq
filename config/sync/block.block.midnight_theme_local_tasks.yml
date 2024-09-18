@@ -9,7 +9,7 @@ _core:
 id: midnight_theme_local_tasks
 theme: midnight_theme
 region: content
-weight: -7
+weight: -8
 provider: null
 plugin: local_tasks_block
 settings:

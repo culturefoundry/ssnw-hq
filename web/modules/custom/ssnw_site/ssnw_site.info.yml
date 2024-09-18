@@ -1,5 +1,5 @@
 name: 'Ssnw site'
 type: module
-description: '@todo Add description.'
+description: 'Custom modules for SSNW.'
 package: '@todo Add package'
 core_version_requirement: ^10

@@ -46,14 +46,16 @@
 
 .node-grid > .full-width,
 .content-grid > .full-width,
-.full-width > .full-width {
+.full-width > .full-width,
+.child-full-width > :not(.breakout, .full-width),
+.child-full-width > :not(.breakout, .full-width)>.full-width  {
   grid-column: full-width;
   display: grid;
   grid-template-columns: inherit;
 }
 
 .full-width > .content-grid:has(> div, > header, > article),
-.content-grid > .content-grid:has( > div, > header, > article ) {
+.content-grid > .content-grid:has( > div, > header, > article ){
   grid-template-columns: inherit;
   grid-column: full-width;
   display: grid;

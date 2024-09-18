@@ -9,6 +9,7 @@ dependencies:
     - field.field.node.blog.field_image
     - field.field.node.blog.field_metatag
     - field.field.node.blog.field_tags
+    - field.field.node.blog.schema_description
     - field.field.node.blog.schema_related_link
     - image.style.blog_teaser
     - node.type.blog
@@ -69,6 +70,13 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 2
+    region: content
+  schema_description:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 12
     region: content
 hidden:
   comment: true
