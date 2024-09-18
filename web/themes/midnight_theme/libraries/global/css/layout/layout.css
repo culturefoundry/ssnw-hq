@@ -186,3 +186,15 @@ img.breakout {
 .md-col-span-1{
   @apply md:col-span-1;
 }
+
+.media--view-mode-full.full-width .field{
+  grid-column:full-width;
+}
+
+.media--view-mode-full *{
+  max-height:500px;
+}
+.media--view-mode-full img{
+  width:100%;
+  object-fit:cover;
+}

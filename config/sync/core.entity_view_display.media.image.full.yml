@@ -1,16 +1,21 @@
-uuid: 27b0c8d1-87e2-45f3-b431-2f51854b9c5e
+uuid: de69e932-541e-4b55-accc-0d95629ce90a
 langcode: en
 status: true
 dependencies:
   config:
+    - core.entity_view_mode.media.full
     - field.field.media.image.field_media_image
-    - image.style.large
+    - image.style.full
     - media.type.image
   module:
     - image
+    - layout_builder
     - nomarkup
     - sdc_display
 third_party_settings:
+  layout_builder:
+    enabled: false
+    allow_custom: false
   sdc_display:
     enabled: false
     component:
@@ -24,17 +29,17 @@ third_party_settings:
         slots: {  }
 _core:
   default_config_hash: t2YAVeSqMs3Gpnfp_plCnQ2TsoC0u57VCUWl8e2jMMM
-id: media.image.default
+id: media.image.full
 targetEntityType: media
 bundle: image
-mode: default
+mode: full
 content:
   field_media_image:
     type: image
     label: visually_hidden
     settings:
       image_link: ''
-      image_style: large
+      image_style: full
       image_loading:
         attribute: lazy
     third_party_settings:

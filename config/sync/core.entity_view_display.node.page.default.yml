@@ -60,8 +60,12 @@ third_party_settings:
                 type: entity_reference_entity_view
                 label: hidden
                 settings:
-                  view_mode: breakout
+                  view_mode: full
                 third_party_settings:
+                  nomarkup:
+                    enabled: false
+                    separator: '|'
+                    referenced_entity: '0'
                   sdc_display:
                     enabled: 0
                     component:
@@ -72,7 +76,7 @@ third_party_settings:
               component_attributes:
                 block_attributes:
                   id: ''
-                  class: breakout
+                  class: full-width
                   style: ''
                   data: ''
                 block_title_attributes:

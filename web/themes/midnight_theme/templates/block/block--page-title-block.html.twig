@@ -41,7 +41,7 @@
   {% endif %}
   {{ title_suffix }}
   {% block content %}
-    <div class="container grid md:grid-cols-2 items-center h1-text-center">
+    <div class="sm:px-8 grid md:grid-cols-2 items-center h1-text-center">
       {% if 'h1' in content|render|render %}
         {{ content }}
       {% else %}
