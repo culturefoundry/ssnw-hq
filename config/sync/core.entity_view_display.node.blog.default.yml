@@ -57,15 +57,17 @@ third_party_settings:
             region: content
             configuration:
               id: 'field_block:node:blog:field_image'
+              label: Image
               label_display: '0'
+              provider: layout_builder
               context_mapping:
                 entity: layout_builder.entity
+                view_mode: view_mode
               formatter:
                 type: entity_reference_entity_view
                 label: hidden
                 settings:
-                  view_mode: breakout
-                  link: false
+                  view_mode: basic_hero
                 third_party_settings:
                   nomarkup:
                     enabled: true
@@ -81,7 +83,7 @@ third_party_settings:
               component_attributes:
                 block_attributes:
                   id: ''
-                  class: breakout
+                  class: 'text-center my-8'
                   style: ''
                   data: ''
                 block_title_attributes:
