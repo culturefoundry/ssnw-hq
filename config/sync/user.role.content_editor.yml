@@ -13,7 +13,6 @@ dependencies:
     - block_content.type.featured_picture_body_logo
     - block_content.type.icons_text_matching_sliders
     - block_content.type.reference_block
-    - core.entity_view_display.node.internal.default
     - core.entity_view_display.node.page.default
     - filter.format.basic_html
     - filter.format.full_html
@@ -29,7 +28,6 @@ dependencies:
     - node.type.service
     - node.type.testimonial
     - taxonomy.vocabulary.employee_role
-    - taxonomy.vocabulary.location
     - taxonomy.vocabulary.tags
     - workflows.workflow.editorial
   module:
@@ -72,9 +70,6 @@ permissions:
   - 'clone blog content'
   - 'clone page content'
   - 'clone service content'
-  - 'configure all internal node layout overrides'
-  - 'configure all page node layout overrides'
-  - 'configure editable internal node layout overrides'
   - 'configure editable page node layout overrides'
   - 'create action block content'
   - 'create and edit custom blocks'
@@ -96,24 +91,12 @@ permissions:
   - 'create reference_block block content'
   - 'create remote_video media'
   - 'create service content'
-  - 'create terms in location'
   - 'create terms in tags'
   - 'create testimonial content'
   - 'create url aliases'
   - 'create video media'
   - 'delete any action block content'
-  - 'delete any audio media'
   - 'delete any basic block content'
-  - 'delete any blog content'
-  - 'delete any document media'
-  - 'delete any image media'
-  - 'delete any internal content'
-  - 'delete any page content'
-  - 'delete any reference_block block content'
-  - 'delete any remote_video media'
-  - 'delete any service content'
-  - 'delete any testimonial content'
-  - 'delete any video media'
   - 'delete blog revisions'
   - 'delete own files'
   - 'delete page revisions'
@@ -138,6 +121,10 @@ permissions:
   - 'edit any testimonial content'
   - 'edit any video media'
   - 'edit own comments'
+  - 'edit own document media'
+  - 'edit own image media'
+  - 'edit own remote_video media'
+  - 'edit own video media'
   - 'edit terms in employee_role'
   - 'edit terms in tags'
   - 'revert all revisions'

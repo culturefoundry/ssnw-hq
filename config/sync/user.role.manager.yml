@@ -3,14 +3,24 @@ langcode: en
 status: true
 dependencies:
   config:
+    - core.entity_view_display.node.internal.default
     - filter.format.basic_html
     - filter.format.full_html
+    - media.type.audio
     - media.type.document
+    - media.type.image
+    - media.type.remote_video
+    - media.type.video
+    - node.type.internal
     - node.type.post_order
     - taxonomy.vocabulary.customer
+    - taxonomy.vocabulary.employee_role
     - taxonomy.vocabulary.location
+    - workflows.workflow.editorial
   module:
+    - content_moderation
     - filter
+    - layout_builder
     - media
     - node
     - quick_node_clone
@@ -23,32 +33,50 @@ label: Operations
 weight: -6
 is_admin: null
 permissions:
+  - 'access content overview'
+  - 'access media overview'
   - 'access shortcuts'
   - 'access site in maintenance mode'
   - 'access toolbar'
   - 'access user profiles'
   - 'clone post_order content'
+  - 'configure editable internal node layout overrides'
+  - 'create and edit custom blocks'
+  - 'create audio media'
   - 'create document media'
+  - 'create image media'
+  - 'create internal content'
   - 'create media'
   - 'create post_order content'
+  - 'create remote_video media'
   - 'create terms in customer'
+  - 'create terms in employee_role'
   - 'create terms in location'
+  - 'create video media'
   - 'delete any document media'
   - 'delete any document media revisions'
   - 'delete any post_order content'
-  - 'delete own document media'
   - 'delete own post_order content'
   - 'delete post_order revisions'
   - 'edit any document media'
+  - 'edit any internal content'
   - 'edit any post_order content'
   - 'edit own document media'
+  - 'edit own image media'
+  - 'edit own remote_video media'
+  - 'edit own video media'
   - 'edit terms in customer'
   - 'revert post_order revisions'
   - 'revert term revisions in customer'
+  - 'use editorial transition archive'
+  - 'use editorial transition archived_draft'
+  - 'use editorial transition archived_published'
+  - 'use editorial transition create_new_draft'
+  - 'use editorial transition publish'
   - 'use text format basic_html'
   - 'use text format full_html'
   - 'view all taxonomy revisions'
-  - 'view any document media revisions'
+  - 'view any unpublished content'
   - 'view own unpublished content'
   - 'view post_order revisions'
   - 'view term revisions in customer'
