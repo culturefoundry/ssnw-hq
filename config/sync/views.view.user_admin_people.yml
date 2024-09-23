@@ -872,7 +872,7 @@ display:
           exposed: true
           expose:
             operator_id: field_employee_designation_target_id_op
-            label: 'Employee Designation (field_employee_designation)'
+            label: 'Employee Designation'
             description: ''
             use_operator: false
             operator: field_employee_designation_target_id_op

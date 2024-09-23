@@ -198,3 +198,7 @@ img.breakout {
   width:100%;
   object-fit:cover;
 }
+
+.view-scroll-sideways .view-content{
+  overflow-x: scroll;
+}
