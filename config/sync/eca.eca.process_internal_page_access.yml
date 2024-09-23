@@ -1,19 +1,19 @@
-uuid: 85ea9bcb-bede-49ac-97ce-d713c2a0d0d3
+uuid: c933ab84-7cf2-480c-95ae-3658f139f4a0
 langcode: en
 status: true
 dependencies:
   module:
     - eca_access
     - eca_user
-id: process_daxlzpy
+id: process_internal_page_access
 modeller: bpmn_io
-label: noname
+label: 'Access to Internal Pages'
 version: ''
 weight: 0
 events:
   Event_0hveah5:
     plugin: 'access:entity'
-    label: 'Check access'
+    label: 'Check access Internal Pages'
     configuration:
       entity_type_id: node
       bundle: internal
@@ -23,13 +23,13 @@ events:
     successors:
       -
         id: Activity_0zxta2k
-        condition: ''
+        condition: Flow_1e1d4w5
 conditions:
-  Flow_0juz2d9:
+  Flow_1e1d4w5:
     plugin: eca_current_user_role
     configuration:
-      negate: false
-      role: content_editor
+      role: authenticated
+      negate: true
 gateways: {  }
 actions:
   Activity_0zxta2k:
@@ -37,13 +37,4 @@ actions:
     label: Forbid
     configuration:
       access_result: forbidden
-    successors:
-      -
-        id: Activity_1e50l63
-        condition: Flow_0juz2d9
-  Activity_1e50l63:
-    plugin: eca_access_set_result
-    label: Allow
-    configuration:
-      access_result: allowed
     successors: {  }

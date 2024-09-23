@@ -3,7 +3,7 @@
         'name' => 'drupal/starshot-project',
         'pretty_version' => 'dev-develop',
         'version' => 'dev-develop',
-        'reference' => 'e59f632c188440cc9b21aa4d7f08b4f4032ff3cc',
+        'reference' => 'beef906d08ba7693340c3bb472b06699c680bdda',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -532,6 +532,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'drupal/email_registration' => array(
+            'pretty_version' => '1.4.0',
+            'version' => '1.4.0.0',
+            'reference' => '8.x-1.4',
+            'type' => 'drupal-module',
+            'install_path' => __DIR__ . '/../../web/modules/contrib/email_registration',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'drupal/environment_indicator' => array(
             'pretty_version' => '4.0.19',
             'version' => '4.0.19.0',
@@ -843,7 +852,7 @@
         'drupal/starshot-project' => array(
             'pretty_version' => 'dev-develop',
             'version' => 'dev-develop',
-            'reference' => 'e59f632c188440cc9b21aa4d7f08b4f4032ff3cc',
+            'reference' => 'beef906d08ba7693340c3bb472b06699c680bdda',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

@@ -1,0 +1,86 @@
+uuid: d51081cf-1515-4ab7-af72-8c8bf90ac7bf
+langcode: en
+status: true
+dependencies:
+  config:
+    - eca.eca.process_user_management_ops
+id: process_user_management_ops
+label: 'Moderation of Users'
+tags:
+  - untagged
+documentation: ''
+filename: ''
+modeldata: |
+  <?xml version="1.0" encoding="UTF-8"?>
+  <bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:qa="http://some-company/schema/bpmn/qa" id="sample-diagram" targetNamespace="http://bpmn.io/schema/bpmn" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd">
+    <bpmn2:process id="Process_user_management_ops" name="Moderation of Users" isExecutable="true">
+      <bpmn2:startEvent id="Event_1viv8zu" name="Editing Employee Designation - Location - Number" camunda:modelerTemplate="org.drupal.event.access:field">
+        <bpmn2:extensionElements>
+          <camunda:properties>
+            <camunda:property name="pluginid" value="access:field" />
+          </camunda:properties>
+          <camunda:field name="account_token_info">
+            <camunda:string></camunda:string>
+          </camunda:field>
+          <camunda:field name="event_token_info">
+            <camunda:string></camunda:string>
+          </camunda:field>
+          <camunda:field name="entity_type_id">
+            <camunda:string>user</camunda:string>
+          </camunda:field>
+          <camunda:field name="bundle">
+            <camunda:string></camunda:string>
+          </camunda:field>
+          <camunda:field name="operation">
+            <camunda:string>edit</camunda:string>
+          </camunda:field>
+          <camunda:field name="field_name">
+            <camunda:string>field_employee_designation, field_employee_location, field_employee_number</camunda:string>
+          </camunda:field>
+        </bpmn2:extensionElements>
+        <bpmn2:outgoing>Flow_0e2osk6</bpmn2:outgoing>
+      </bpmn2:startEvent>
+      <bpmn2:task id="Activity_0enk70y" name="Forbidden" camunda:modelerTemplate="org.drupal.action.eca_access_set_result">
+        <bpmn2:extensionElements>
+          <camunda:field name="access_result">
+            <camunda:string>forbidden</camunda:string>
+          </camunda:field>
+          <camunda:properties>
+            <camunda:property name="pluginid" value="eca_access_set_result" />
+          </camunda:properties>
+        </bpmn2:extensionElements>
+        <bpmn2:incoming>Flow_0e2osk6</bpmn2:incoming>
+      </bpmn2:task>
+      <bpmn2:sequenceFlow id="Flow_0e2osk6" camunda:modelerTemplate="org.drupal.condition.eca_current_user_permission" sourceRef="Event_1viv8zu" targetRef="Activity_0enk70y">
+        <bpmn2:extensionElements>
+          <camunda:properties>
+            <camunda:property name="pluginid" value="eca_current_user_permission" />
+          </camunda:properties>
+          <camunda:field name="permission">
+            <camunda:string>administer users</camunda:string>
+          </camunda:field>
+          <camunda:field name="negate">
+            <camunda:string>yes</camunda:string>
+          </camunda:field>
+        </bpmn2:extensionElements>
+      </bpmn2:sequenceFlow>
+    </bpmn2:process>
+    <bpmndi:BPMNDiagram id="sid-67e61a15-51e7-499b-b16b-46e15ff3eae5">
+      <bpmndi:BPMNPlane id="sid-8f2ea956-6da1-44c6-987e-51491069bab6" bpmnElement="Process_user_management_ops">
+        <bpmndi:BPMNShape id="Event_1viv8zu_di" bpmnElement="Event_1viv8zu">
+          <dc:Bounds x="232" y="382" width="36" height="36" />
+          <bpmndi:BPMNLabel>
+            <dc:Bounds x="209" y="425" width="86" height="53" />
+          </bpmndi:BPMNLabel>
+        </bpmndi:BPMNShape>
+        <bpmndi:BPMNShape id="Activity_0enk70y_di" bpmnElement="Activity_0enk70y">
+          <dc:Bounds x="430" y="360" width="100" height="80" />
+          <bpmndi:BPMNLabel />
+        </bpmndi:BPMNShape>
+        <bpmndi:BPMNEdge id="Flow_0e2osk6_di" bpmnElement="Flow_0e2osk6">
+          <di:waypoint x="268" y="400" />
+          <di:waypoint x="430" y="400" />
+        </bpmndi:BPMNEdge>
+      </bpmndi:BPMNPlane>
+    </bpmndi:BPMNDiagram>
+  </bpmn2:definitions>

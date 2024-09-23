@@ -33,6 +33,7 @@
         "drupal/eca": "^2.0",
         "drupal/eca_modeller_bpmn": "^2.0.2",
         "drupal/eca_ui": "^2.0.2",
+        "drupal/email_registration": "^1.4",
         "drupal/environment_indicator": "^4.0.19",
         "drupal/field_group": "^3.6.0",
         "drupal/focal_point": "^2.1.1",

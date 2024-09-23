@@ -19,8 +19,8 @@ dependencies:
     - taxonomy
     - toolbar
 id: manager
-label: Manager
-weight: -7
+label: Operations
+weight: -6
 is_admin: null
 permissions:
   - 'access shortcuts'

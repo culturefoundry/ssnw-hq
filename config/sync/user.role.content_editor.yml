@@ -54,8 +54,8 @@ dependencies:
 _core:
   default_config_hash: joOuS3sQ8LG5aKUH_EkwUM-TlrS1uBOVfx5D1x9GQsU
 id: content_editor
-label: 'Content editor'
-weight: -8
+label: Editor
+weight: -7
 is_admin: false
 permissions:
   - 'Administer Quick Node Clone Settings'

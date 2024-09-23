@@ -45,6 +45,7 @@ module:
   eca_views: 0
   eca_workflow: 0
   editor: 0
+  email_registration: 0
   environment_indicator: 0
   field: 0
   field_group: 0

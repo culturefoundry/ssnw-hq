@@ -1,0 +1,9 @@
+uuid: 7d6dbe52-184a-4ac2-b61e-56531599beb2
+langcode: en
+status: true
+dependencies: {  }
+id: hr
+label: HR
+weight: -8
+is_admin: null
+permissions: {  }
