@@ -1,0 +1,22 @@
+uuid: 80e4e73a-bd9c-4875-8bad-0f8074b50460
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.cta_block_with_background
+    - field.storage.block_content.field_intro_text
+  module:
+    - text
+id: block_content.cta_block_with_background.field_intro_text
+field_name: field_intro_text
+entity_type: block_content
+bundle: cta_block_with_background
+label: 'Intro Text'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats: {  }
+field_type: text_long

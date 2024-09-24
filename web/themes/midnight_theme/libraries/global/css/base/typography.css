@@ -218,3 +218,12 @@ p.mobile-only{
   @apply text-left
 }
 
+blockquote{
+  @apply relative before:block before:absolute before:top-[-1rem] before:font-serif;
+}
+
+blockquote:before{
+  content: '“';
+  font-size:3em;
+  right:calc(100% + .75rem);
+}

@@ -1,0 +1,21 @@
+uuid: dacc7708-40c0-4d3e-84f8-a7ebc59e5819
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.cta_block_with_background
+    - field.storage.block_content.field_background_style
+  module:
+    - options
+id: block_content.cta_block_with_background.field_background_style
+field_name: field_background_style
+entity_type: block_content
+bundle: cta_block_with_background
+label: 'Background style'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string
