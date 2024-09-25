@@ -32,7 +32,7 @@
     'block-' ~ configuration.provider|clean_class,
     'block-' ~ plugin_id|clean_class,
     'overflow-hidden relative full-width',
-    'min-h-400px md:min-h-600px'
+    'min-h-400px md:min-h-600px max-h-700px'
 ]
   
 %}
@@ -44,7 +44,7 @@
         {{ title_suffix }}
 
     {% if content.field_background_image %}
-        <div class="bg-image col-span-full row-span-full w-full h-full z-[-1] full-width">
+        <div class="bg-image col-span-full row-span-full w-full h-full z-[-1] full-width max-h-700px">
             {{content.field_background_image}}
             {{content.field_background_overlay}}
         </div>

@@ -61,7 +61,7 @@
     {% if content.field_background_image and bg_style == "bg_image" %}
     <div class="spacing grid grid-cols-1 md:grid-cols-2 relative">
     {% else %}
-    <div class="spacing relative">
+    <div class="spacing relative breakout">
     {% endif %}
 
 
@@ -85,7 +85,9 @@
             <div class="intro row-start-2">
                 {{content.field_intro_text|render}}
             </div>
+            <div class="content row-start-4">
             {{content.body|render}}
+            </div>
             
 
         </div>

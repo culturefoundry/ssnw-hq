@@ -1,13 +1,15 @@
 /**
  * Layout -- technique from https://www.youtube.com/watch?v=c13gpBrnGEw.
  */
-.content-grid {
+:root {
   --padding-inline: 1rem;
-  --content-max-width: 1350px;
-  --breakout-max-width: 1700px;
+  --content-max-width: 850px;
+  --breakout-max-width: 1050px;
   --breakout-size: calc(
       (var(--breakout-max-width) - var(--content-max-width)) / 2
     );
+}
+.content-grid {
   display: grid;
   grid-template-columns:
     [full-width-start] minmax(var(--padding-inline), 1fr)
@@ -106,6 +108,7 @@ img.breakout {
 
 .content-cta{
   @apply grid md:grid-cols-2 md:items-center;
+  grid-column:breakout!important;
 }
 .block-call-to-action .field--name-field-call-to-action {
   @apply text-center;
