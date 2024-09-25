@@ -42,7 +42,7 @@ filters:
     status: false
     weight: -10
     settings:
-      allowed_html: '<a class="button button-secondary arrow-link mobile-hidden mobile-only"> <p class="text-xl2 text-xl4 mobile-hidden mobile-only"> <div class="quote-text"> <h2 class="hero-header"> <span class="alfaslab textshadow title-stretch text-stretch">'
+      allowed_html: '<a class="button button-secondary arrow-link mobile-hidden mobile-only"> <p class="text-xl text-2xl text-4xl quote-text mobile-hidden mobile-only"> <h2 class="hero-header"> <span class="alfaslab textshadow title-stretch text-stretch">'
       filter_html_help: true
       filter_html_nofollow: false
   filter_htmlcorrector:

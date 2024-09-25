@@ -4,7 +4,14 @@ status: true
 dependencies:
   config:
     - block_content.type.action
+    - block_content.type.banner_block
     - block_content.type.basic
+    - block_content.type.card_grid
+    - block_content.type.card_slider
+    - block_content.type.card_with_icon
+    - block_content.type.cta_block_with_background
+    - block_content.type.featured_picture_body_logo
+    - block_content.type.icons_text_matching_sliders
     - block_content.type.reference_block
     - core.entity_view_display.node.page.default
     - filter.format.basic_html
@@ -16,11 +23,11 @@ dependencies:
     - media.type.remote_video
     - media.type.video
     - node.type.blog
+    - node.type.internal
     - node.type.page
     - node.type.service
     - node.type.testimonial
     - taxonomy.vocabulary.employee_role
-    - taxonomy.vocabulary.location
     - taxonomy.vocabulary.tags
     - workflows.workflow.editorial
   module:
@@ -45,8 +52,8 @@ dependencies:
 _core:
   default_config_hash: joOuS3sQ8LG5aKUH_EkwUM-TlrS1uBOVfx5D1x9GQsU
 id: content_editor
-label: 'Content editor'
-weight: 2
+label: Editor
+weight: -7
 is_admin: false
 permissions:
   - 'Administer Quick Node Clone Settings'
@@ -58,52 +65,55 @@ permissions:
   - 'access media overview'
   - 'access site in maintenance mode'
   - 'access toolbar'
-  - 'administer comments'
   - 'administer redirects'
   - 'administer url aliases'
   - 'clone blog content'
   - 'clone page content'
   - 'clone service content'
-  - 'configure all page node layout overrides'
   - 'configure editable page node layout overrides'
   - 'create action block content'
   - 'create and edit custom blocks'
   - 'create audio media'
+  - 'create banner_block block content'
   - 'create basic block content'
   - 'create blog content'
+  - 'create card_grid block content'
+  - 'create card_slider block content'
+  - 'create card_with_icon block content'
+  - 'create cta_block_with_background block content'
   - 'create document media'
+  - 'create featured_picture_body_logo block content'
+  - 'create icons_text_matching_sliders block content'
   - 'create image media'
+  - 'create internal content'
   - 'create media'
   - 'create page content'
   - 'create reference_block block content'
   - 'create remote_video media'
   - 'create service content'
-  - 'create terms in location'
   - 'create terms in tags'
   - 'create testimonial content'
   - 'create url aliases'
   - 'create video media'
   - 'delete any action block content'
-  - 'delete any audio media'
   - 'delete any basic block content'
-  - 'delete any blog content'
-  - 'delete any document media'
-  - 'delete any image media'
-  - 'delete any page content'
-  - 'delete any reference_block block content'
-  - 'delete any remote_video media'
-  - 'delete any service content'
-  - 'delete any testimonial content'
-  - 'delete any video media'
   - 'delete blog revisions'
   - 'delete own files'
   - 'delete page revisions'
   - 'edit any action block content'
   - 'edit any audio media'
+  - 'edit any banner_block block content'
   - 'edit any basic block content'
   - 'edit any blog content'
+  - 'edit any card_grid block content'
+  - 'edit any card_slider block content'
+  - 'edit any card_with_icon block content'
+  - 'edit any cta_block_with_background block content'
   - 'edit any document media'
+  - 'edit any featured_picture_body_logo block content'
+  - 'edit any icons_text_matching_sliders block content'
   - 'edit any image media'
+  - 'edit any internal content'
   - 'edit any page content'
   - 'edit any reference_block block content'
   - 'edit any remote_video media'
@@ -111,10 +121,15 @@ permissions:
   - 'edit any testimonial content'
   - 'edit any video media'
   - 'edit own comments'
+  - 'edit own document media'
+  - 'edit own image media'
+  - 'edit own remote_video media'
+  - 'edit own video media'
   - 'edit terms in employee_role'
   - 'edit terms in tags'
   - 'revert all revisions'
   - 'revert blog revisions'
+  - 'revert internal revisions'
   - 'revert page revisions'
   - 'revert service revisions'
   - 'revert testimonial revisions'

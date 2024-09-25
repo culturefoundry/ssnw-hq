@@ -1,0 +1,41 @@
+uuid: 5f8d51df-ad2a-420d-9e35-c1148ec45c67
+langcode: en
+status: true
+dependencies:
+  module:
+    - eca_access
+    - eca_user
+id: process_user_management_ops
+modeller: bpmn_io
+label: 'Moderation of Users'
+version: ''
+weight: 0
+events:
+  Event_1viv8zu:
+    plugin: 'access:field'
+    label: 'Editing Employee Designation - Location - Number'
+    configuration:
+      field_name: 'field_employee_designation, field_employee_location, field_employee_number'
+      entity_type_id: user
+      bundle: ''
+      operation: edit
+      account_token_info: ''
+      event_token_info: ''
+    successors:
+      -
+        id: Activity_0enk70y
+        condition: Flow_0e2osk6
+conditions:
+  Flow_0e2osk6:
+    plugin: eca_current_user_permission
+    configuration:
+      permission: 'administer users'
+      negate: true
+gateways: {  }
+actions:
+  Activity_0enk70y:
+    plugin: eca_access_set_result
+    label: Forbidden
+    configuration:
+      access_result: forbidden
+    successors: {  }

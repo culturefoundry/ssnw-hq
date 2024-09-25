@@ -1,0 +1,44 @@
+uuid: 7d6dbe52-184a-4ac2-b61e-56531599beb2
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_display.node.internal.default
+    - media.type.audio
+    - media.type.document
+    - media.type.image
+    - media.type.remote_video
+    - media.type.video
+    - node.type.internal
+    - workflows.workflow.editorial
+  module:
+    - content_moderation
+    - layout_builder
+    - media
+    - node
+id: hr
+label: HR
+weight: -8
+is_admin: null
+permissions:
+  - 'access content overview'
+  - 'configure editable internal node layout overrides'
+  - 'create and edit custom blocks'
+  - 'create audio media'
+  - 'create document media'
+  - 'create image media'
+  - 'create internal content'
+  - 'create media'
+  - 'create remote_video media'
+  - 'create video media'
+  - 'edit any internal content'
+  - 'edit own document media'
+  - 'edit own image media'
+  - 'edit own remote_video media'
+  - 'edit own video media'
+  - 'use editorial transition archive'
+  - 'use editorial transition archived_draft'
+  - 'use editorial transition archived_published'
+  - 'use editorial transition create_new_draft'
+  - 'use editorial transition publish'
+  - 'view any unpublished content'

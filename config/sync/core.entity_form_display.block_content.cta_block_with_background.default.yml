@@ -6,6 +6,8 @@ dependencies:
     - block_content.type.cta_block_with_background
     - field.field.block_content.cta_block_with_background.body
     - field.field.block_content.cta_block_with_background.field_background_image
+    - field.field.block_content.cta_block_with_background.field_background_style
+    - field.field.block_content.cta_block_with_background.field_intro_text
   module:
     - media_library
     - text
@@ -16,7 +18,7 @@ mode: default
 content:
   body:
     type: text_textarea_with_summary
-    weight: 26
+    weight: 2
     region: content
     settings:
       rows: 9
@@ -26,17 +28,24 @@ content:
     third_party_settings: {  }
   field_background_image:
     type: media_library_widget
-    weight: 27
+    weight: 1
     region: content
     settings:
       media_types: {  }
     third_party_settings: {  }
-  info:
-    type: string_textfield
-    weight: -5
+  field_background_style:
+    type: options_select
+    weight: 3
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_intro_text:
+    type: text_textarea
+    weight: 0
     region: content
     settings:
-      size: 60
+      rows: 5
       placeholder: ''
     third_party_settings: {  }
-hidden: {  }
+hidden:
+  info: true

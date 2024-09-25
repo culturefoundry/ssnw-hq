@@ -6,9 +6,13 @@ dependencies:
     - block_content.type.cta_block_with_background
     - field.field.block_content.cta_block_with_background.body
     - field.field.block_content.cta_block_with_background.field_background_image
+    - field.field.block_content.cta_block_with_background.field_background_style
+    - field.field.block_content.cta_block_with_background.field_intro_text
+    - image.style.blog_image
   module:
     - media
     - nomarkup
+    - options
     - sdc_display
     - text
 third_party_settings:
@@ -40,7 +44,7 @@ content:
     label: hidden
     settings:
       image_link: ''
-      image_style: ''
+      image_style: blog_image
       image_loading:
         attribute: lazy
     third_party_settings:
@@ -54,5 +58,37 @@ content:
           machine_name: null
           show_deprecated: 0
     weight: 1
+    region: content
+  field_background_style:
+    type: list_key
+    label: hidden
+    settings: {  }
+    third_party_settings:
+      nomarkup:
+        enabled: true
+        separator: '|'
+        referenced_entity: ''
+      sdc_display:
+        enabled: 0
+        component:
+          machine_name: null
+          show_deprecated: 0
+    weight: 2
+    region: content
+  field_intro_text:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings:
+      nomarkup:
+        enabled: false
+        separator: '|'
+        referenced_entity: ''
+      sdc_display:
+        enabled: 0
+        component:
+          machine_name: null
+          show_deprecated: 0
+    weight: 3
     region: content
 hidden: {  }

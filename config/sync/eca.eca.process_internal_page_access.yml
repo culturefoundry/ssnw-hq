@@ -1,0 +1,40 @@
+uuid: c933ab84-7cf2-480c-95ae-3658f139f4a0
+langcode: en
+status: true
+dependencies:
+  module:
+    - eca_access
+    - eca_user
+id: process_internal_page_access
+modeller: bpmn_io
+label: 'Access to Internal Pages'
+version: ''
+weight: 0
+events:
+  Event_0hveah5:
+    plugin: 'access:entity'
+    label: 'Check access Internal Pages'
+    configuration:
+      entity_type_id: node
+      bundle: 'internal, post_order'
+      operation: view
+      account_token_info: ''
+      event_token_info: ''
+    successors:
+      -
+        id: Activity_0zxta2k
+        condition: Flow_1e1d4w5
+conditions:
+  Flow_1e1d4w5:
+    plugin: eca_current_user_role
+    configuration:
+      role: authenticated
+      negate: true
+gateways: {  }
+actions:
+  Activity_0zxta2k:
+    plugin: eca_access_set_result
+    label: Forbid
+    configuration:
+      access_result: forbidden
+    successors: {  }

@@ -69,21 +69,22 @@ p {
   @apply my-4 mx-0;
 }
 
-h1, h2, h3, h5, h6 {
-  @apply font-sans my-5;
+h1, h2, h3, h5, h6
+h1 span, h2 span , h3 span, h5 span, h6 span{
+  @apply font-sans my-5 break-words;
 }
 
 h1 {
-  @apply text-4xl tracking-widest uppercase;
+  @apply  text-2xl sm:text-4xl sm:tracking-widest uppercase;
 }
 
 h2 {
-  @apply text-2xl;
+  @apply text-xl sm:text-2xl;
   &.bigger {
-    @apply text-3xl;
+    @apply sm:text-3xl;
   }
   &.smaller {
-    @apply text-xl;
+    @apply sm:text-xl;
   }
 }
 
@@ -217,3 +218,12 @@ p.mobile-only{
   @apply text-left
 }
 
+blockquote{
+  @apply relative before:block before:absolute before:top-[-1rem] before:font-serif;
+}
+
+blockquote:before{
+  content: '“';
+  font-size:3em;
+  right:calc(100% + .75rem);
+}

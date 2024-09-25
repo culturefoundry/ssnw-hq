@@ -9,6 +9,7 @@ dependencies:
     - field.field.node.blog.field_image
     - field.field.node.blog.field_metatag
     - field.field.node.blog.field_tags
+    - field.field.node.blog.schema_description
     - field.field.node.blog.schema_related_link
     - node.type.blog
   module:
@@ -30,4 +31,5 @@ hidden:
   field_image: true
   field_metatag: true
   field_tags: true
+  schema_description: true
   schema_related_link: true

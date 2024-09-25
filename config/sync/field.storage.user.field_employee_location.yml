@@ -1,0 +1,20 @@
+uuid: 977fe877-b21c-499d-9fdb-f82e3078c3c9
+langcode: en
+status: true
+dependencies:
+  module:
+    - taxonomy
+    - user
+id: user.field_employee_location
+field_name: field_employee_location
+entity_type: user
+type: entity_reference
+settings:
+  target_type: taxonomy_term
+module: core
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

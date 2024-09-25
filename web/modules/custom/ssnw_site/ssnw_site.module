@@ -1,0 +1,21 @@
+<?php
+
+/**
+ * @file
+ * Contains asap_custom.module..
+ */
+
+ use Drupal\Core\Access\AccessResult;
+
+
+ /**
+ * Implements hook_entity_access().
+ */
+
+function ssnw_site_node_access(\Drupal\node\NodeInterface $node, $operation, \Drupal\Core\Session\AccountInterface $account) {
+    // Node type .
+    $node_type = $node->getType();
+    if ($node_type == 'internal' && $operation == 'view' && !\Drupal::currentUser()->hasPermission('view internal page')) {
+        return AccessResult::forbidden();
+    }
+}

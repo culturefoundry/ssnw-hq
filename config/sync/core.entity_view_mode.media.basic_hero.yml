@@ -1,0 +1,11 @@
+uuid: 49ce7733-244b-4a5f-a7ca-d0106430d455
+langcode: en
+status: true
+dependencies:
+  module:
+    - media
+id: media.basic_hero
+label: 'Basic Hero'
+description: '800x600 size with focal point'
+targetEntityType: media
+cache: true

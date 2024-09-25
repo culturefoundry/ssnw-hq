@@ -14,6 +14,7 @@ parameters:
     - './tests/phpstan/stubs/CachedDiscoveryInterface.stub'
     - './tests/phpstan/stubs/DefaultPluginManager.stub'
     - './tests/phpstan/stubs/FormStateInterface.stub'
+    - './tests/phpstan/stubs/LoggerInterface.stub'
     - './tests/phpstan/stubs/Map.stub'
     - './tests/phpstan/stubs/TokenInterface.stub'
     - './tests/phpstan/stubs/ViewsPluginInterface.stub'

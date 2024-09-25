@@ -26,37 +26,71 @@
  * @see template_preprocess_block()
  */
 #}
+{% if content.field_background_style[0] is not defined %}
+    {%  set bg_style = 'bg_image' %}
+{% else %}
+    {% set bg_style = content.field_background_style[0]['#markup'] %}
+{% endif %}
+
+{% if bg_style == 'bg_image' or bg_style == 'bg_black'%}
+    {%  set text_color = 'grey-text' %}
+{% else %}
+    {%  set text_color = 'black-text' %}
+{% endif %}
+
+
 {%
   set classes = [
     'block',
     'block-' ~ configuration.provider|clean_class,
     'block-' ~ plugin_id|clean_class,
     'overflow-hidden relative full-width py-8',
-    content.field_background_image ? 'grey-text' : ''
+    text_color,
+    bg_style
 ]
   
 %}
+
+
 <div{{ attributes.addClass(classes) }}>
 
-    {% if content.field_background_image %}
+    {% if content.field_background_image and bg_style == "bg_image" %}
         <div class="bg-image absolute top-0 left-0 w-full h-full z-[-1] full-width ltr-scrim-dark">{{content.field_background_image}}</div>
     {% endif %}
 
+    {% if content.field_background_image and bg_style == "bg_image" %}
     <div class="spacing grid grid-cols-1 md:grid-cols-2 relative">
-        {{ title_prefix }}
-        {% if label %}
-            {% if content.field_background_image %}
-                <h2{{ title_attributes }} class="md:col-span-2 text-white">{{ label }}</h2>
-            {% else %}
-                <h2{{ title_attributes }} class="md:col-span-2">{{ label }}</h2>
+    {% else %}
+    <div class="spacing relative breakout">
+    {% endif %}
+
+
+        <div class="content grid md:block">
+            {% if bg_style != "bg_image" %}
+                <div class="w-full md:float-right md:w-1/2 row-start-3 md:pl-8 md:pb-4">
+                {{ content.field_background_image }}
+                </div>
             {% endif %}
-        {% endif %}
 
-        {{ title_suffix }}
+            {{ title_prefix }}
+            {% if label %}
+                {% if content.field_background_image %}
+                    <h2{{ title_attributes }} class="md:col-span-2 text-white row-start-1">{{ label }}</h2>
+                {% else %}
+                    <h2{{ title_attributes }} class="md:col-span-2 row-start-1">{{ label }}</h2>
+                {% endif %}
+            {% endif %}
 
-        {% block content %}
-            {{ content|without('field_background_image') }}
-        {% endblock %}
+            {{ title_suffix }}
+            <div class="intro row-start-2">
+                {{content.field_intro_text|render}}
+            </div>
+            <div class="content row-start-4">
+            {{content.body|render}}
+            </div>
+            
+
+        </div>
 
     </div>
 

@@ -1,13 +1,15 @@
 /**
  * Layout -- technique from https://www.youtube.com/watch?v=c13gpBrnGEw.
  */
-.content-grid {
+:root {
   --padding-inline: 1rem;
-  --content-max-width: 1350px;
-  --breakout-max-width: 1700px;
+  --content-max-width: 850px;
+  --breakout-max-width: 1050px;
   --breakout-size: calc(
       (var(--breakout-max-width) - var(--content-max-width)) / 2
     );
+}
+.content-grid {
   display: grid;
   grid-template-columns:
     [full-width-start] minmax(var(--padding-inline), 1fr)
@@ -27,6 +29,10 @@
       minmax(var(--padding-inline), 1fr) [full-width-end];
 }
 
+.container{
+  box-sizing:border-box;
+}
+
 .content-view-grid > .view-content > :not(.breakout, .full-width),
 .content-grid > :not(.content-grid, .breakout, .full-width),
 .node-grid > :not(.breakout, .full-width),
@@ -42,14 +48,16 @@
 
 .node-grid > .full-width,
 .content-grid > .full-width,
-.full-width > .full-width {
+.full-width > .full-width,
+.child-full-width > :not(.breakout, .full-width),
+.child-full-width > :not(.breakout, .full-width)>.full-width  {
   grid-column: full-width;
   display: grid;
   grid-template-columns: inherit;
 }
 
 .full-width > .content-grid:has(> div, > header, > article),
-.content-grid > .content-grid:has( > div, > header, > article ) {
+.content-grid > .content-grid:has( > div, > header, > article ){
   grid-template-columns: inherit;
   grid-column: full-width;
   display: grid;
@@ -100,6 +108,7 @@ img.breakout {
 
 .content-cta{
   @apply grid md:grid-cols-2 md:items-center;
+  grid-column:breakout!important;
 }
 .block-call-to-action .field--name-field-call-to-action {
   @apply text-center;
@@ -179,4 +188,23 @@ img.breakout {
 
 .md-col-span-1{
   @apply md:col-span-1;
+}
+
+.media--view-mode-full.full-width .field{
+  grid-column:full-width;
+}
+
+.media--view-mode-full *{
+  max-height:500px;
+}
+.media--view-mode-full img{
+  width:100%;
+  object-fit:cover;
+}
+
+.view-scroll-sideways .view-content{
+  overflow-x: scroll;
+}
+.js-form-item, .js-form-item input{
+  max-width:100%;
 }

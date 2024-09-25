@@ -1,0 +1,17 @@
+uuid: 8049f372-e5dc-4458-9ffd-c227deb7c616
+langcode: en
+status: true
+dependencies:
+  module:
+    - focal_point
+name: blog_image
+label: 'Blog Image'
+effects:
+  5b55fa4a-6088-4bea-a232-9394e65a7479:
+    uuid: 5b55fa4a-6088-4bea-a232-9394e65a7479
+    id: focal_point_scale_and_crop
+    weight: 1
+    data:
+      width: 900
+      height: 600
+      crop_type: focal_point

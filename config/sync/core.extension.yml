@@ -45,6 +45,7 @@ module:
   eca_views: 0
   eca_workflow: 0
   editor: 0
+  email_registration: 0
   environment_indicator: 0
   field: 0
   field_group: 0
@@ -69,6 +70,7 @@ module:
   layout_section_classes: 0
   link: 0
   linkit: 0
+  masquerade: 0
   media: 0
   media_entity_download: 0
   media_file_delete: 0

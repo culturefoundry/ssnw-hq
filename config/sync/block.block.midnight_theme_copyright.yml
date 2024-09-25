@@ -2,13 +2,16 @@ uuid: ae792425-2c1c-4d06-b950-2049deaf5a3f
 langcode: en
 status: true
 dependencies:
+  content:
+    - 'block_content:basic:e636822b-f747-42ad-97e9-728d30775908'
   module:
     - block_class
+    - block_content
   theme:
     - midnight_theme
 third_party_settings:
   block_class:
-    classes: 'col-span-2 md-col-span-1'
+    classes: col-span-2
 id: midnight_theme_copyright
 theme: midnight_theme
 region: footer
@@ -19,7 +22,7 @@ settings:
   id: 'block_content:e636822b-f747-42ad-97e9-728d30775908'
   label: Copyright
   label_display: '0'
-  provider: core
+  provider: block_content
   status: true
   info: ''
   view_mode: full

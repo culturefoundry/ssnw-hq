@@ -14,14 +14,14 @@ label: 'Page content'
 type: 'canonical_entities:node'
 pattern: '/[node:title]'
 selection_criteria:
-  425d6456-71e3-4b65-9302-6c695efaab28:
+  97c14516-7f96-44ea-a31f-1808d4d98625:
     id: 'entity_bundle:node'
     negate: false
-    uuid: 425d6456-71e3-4b65-9302-6c695efaab28
+    uuid: 97c14516-7f96-44ea-a31f-1808d4d98625
     context_mapping:
       node: node
     bundles:
       page: page
 selection_logic: and
-weight: -5
+weight: -10
 relationships: {  }

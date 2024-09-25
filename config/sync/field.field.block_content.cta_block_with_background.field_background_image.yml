@@ -10,7 +10,7 @@ id: block_content.cta_block_with_background.field_background_image
 field_name: field_background_image
 entity_type: block_content
 bundle: cta_block_with_background
-label: 'Background Image'
+label: Image
 description: ''
 required: false
 translatable: false

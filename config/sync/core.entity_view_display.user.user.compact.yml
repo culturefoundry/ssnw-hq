@@ -4,7 +4,11 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.user.compact
+    - field.field.user.user.field_employee_designation
+    - field.field.user.user.field_employee_location
+    - field.field.user.user.field_employee_number
     - field.field.user.user.user_picture
+    - image.style.thumbnail
   module:
     - image
     - user
@@ -15,16 +19,24 @@ targetEntityType: user
 bundle: user
 mode: compact
 content:
+  masquerade:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 50
+    region: content
   user_picture:
     type: image
     label: hidden
     settings:
-      image_style: thumbnail
       image_link: content
+      image_style: thumbnail
       image_loading:
         attribute: lazy
     third_party_settings: {  }
     weight: 0
     region: content
 hidden:
+  field_employee_designation: true
+  field_employee_location: true
+  field_employee_number: true
   member_for: true

@@ -39,6 +39,7 @@ settings:
       - heading
       - '|'
       - sourceEditing
+      - '-'
   plugins:
     ckeditor5_alignment:
       enabled_alignments:
@@ -72,13 +73,16 @@ settings:
           element: '<a class="arrow-link">'
         -
           label: 'Large Text'
-          element: '<p class="text-xl2">'
+          element: '<p class="text-xl">'
         -
           label: 'XL Text'
-          element: '<p class="text-xl4">'
+          element: '<p class="text-2xl">'
+        -
+          label: 'XXL Text'
+          element: '<p class="text-4xl">'
         -
           label: 'Quote Text'
-          element: '<div class="quote-text">'
+          element: '<p class="quote-text">'
         -
           label: 'Hero Header'
           element: '<h2 class="hero-header">'

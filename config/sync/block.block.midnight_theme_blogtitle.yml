@@ -1,0 +1,37 @@
+uuid: 6f732a0f-e181-4646-ad02-69276648e45a
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:a644a9ec-7efb-4128-9951-6a8b754f541a'
+  module:
+    - block_class
+    - block_content
+    - node
+  theme:
+    - midnight_theme
+third_party_settings:
+  block_class:
+    classes: 'full-width child-full-width'
+id: midnight_theme_blogtitle
+theme: midnight_theme
+region: content
+weight: -12
+provider: null
+plugin: 'block_content:a644a9ec-7efb-4128-9951-6a8b754f541a'
+settings:
+  id: 'block_content:a644a9ec-7efb-4128-9951-6a8b754f541a'
+  label: 'Blog Title'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
+    bundles:
+      blog: blog

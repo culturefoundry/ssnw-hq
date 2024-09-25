@@ -10,6 +10,7 @@ dependencies:
     - field.field.node.blog.field_image
     - field.field.node.blog.field_metatag
     - field.field.node.blog.field_tags
+    - field.field.node.blog.schema_description
     - field.field.node.blog.schema_related_link
     - image.style.wide_16_9_focal_point
     - node.type.blog
@@ -77,4 +78,5 @@ content:
     region: content
 hidden:
   field_metatag: true
+  schema_description: true
   schema_related_link: true

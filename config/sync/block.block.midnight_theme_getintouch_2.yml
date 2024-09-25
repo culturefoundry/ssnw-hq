@@ -15,7 +15,7 @@ third_party_settings:
 id: midnight_theme_getintouch_2
 theme: midnight_theme
 region: content
-weight: -8
+weight: -9
 provider: null
 plugin: 'block_content:ddc98133-9af6-4af7-b5e3-6b0a9970f762'
 settings:

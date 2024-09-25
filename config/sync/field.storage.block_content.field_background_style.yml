@@ -1,0 +1,33 @@
+uuid: 9fa8075e-bdad-420a-b25b-2d6f3a9a1f37
+langcode: en
+status: true
+dependencies:
+  module:
+    - block_content
+    - options
+id: block_content.field_background_style
+field_name: field_background_style
+entity_type: block_content
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: bg_image
+      label: Image
+    -
+      value: bg-white
+      label: White
+    -
+      value: bg-black
+      label: Black
+    -
+      value: bg-secondary
+      label: Yellow
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

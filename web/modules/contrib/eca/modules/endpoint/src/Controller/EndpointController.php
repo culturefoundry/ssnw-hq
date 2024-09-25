@@ -6,11 +6,15 @@ use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Access\AccessResultInterface;
 use Drupal\Core\Ajax\AjaxHelperTrait;
 use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\Core\Ajax\MessageCommand;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Datetime\DrupalDateTime;
+use Drupal\Core\DependencyInjection\ClassResolverInterface;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
+use Drupal\Core\EventSubscriber\MainContentViewSubscriber;
 use Drupal\Core\Logger\LoggerChannelInterface;
 use Drupal\Core\Logger\RfcLogLevel;
+use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Render\BubbleableMetadata;
 use Drupal\Core\Render\Element;
 use Drupal\Core\Render\MainContent\HtmlRenderer;
@@ -84,6 +88,27 @@ final class EndpointController implements ContainerInjectionInterface {
   protected LoggerChannelInterface $logger;
 
   /**
+   * The messenger.
+   *
+   * @var \Drupal\Core\Messenger\MessengerInterface
+   */
+  protected MessengerInterface $messenger;
+
+  /**
+   * The class resolver.
+   *
+   * @var \Drupal\Core\DependencyInjection\ClassResolverInterface
+   */
+  protected ClassResolverInterface $classResolver;
+
+  /**
+   * The main content renderers.
+   *
+   * @var array
+   */
+  protected array $mainContentRenderers;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container): EndpointController {
@@ -94,7 +119,10 @@ final class EndpointController implements ContainerInjectionInterface {
       $container->get('current_route_match'),
       $container->get('current_user'),
       $container->get('config.factory'),
-      $container->get('logger.channel.eca')
+      $container->get('logger.channel.eca'),
+      $container->get('messenger'),
+      $container->get('class_resolver'),
+      $container->getParameter('main_content_renderers')
     );
   }
 
@@ -115,8 +143,14 @@ final class EndpointController implements ContainerInjectionInterface {
    *   The config factory.
    * @param \Drupal\Core\Logger\LoggerChannelInterface $logger
    *   The logger.
+   * @param \Drupal\Core\Messenger\MessengerInterface $messenger
+   *   The messenger.
+   * @param \Drupal\Core\DependencyInjection\ClassResolverInterface $class_resolver
+   *   The class resolver.
+   * @param array $main_content_renderers
+   *   The main content renderers.
    */
-  public function __construct(TriggerEvent $trigger_event, RendererInterface $renderer, HtmlRenderer $html_renderer, RouteMatchInterface $route_match, AccountInterface $current_user, ConfigFactoryInterface $config_factory, LoggerChannelInterface $logger) {
+  public function __construct(TriggerEvent $trigger_event, RendererInterface $renderer, HtmlRenderer $html_renderer, RouteMatchInterface $route_match, AccountInterface $current_user, ConfigFactoryInterface $config_factory, LoggerChannelInterface $logger, MessengerInterface $messenger, ClassResolverInterface $class_resolver, array $main_content_renderers) {
     $this->triggerEvent = $trigger_event;
     $this->renderer = $renderer;
     $this->mainContentHtmlRenderer = $html_renderer;
@@ -124,6 +158,9 @@ final class EndpointController implements ContainerInjectionInterface {
     $this->currentUser = $current_user;
     $this->configFactory = $config_factory;
     $this->logger = $logger;
+    $this->messenger = $messenger;
+    $this->classResolver = $class_resolver;
+    $this->mainContentRenderers = $main_content_renderers;
   }
 
   /**
@@ -189,6 +226,17 @@ final class EndpointController implements ContainerInjectionInterface {
 
     $event = $this->triggerEvent->dispatchFromPlugin('eca_endpoint:response', $path_arguments, $request, $response, $account, $build);
     if ($response instanceof AjaxResponse) {
+      if (Element::children($build)) {
+        $wrapper = $request->query->get(MainContentViewSubscriber::WRAPPER_FORMAT, 'drupal_modal');
+        $renderer = $this->classResolver->getInstanceFromDefinition($this->mainContentRenderers[$wrapper]);
+        $response = $renderer->renderResponse($build, $request, $this->routeMatch);
+      }
+      foreach ($this->messenger->deleteAll() as $type => $type_messages) {
+        /** @var string[]|\Drupal\Component\Render\MarkupInterface[] $type_messages */
+        foreach ($type_messages as $message) {
+          $response->addCommand(new MessageCommand((string) $message, NULL, ['type' => $type], FALSE));
+        }
+      }
       return $response;
     }
     if ($event instanceof RenderEventInterface) {

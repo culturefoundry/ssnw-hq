@@ -202,16 +202,22 @@ class HookHandler extends BaseHookHandler {
 
     try {
       $form['#entity'] = clone $entity;
-      $original_triggering_element = $form_state->getTriggeringElement();
-      $form_state->setTriggeringElement([
-        '#limit_validation_errors' => [],
-      ]);
-      /** @var \Drupal\Core\Form\FormValidatorInterface $validator */
-      $validator = \Drupal::service('form_validator');
-      $form_state->setValidationEnforced(TRUE);
-      $validator->validateForm(\Drupal::formBuilder()->getFormId($form_state->getFormObject(), $form_state), $form, $form_state);
-      $form_state->setTriggeringElement($original_triggering_element);
-      $form_state->setValidationEnforced(TRUE);
+
+      // Disabled the processing of this part until we've found a solution for
+      // IEF complex widgets.
+      // @see https://www.drupal.org/project/eca/issues/3469697
+      if ($form['#eca_ief_info']['widget_plugin_id'] !== 'inline_entity_form_complex') {
+        $original_triggering_element = $form_state->getTriggeringElement();
+        $form_state->setTriggeringElement([
+          '#limit_validation_errors' => [],
+        ]);
+        /** @var \Drupal\Core\Form\FormValidatorInterface $validator */
+        $validator = \Drupal::service('form_validator');
+        $form_state->setValidationEnforced(TRUE);
+        $validator->validateForm(\Drupal::formBuilder()->getFormId($form_state->getFormObject(), $form_state), $form, $form_state);
+        $form_state->setTriggeringElement($original_triggering_element);
+        $form_state->setValidationEnforced(TRUE);
+      }
 
       /** @var \Drupal\inline_entity_form\InlineFormInterface $handler */
       $handler = \Drupal::entityTypeManager()->getHandler($form['#entity']->getEntityTypeId(), 'inline_form');
@@ -226,7 +232,7 @@ class HookHandler extends BaseHookHandler {
       ], $form['#entity']);
     }
     catch (\Throwable $t) {
-      \Drupal::logger('eca_form')->error("An error occurred while trying to build an inline entity from submitted form values. This might be a problem in case you use ECA to extend inline entity forms. Please report this to the ECA issue queue to help us improving it.");
+      \Drupal::logger('eca_form')->warning("An error occurred while trying to build an inline entity from submitted form values. This might be a problem in case you use ECA to extend inline entity forms. Please report this to the ECA issue queue to help us improving it.");
     }
 
     // Info is not needed anymore, remove it to prevent unnecessary bloat.
