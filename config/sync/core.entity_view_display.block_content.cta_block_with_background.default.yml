@@ -8,6 +8,7 @@ dependencies:
     - field.field.block_content.cta_block_with_background.field_background_image
     - field.field.block_content.cta_block_with_background.field_background_style
     - field.field.block_content.cta_block_with_background.field_intro_text
+    - image.style.blog_image
   module:
     - media
     - nomarkup
@@ -43,7 +44,7 @@ content:
     label: hidden
     settings:
       image_link: ''
-      image_style: ''
+      image_style: blog_image
       image_loading:
         attribute: lazy
     third_party_settings:

@@ -18,7 +18,7 @@ settings:
       value: bg-white
       label: White
     -
-      value: bg_black
+      value: bg-black
       label: Black
     -
       value: bg-secondary

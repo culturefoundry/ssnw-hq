@@ -11,7 +11,7 @@ id: block_content.cta_block_with_background.field_intro_text
 field_name: field_intro_text
 entity_type: block_content
 bundle: cta_block_with_background
-label: 'Intro Text'
+label: Description
 description: ''
 required: false
 translatable: false

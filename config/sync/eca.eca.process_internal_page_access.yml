@@ -16,7 +16,7 @@ events:
     label: 'Check access Internal Pages'
     configuration:
       entity_type_id: node
-      bundle: internal
+      bundle: 'internal, post_order'
       operation: view
       account_token_info: ''
       event_token_info: ''
