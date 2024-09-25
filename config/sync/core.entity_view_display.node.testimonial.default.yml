@@ -6,12 +6,16 @@ dependencies:
     - field.field.node.testimonial.body
     - field.field.node.testimonial.field_metatag
     - field.field.node.testimonial.field_tags
+    - field.field.node.testimonial.layout_builder__layout
     - field.field.node.testimonial.schema_image
     - field.field.node.testimonial.schema_related_link
     - node.type.testimonial
   module:
     - field_group
+    - layout_builder
+    - layout_discovery
     - link
+    - sdc_display
     - text
     - user
 third_party_settings:
@@ -25,6 +29,60 @@ third_party_settings:
       weight: 99
       format_type: fieldset
       format_settings: {  }
+  layout_builder:
+    enabled: true
+    allow_custom: true
+    sections:
+      -
+        layout_id: layout_onecol
+        layout_settings:
+          label: Testimonial
+          context_mapping: {  }
+        components:
+          e1dd3add-0a86-4edd-b604-5cda6261f6c0:
+            uuid: e1dd3add-0a86-4edd-b604-5cda6261f6c0
+            region: content
+            configuration:
+              id: 'field_block:node:testimonial:schema_image'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: entity_reference_entity_view
+                label: hidden
+                settings:
+                  view_mode: default
+                  link: false
+                third_party_settings: {  }
+            weight: 0
+            additional: {  }
+          213e20f8-8a08-4690-ad64-2f4c9e56fca1:
+            uuid: 213e20f8-8a08-4690-ad64-2f4c9e56fca1
+            region: content
+            configuration:
+              id: 'field_block:node:testimonial:body'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: text_default
+                label: hidden
+                settings: {  }
+                third_party_settings: {  }
+            weight: 1
+            additional: {  }
+        third_party_settings: {  }
+  sdc_display:
+    enabled: false
+    component:
+      machine_name: ''
+    mappings:
+      static:
+        props: {  }
+        slots: {  }
+      dynamic:
+        props: {  }
+        slots: {  }
 id: node.testimonial.default
 targetEntityType: node
 bundle: testimonial
@@ -74,3 +132,4 @@ content:
 hidden:
   content_moderation_control: true
   field_metatag: true
+  layout_builder__layout: true
