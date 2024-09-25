@@ -76,7 +76,7 @@ third_party_settings:
               component_attributes:
                 block_attributes:
                   id: ''
-                  class: full-width
+                  class: 'full-width my-4'
                   style: ''
                   data: ''
                 block_title_attributes:
