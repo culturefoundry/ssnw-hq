@@ -32,7 +32,7 @@
     {% set bg_style = content.field_background_style[0]['#markup'] %}
 {% endif %}
 
-{% if bg_style == 'bg_image' or bg_style == 'bg_black'%}
+{% if bg_style == 'bg_image' or bg_style == 'bg-black'%}
     {%  set text_color = 'grey-text' %}
 {% else %}
     {%  set text_color = 'black-text' %}

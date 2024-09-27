@@ -13,6 +13,8 @@
 }
 .header-menu_wrapper .primary-nav__button-toggle {
   vertical-align: top;
+  position:absolute;
+  right:0px;
 }
 
 .header-menu_wrapper .menu--main{
@@ -48,11 +50,9 @@
     }
     .header-menu_wrapper .menu--main>ul>li {
         border-bottom:0px;
-    }
-    .header-menu_wrapper .menu--main>ul>li{
         border-right: 2px solid #8A8C8E;
         padding: 0px 16px;
-        @apply h-full pt-1;
+        @apply h-full pt-1 relative;
 
     }
     .header-menu_wrapper .menu--main>ul>li:first-of-type {

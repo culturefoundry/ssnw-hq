@@ -33,7 +33,7 @@ footer .menu-item-no-footer{
 }
 
 .primary-nav__button-toggle{
-  @apply bg-white border-0 i-mdi-chevron-down?mask text-white inline-block w-6 h-6 cursor-pointer;
+  @apply bg-white border-0 i-mdi-chevron-down?mask text-white inline-block w-6 h-6 cursor-pointer absolute right-0;
 }
 .primary-nav__button-toggle[aria-expanded=true]{
   @apply i-mdi-chevron-up?mask w-6 h-6;

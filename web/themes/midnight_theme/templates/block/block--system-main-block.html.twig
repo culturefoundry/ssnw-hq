@@ -41,6 +41,13 @@
   {% endif %}
   {{ title_suffix }}
   {% block content %}
-    {{ content }}
+ 
+    {% if '<' not in content|render|render and '>' not in content|render|render  %}
+      <div class="py-8">
+    {% endif %}
+        {{ content }}
+    {% if '<' not in content|render|render and '>' not in content|render|render  %}
+      </div>
+    {% endif %}
   {% endblock %}
 </div>

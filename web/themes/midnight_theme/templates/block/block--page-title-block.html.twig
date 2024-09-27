@@ -41,13 +41,13 @@
   {% endif %}
   {{ title_suffix }}
   {% block content %}
-    <div class="sm:px-8 breakout grid md:grid-cols-2 items-center h1-text-center">
+    <div class="sm:px-8 breakout grid header-grid items-center h1-text-center">
       {% if 'h1' in content|render|render %}
         {{ content }}
       {% else %}
         <h1> {{content}}</h1>
       {% endif %}
-      <div class="text-xl hidden md:block text-right"> "Work Hard Be Kind"</div>
+      <div class="text-xl hidden md:block text-right"> "Work Hard, Be Kind"</div>
     </div>
   {% endblock %}
 </div>

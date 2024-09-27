@@ -20,6 +20,7 @@
     attach(context) {
       once('footer-nav', '.menu--main', context)
         .forEach(el => {
+          // console.log('hello world')
           let toggleMenus = el.querySelectorAll('.primary-nav__menu-item--level-1.primary-nav__menu-item--has-children');
           toggleMenus.forEach( (menu, idx) => {
             if(menu.querySelector('.is-active')){
