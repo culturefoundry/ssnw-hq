@@ -110,6 +110,9 @@ settings:
         -
           label: 'Text Stretch'
           element: '<span class="text-stretch">'
+        -
+          label: 'Larger H2'
+          element: '<h2 class="text-2-8em">'
     linkit_extension:
       linkit_enabled: true
       linkit_profile: default

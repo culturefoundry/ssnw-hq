@@ -5,7 +5,6 @@ dependencies:
   config:
     - field.field.user.user.field_employee_designation
     - field.field.user.user.field_employee_location
-    - field.field.user.user.field_employee_number
     - field.field.user.user.user_picture
     - image.style.thumbnail
     - views.view.post_orders
@@ -99,22 +98,6 @@ third_party_settings:
                 third_party_settings: {  }
             weight: 2
             additional: {  }
-          54be3a2b-e00c-461d-a14d-ee0daab4c9a4:
-            uuid: 54be3a2b-e00c-461d-a14d-ee0daab4c9a4
-            region: second
-            configuration:
-              id: 'field_block:user:user:field_employee_number'
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              formatter:
-                type: string
-                label: above
-                settings:
-                  link_to_entity: false
-                third_party_settings: {  }
-            weight: 1
-            additional: {  }
         third_party_settings: {  }
       -
         layout_id: layout_onecol
@@ -168,14 +151,6 @@ content:
       link: true
     third_party_settings: {  }
     weight: 52
-    region: content
-  field_employee_number:
-    type: string
-    label: above
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    weight: 53
     region: content
   masquerade:
     settings: {  }

@@ -5,7 +5,6 @@ dependencies:
   config:
     - field.field.user.user.field_employee_designation
     - field.field.user.user.field_employee_location
-    - field.field.user.user.field_employee_number
     - field.field.user.user.user_picture
     - image.style.thumbnail
   module:
@@ -38,14 +37,6 @@ content:
     weight: 1
     region: content
     settings: {  }
-    third_party_settings: {  }
-  field_employee_number:
-    type: string_textfield
-    weight: 7
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
     third_party_settings: {  }
   language:
     weight: 4

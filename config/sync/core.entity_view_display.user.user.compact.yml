@@ -6,7 +6,6 @@ dependencies:
     - core.entity_view_mode.user.compact
     - field.field.user.user.field_employee_designation
     - field.field.user.user.field_employee_location
-    - field.field.user.user.field_employee_number
     - field.field.user.user.user_picture
     - image.style.thumbnail
   module:
@@ -38,5 +37,4 @@ content:
 hidden:
   field_employee_designation: true
   field_employee_location: true
-  field_employee_number: true
   member_for: true

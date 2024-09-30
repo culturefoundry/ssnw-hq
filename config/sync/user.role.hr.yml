@@ -16,16 +16,22 @@ dependencies:
     - layout_builder
     - media
     - node
+    - quick_node_clone
+    - system
 id: hr
 label: HR
 weight: -8
 is_admin: null
 permissions:
+  - 'access administration pages'
   - 'access content overview'
+  - 'access site in maintenance mode'
+  - 'access site reports'
+  - 'administer users'
+  - 'clone internal content'
   - 'configure editable internal node layout overrides'
   - 'create and edit custom blocks'
   - 'create audio media'
-  - 'create document media'
   - 'create image media'
   - 'create internal content'
   - 'create media'
@@ -36,9 +42,12 @@ permissions:
   - 'edit own image media'
   - 'edit own remote_video media'
   - 'edit own video media'
+  - 'revert internal revisions'
+  - 'select account cancellation method'
   - 'use editorial transition archive'
   - 'use editorial transition archived_draft'
   - 'use editorial transition archived_published'
   - 'use editorial transition create_new_draft'
   - 'use editorial transition publish'
   - 'view any unpublished content'
+  - 'view internal revisions'

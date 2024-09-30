@@ -13,6 +13,7 @@ dependencies:
     - block_content.type.featured_picture_body_logo
     - block_content.type.icons_text_matching_sliders
     - block_content.type.reference_block
+    - core.entity_view_display.node.internal.default
     - core.entity_view_display.node.page.default
     - filter.format.basic_html
     - filter.format.full_html
@@ -68,8 +69,11 @@ permissions:
   - 'administer redirects'
   - 'administer url aliases'
   - 'clone blog content'
+  - 'clone internal content'
   - 'clone page content'
   - 'clone service content'
+  - 'clone testimonial content'
+  - 'configure editable internal node layout overrides'
   - 'configure editable page node layout overrides'
   - 'create action block content'
   - 'create and edit custom blocks'
@@ -81,7 +85,6 @@ permissions:
   - 'create card_slider block content'
   - 'create card_with_icon block content'
   - 'create cta_block_with_background block content'
-  - 'create document media'
   - 'create featured_picture_body_logo block content'
   - 'create icons_text_matching_sliders block content'
   - 'create image media'
@@ -148,6 +151,7 @@ permissions:
   - 'view any unpublished content'
   - 'view blog revisions'
   - 'view content model documentation'
+  - 'view internal revisions'
   - 'view latest version'
   - 'view own unpublished media'
   - 'view page revisions'

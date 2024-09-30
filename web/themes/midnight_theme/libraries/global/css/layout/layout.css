@@ -61,9 +61,8 @@
   grid-template-columns: inherit;
   grid-column: full-width;
   display: grid;
+
 }
-
-
 
 .breakout {
   grid-column: breakout;
