@@ -15,7 +15,7 @@ events:
     plugin: 'access:field'
     label: 'Editing Employee Designation - Location - Number'
     configuration:
-      field_name: 'field_employee_designation, field_employee_location, field_employee_number'
+      field_name: 'field_employee_designation, field_employee_location, field_employee_number, field_name'
       entity_type_id: user
       bundle: ''
       operation: edit

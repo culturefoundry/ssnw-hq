@@ -5,11 +5,14 @@ dependencies:
   config:
     - field.field.user.user.field_employee_designation
     - field.field.user.user.field_employee_location
+    - field.field.user.user.field_name
+    - field.field.user.user.field_phone_number
     - field.field.user.user.user_picture
     - image.style.thumbnail
   module:
     - image
     - path
+    - telephone
     - user
 _core:
   default_config_hash: FaQ9Ptcpxpg30AtiqRDtl_8zbJArHP1LPfug_s59TOA
@@ -28,35 +31,50 @@ content:
     region: content
   field_employee_designation:
     type: options_buttons
-    weight: 2
+    weight: 5
     region: content
     settings: {  }
     third_party_settings: {  }
   field_employee_location:
     type: options_buttons
-    weight: 1
+    weight: 4
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_name:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_phone_number:
+    type: telephone_default
+    weight: 3
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
   language:
-    weight: 4
+    weight: 6
     region: content
     settings: {  }
     third_party_settings: {  }
   path:
     type: path
-    weight: 6
+    weight: 8
     region: content
     settings: {  }
     third_party_settings: {  }
   timezone:
-    weight: 5
+    weight: 7
     region: content
     settings: {  }
     third_party_settings: {  }
   user_picture:
     type: image_image
-    weight: 3
+    weight: 2
     region: content
     settings:
       progress_indicator: throbber
