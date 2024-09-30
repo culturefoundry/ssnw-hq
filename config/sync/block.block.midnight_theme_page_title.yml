@@ -6,6 +6,7 @@ dependencies:
     - block_class
     - node
     - system
+    - taxonomy
   theme:
     - midnight_theme
 _core:
@@ -37,3 +38,13 @@ visibility:
       page: page
       service: service
       testimonial: testimonial
+  'entity_bundle:taxonomy_term':
+    id: 'entity_bundle:taxonomy_term'
+    negate: false
+    context_mapping:
+      taxonomy_term: '@taxonomy_term.taxonomy_term_route_context:taxonomy_term'
+    bundles:
+      customer: customer
+      employee_role: employee_role
+      location: location
+      tags: tags

@@ -5,7 +5,8 @@ dependencies:
   config:
     - field.field.user.user.field_employee_designation
     - field.field.user.user.field_employee_location
-    - field.field.user.user.field_name
+    - field.field.user.user.field_first_name
+    - field.field.user.user.field_last_name
     - field.field.user.user.field_phone_number
     - field.field.user.user.user_picture
     - image.style.thumbnail
@@ -116,35 +117,7 @@ third_party_settings:
                     component:
                       machine_name: null
                       show_deprecated: 0
-            weight: 8
-            additional: {  }
-          9ba9bc33-4b08-4ed7-a0b3-e82a8b87a4ce:
-            uuid: 9ba9bc33-4b08-4ed7-a0b3-e82a8b87a4ce
-            region: first
-            configuration:
-              id: 'field_block:user:user:name'
-              label: ID
-              label_display: '0'
-              provider: layout_builder
-              context_mapping:
-                entity: layout_builder.entity
-                view_mode: view_mode
-              formatter:
-                type: string
-                label: hidden
-                settings:
-                  link_to_entity: false
-                third_party_settings:
-                  nomarkup:
-                    enabled: false
-                    separator: '|'
-                    referenced_entity: ''
-                  sdc_display:
-                    enabled: 0
-                    component:
-                      machine_name: null
-                      show_deprecated: 0
-            weight: 4
+            weight: 10
             additional: {  }
           bc33b21e-52e5-4b6f-97c1-a1a803ff93db:
             uuid: bc33b21e-52e5-4b6f-97c1-a1a803ff93db
@@ -171,7 +144,7 @@ third_party_settings:
                     component:
                       machine_name: null
                       show_deprecated: 0
-            weight: 9
+            weight: 11
             additional: {  }
           4cf8ff8b-982d-4242-bfa3-a7ef9af1e7e8:
             uuid: 4cf8ff8b-982d-4242-bfa3-a7ef9af1e7e8
@@ -181,14 +154,14 @@ third_party_settings:
               label_display: '0'
               context_mapping:
                 entity: layout_builder.entity
-            weight: 7
+            weight: 9
             additional: {  }
-          6cc99c34-0e0b-427d-a243-9a1f734885b7:
-            uuid: 6cc99c34-0e0b-427d-a243-9a1f734885b7
+          0fa4803d-1f9f-43c3-9aa6-931a69ae006e:
+            uuid: 0fa4803d-1f9f-43c3-9aa6-931a69ae006e
             region: first
             configuration:
-              id: 'field_block:user:user:field_name'
-              label: Name
+              id: 'field_block:user:user:field_last_name'
+              label: 'Last Name'
               label_display: '0'
               provider: layout_builder
               context_mapping:
@@ -209,7 +182,35 @@ third_party_settings:
                     component:
                       machine_name: null
                       show_deprecated: 0
-            weight: 6
+            weight: 8
+            additional: {  }
+          b40d3f3c-3b74-41ad-82a8-9dd511c76de0:
+            uuid: b40d3f3c-3b74-41ad-82a8-9dd511c76de0
+            region: first
+            configuration:
+              id: 'field_block:user:user:field_first_name'
+              label: 'First Name'
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: string
+                label: hidden
+                settings:
+                  link_to_entity: false
+                third_party_settings:
+                  nomarkup:
+                    enabled: false
+                    separator: '|'
+                    referenced_entity: ''
+                  sdc_display:
+                    enabled: 0
+                    component:
+                      machine_name: null
+                      show_deprecated: 0
+            weight: 7
             additional: {  }
         third_party_settings: {  }
       -
@@ -271,7 +272,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 54
+    weight: 56
     region: first
   field_last_name:
     type: string
@@ -279,7 +280,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 55
+    weight: 57
     region: first
   field_phone_number:
     type: basic_string

@@ -8,6 +8,7 @@ dependencies:
     - field.storage.node.field_location
     - field.storage.node.field_qualifications
     - node.type.post_order
+    - system.menu.internal
     - taxonomy.vocabulary.customer
     - taxonomy.vocabulary.employee_role
     - taxonomy.vocabulary.location
@@ -1713,6 +1714,53 @@ display:
         - user.permissions
       tags:
         - 'config:field.storage.node.field_customer'
+        - 'config:field.storage.node.field_location'
+        - 'config:field.storage.node.field_qualifications'
+        - schemadotorg_descriptions.settings
+  page_2:
+    id: page_2
+    display_title: 'Post Orders for Employees'
+    display_plugin: page
+    position: 2
+    display_options:
+      defaults:
+        header: false
+      display_description: ''
+      header:
+        area_text_custom:
+          id: area_text_custom
+          table: views
+          field: area_text_custom
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text_custom
+          empty: false
+          content: '<h1> Post Orders </h1>'
+          tokenize: false
+      display_extenders: {  }
+      path: internal/post-orders
+      menu:
+        type: normal
+        title: 'Post Orders'
+        description: ''
+        weight: 0
+        expanded: false
+        menu_name: internal
+        parent: ''
+        context: '0'
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url
+        - url.query_args
+        - 'user.node_grants:view'
+        - user.roles
+      tags:
+        - 'config:field.storage.node.field_customer'
+        - 'config:field.storage.node.field_document'
         - 'config:field.storage.node.field_location'
         - 'config:field.storage.node.field_qualifications'
         - schemadotorg_descriptions.settings
