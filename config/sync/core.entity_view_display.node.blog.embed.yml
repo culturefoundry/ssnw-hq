@@ -3,10 +3,8 @@ langcode: en
 status: false
 dependencies:
   config:
-    - core.entity_view_display.comment.comment.default
     - core.entity_view_mode.node.embed
     - field.field.node.blog.body
-    - field.field.node.blog.comment
     - field.field.node.blog.field_image
     - field.field.node.blog.field_metatag
     - field.field.node.blog.field_tags
@@ -15,7 +13,6 @@ dependencies:
     - image.style.wide_16_9_focal_point
     - node.type.blog
   module:
-    - comment
     - layout_builder
     - media
     - text
@@ -37,15 +34,6 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 0
-    region: content
-  comment:
-    type: comment_default
-    label: above
-    settings:
-      view_mode: default
-      pager_id: 0
-    third_party_settings: {  }
-    weight: 110
     region: content
   content_moderation_control:
     settings: {  }
