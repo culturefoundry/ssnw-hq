@@ -3,7 +3,7 @@
         'name' => 'drupal/starshot-project',
         'pretty_version' => 'dev-develop',
         'version' => 'dev-develop',
-        'reference' => 'beef906d08ba7693340c3bb472b06699c680bdda',
+        'reference' => '17bb3a0a779eba72f61e0a91dd12fc6a015e8e74',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -840,6 +840,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'drupal/sitemap' => array(
+            'pretty_version' => '2.0.0',
+            'version' => '2.0.0.0',
+            'reference' => '8.x-2.0',
+            'type' => 'drupal-module',
+            'install_path' => __DIR__ . '/../../web/modules/contrib/sitemap',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'drupal/smart_date' => array(
             'pretty_version' => '4.1.5',
             'version' => '4.1.5.0',
@@ -852,7 +861,7 @@
         'drupal/starshot-project' => array(
             'pretty_version' => 'dev-develop',
             'version' => 'dev-develop',
-            'reference' => 'beef906d08ba7693340c3bb472b06699c680bdda',
+            'reference' => '17bb3a0a779eba72f61e0a91dd12fc6a015e8e74',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
