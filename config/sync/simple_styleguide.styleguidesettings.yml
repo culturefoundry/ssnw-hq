@@ -11,4 +11,9 @@ default_patterns:
   buttons: buttons
   pagination: pagination
 default_colors:
-  - ''
+  - '#000 | primary | Primary color for text, and occasional background'
+  - '#F8C417| Yellow highlight | Used for buttons, alternative background color and Arrow'
+  - '#00549F| Theme Blue  | Use for links and a secondary button background color'
+  - "#202020 | dark1 | used for dark backgrounds that aren't black, example: header "
+  - '#CBCED2 | grey-text| used as an alternative text color'
+  - '--link-color| grey-text a | alternative link color on dark backgrounds'

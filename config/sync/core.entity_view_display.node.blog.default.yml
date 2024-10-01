@@ -5,7 +5,6 @@ dependencies:
   config:
     - core.base_field_override.node.blog.title
     - field.field.node.blog.body
-    - field.field.node.blog.comment
     - field.field.node.blog.field_image
     - field.field.node.blog.field_metatag
     - field.field.node.blog.field_tags
@@ -286,7 +285,6 @@ content:
     weight: 4
     region: content
 hidden:
-  comment: true
   content_moderation_control: true
   field_metatag: true
   schema_description: true

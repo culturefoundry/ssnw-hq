@@ -3,7 +3,7 @@
  * Visual styles for form components.
  */
 
-form .field-multiple-table {
+ form .field-multiple-table {
   margin: 0;
 }
 form .field-multiple-table .field-multiple-drag {
@@ -101,4 +101,77 @@ abbr.ajax-changed {
   vertical-align: sub;
   background: url(../../images/icons/error.svg) no-repeat;
   background-size: contain;
+}
+
+
+
+
+
+
+form {
+  container-type: inline-size;
+}
+
+input, select, textarea, fieldset, .form-textarea-wrapper, .chosen-container,
+.field--widget-entity-reference-autocomplete table,
+.gtranslate_wrapper
+{
+  /* @apply border-highlight2 border-solid border-4 rounded-md accent-highlight2;*/
+  max-width: calc(100vw - 5.5rem);
+  max-width: calc(100cqw - 3rem);
+}
+.field--widget-entity-reference-autocomplete table {
+  container-type: inline-size;
+}
+
+@container (min-width: 40rem) {
+  input {
+    max-width: calc(100cqw - 14rem);
+  }
+}
+
+
+label {
+  @apply block @2xl:inline-block @2xl:text-right @2xl:w-48 mb-3;
+}
+.facet-item label {
+  @apply inline;
+}
+
+.form-type-textarea label {
+  @apply text-left mb-3 w-full;
+}
+
+.form-type-checkbox {
+  @apply ml-1; /* lg:ml-42;*/
+}
+
+/** Notify buttons on comments have extra padding, needs pulled left */
+.form-radios {
+  @apply ml--6 lg:ml-34;
+}
+
+
+.form-item .description {
+  @apply @2xl:ml-42 mt-1;
+}
+
+/** no visible label on address line2 - align */
+.form-item.form-no-label {
+  @apply @2xl:ml-41 mt-1;
+}
+
+.form-item.text-format-wrapper .description,
+.form-composite .description {
+  margin-left: 0;
+}
+
+.address-container-inline > .form-item {
+  @apply lt-lg:mr-0;
+}
+
+/** Hide filter tips, about text formats */
+.form-type-vertical-tabs,
+.format-help, div.filter-guidelines-item {
+  display: none;
 }

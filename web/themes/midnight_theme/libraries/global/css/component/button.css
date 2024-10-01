@@ -6,7 +6,7 @@
 .button,
 .image-button,
 a.button, .field--name-field-call-to-action a {
-  @apply box-border inline-block mx-4 text-center text-[20px] px-4 py-3 md:text-[28px] md:py-5 md:px-7 uppercase font-bold min-w-[250px];
+  @apply box-border inline-block cursor-pointer mx-4 text-center text-[20px] px-4 py-3 md:text-[28px] md:py-5 md:px-7 uppercase font-bold min-w-[250px];
   background-color: var(--button-bg-color);
   color: var(--button-text-color);
 }

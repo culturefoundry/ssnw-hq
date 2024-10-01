@@ -4,7 +4,6 @@ status: true
 dependencies:
   config:
     - field.field.node.blog.body
-    - field.field.node.blog.comment
     - field.field.node.blog.field_image
     - field.field.node.blog.field_metatag
     - field.field.node.blog.field_tags
@@ -167,7 +166,6 @@ content:
       placeholder: ''
     third_party_settings: {  }
 hidden:
-  comment: true
   simple_sitemap: true
   unpublish_on: true
   url_redirects: true

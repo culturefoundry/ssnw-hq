@@ -5,21 +5,19 @@ dependencies:
   module:
     - node
 id: schema_node_thing
-label: 'Schema.org: Content - Thing'
+label: 'Internal and Basic Pages'
 type: 'canonical_entities:node'
-pattern: '[node:schemadotorg:base-path]/[node:title]'
+pattern: '/[node:menu-link:parent:url:path]/[node:title]'
 selection_criteria:
-  c62f29a2-8678-4b17-90aa-127f850f0c68:
+  9d9c4d83-d280-445a-9420-ee62074e28cb:
     id: 'entity_bundle:node'
     negate: false
-    uuid: c62f29a2-8678-4b17-90aa-127f850f0c68
+    uuid: 9d9c4d83-d280-445a-9420-ee62074e28cb
     context_mapping:
       node: node
     bundles:
-      blog: blog
+      internal: internal
       page: page
-      service: service
-      testimonial: testimonial
 selection_logic: and
 weight: -9
 relationships: {  }

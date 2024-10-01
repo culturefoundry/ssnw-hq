@@ -33,17 +33,28 @@ footer .menu-item-no-footer{
 }
 
 .primary-nav__button-toggle{
-  @apply bg-white border-0 i-mdi-chevron-down?mask text-white inline-block w-6 h-6 cursor-pointer;
+  @apply bg-white border-0 i-mdi-chevron-down?mask text-white inline-block w-6 h-6 cursor-pointer absolute right-0;
 }
 .primary-nav__button-toggle[aria-expanded=true]{
   @apply i-mdi-chevron-up?mask w-6 h-6;
 }
 
-.menu--main>ul>li {
+.menu--main>ul>li, .menu--internal>ul>li {
   border-bottom:1px solid #8A8C8E;
   padding-bottom: 12px;
   margin-bottom: 12px;
 }
+
+.menu--internal>ul>li ul a{
+  font-size: 1.2em;
+  @apply font-black font-medium;
+}
+
+.menu--internal>ul>li>a{
+  @apply font-black font-bold;
+  font-size:1.5em;
+}
+
 .region-footer .menu--main>ul>li ul{
   @apply hidden;
 }

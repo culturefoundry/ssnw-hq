@@ -1,0 +1,17 @@
+uuid: 63ee873d-80e7-4375-9728-16f882514c82
+langcode: en
+status: true
+dependencies:
+  module:
+    - focal_point
+name: extra_wide_banner
+label: 'Extra Wide Banner'
+effects:
+  87808e92-983e-4747-8e02-b1a19c27ee29:
+    uuid: 87808e92-983e-4747-8e02-b1a19c27ee29
+    id: focal_point_scale_and_crop
+    weight: 1
+    data:
+      width: 1200
+      height: 500
+      crop_type: focal_point

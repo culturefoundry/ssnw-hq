@@ -56,14 +56,13 @@
   grid-template-columns: inherit;
 }
 
-.full-width > .content-grid:has(> div, > header, > article),
-.content-grid > .content-grid:has( > div, > header, > article ){
+.full-width > .content-grid:has(> div, > header, > article, > form),
+.content-grid > .content-grid:has( > div, > header, > article, > form ){
   grid-template-columns: inherit;
   grid-column: full-width;
   display: grid;
+
 }
-
-
 
 .breakout {
   grid-column: breakout;
@@ -207,4 +206,24 @@ img.breakout {
 }
 .js-form-item, .js-form-item input{
   max-width:100%;
+}
+
+.layout--twocol-section {
+  @apply grid md:grid-cols-2 gap-6;
+}
+@media screen and (min-width:768px) {
+  
+  
+  .layout--twocol-section--25-75{
+    grid-template-columns: 1fr 3fr;
+  }
+  .layout--twocol-section--33-67{
+    grid-template-columns: 1fr 2fr;
+  }
+  .layout--twocol-section--75-25{
+    grid-template-columns: 3fr 1fr;
+  }
+  .layout--twocol-section--67-33{
+    grid-template-columns: 2fr 1fr;
+  }
 }

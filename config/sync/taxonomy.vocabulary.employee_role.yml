@@ -1,8 +1,24 @@
 uuid: 306142a7-2528-41cb-ae24-a804549e01e2
 langcode: en
 status: true
-dependencies: {  }
-name: 'Employee Role'
+dependencies:
+  module:
+    - scheduler
+third_party_settings:
+  scheduler:
+    expand_fieldset: when_required
+    fields_display_mode: vertical_tab
+    publish_enable: false
+    publish_past_date: error
+    publish_past_date_created: false
+    publish_required: false
+    publish_revision: false
+    publish_touch: false
+    show_message_after_update: true
+    unpublish_enable: false
+    unpublish_required: false
+    unpublish_revision: false
+name: Qualifications
 vid: employee_role
 description: null
 weight: 0

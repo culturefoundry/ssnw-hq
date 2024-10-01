@@ -5,11 +5,15 @@ dependencies:
   config:
     - field.field.node.internal.body
     - field.field.node.internal.field_image
+    - field.field.node.internal.layout_builder__layout
     - field.field.node.internal.schema_description
     - node.type.internal
+    - system.menu.internal
   module:
     - layout_builder
+    - layout_discovery
     - sdc_display
+    - system
     - text
     - user
 third_party_settings:
@@ -29,13 +33,15 @@ third_party_settings:
     allow_custom: true
     sections:
       -
-        layout_id: layout_onecol
+        layout_id: layout_twocol_section
         layout_settings:
           label: ''
+          context_mapping: {  }
+          column_widths: 33-67
         components:
           76864f88-de0b-4b6a-a2b9-840cd39a0e0c:
             uuid: 76864f88-de0b-4b6a-a2b9-840cd39a0e0c
-            region: content
+            region: second
             configuration:
               id: 'field_block:node:internal:schema_description'
               label_display: '0'
@@ -50,7 +56,7 @@ third_party_settings:
             additional: {  }
           7d1fe9a9-33c2-4721-a4a6-cc3f529f641c:
             uuid: 7d1fe9a9-33c2-4721-a4a6-cc3f529f641c
-            region: content
+            region: second
             configuration:
               id: 'field_block:node:internal:field_image'
               label_display: '0'
@@ -72,7 +78,7 @@ third_party_settings:
             additional: {  }
           c95eceb9-cda7-4c7c-819d-70aa633519aa:
             uuid: c95eceb9-cda7-4c7c-819d-70aa633519aa
-            region: content
+            region: second
             configuration:
               id: 'extra_field_block:node:internal:links'
               label_display: '0'
@@ -82,7 +88,7 @@ third_party_settings:
             additional: {  }
           c99ca98c-6002-45d0-a890-1144bd545f09:
             uuid: c99ca98c-6002-45d0-a890-1144bd545f09
-            region: content
+            region: second
             configuration:
               id: 'field_block:node:internal:body'
               label_display: '0'
@@ -95,6 +101,26 @@ third_party_settings:
                 third_party_settings: {  }
             weight: 3
             additional: {  }
+          2f6908cb-e50a-47d9-9960-2d39a6024869:
+            uuid: 2f6908cb-e50a-47d9-9960-2d39a6024869
+            region: first
+            configuration:
+              id: 'system_menu_block:internal'
+              label: 'Internal Pages'
+              label_display: visible
+              provider: system
+              context_mapping: {  }
+              level: 1
+              depth: 0
+              expand_all_items: false
+            weight: 0
+            additional: {  }
+        third_party_settings: {  }
+      -
+        layout_id: layout_onecol
+        layout_settings:
+          label: ''
+        components: {  }
         third_party_settings: {  }
 id: node.internal.default
 targetEntityType: node
@@ -134,4 +160,5 @@ content:
     third_party_settings: {  }
     weight: 0
     region: content
-hidden: {  }
+hidden:
+  layout_builder__layout: true

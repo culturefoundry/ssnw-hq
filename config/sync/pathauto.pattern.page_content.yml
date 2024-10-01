@@ -10,18 +10,20 @@ dependencies:
 _core:
   default_config_hash: ufS9yFb1v8YrfiIRN4steBSrb1NQGxkfZLSUls3rWU4
 id: page_content
-label: 'Page content'
+label: 'Basic content'
 type: 'canonical_entities:node'
-pattern: '/[node:title]'
+pattern: '/[node:content-type]/[node:title]'
 selection_criteria:
-  97c14516-7f96-44ea-a31f-1808d4d98625:
+  d89353fb-de8b-4bbe-806e-00ab25abda60:
     id: 'entity_bundle:node'
     negate: false
-    uuid: 97c14516-7f96-44ea-a31f-1808d4d98625
+    uuid: d89353fb-de8b-4bbe-806e-00ab25abda60
     context_mapping:
       node: node
     bundles:
-      page: page
+      post_order: post_order
+      service: service
+      testimonial: testimonial
 selection_logic: and
 weight: -10
 relationships: {  }

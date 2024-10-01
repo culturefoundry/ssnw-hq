@@ -157,13 +157,24 @@ strong {
     margin-left: 2rem;
   }
 }
+.text-lg{
+  line-height:1.2!important
+}
 
+.text-xl{
+  @apply text-xl;
+  margin-block:1rem!important;
+}
 .text-2xl{
   @apply text-2xl;
+  margin-block:1rem!important;
+
 }
 
 .text-4xl{
   @apply text-4xl;
+  margin-block:1rem!important;
+
 }
 
 .quote-text{
@@ -226,4 +237,18 @@ blockquote:before{
   content: '“';
   font-size:3em;
   right:calc(100% + .75rem);
+}
+@media screen and (min-width:768px) {
+  
+  h2.text-2-8em{
+    font-size:2.8em;
+  }
+}
+
+@media screen and (min-width:768px){
+
+  .header-grid{
+    grid-template-columns: 1fr 275px;
+    gap: 8em;
+  }
 }
