@@ -3,7 +3,7 @@
         'name' => 'drupal/starshot-project',
         'pretty_version' => 'dev-develop',
         'version' => 'dev-develop',
-        'reference' => '17bb3a0a779eba72f61e0a91dd12fc6a015e8e74',
+        'reference' => '5d58c44d604e0493a78678b4cc241e33d50fde75',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -676,6 +676,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'drupal/matomo' => array(
+            'pretty_version' => '1.23.0',
+            'version' => '1.23.0.0',
+            'reference' => '8.x-1.23',
+            'type' => 'drupal-module',
+            'install_path' => __DIR__ . '/../../web/modules/contrib/matomo',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'drupal/media_entity_download' => array(
             'pretty_version' => '2.3.0',
             'version' => '2.3.0.0',
@@ -861,7 +870,7 @@
         'drupal/starshot-project' => array(
             'pretty_version' => 'dev-develop',
             'version' => 'dev-develop',
-            'reference' => '17bb3a0a779eba72f61e0a91dd12fc6a015e8e74',
+            'reference' => '5d58c44d604e0493a78678b4cc241e33d50fde75',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
