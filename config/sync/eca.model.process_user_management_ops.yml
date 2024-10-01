@@ -35,7 +35,7 @@ modeldata: |
             <camunda:string>edit</camunda:string>
           </camunda:field>
           <camunda:field name="field_name">
-            <camunda:string>field_employee_designation, field_employee_location, field_employee_number, field_name</camunda:string>
+            <camunda:string>field_employee_designation, field_employee_location, field_employee_number, field_first_name, field_last_name</camunda:string>
           </camunda:field>
         </bpmn2:extensionElements>
         <bpmn2:outgoing>Flow_0e2osk6</bpmn2:outgoing>
