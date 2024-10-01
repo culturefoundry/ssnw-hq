@@ -1,0 +1,21 @@
+uuid: 90d22567-6722-4efa-8a3c-5041eacb1ba8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.layout_builder__layout
+    - node.type.team_bios
+  module:
+    - layout_builder
+id: node.team_bios.layout_builder__layout
+field_name: layout_builder__layout
+entity_type: node
+bundle: team_bios
+label: Layout
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: layout_section

@@ -1,0 +1,166 @@
+uuid: 37257d16-4974-40fd-a6b4-1c6eddfaa42c
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.full
+    - field.field.node.team_bios.body
+    - field.field.node.team_bios.field_image
+    - field.field.node.team_bios.field_our_team_job_title
+    - field.field.node.team_bios.field_our_team_name
+    - field.field.node.team_bios.layout_builder__layout
+    - node.type.team_bios
+  module:
+    - layout_builder
+    - nomarkup
+    - sdc_display
+    - text
+    - user
+third_party_settings:
+  sdc_display:
+    enabled: false
+    component:
+      machine_name: ''
+    mappings:
+      static:
+        props: {  }
+        slots: {  }
+      dynamic:
+        props: {  }
+        slots: {  }
+  layout_builder:
+    enabled: true
+    allow_custom: true
+    sections:
+      -
+        layout_id: layout_twocol_section
+        layout_settings:
+          label: 'Team Bios'
+          context_mapping: {  }
+          column_widths: 33-67
+        components:
+          3f8cf8cb-58b7-46bb-a8da-a835010f8147:
+            uuid: 3f8cf8cb-58b7-46bb-a8da-a835010f8147
+            region: first
+            configuration:
+              id: 'field_block:node:team_bios:field_image'
+              label: 'Headshot Photo'
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: entity_reference_entity_view
+                label: hidden
+                settings:
+                  view_mode: default
+                third_party_settings:
+                  nomarkup:
+                    enabled: true
+                    separator: '|'
+                    referenced_entity: '0'
+                  sdc_display:
+                    enabled: 0
+                    component:
+                      machine_name: null
+                      show_deprecated: 0
+            weight: 0
+            additional: {  }
+          40022870-5dae-404f-ac0e-229fe40e27cd:
+            uuid: 40022870-5dae-404f-ac0e-229fe40e27cd
+            region: second
+            configuration:
+              id: 'field_block:node:team_bios:body'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: text_default
+                label: hidden
+                settings: {  }
+                third_party_settings: {  }
+            weight: 2
+            additional: {  }
+          6ae15789-a161-4862-b053-74ea571bf938:
+            uuid: 6ae15789-a161-4862-b053-74ea571bf938
+            region: second
+            configuration:
+              id: 'field_block:node:team_bios:field_our_team_name'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: text_default
+                label: hidden
+                settings: {  }
+                third_party_settings: {  }
+            weight: 0
+            additional: {  }
+          f2b9192a-ec21-4dba-8dbd-241ec0976e17:
+            uuid: f2b9192a-ec21-4dba-8dbd-241ec0976e17
+            region: second
+            configuration:
+              id: 'field_block:node:team_bios:field_our_team_job_title'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: text_default
+                label: hidden
+                settings: {  }
+                third_party_settings: {  }
+            weight: 1
+            additional: {  }
+        third_party_settings: {  }
+id: node.team_bios.full
+targetEntityType: node
+bundle: team_bios
+mode: full
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_image:
+    type: entity_reference_entity_view
+    label: hidden
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings:
+      nomarkup:
+        enabled: true
+        separator: '|'
+        referenced_entity: ''
+      sdc_display:
+        enabled: 0
+        component:
+          machine_name: null
+          show_deprecated: 0
+    weight: 0
+    region: content
+  field_our_team_job_title:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_our_team_name:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 4
+    region: content
+hidden:
+  layout_builder__layout: true
