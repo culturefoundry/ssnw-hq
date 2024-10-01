@@ -248,7 +248,7 @@ blockquote:before{
 @media screen and (min-width:768px){
 
   .header-grid{
-    grid-template-columns: 1fr 275px;
+    grid-template-columns: 1fr 280px;
     gap: 8em;
   }
 }

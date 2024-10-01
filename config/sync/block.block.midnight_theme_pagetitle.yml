@@ -1,0 +1,30 @@
+uuid: 5e482489-b9d8-4a32-855a-0dc2f7f7ca66
+langcode: en
+status: true
+dependencies:
+  module:
+    - taxonomy
+  theme:
+    - midnight_theme
+id: midnight_theme_pagetitle
+theme: midnight_theme
+region: content
+weight: -13
+provider: null
+plugin: page_title_block
+settings:
+  id: page_title_block
+  label: 'Page title'
+  label_display: '0'
+  provider: core
+visibility:
+  'entity_bundle:taxonomy_term':
+    id: 'entity_bundle:taxonomy_term'
+    negate: false
+    context_mapping:
+      taxonomy_term: '@taxonomy_term.taxonomy_term_route_context:taxonomy_term'
+    bundles:
+      customer: customer
+      employee_role: employee_role
+      location: location
+      tags: tags
