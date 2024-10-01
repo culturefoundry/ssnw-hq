@@ -3,7 +3,7 @@
         'name' => 'drupal/starshot-project',
         'pretty_version' => 'dev-develop',
         'version' => 'dev-develop',
-        'reference' => '5d58c44d604e0493a78678b4cc241e33d50fde75',
+        'reference' => 'a0a3376e0fa3b0c21d2c81bf49a43975a8447369',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -786,6 +786,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'drupal/reroute_email' => array(
+            'pretty_version' => '2.2.1',
+            'version' => '2.2.1.0',
+            'reference' => '2.2.1',
+            'type' => 'drupal-module',
+            'install_path' => __DIR__ . '/../../web/modules/contrib/reroute_email',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'drupal/sam' => array(
             'pretty_version' => '1.3.1',
             'version' => '1.3.1.0',
@@ -870,7 +879,7 @@
         'drupal/starshot-project' => array(
             'pretty_version' => 'dev-develop',
             'version' => 'dev-develop',
-            'reference' => '5d58c44d604e0493a78678b4cc241e33d50fde75',
+            'reference' => 'a0a3376e0fa3b0c21d2c81bf49a43975a8447369',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
