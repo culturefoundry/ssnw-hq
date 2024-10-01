@@ -6,7 +6,6 @@ dependencies:
     - field.field.node.testimonial.body
     - field.field.node.testimonial.field_metatag
     - field.field.node.testimonial.field_tags
-    - field.field.node.testimonial.layout_builder__layout
     - field.field.node.testimonial.schema_image
     - field.field.node.testimonial.schema_related_link
     - node.type.testimonial
@@ -149,6 +148,5 @@ content:
     settings: {  }
     third_party_settings: {  }
 hidden:
-  layout_builder__layout: true
   publish_on: true
   unpublish_on: true
