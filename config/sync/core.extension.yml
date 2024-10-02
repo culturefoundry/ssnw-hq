@@ -12,6 +12,7 @@ module:
   block_content: 0
   bpmn_io: 0
   breakpoint: 0
+  captcha: 0
   ckeditor5: 0
   cl_editorial: 0
   coffee: 0
@@ -71,6 +72,7 @@ module:
   link: 0
   linkit: 0
   masquerade: 0
+  matomo: 0
   media: 0
   media_entity_download: 0
   media_file_delete: 0
@@ -89,7 +91,9 @@ module:
   path: 0
   path_alias: 0
   quick_node_clone: 0
+  recaptcha: 0
   redirect: 0
+  reroute_email: 0
   responsive_image: 0
   sam: 0
   scheduler: 0

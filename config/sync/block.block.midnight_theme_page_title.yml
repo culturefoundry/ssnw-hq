@@ -3,10 +3,8 @@ langcode: en
 status: true
 dependencies:
   module:
-    - block_class
     - node
     - system
-    - taxonomy
   theme:
     - midnight_theme
 _core:
@@ -14,7 +12,7 @@ _core:
 id: midnight_theme_page_title
 theme: midnight_theme
 region: content
-weight: -13
+weight: -14
 provider: null
 plugin: page_title_block
 settings:
@@ -38,13 +36,3 @@ visibility:
       page: page
       service: service
       testimonial: testimonial
-  'entity_bundle:taxonomy_term':
-    id: 'entity_bundle:taxonomy_term'
-    negate: false
-    context_mapping:
-      taxonomy_term: '@taxonomy_term.taxonomy_term_route_context:taxonomy_term'
-    bundles:
-      customer: customer
-      employee_role: employee_role
-      location: location
-      tags: tags

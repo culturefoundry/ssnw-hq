@@ -1,8 +1,0 @@
-uuid: cbbd9eea-c9be-4984-a419-47be52704db8
-langcode: en
-status: true
-dependencies: {  }
-id: how-we-serve
-label: 'How We Serve'
-description: 'How We Serve Menu'
-locked: false

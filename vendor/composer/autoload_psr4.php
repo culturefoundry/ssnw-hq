@@ -52,6 +52,7 @@ return array(
     'SchemaForms\\' => array($vendorDir . '/e0ipso/schema-forms/src'),
     'Robo\\' => array($vendorDir . '/consolidation/robo/src'),
     'Recurr\\' => array($vendorDir . '/simshaun/recurr/src/Recurr'),
+    'ReCaptcha\\' => array($vendorDir . '/google/recaptcha/src/ReCaptcha'),
     'Psy\\' => array($vendorDir . '/psy/psysh/src'),
     'Psr\\Log\\' => array($vendorDir . '/psr/log/src'),
     'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-factory/src', $vendorDir . '/psr/http-message/src'),
