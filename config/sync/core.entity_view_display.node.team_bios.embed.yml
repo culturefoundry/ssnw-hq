@@ -1,0 +1,42 @@
+uuid: d5482e00-622b-485e-bebe-b2c5fb80c5a1
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.embed
+    - field.field.node.team_bios.body
+    - field.field.node.team_bios.field_image
+    - field.field.node.team_bios.field_our_team_job_title
+    - field.field.node.team_bios.field_our_team_name
+    - field.field.node.team_bios.layout_builder__layout
+    - image.style.wide_16_9_focal_point
+    - node.type.team_bios
+  module:
+    - media
+    - user
+id: node.team_bios.embed
+targetEntityType: node
+bundle: team_bios
+mode: embed
+content:
+  field_image:
+    type: media_thumbnail
+    label: hidden
+    settings:
+      image_link: ''
+      image_style: wide_16_9_focal_point
+      image_loading:
+        attribute: eager
+    third_party_settings: {  }
+    weight: -1
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  body: true
+  field_our_team_job_title: true
+  field_our_team_name: true
+  layout_builder__layout: true

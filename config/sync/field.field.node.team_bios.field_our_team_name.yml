@@ -1,0 +1,24 @@
+uuid: 5116ca3b-37ab-46fc-8e51-4c63170f42d4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_our_team_name
+    - filter.format.full_html
+    - node.type.team_bios
+  module:
+    - text
+id: node.team_bios.field_our_team_name
+field_name: field_our_team_name
+entity_type: node
+bundle: team_bios
+label: Name2
+description: 'enter employee name again'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats:
+    - full_html
+field_type: text

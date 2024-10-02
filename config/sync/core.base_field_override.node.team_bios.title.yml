@@ -1,0 +1,18 @@
+uuid: 274fabc5-5f87-4580-a2fc-2f18a52515e6
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.team_bios
+id: node.team_bios.title
+field_name: title
+entity_type: node
+bundle: team_bios
+label: Name
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
