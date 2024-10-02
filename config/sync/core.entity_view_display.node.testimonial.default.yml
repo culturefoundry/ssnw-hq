@@ -71,6 +71,84 @@ third_party_settings:
                 third_party_settings: {  }
             weight: 1
             additional: {  }
+          e2985c61-c6bc-4585-b44c-1b91899d4f4a:
+            uuid: e2985c61-c6bc-4585-b44c-1b91899d4f4a
+            region: content
+            configuration:
+              id: 'field_block:node:testimonial:body'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: text_default
+                label: hidden
+                settings: {  }
+                third_party_settings: {  }
+            weight: 2
+            additional: {  }
+          abb0161e-10c2-4c9b-988c-17bef93f02aa:
+            uuid: abb0161e-10c2-4c9b-988c-17bef93f02aa
+            region: content
+            configuration:
+              id: 'field_block:node:testimonial:field_tags'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: entity_reference_label
+                label: above
+                settings:
+                  link: true
+                third_party_settings: {  }
+            weight: 3
+            additional: {  }
+          b15869ad-1b88-4552-bd91-425d3964db63:
+            uuid: b15869ad-1b88-4552-bd91-425d3964db63
+            region: content
+            configuration:
+              id: 'field_block:node:testimonial:schema_image'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: entity_reference_entity_view
+                label: hidden
+                settings:
+                  view_mode: default
+                  link: false
+                third_party_settings: {  }
+            weight: 4
+            additional: {  }
+          3ad6ce63-adfb-460b-b722-65f8bb8f468c:
+            uuid: 3ad6ce63-adfb-460b-b722-65f8bb8f468c
+            region: content
+            configuration:
+              id: 'field_block:node:testimonial:schema_related_link'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: link
+                label: above
+                settings:
+                  trim_length: 80
+                  url_only: false
+                  url_plain: false
+                  rel: ''
+                  target: ''
+                third_party_settings: {  }
+            weight: 5
+            additional: {  }
+          0d63e0de-ee1c-4de1-92c5-10d61f13bc0b:
+            uuid: 0d63e0de-ee1c-4de1-92c5-10d61f13bc0b
+            region: content
+            configuration:
+              id: 'extra_field_block:node:testimonial:links'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+            weight: 6
+            additional: {  }
         third_party_settings: {  }
   sdc_display:
     enabled: false
