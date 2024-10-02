@@ -1,4 +1,10 @@
-<div class="swiper_component" {{ attributes }} class="relative">
+{% 
+    set classes = [
+      'relative',
+      'swiper_component'
+    ]
+%}
+<div  {{ attributes.addClass(classes) }}>
   <div class="swiper {{ wrapperclass }}" data-peek="{{ peek }}">
     <div class="swiper-wrapper">
       {% block slides %}

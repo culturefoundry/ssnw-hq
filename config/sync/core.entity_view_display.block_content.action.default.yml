@@ -36,7 +36,7 @@ content:
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    weight: 2
+    weight: 1
     region: content
   field_call_to_action:
     type: link
@@ -48,14 +48,14 @@ content:
       rel: ''
       target: ''
     third_party_settings: {  }
-    weight: 3
+    weight: 2
     region: content
   field_layout:
     type: list_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 4
+    weight: 3
     region: content
   schema_image:
     type: entity_reference_entity_view
@@ -64,14 +64,7 @@ content:
       view_mode: default
       link: false
     third_party_settings: {  }
-    weight: 1
-    region: content
-  schema_name:
-    type: string
-    label: above
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
     weight: 0
     region: content
-hidden: {  }
+hidden:
+  schema_name: true

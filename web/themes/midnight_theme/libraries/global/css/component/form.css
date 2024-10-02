@@ -158,7 +158,7 @@ label {
 
 /** no visible label on address line2 - align */
 .form-item.form-no-label {
-  @apply @2xl:ml-41 mt-1;
+  @apply mt-1;
 }
 
 .form-item.text-format-wrapper .description,

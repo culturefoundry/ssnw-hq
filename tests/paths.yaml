@@ -1,0 +1,18 @@
+paths:
+  home: /
+  about: /about-us
+  user: /user
+  admin: /admin
+  contact: /form/contact
+  search: /search
+  search-result: /search/node?keys=marijuana
+  bogus: /bogus
+  sitemap: /sitemap
+  rss: /rss
+  how-we-serve: /how-we-serve
+  who-we-serve: /who-we-serve
+  where-we-serve: /where-we-serve
+  resources: /resources
+  blogs: /blogs
+  all-blogs: /blogs/all
+  random-blog: /blog/2024-07/essential-benefits-cannabis-facility-security

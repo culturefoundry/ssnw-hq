@@ -1,5 +1,13 @@
+
+{% 
+    set classes = [
+      'relative',
+      'marquee_component'
+    ]
+%}
+
 <div class="marquee-container">
-  <div class="marquee_component" {{ attributes }} class="relative">
+  <div {{ attributes.addclass(classes) }}>
     <div class="marquee {{ wrapperclass }}" data-peek="{{ peek }}">
         {% block tiles %}
       <div class="marquee-wrapper">

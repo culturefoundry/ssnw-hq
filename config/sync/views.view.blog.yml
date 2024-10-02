@@ -933,6 +933,46 @@ display:
         - 'config:field.storage.node.body'
         - 'config:field.storage.node.field_image'
         - schemadotorg_descriptions.settings
+  feed_1:
+    id: feed_1
+    display_title: Feed
+    display_plugin: feed
+    position: 5
+    display_options:
+      row:
+        type: node_rss
+        options: {  }
+      display_extenders:
+        matomo:
+          enabled: false
+          keyword_gets: ''
+          keyword_behavior: first
+          keyword_concat_separator: ' '
+          category_behavior: none
+          category_gets: ''
+          category_concat_separator: ' '
+          category_fallback: ''
+          category_facets: {  }
+          category_facets_concat_separator: ', '
+      path: rss.xml
+      displays:
+        page: page
+        page_1: page_1
+        default: '0'
+        block_1: '0'
+        block_2: '0'
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - user
+        - 'user.node_grants:view'
+        - user.permissions
+      tags:
+        - 'config:field.storage.node.body'
+        - 'config:field.storage.node.field_image'
+        - schemadotorg_descriptions.settings
   page:
     id: page
     display_title: Page
