@@ -7,7 +7,21 @@ dependencies:
     - field.field.block_content.basic.body
     - field.field.block_content.basic.schema_image
   module:
+    - media
+    - sdc_display
     - text
+third_party_settings:
+  sdc_display:
+    enabled: false
+    component:
+      machine_name: ''
+    mappings:
+      static:
+        props: {  }
+        slots: {  }
+      dynamic:
+        props: {  }
+        slots: {  }
 _core:
   default_config_hash: hBNNDTFwakREOTa6GGMqN899Iyrii0hInwSJtQ7Kj30
 id: block_content.basic.default
@@ -20,15 +34,17 @@ content:
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    weight: 13
+    weight: 0
     region: content
   schema_image:
-    type: entity_reference_entity_view
+    type: media_thumbnail
     label: hidden
     settings:
-      view_mode: default
-      link: false
+      image_link: ''
+      image_style: ''
+      image_loading:
+        attribute: lazy
     third_party_settings: {  }
-    weight: 5
+    weight: 1
     region: content
 hidden: {  }

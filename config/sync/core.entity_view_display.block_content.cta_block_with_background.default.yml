@@ -8,6 +8,7 @@ dependencies:
     - field.field.block_content.cta_block_with_background.field_background_image
     - field.field.block_content.cta_block_with_background.field_background_style
     - field.field.block_content.cta_block_with_background.field_intro_text
+    - field.field.block_content.cta_block_with_background.schema_name
     - image.style.blog_image
   module:
     - media
@@ -90,5 +91,13 @@ content:
           machine_name: null
           show_deprecated: 0
     weight: 3
+    region: content
+  schema_name:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 4
     region: content
 hidden: {  }
