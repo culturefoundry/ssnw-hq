@@ -1,7 +1,0 @@
-drupalorg
-sveltejs
-mockapi
-sirv
-yarncheck
-colinodell
-testlogger

@@ -1,5 +1,0 @@
-enabled_sources:
-  - drupalorg_mockapi
-  - local_recipes
-allow_ui_install: false
-disable_add_new_module: true

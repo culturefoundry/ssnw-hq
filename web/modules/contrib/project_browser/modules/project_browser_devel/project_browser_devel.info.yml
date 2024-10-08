@@ -1,6 +1,0 @@
-name: Project Browser Devel
-type: module
-description: Provides a Project Browser source plugin that generates random data.
-core_version_requirement: ^10 || ^11
-dependencies:
-  - project_browser:project_browser
