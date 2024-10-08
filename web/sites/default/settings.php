@@ -30,6 +30,19 @@ $settings['migrate_node_migrate_type_classic'] = FALSE;
 $settings['config_sync_directory'] = '../config/sync';
 $settings['skip_permissions_hardening'] = TRUE;
 
+/**
+ * Include the Pantheon-specific settings file.
+ *
+ * n.b. The settings.pantheon.php file makes some changes
+ *      that affect all environments that this site
+ *      exists in.  Always include this file, even in
+ *      a local development environment, to ensure that
+ *      the site settings remain consistent.
+ */
+if (isset($_ENV['PANTHEON_ENVIRONMENT'])) {
+  include __DIR__ . "/settings.pantheon.php";
+}
+
 
 if (file_exists(__DIR__ . '/settings.local.php')) {
   include __DIR__ . '/settings.local.php';

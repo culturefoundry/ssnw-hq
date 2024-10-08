@@ -1,0 +1,8 @@
+{
+"default":{
+  "site": "default",
+  "prod": "https://live-ssnw-hq.pantheonsite.io",
+  "stage": "https://test-ssnw-hq.pantheonsite.io",
+  "dev": "https://dev.ssnw.freelock.net",
+  "docroot": "web"
+}}

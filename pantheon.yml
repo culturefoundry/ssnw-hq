@@ -1,0 +1,36 @@
+# Put overrides to your pantheon.upstream.yml file here.
+# For more information, see: https://pantheon.io/docs/pantheon-yml/
+api_version: 1
+
+php_version: 8.1
+database:
+  version: 10.6
+
+# Not needed because docroot is in /web, so these are not reachable.
+#protected_web_paths:
+#  - /ci/
+#  - /tests/
+
+web_docroot: true
+build_step: false
+
+search:
+  version: 8
+
+workflows:
+ # Commits: Notify team of new commit to master (dev)
+  sync_code:
+    after:
+      - type: webphp
+        description: post to matrix after each code pushed
+        script: private/scripts/notify_matrix.php
+ # Code Deploys: Notify, and notify completion
+  deploy:
+    before:
+      - type: webphp
+        description: post to matrix before deploying
+        script: private/scripts/notify_matrix.php
+    after:
+      - type: webphp
+        description: post to matrix after each deploy
+        script: private/scripts/notify_matrix.php
