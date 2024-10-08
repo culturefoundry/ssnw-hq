@@ -8,6 +8,7 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Field\FieldItemInterface;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 
 /**
  * Schema.org JSON-LD manager interface.
@@ -96,9 +97,9 @@ interface SchemaDotOrgJsonLdManagerInterface {
   /**
    * Get a Schema.org type property's value converted to the default Schema.org type.
    *
-   * @param string $type
+   * @param string $schema_type
    *   The Schema.org type.
-   * @param string $property
+   * @param string $schema_property
    *   The Schema.org property.
    * @param string|mixed $value
    *   The Schema.org property's value.
@@ -106,7 +107,7 @@ interface SchemaDotOrgJsonLdManagerInterface {
    * @return array|string|int|bool|null
    *   The Schema.org property's value converted to the default Schema.org type.
    */
-  public function getSchemaPropertyValueDefaultType(string $type, string $property, mixed $value): array|string|int|bool|NULL;
+  public function getSchemaPropertyValueDefaultSchemaType(string $schema_type, string $schema_property, mixed $value): array|string|int|bool|NULL;
 
   /**
    * Get how an entity reference should be included in JSON-LD.
@@ -121,14 +122,14 @@ interface SchemaDotOrgJsonLdManagerInterface {
   public function getSchemaTypeEntityReferenceDisplay(EntityInterface $entity): string;
 
   /**
-   * Determine if the entity's Schema should include an @url.
+   * Determine if the Schema.org mapping has a URL.
    *
-   * @param \Drupal\Core\Entity\EntityInterface $entity
-   *   An entity.
+   * @param \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping
+   *   The Schema.org mapping.
    *
    * @return bool
-   *   TRUE if the entity's Schema should include an @url.
+   *   TRUE if the mapping has a URL, FALSE otherwise.
    */
-  public function hasSchemaUrl(EntityInterface $entity): bool;
+  public function hasSchemaUrl(SchemaDotOrgMappingInterface $mapping): bool;
 
 }

@@ -220,7 +220,7 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
     $default_data['@type'] = $mapping->getSchemaType();
 
     // Prepend the @url to the returned data.
-    if ($this->schemaJsonLdManager->hasSchemaUrl($entity)
+    if ($this->schemaJsonLdManager->hasSchemaUrl($mapping)
       && $entity->access('view')) {
       $default_data['@url'] = $entity->toUrl('canonical')->setAbsolute()->toString();
     }
@@ -350,7 +350,9 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
       // @see https://schema.org/relatedLink
       // @see https://schema.org/significantLink
       $range_includes = $this->schemaTypeManager->getPropertyRangeIncludes($schema_property);
-      if (isset($range_includes['URL']) && count($range_includes) === 1) {
+      if (isset($range_includes['URL'])
+        && count($range_includes) === 1
+        && $target_entity->hasLinkTemplate('canonical')) {
         return $target_entity->toUrl('canonical')->setAbsolute()->toString();
       }
 
@@ -376,7 +378,8 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
             '@type' => ($mapping) ? $mapping->getSchemaType() : 'Thing',
             $mapping_schema_property => $target_entity->label(),
           ];
-          if ($this->schemaJsonLdManager->hasSchemaUrl($target_entity)) {
+          if ($this->schemaJsonLdManager->hasSchemaUrl($mapping)
+            && $target_entity->hasLinkTemplate('canonical')) {
             $data['@url'] = $target_entity->toUrl('canonical')->setAbsolute()->toString();
           }
           return $data;
@@ -386,7 +389,17 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
           if (str_starts_with($entity_reference_display, '[')
             && str_ends_with($entity_reference_display, ']')) {
             $data = [$target_entity->getEntityTypeId() => $target_entity];
-            return $this->token->replace($entity_reference_display, $data, [], $bubbleable_metadata);
+            // Split tokens delimited by commas into multiple values.
+            if (preg_match('/]\s*,\s*\[/', $entity_reference_display)) {
+              $values = preg_split('/(?<=\])\s*,\s*(?=\[)/', $entity_reference_display);
+              foreach ($values as $index => $value) {
+                $values[$index] = $this->token->replace($value, $data, [], $bubbleable_metadata);
+              }
+              return $values;
+            }
+            else {
+              return $this->token->replace($entity_reference_display, $data, [], $bubbleable_metadata);
+            }
           }
           else {
             return $target_entity->label();
@@ -395,7 +408,7 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
     }
     else {
       $property_value = $this->schemaJsonLdManager->getSchemaPropertyValue($item);
-      return $this->schemaJsonLdManager->getSchemaPropertyValueDefaultType($schema_type, $schema_property, $property_value);
+      return $this->schemaJsonLdManager->getSchemaPropertyValueDefaultSchemaType($schema_type, $schema_property, $property_value);
     }
   }
 

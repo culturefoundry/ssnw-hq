@@ -15,6 +15,10 @@ Introduction
 The **Schema.org Blueprints Layout Paragraphs** provides integration with
 the Layout Paragraphs module.
 
+> For a full demo of the Schema.org Blueprints and Layout Paragraphs 
+> (with Mercury Editor) check out the 
+> [Layout Starterkit](https://www.drupal.org/project/schemadotorg_starterkit_layout).
+
 
 Features
 --------
@@ -24,6 +28,7 @@ Features
 - Configure paragraph libraries support when the 'Layout Paragraphs Library'
   module is enabled.
 - Automatically adds types to the paragraph node's target bundles.
+- Automatically enable 'Style options' for default layout paragraph types.
 
 
 Requirements
@@ -41,6 +46,7 @@ Configuration
 - Go to the 'Layout paragraphs settings' details.
 - Enter Schema.org types that default to using layout paragraphs.
 - Enter the default paragraph types to be using with in layout paragraphs.
+- Enter the components that should be included in the default view display when layout paragraphs is enabled.
 
 
 References

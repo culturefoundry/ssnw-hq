@@ -47,11 +47,21 @@ class SchemaDotOrgOptionsJsonLdKernelTest extends SchemaDotOrgJsonLdKernelTestBa
 
     /* ********************************************************************** */
 
-    // Check that the JSON-LD for an category list element displays
+    // Check that the JSON-LD for a category list element displays
     // the WikiData URI.
     $jsonld = $this->builder->buildEntity($node);
     $this->assertEquals('SpecialAnnouncement', $jsonld['@type']);
     $this->assertEquals('https://www.wikidata.org/wiki/Q5070802', $jsonld['category']);
+
+    // Check that the JSON-LD for a category list element displays
+    // the option text.
+    $this->config('schemadotorg_options.settings')
+      ->set('allowed_value_text', ['SpecialAnnouncement--category'])
+      ->save();
+    $jsonld = $this->builder->buildEntity($node);
+    $this->assertEquals('SpecialAnnouncement', $jsonld['@type']);
+    $this->assertEquals('Emergency', $jsonld['category']);
+
   }
 
 }

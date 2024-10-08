@@ -26,10 +26,12 @@ function schemadotorg_existing_values_autocomplete_widget_schemadotorg_property_
     return;
   }
 
-  $default_schema_properties = \Drupal::config('schemadotorg_existing_values_autocomplete_widget.settings')
-    ->get("default_schema_properties");
-  if (in_array($schema_property, $default_schema_properties)) {
-    $widget_id = 'existing_autocomplete_field_widget';
+  if (empty($widget_id)) {
+    $default_schema_properties = \Drupal::config('schemadotorg_existing_values_autocomplete_widget.settings')
+      ->get("default_schema_properties");
+    if (in_array($schema_property, $default_schema_properties)) {
+      $widget_id = 'existing_autocomplete_field_widget';
+    }
   }
 }
 

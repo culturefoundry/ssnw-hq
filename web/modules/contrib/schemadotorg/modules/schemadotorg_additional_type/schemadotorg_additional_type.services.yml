@@ -1,9 +1,16 @@
 services:
   schemadotorg_additional_type.manager:
     class: Drupal\schemadotorg_additional_type\SchemaDotOrgAdditionalTypeManager
-    arguments: ['@module_handler', '@config.factory', '@entity_type.manager', '@schemadotorg.names', '@schemadotorg.schema_type_manager']
+    arguments: ['@module_handler', '@config.factory', '@entity_type.manager', '@request_stack', '@schemadotorg.names', '@schemadotorg.schema_type_manager']
   schemadotorg_additional_type.event_subscriber:
     class: Drupal\schemadotorg_additional_type\EventSubscriber\SchemaDotOrgAdditionalTypeEventSubscriber
     arguments: ['@current_route_match', '@entity_type.manager']
     tags:
       - { name: event_subscriber }
+  schemadotorg_additional_type.controller.entity_form:
+    # Override the entity form controller to handle the node entity's
+    # additional type add and edit operation.
+    decorates: controller.entity_form
+    class: Drupal\schemadotorg_additional_type\Controller\SchemaDotOrgAdditionalTypeHtmlEntityFormController
+    public: false
+    arguments: ['@schemadotorg_additional_type.controller.entity_form.inner', '@config.factory', '@entity_type.manager', '@schemadotorg.schema_type_manager']

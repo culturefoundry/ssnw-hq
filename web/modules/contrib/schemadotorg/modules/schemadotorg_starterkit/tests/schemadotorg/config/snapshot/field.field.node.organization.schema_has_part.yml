@@ -1,0 +1,26 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.schema_has_part
+    - node.type.organization
+id: node.organization.schema_has_part
+field_name: schema_has_part
+entity_type: node
+bundle: organization
+label: 'Has part'
+description: 'Indicates an item or CreativeWork that is part of this item, or CreativeWork (in some sense).'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'schemadotorg:node'
+  handler_settings:
+    target_type: node
+    schema_types:
+      CreativeWork: CreativeWork
+    excluded_schema_types: {  }
+    ignore_additional_mappings: true
+    target_bundles: {  }
+field_type: entity_reference

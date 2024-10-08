@@ -34,6 +34,24 @@ class SchemaDotOrgJsonLdSettingsForm extends SchemaDotOrgSettingsFormBase {
       '#type' => 'details',
       '#title' => $this->t('JSON-LD settings'),
     ];
+    $form['schemadotorg_jsonld']['schema_type_default_values'] = [
+      '#type' => 'schemadotorg_settings',
+      '#title' => $this->t('Schema.org type default values'),
+      '#description' => $this->t('Enter Schema.org type default values.'),
+      '#description_link' => 'types',
+      '#example' => '
+SchemaType:
+  propertyName01: DefaultValue01
+  propertyName02: DefaultValue02
+',
+    ];
+    $form['schemadotorg_jsonld']['schema_type_main_properties'] = [
+      '#type' => 'schemadotorg_settings',
+      '#title' => $this->t('Schema.org type main properties'),
+      '#description' => $this->t('Enter the main properties for a Schema.org types Defaults to <em>name</em> for unspecified Schema.org types. Set the main property to <em>null</em> when there is no applicable main property for the Schema.org type.'),
+      '#description_link' => 'types',
+      '#example' => 'SchemaType: propertyName',
+    ];
     $form['schemadotorg_jsonld']['schema_property_order'] = [
       '#type' => 'schemadotorg_settings',
       '#title' => $this->t('Schema.org property order'),
@@ -63,18 +81,19 @@ class SchemaDotOrgJsonLdSettingsForm extends SchemaDotOrgSettingsFormBase {
       '#example' => "
 Intangible: entity
 node--Thing: url
-media--image: '[media:field_media_image:entity:url]'
+media--image: '[media:field_media_image:1x1:url], [media:field_media_image:4x3:url], [media:field_media_image:16x9:url]'
 paragraph--layout: none
 ",
     ];
-    $form['schemadotorg_jsonld']['entity_types_exclude_url'] = [
+    $form['schemadotorg_jsonld']['exclude_url'] = [
       '#type' => 'schemadotorg_settings',
-      '#title' => $this->t('Exclude @url from entity types'),
-      '#description' => $this->t('Enter entity types that should never include an @url property'),
+      '#title' => $this->t('Exclude @url from types'),
+      '#description' => $this->t('Enter entity and Schema.org type that should never include an @url property'),
       '#example' => '
 - block_content
 - media
 - paragraph
+- PronounceableText
 ',
     ];
     return parent::buildForm($form, $form_state);

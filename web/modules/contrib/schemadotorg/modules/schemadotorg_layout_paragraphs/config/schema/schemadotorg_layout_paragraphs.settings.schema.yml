@@ -23,3 +23,9 @@ schemadotorg_layout_paragraphs.settings:
         sequence:
           type: string
           label: 'Paragraph type layout'
+    default_view_display_components:
+      type: sequence
+      label: 'Default view_display components'
+      sequence:
+        type: string
+        label: 'Default view_display component'

@@ -38,47 +38,57 @@ class SchemaDotOrgAdditionalTypeJsonLdKernelTest extends SchemaDotOrgJsonLdKerne
 
     /** @var \Drupal\schemadotorg\SchemaDotOrgConfigManagerInterface $schema_config_manager */
     $schema_config_manager = \Drupal::service('schemadotorg.config_manager');
-    $schema_config_manager->setSchemaTypeDefaultProperties('Person', 'additionalType');
+    $schema_config_manager->setSchemaTypeDefaultProperties('Organization', 'additionalType');
 
-    // Add Caregiver to Person allowed type.
+    // Add OtherOrganization to Organization allowed type.
     $this->config('schemadotorg_additional_type.settings')
-      ->set('default_types', ['Person'])
-      ->set('default_allowed_values.Person', ['Patient' => 'Patient', 'Caregiver' => 'Caregiver'])
+      ->set('default_types', ['Organization'])
+      ->set('default_allowed_values.Organization', ['ResearchOrganization' => 'ResearchOrganization', 'OtherOrganization' => 'OtherOrganization'])
       ->save();
 
-    $this->createSchemaEntity('node', 'Person');
+    $this->createSchemaEntity('node', 'Organization');
 
-    $patient_node = Node::create([
-      'type' => 'person',
-      'title' => 'Patient',
-      'schema_person_type' => 'Patient',
+    $research_node = Node::create([
+      'type' => 'organization',
+      'title' => 'ResearchOrganization',
+      'schema_organization_type' => 'ResearchOrganization',
     ]);
-    $patient_node->save();
+    $research_node->save();
 
-    $caregiver_node = Node::create([
-      'type' => 'person',
-      'title' => 'Caregiver',
-      'schema_person_type' => 'Caregiver',
+    $other_node = Node::create([
+      'type' => 'organization',
+      'title' => 'OtherOrganization',
+      'schema_organization_type' => 'OtherOrganization',
     ]);
-    $caregiver_node->save();
+    $other_node->save();
 
-    // Check that Patient additional type sets the @type to Patient.
+    // Check that ResearchOrganization additional type sets the @type to ResearchOrganization.
     $expected_result = [
-      '@type' => 'Patient',
-      '@url' => $patient_node->toUrl()->setAbsolute()->toString(),
-      'name' => 'Patient',
+      '@type' => 'ResearchOrganization',
+      '@url' => $research_node->toUrl()->setAbsolute()->toString(),
+      'name' => 'ResearchOrganization',
     ];
-    $this->assertEquals($expected_result, $this->builder->buildEntity($patient_node));
+    $this->assertEquals($expected_result, $this->builder->buildEntity($research_node));
 
-    // Check that Caregiver additional type sets the 'additionalType' property
-    // to Caregiver.
+    // Check using machine name for additional type.
+    $research_node->schema_organization_type->value = 'research_organization';
     $expected_result = [
-      '@type' => 'Person',
-      '@url' => $caregiver_node->toUrl()->setAbsolute()->toString(),
-      'name' => 'Caregiver',
-      'additionalType' => 'Caregiver',
+      '@type' => 'ResearchOrganization',
+      '@url' => $research_node->toUrl()->setAbsolute()->toString(),
+      'name' => 'ResearchOrganization',
     ];
-    $this->assertEquals($expected_result, $this->builder->buildEntity($caregiver_node));
+    $this->assertEquals($expected_result, $this->builder->buildEntity($research_node));
+
+    // Check that OtherOrganization additional type sets the 'additionalType' property
+    // to OtherOrganization.
+    $expected_result = [
+      '@type' => 'Organization',
+      '@url' => $other_node->toUrl()->setAbsolute()->toString(),
+      'name' => 'OtherOrganization',
+      'additionalType' => 'OtherOrganization',
+    ];
+    $this->assertEquals($expected_result, $this->builder->buildEntity($other_node));
+
   }
 
 }

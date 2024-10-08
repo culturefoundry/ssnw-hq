@@ -13,6 +13,7 @@ use Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface;
 use Drupal\schemadotorg\Traits\SchemaDotOrgMappingStorageTrait;
 use Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdBuilderInterface;
 use Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdManagerInterface;
+use Drupal\schemadotorg_jsonld\Utility\SchemaDotOrgJsonLdHelper;
 
 /**
  * Schema.org additional mappings JSON-LD manager.
@@ -48,19 +49,39 @@ class SchemaDotOrgAdditionalMappingsJsonLdManager implements SchemaDotOrgAdditio
       return;
     }
 
+    $schema_type = $mapping->getSchemaType();
     $additional_mappings = $mapping->getAdditionalMappings();
-    foreach ($additional_mappings as $schema_type => $additional_mapping) {
-      if ($this->isWebPage($schema_type)) {
+    foreach ($additional_mappings as $additional_mapping_schema_type => $additional_mapping) {
+      if ($this->isWebPage($additional_mapping_schema_type)) {
+        continue;
+      }
+
+      $additional_data = $this->getAdditionalData($entity, $mapping, $additional_mapping) ?? [];
+
+      // Move the PronounceableText entity to its corresponding Schema.org property.
+      if ($additional_mapping_schema_type === 'PronounceableText' && $additional_data) {
+        $additional_mapping_schema_property_mapping = array_flip($additional_mapping['schema_properties']);
+        $text_value_field_name = $additional_mapping_schema_property_mapping['textValue'] ?? '';
+        $text_value_schema_property = $mapping->getSchemaPropertyMapping($text_value_field_name);
+        if ($text_value_schema_property) {
+          $data[$text_value_schema_property] = $additional_data;
+          continue;
+        }
+      }
+
+      // Move the Person to Quotation--creator.
+      if ($schema_type === 'Quotation' && $additional_mapping_schema_type === 'Person' && $additional_data) {
+        SchemaDotOrgJsonLdHelper::appendValue($data, 'creator', $additional_data);
         continue;
       }
 
       // Append the @type.
       $data['@type'] = array_merge(
         (array) $data['@type'],
-        (array) $schema_type
+        (array) $additional_mapping_schema_type
       );
       // Append the additional data, which can be empty.
-      $data += $this->getAdditionalData($entity, $mapping, $additional_mapping) ?? [];
+      $data += $additional_data;
     }
 
     $data = $this->schemaJsonLdManager->sortProperties($data);

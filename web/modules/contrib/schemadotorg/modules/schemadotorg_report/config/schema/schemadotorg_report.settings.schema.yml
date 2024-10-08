@@ -2,6 +2,12 @@ schemadotorg_report.settings:
   type: config_object
   label: 'Schema.org Report settings'
   mapping:
+    diagram_excluded_schema_properties:
+      type: sequence
+      label: 'Diagram excluded Schema.org properties'
+      sequence:
+        type: string
+        label: 'Diagram excluded Schema.org property'
     about:
       type: sequence
       label: 'About Scheme.org links'

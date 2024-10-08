@@ -88,7 +88,7 @@ class SchemaDotOrgTaxonomyJsonLdTest extends SchemaDotOrgBrowserTestBase {
     $actual_result = $this->builder->buildEntity($term);
     $this->assertEquals($expected_result, $actual_result);
 
-    // Check term JSON-LD..
+    // Check term JSON-LD.
     $expected_result = [
       '@type' => 'DefinedTermSet',
       'name' => 'tags',

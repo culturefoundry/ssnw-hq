@@ -27,6 +27,7 @@ class SchemaDotOrgMercuryEditorKernelTest extends SchemaDotOrgEntityKernelTestBa
   protected static $modules = [
     'taxonomy',
     'mercury_editor',
+    'schemadotorg_layout_paragraphs',
     'schemadotorg_mercury_editor',
   ];
 
@@ -44,7 +45,6 @@ class SchemaDotOrgMercuryEditorKernelTest extends SchemaDotOrgEntityKernelTestBa
    * Test Schema.org mercury editor.
    */
   public function testMercuryEditor(): void {
-    $this->appendSchemaTypeDefaultProperties('WebPage', 'mainEntity');
     $this->createSchemaEntity('node', 'WebPage');
 
     // Check that WebPage has the mercury editor enabled.

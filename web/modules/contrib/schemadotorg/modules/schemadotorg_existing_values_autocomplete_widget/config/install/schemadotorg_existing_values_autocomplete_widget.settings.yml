@@ -1,40 +1,61 @@
 default_schema_properties:
   - activeIngredient
+  - affiliation
   - alumniOf
+  - audience
+  - award
   - birthPlace
+  - brand
+  - color
   - coursePrerequisites
+  - courseWorkload
+  - credential
+  - certification
   - dateline
+  - dietFeatures
   - doseUnit
   - drugClass
-  - drugClass
   - drugUnit
-  - drugUnit
-  - educationRequirement
+  - educationRequirements
   - educationalCredentialAwarded
   - educationalProgramMode
   - educationalUse
   - eligibilityToWorkRequirement
   - employmentType
+  - endorsers
+  - epidemiology
   - expectedPrognosis
-  - experienceRequirement
+  - experienceRequirements
+  - expertConsiderations
   - frequency
+  - hasCertification
+  - hasCredential
+  - hasOccupation
+  - honorificPrefix
+  - honorificSuffix
   - hospitalAffiliation
   - industry
   - jobLocationType
   - jobTitle
+  - jobBenefits
   - keywords
+  - knowsAbout
   - learningResourceType
+  - model
   - naturalProgression
   - occupationalCategory
+  - pathophysiology
   - physicalRequirement
+  - physiologicalBenefits
   - possibleComplication
   - possibleTreatment
   - primaryPrevention
-  - programPrerequisite
+  - programPrerequisites
   - programType
-  - qualification
-  - responsibility
+  - qualifications
+  - responsibilities
   - riskFactor
+  - risks
   - secondaryPrevention
   - signOrSymptom
   - skills
@@ -43,3 +64,9 @@ default_schema_properties:
   - teaches
   - timeOfDay
   - typicalTest
+  - vehicleConfiguration
+  - vehicleEngine
+  - vehicleInteriorColor
+  - vehicleInteriorType
+  - vehicleSeatingCapacity
+  - vehicleTransmission

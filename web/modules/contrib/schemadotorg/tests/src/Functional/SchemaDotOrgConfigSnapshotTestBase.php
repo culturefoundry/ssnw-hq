@@ -115,12 +115,16 @@ abstract class SchemaDotOrgConfigSnapshotTestBase extends SchemaDotOrgBrowserTes
         $config_file_name = $config_name . '.yml';
         $config_file_path = $this->snapshotDirectory . '/' . $config_file_name;
 
-        // Get config raw data without uuid and _core.
+        // Get raw config data.
         $config_data = \Drupal::config($config_name)->getRawData();
+
+        // Remove any property that could contain a UUID,
+        // which will make each snapshot unique.
         unset(
           $config_data['uuid'],
           $config_data['icon_uuid'],
-          $config_data['_core']
+          $config_data['_core'],
+          $config_data['dependencies']['content'],
         );
 
         // Create config snapshot if it does not exist.

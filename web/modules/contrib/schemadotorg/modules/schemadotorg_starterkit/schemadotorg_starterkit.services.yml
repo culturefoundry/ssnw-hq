@@ -6,3 +6,8 @@ services:
     class: Drupal\schemadotorg_starterkit\Breadcrumb\SchemaDotOrgStarterkitBreadcrumbBuilder
     tags:
       - { name: breadcrumb_builder, priority: 1000 }
+  schemadotorg_starterkit.event_subscriber:
+    class: Drupal\schemadotorg_starterkit\EventSubscriber\SchemaDotOrgStarterkitEventSubscriber
+    arguments: ['@current_route_match', '@entity_type.manager', '@schemadotorg.schema_type_manager',  '@schemadotorg.mapping_manager']
+    tags:
+      - { name: event_subscriber }

@@ -55,7 +55,6 @@ function schemadotorg_node_schemadotorg_mapping_insert(SchemaDotOrgMappingInterf
     return;
   }
 
-  $schema_type = $mapping->getSchemaType();
   $entity_type_id = $mapping->getTargetEntityTypeId();
   if ($entity_type_id !== 'node') {
     return;
@@ -66,35 +65,31 @@ function schemadotorg_node_schemadotorg_mapping_insert(SchemaDotOrgMappingInterf
 
   /** @var \Drupal\node\NodeTypeInterface $node_type */
   $node_type = $mapping->getTargetEntityBundleEntity();
+
+  $config = \Drupal::config('schemadotorg_node.settings');
+  $parts = [
+    'schema_type' => $mapping->getSchemaType(),
+    'bundle' => $mapping->getTargetBundle(),
+  ];
   $node_type_updated = FALSE;
 
   // Set display author and date information.
-  $display_submitted_schema_types = \Drupal::config('schemadotorg_node.settings')->get('display_submitted');
-  if ($display_submitted_schema_types) {
-    foreach ($display_submitted_schema_types as $display_submitted_schema_type => $display_submitted) {
-      if ($schema_type_manager->isSubTypeOf($schema_type, $display_submitted_schema_type)) {
-        $node_type->setDisplaySubmitted($display_submitted);
-        $node_type_updated = TRUE;
-        break;
-      }
-    }
+  $display_submitted = $schema_type_manager->getSetting($config->get('display_submitted'), $parts);
+  if (!is_null($display_submitted)) {
+    $node_type->setDisplaySubmitted($display_submitted);
+    $node_type_updated = TRUE;
   }
 
   // Set menu settings.
-  $menu_ui_schema_types = \Drupal::config('schemadotorg_node.settings')->get('menu_ui');
-  if ($menu_ui_schema_types && \Drupal::moduleHandler()->moduleExists('menu_ui')) {
-    foreach ($menu_ui_schema_types as $menu_ui_schema_type => $menu_ui) {
-      if ($schema_type_manager->isSubTypeOf($schema_type, $menu_ui_schema_type)) {
-        if (isset($menu_ui['available_menus'])) {
-          $node_type->setThirdPartySetting('menu_ui', 'available_menus', $menu_ui['available_menus']);
-        }
-        if (isset($menu_ui['parent'])) {
-          $node_type->setThirdPartySetting('menu_ui', 'parent', $menu_ui['parent']);
-        }
-        $node_type_updated = TRUE;
-        break;
-      }
+  $menu_ui = $schema_type_manager->getSetting($config->get('menu_ui'), $parts);
+  if ($menu_ui && \Drupal::moduleHandler()->moduleExists('menu_ui')) {
+    if (isset($menu_ui['available_menus'])) {
+      $node_type->setThirdPartySetting('menu_ui', 'available_menus', $menu_ui['available_menus']);
     }
+    if (isset($menu_ui['parent'])) {
+      $node_type->setThirdPartySetting('menu_ui', 'parent', $menu_ui['parent']);
+    }
+    $node_type_updated = TRUE;
   }
 
   // If the node type has been update, resave it.
@@ -124,7 +119,8 @@ function schemadotorg_node_form_schemadotorg_types_settings_form_alter(array &$f
     '#description' => t('Set the default state for displaying the author username and publish date for Schema.org types'),
     '#description_link' => 'types',
     '#example' => "
-Thing: false
+SchemaType: false
+bundle: true
 ",
   ];
   $form['schemadotorg_node']['menu_ui'] = [
@@ -134,7 +130,10 @@ Thing: false
     '#description_link' => 'types',
     '#access' => \Drupal::moduleHandler()->moduleExists('menu_ui'),
     '#example' => "
-Thing:
+SchemaType:
+  available_menus: { }
+  parent: ''
+bundle:
   available_menus: { }
   parent: ''
 ",

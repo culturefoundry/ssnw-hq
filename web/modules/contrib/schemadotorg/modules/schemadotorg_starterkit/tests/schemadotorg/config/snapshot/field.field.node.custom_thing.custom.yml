@@ -10,7 +10,7 @@ entity_type: node
 bundle: custom_thing
 label: Custom
 description: ''
-required: null
+required: false
 translatable: true
 default_value:
   -

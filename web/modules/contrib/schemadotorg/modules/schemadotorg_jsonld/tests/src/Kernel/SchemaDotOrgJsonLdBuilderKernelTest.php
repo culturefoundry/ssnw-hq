@@ -93,6 +93,7 @@ class SchemaDotOrgJsonLdBuilderKernelTest extends SchemaDotOrgJsonLdKernelTestBa
     ]);
     $creative_work_node->save();
 
+    $expected_image_uri = \Drupal::service('file_url_generator')->generateAbsoluteString($file->getFileUri());
     // Check building JSON-LD for an entity that is mapped to a Schema.org type.
     $expected_result = [
       '@type' => 'CreativeWork',
@@ -103,7 +104,7 @@ class SchemaDotOrgJsonLdBuilderKernelTest extends SchemaDotOrgJsonLdKernelTestBa
       ],
       'description' => 'A summary',
       'text' => 'Some description',
-      'image' => \Drupal::service('file_url_generator')->generateAbsoluteString($file->getFileUri()),
+      'image' => $expected_image_uri,
       'subjectOf' => [
         [
           '@type' => 'CreativeWork',
@@ -115,6 +116,14 @@ class SchemaDotOrgJsonLdBuilderKernelTest extends SchemaDotOrgJsonLdKernelTestBa
       'dateModified' => $this->formatDateTime($now),
     ];
     $this->assertEquals($expected_result, $this->builder->buildEntity($creative_work_node));
+
+    // Check that multiple tokens are split into multiple values.
+    // This is used to support multiple image styles.
+    $this->config('schemadotorg_jsonld.settings')
+      ->set('schema_type_entity_references_display.media--image', '[media:field_media_image:entity:url], [media:field_media_image:entity:url]')
+      ->save();
+    $jsonld = $this->builder->buildEntity($creative_work_node);
+    $this->assertEquals([$expected_image_uri, $expected_image_uri], $jsonld['image']);
 
     /* ********************************************************************* */
 

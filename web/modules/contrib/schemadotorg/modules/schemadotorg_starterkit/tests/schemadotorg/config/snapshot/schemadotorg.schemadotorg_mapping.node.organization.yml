@@ -1,0 +1,36 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.organization.body
+    - field.field.node.organization.schema_has_part
+    - field.field.node.organization.schema_image
+    - field.field.node.organization.schema_is_part_of
+    - field.field.node.organization.schema_member
+    - field.field.node.organization.schema_related_link
+    - field.field.node.organization.schema_significant_link
+    - node.type.organization
+  module:
+    - node
+id: node.organization
+target_entity_type_id: node
+target_bundle: organization
+schema_type: Organization
+schema_properties:
+  body: description
+  schema_image: image
+  schema_member: member
+  title: name
+additional_mappings:
+  WebPage:
+    schema_type: WebPage
+    schema_properties:
+      created: dateCreated
+      changed: dateModified
+      schema_has_part: hasPart
+      langcode: inLanguage
+      schema_is_part_of: isPartOf
+      title: name
+      schema_image: primaryImageOfPage
+      schema_related_link: relatedLink
+      schema_significant_link: significantLink

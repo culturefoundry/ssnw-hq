@@ -5,11 +5,23 @@ declare(strict_types=1);
 namespace Drupal\schemadotorg_additional_type;
 
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\node\NodeInterface;
+use Drupal\schemadotorg\SchemaDotOrgEntityFieldManagerInterface;
 
 /**
  * Schema.org additional type interface.
  */
 interface SchemaDotOrgAdditionalTypeManagerInterface {
+
+  /**
+   * Add new field mapping option.
+   */
+  const ADD_FIELD = SchemaDotOrgEntityFieldManagerInterface::ADD_FIELD;
+
+  /**
+   * The additional type field name suffix.
+   */
+  const FIELD_NAME_SUFFIX = '_type';
 
   /**
    * Alter Schema.org mapping entity default values.
@@ -36,5 +48,25 @@ interface SchemaDotOrgAdditionalTypeManagerInterface {
    *   The current state of the form.
    */
   public function alterMappingForm(array &$form, FormStateInterface &$form_state): void;
+
+  /**
+   * Prepares the node form.
+   *
+   * @param \Drupal\node\NodeInterface $node
+   *   The node entity.
+   * @param string $operation
+   *   The operation being performed.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The form state object.
+   */
+  public function nodePrepareForm(NodeInterface $node, string $operation, FormStateInterface $form_state): void;
+
+  /**
+   * Alter the link variables.
+   *
+   * @param array $variables
+   *   The link variables.
+   */
+  public function linkAlter(array &$variables): void;
 
 }

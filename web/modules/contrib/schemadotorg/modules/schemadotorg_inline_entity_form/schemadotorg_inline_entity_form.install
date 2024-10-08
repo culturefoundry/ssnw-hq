@@ -1,0 +1,45 @@
+<?php
+
+/**
+ * @file
+ * Installation hooks for the Schema.org Blueprints Inline Entity Form module.
+ */
+
+declare(strict_types=1);
+
+/**
+ * Change 'Default Schema.org type form displays' to 'Default type form displays'.
+ */
+function schemadotorg_inline_entity_form_update_10000(): void {
+  $config = \Drupal::configFactory()
+    ->getEditable('schemadotorg_inline_entity_form.settings');
+
+  $default_schema_type_form_displays = $config->get('default_schema_type_form_displays');
+  if ($default_schema_type_form_displays) {
+    $config->set('default_type_form_displays', $default_schema_type_form_displays);
+  }
+  $config->clear('default_schema_type_form_displays');
+  $config->save();
+}
+
+/**
+ * Support multiple entity types.
+ */
+function schemadotorg_inline_entity_form_update_10001(): void {
+  $config = \Drupal::configFactory()
+    ->getEditable('schemadotorg_inline_entity_form.settings');
+
+  $default_schema_properties = array_map(
+    fn($value) => 'node--' . $value,
+    $config->get('default_schema_properties'),
+  );
+  $config->set('default_schema_properties', $default_schema_properties);
+
+  $default_type_form_displays = array_map(
+    fn($value) => 'node--' . $value,
+    $config->get('default_type_form_displays'),
+  );
+  $config->set('default_type_form_displays', $default_type_form_displays);
+
+  $config->save();
+}

@@ -35,6 +35,10 @@ class SchemaDotOrgReportSettingsFormTest extends SchemaDotOrgBrowserTestBase {
   public function testSchemaDotOrgReportSettingsForm(): void {
     $this->assertSaveSettingsConfigForm(
       'schemadotorg_report.settings',
+      '/admin/config/schemadotorg/settings/general'
+    );
+    $this->assertSaveSettingsConfigForm(
+      'schemadotorg_report.settings',
       '/admin/config/schemadotorg/settings/references'
     );
   }

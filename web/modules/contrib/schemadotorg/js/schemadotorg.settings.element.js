@@ -29,7 +29,7 @@
         // Move example after description and style it like the description.
         const description = element.parentNode;
         description.after(element);
-        element.classList.add(description.classList);
+
 
         // Define the toggle event handler.
         function toggle(event) {

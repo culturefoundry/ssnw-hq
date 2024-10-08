@@ -28,7 +28,9 @@ Features
 - Alters the Schema.org mapping list builder and adds a 'Additional type' column.
 - Replaces @type in JSON-LD for valid additional types or uses the additional type value
   as the https://schema.org/additionalType.
-
+- Alters the node add/edit form to require that a node's additional type be defined
+  before a form is built and altered.
+- Alters node add links to prompt for additional type to be defined.
 
 Configuration
 -------------
@@ -37,6 +39,7 @@ Configuration
   (/admin/config/schemadotorg/settings/types#edit-schemadotorg-subtype)
 - Go to the 'Schema.org additional type' details.
 - Enter Schema.org types that support additional typing by default.
+- Enter Schema.org types and bundles whose additional type field should be required.
 - Enter default additional type allowed values for Schema.org types.
 
 

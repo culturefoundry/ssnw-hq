@@ -8,6 +8,15 @@ schemadotorg_additional_type.settings:
       sequence:
         type: string
         label: 'Schema.org default additional type type'
+    required_types:
+      type: sequence
+      label: 'Schema.org required additional type types'
+      sequence:
+        type: string
+        label: 'Schema.org required additional type type'
+    use_snake_case:
+      type: boolean
+      label: 'Use snake case for additional type values'
     default_allowed_values:
       type: sequence
       label: 'Schema.org default additional types allowed values'

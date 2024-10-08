@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Drupal\schemadotorg_field_group;
 
+use Drupal\Core\Entity\Display\EntityDisplayInterface;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 
 /**
@@ -12,13 +13,19 @@ use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 interface SchemaDotOrgFieldGroupEntityDisplayBuilderInterface {
 
   /**
-   * Set entity display field groups for Schema.org mapping's properties.
+   * Pre-save function to process and save a Schema.org mapping.
    *
    * @param \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping
-   *   A Schema.org mapping.
-   * @param array $properties
-   *   Customize mapping properties.
+   *   The Schema.org mapping.
    */
-  public function setFieldGroups(SchemaDotOrgMappingInterface $mapping, array $properties = []): void;
+  public function mappingPreSave(SchemaDotOrgMappingInterface $mapping): void;
+
+  /**
+   * Pre-save function to set field group on the entity display.
+   *
+   * @param \Drupal\Core\Entity\Display\EntityDisplayInterface $display
+   *   The entity form or view display.
+   */
+  public function entityDisplayPreSave(EntityDisplayInterface $display): void;
 
 }

@@ -40,10 +40,11 @@ class SchemaDotOrgContentBrowserKernelTest extends SchemaDotOrgEntityKernelTestB
    * TestSchema.org Content Browser integration.
    */
   public function testContentBrowser(): void {
-    // Create a WebPage content type with a 'relatedLink' entity reference field.
     $this->config('schemadotorg.settings')
       ->set('schema_properties.default_fields.relatedLink.type', 'field_ui:entity_reference:node')
       ->save();
+
+    // Create a WebPage content type with a 'relatedLink' entity reference field.
     $this->createSchemaEntity('node', 'WebPage');
 
     // Check that the content browser component's type and settings are defined as expected.
@@ -61,6 +62,21 @@ class SchemaDotOrgContentBrowserKernelTest extends SchemaDotOrgEntityKernelTestB
       'selection_mode' => 'selection_append',
     ];
     $this->assertEquals($expected_settings, $component['settings']);
+
+    // Create a AboutPage content type with a 'relatedLink' entity reference field.
+    $defaults = [
+      'properties' => [
+        'relatedLink' => [
+          'widget_id' => 'entity_reference_autocomplete',
+        ],
+      ],
+    ];
+    $this->createSchemaEntity('node', 'AboutPage', $defaults);
+
+    // Check that the content browser component's type and settings are defined as expected.
+    $form_display = $this->entityDisplayRepository->getFormDisplay('node', 'about_page');
+    $component = $form_display->getComponent('schema_related_link');
+    $this->assertEquals('entity_reference_autocomplete', $component['type']);
   }
 
 }

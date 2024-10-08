@@ -85,7 +85,7 @@ class SchemaDotOrgPathautoKernelTest extends SchemaDotOrgEntityKernelTestBase {
     $pathauto_pattern = $pathauto_pattern_storage->load('schema_node_thing');
     $this->assertEquals('schema_node_thing', $pathauto_pattern->id());
     $this->assertEquals('Schema.org: Content - Thing', $pathauto_pattern->label());
-    $this->assertEquals('[node:schemadotorg:base-path]/[node:title]', $pathauto_pattern->get('pattern'));
+    $this->assertEquals('[node:schemadotorg:base-path]/[node:schemadotorg:alternate-name]', $pathauto_pattern->get('pattern'));
 
     // Check that node thing pathauto pattern selection condition bundle
     // includes thing.

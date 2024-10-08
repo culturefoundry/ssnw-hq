@@ -57,11 +57,13 @@ interface SchemaDotOrgMappingManagerInterface {
    *   The Schema.org type.
    * @param array $values
    *   The entity, subtype, and property values.
+   * @param SchemaDotOrgMappingInterface|null $mapping
+   *   (optional) The existing Schema.org mapping.
    *
    * @return \Drupal\schemadotorg\SchemaDotOrgMappingInterface
    *   A Schema.org mapping.
    */
-  public function saveMapping(string $entity_type_id, string $schema_type, array $values): SchemaDotOrgMappingInterface;
+  public function saveMapping(string $entity_type_id, string $schema_type, array $values, ?SchemaDotOrgMappingInterface $mapping = NULL): SchemaDotOrgMappingInterface;
 
   /**
    * Validate create Schema.org type.

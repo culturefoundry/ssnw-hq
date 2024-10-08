@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Drupal\schemadotorg;
 
-use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityDisplayRepositoryInterface;
 use Drupal\Core\Entity\EntityInterface;
@@ -42,6 +41,8 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
    *   The field type plugin manager.
    * @param \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schemaTypeManager
    *   The Schema.org schema type manager.
+   * @param \Drupal\schemadotorg\SchemaDotOrgEntityFieldManagerInterface $schemaEntityFieldManager
+   *   The Schema.org entity field manager.
    * @param \Drupal\schemadotorg\SchemaDotOrgEntityDisplayBuilderInterface $schemaEntityDisplayBuilder
    *   The Schema.org entity display builder.
    */
@@ -53,6 +54,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     protected EntityDisplayRepositoryInterface $entityDisplayRepository,
     protected FieldTypePluginManagerInterface $fieldTypePluginManager,
     protected SchemaDotOrgSchemaTypeManagerInterface $schemaTypeManager,
+    protected SchemaDotOrgEntityFieldManagerInterface $schemaEntityFieldManager,
     protected SchemaDotOrgEntityDisplayBuilderInterface $schemaEntityDisplayBuilder,
   ) {}
 
@@ -120,22 +122,20 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     $field += [
       // Default field settings.
       // @see \Drupal\schemadotorg_ui\Form\SchemaDotOrgUiMappingForm::buildSchemaPropertyFieldForm
-      'machine_name' => NULL,
       'type' => NULL,
       'label' => NULL,
-      'description' => '',
+      'description' => NULL,
       'unlimited' => NULL,
       'required' => NULL,
-      // Extra field settings.
-      'max_length' => NULL,
       'default_value' => NULL,
-      'allowed_values' => [],
+      // Entity type and bundle.
+      'entity_type' => $entity_type_id,
+      'bundle' => $bundle,
+      'field_name' => NULL,
       // Schema.org type and property.
-      'schema_type' => NULL,
-      'schema_property' => NULL,
+      'schema_type' => '',
+      'schema_property' => '',
       // Additional defaults.
-      'field_values' => [],
-      'field_storage_values' => [],
       'widget_id' => NULL,
       'widget_settings' => [],
       'formatter_id' => NULL,
@@ -145,54 +145,39 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     /** @var \Drupal\field\FieldStorageConfigInterface|null $field_storage_config */
     $field_storage_config = $this->entityTypeManager
       ->getStorage('field_storage_config')
-      ->load($entity_type_id . '.' . $field['machine_name']);
-
-    // Default field settings.
-    $field_name = $field['machine_name'];
-    $field_type = ($field_storage_config) ? $field_storage_config->getType() : $field['type'];
-    $field_label = $field['label'];
-    $field_description = $field['description'];
-    $field_unlimited = $field['unlimited'];
-    $field_required = $field['required'];
-    // Extra field settings.
-    $field_max_length = $field['max_length'];
-    $field_default_value = $field['default_value'];
-    $field_allowed_values = $field['allowed_values'];
-    // Schema.org type and property.
-    $schema_type = $field['schema_type'];
-    $schema_property = $field['schema_property'];
+      ->load($entity_type_id . '.' . $field['field_name']);
+    $field['type'] = ($field_storage_config) ? $field_storage_config->getType() : $field['type'];
 
     // Set field storage values.
     $field_storage_values = ($field_storage_config)
       ? $field_storage_config->toArray()
       : [];
     $field_storage_values += [
-      'field_name' => $field_name,
       'entity_type' => $entity_type_id,
-      'type' => $field_type,
-      'cardinality' => $field_unlimited ? -1 : 1,
-      'allowed_values' => $field_allowed_values,
-      'max_length' => $field_max_length,
+      'field_name' => $field['field_name'],
+      'type' => $field['type'],
+      'cardinality' => $field['unlimited'] ? -1 : 1,
     ];
-    $field_storage_values = NestedArray::mergeDeep($field['field_storage_values'], $field_storage_values);
 
     // Set field instance values.
     $field_values = [
-      'field_name' => $field_name,
       'entity_type' => $entity_type_id,
       'bundle' => $bundle,
-      'label' => $field_label,
-      'description' => $field_description,
-      'required' => $field_required,
+      'field_name' => $field['field_name'],
+      'label' => $field['label'],
+      'description' => $field['description'],
+      'required' => $field['required'],
     ];
-    if (!is_null($field_default_value)) {
-      $field_values['default_value'] = (is_array($field_default_value))
-        ? $field_default_value
-        : ['value' => $field_default_value];
+    // Massage the default value to ensure that the value property is set.
+    if (!is_null($field['default_value'])) {
+      $field_values['default_value'] = (is_array($field['default_value']))
+        ? $field['default_value']
+        : ['value' => $field['default_value']];
     }
-    $field_values = NestedArray::mergeDeep($field['field_values'], $field_values);
 
-    // Initialize widget and formatter id and settings.
+    // Initialize variables that will be based by reference.
+    $schema_type = $field['schema_type'];
+    $schema_property = $field['schema_property'];
     $widget_id = $field['widget_id'];
     $widget_settings = $field['widget_settings'];
     $formatter_id = $field['formatter_id'];
@@ -202,10 +187,10 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     // These preconfigured field are typically used for entity references.
     $is_field_ui = str_contains((string) $field_storage_values['type'], 'field_ui:');
     if (!$field_storage_config && $is_field_ui) {
-      [, $field_type, $option_key] = explode(':', $field_storage_values['type'], 3);
-      $field_storage_values['type'] = $field_type;
+      [, $field['type'], $option_key] = explode(':', $field_storage_values['type'], 3);
+      $field_storage_values['type'] = $field['type'];
 
-      $field_definition = $this->fieldTypePluginManager->getDefinition($field_type);
+      $field_definition = $this->fieldTypePluginManager->getDefinition($field['type']);
       $options = $this->fieldTypePluginManager->getPreconfiguredOptions($field_definition['id']);
       $field_options = $options[$option_key];
       // Merge in preconfigured field storage options.
@@ -227,90 +212,12 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
       }
 
       // Get widget and format id and settings.
-      $widget_id = $field_options['entity_form_display']['type'] ?? $widget_id;
-      $widget_settings = $field_options['entity_form_display']['settings'] ?? $widget_settings;
-      $formatter_id = $field_options['entity_view_display']['type'] ?? $formatter_id;
-      $formatter_settings = $field_options['entity_view_display']['settings'] ?? $formatter_settings;
+      $widget_id = $widget_id ?? $field_options['entity_form_display']['type'] ?? NULL;
+      $widget_settings = $widget_settings ?: $field_options['entity_form_display']['settings'] ?? [];
+      $formatter_id = $formatter_id ?? $field_options['entity_view_display']['type'] ?? NULL;
+      $formatter_settings = $formatter_settings ?: $field_options['entity_view_display']['settings'] ?? [];
     }
 
-    // Alter field values.
-    $this->alterFieldValues(
-      $schema_type,
-      $schema_property,
-      $field_storage_values,
-      $field_values,
-      $widget_id,
-      $widget_settings,
-      $formatter_id,
-      $formatter_settings
-    );
-
-    try {
-      // Create new field storage.
-      if (!$field_storage_config) {
-        $field_storage_config = $this->entityTypeManager
-          ->getStorage('field_storage_config')
-          ->create($field_storage_values);
-        $field_storage_config->schemaDotOrgType = $schema_type;
-        $field_storage_config->schemaDotOrgProperty = $schema_property;
-        $field_storage_config->save();
-      }
-
-      // Create new field instance storage.
-      $field = $this->entityTypeManager
-        ->getStorage('field_config')
-        ->create($field_values);
-      $field->schemaDotOrgType = $schema_type;
-      $field->schemaDotOrgProperty = $schema_property;
-      $field->save();
-
-      // Set new field's form and view displays.
-      $this->schemaEntityDisplayBuilder->setFieldDisplays(
-        $schema_type,
-        $schema_property,
-        $field_storage_values,
-        $field_values,
-        $widget_id,
-        $widget_settings,
-        $formatter_id,
-        $formatter_settings
-      );
-    }
-    catch (\Exception $e) {
-      $this->messenger->addError($this->t('There was a problem creating field %label: @message', ['%label' => $field_label, '@message' => $e->getMessage()]));
-    }
-  }
-
-  /**
-   * Alter field storage and field values before they are created.
-   *
-   * @param string $schema_type
-   *   The Schema.org type.
-   * @param string $schema_property
-   *   The Schema.org property.
-   * @param array $field_storage_values
-   *   Field storage config values.
-   * @param array $field_values
-   *   Field config values.
-   * @param string|null $widget_id
-   *   The plugin ID of the widget.
-   * @param array $widget_settings
-   *   An array of widget settings.
-   * @param string|null $formatter_id
-   *   The plugin ID of the formatter.
-   * @param array $formatter_settings
-   *   An array of formatter settings.
-   */
-  protected function alterFieldValues(
-    string $schema_type,
-    string $schema_property,
-    array &$field_storage_values,
-    array &$field_values,
-    ?string &$widget_id,
-    array &$widget_settings,
-    ?string &$formatter_id,
-    array &$formatter_settings,
-  ): void {
     // Don't copy existing field values for generic Schema.org properties used
     // to manage different types of data.
     if (!$this->schemaTypeManager->isPropertyMainEntity($schema_property)) {
@@ -334,6 +241,14 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
       $formatter_settings
     );
 
+    $this->setDefaultFieldSettings(
+      $schema_type,
+      $schema_property,
+      $field_storage_values,
+      $field_values,
+      $field,
+    );
+
     $this->moduleHandler->invokeAll('schemadotorg_property_field_alter', [
       $schema_type,
       $schema_property,
@@ -344,6 +259,38 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
       &$formatter_id,
       &$formatter_settings,
     ]);
+
+    try {
+      // Create new field storage.
+      if (!$field_storage_config) {
+        $field_storage_config = $this->entityTypeManager
+          ->getStorage('field_storage_config')
+          ->create($field_storage_values);
+        $field_storage_config->schemaDotOrgField = $field;
+        $field_storage_config->save();
+      }
+
+      // Create new field instance storage.
+      $field_config = $this->entityTypeManager
+        ->getStorage('field_config')
+        ->create($field_values);
+      $field_config->schemaDotOrgType = $schema_type;
+      $field_config->schemaDotOrgProperty = $schema_property;
+      $field_config->schemaDotOrgField = $field;
+      $field_config->save();
+
+      // Set new field's form and view displays.
+      $this->schemaEntityDisplayBuilder->setFieldDisplays(
+        $field,
+        $widget_id,
+        $widget_settings,
+        $formatter_id,
+        $formatter_settings
+      );
+    }
+    catch (\Exception $e) {
+      $this->messenger->addError($this->t('There was a problem creating field %label: @message', ['%label' => $field['label'], '@message' => $e->getMessage()]));
+    }
   }
 
   /**
@@ -392,17 +339,18 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
 
     // Set field properties.
     $field_property_names = [
-      'required',
+      'description',
       'default_value',
       'default_value_callback',
       'settings',
     ];
     foreach ($field_property_names as $field_property_name) {
-      $field_values[$field_property_name] = $existing_field_config->get($field_property_name);
-    }
-    // Only set the description if a custom one is not set.
-    if (empty($field_values['description'])) {
-      $field_values['description'] = $existing_field_config->get('description');
+      if (!isset($field_values[$field_property_name])) {
+        $field_values[$field_property_name] = $existing_field_config->get($field_property_name);
+      }
+      elseif (is_array($field_values[$field_property_name])) {
+        $field_values[$field_property_name] += $existing_field_config->get($field_property_name);
+      }
     }
 
     // Set widget id and settings and third_party_settings
@@ -410,8 +358,8 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     $form_display = $this->entityDisplayRepository->getFormDisplay($entity_type_id, $existing_bundle);
     $existing_form_component = $form_display->getComponent($field_name);
     if ($existing_form_component) {
-      $widget_id = $existing_form_component['type'];
-      $widget_settings = $existing_form_component['settings'];
+      $widget_id = $widget_id ?? $existing_form_component['type'];
+      $widget_settings += $existing_form_component['settings'];
       if (!empty($existing_form_component['third_party_settings'])) {
         $widget_settings['third_party_settings'] = $existing_form_component['third_party_settings'];
       }
@@ -422,8 +370,8 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     $view_display = $this->entityDisplayRepository->getViewDisplay($entity_type_id, $existing_bundle);
     $existing_view_component = $view_display->getComponent($field_name);
     if ($existing_view_component) {
-      $formatter_id = $existing_view_component['type'];
-      $formatter_settings = $existing_view_component['settings'];
+      $formatter_id = $formatter_id ?? $existing_view_component['type'];
+      $formatter_settings += $existing_view_component['settings'];
       $formatter_settings['label'] = $existing_view_component['label'];
       if (!$existing_view_component['third_party_settings']) {
         $formatter_settings['third_party_settings'] = $existing_view_component['third_party_settings'];
@@ -432,7 +380,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
   }
 
   /**
-   * Default default field, form, and view settings.
+   * Set default field, form, and view settings.
    *
    * @param string $schema_type
    *   The Schema.org type.
@@ -461,115 +409,140 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     ?string &$formatter_id,
     array &$formatter_settings,
   ): void {
-
-    // Set default formatter settings by schema type and property.
+    // Apply default formatter settings.
     $default_field_formatter_settings = $this->configFactory
       ->get('schemadotorg.settings')
       ->get('schema_properties.default_field_formatter_settings');
-    $formatter_settings += $default_field_formatter_settings["$schema_type--$schema_property"]
-      ?? $default_field_formatter_settings[$schema_property]
-      ?? [];
+    $parts = [
+      'entity_type_id' => $field_values['entity_type'],
+      'bundle' => $field_values['bundle'],
+      'schema_type' => $schema_type,
+      'schema_property' => $schema_property,
+    ];
+    $formatter_settings += $this->schemaTypeManager->getSetting($default_field_formatter_settings, $parts) ?? [];
 
     // Set default by field storage type.
-    switch ($field_storage_values['type']) {
+    $field_type = $field_storage_values['type'];
+    switch ($field_type) {
       case 'boolean':
-        $field_values['settings'] = [
-          'on_label' => $this->t('Yes'),
-          'off_label' => $this->t('No'),
-        ];
+        if (!isset($field_values['settings']['on_label'])
+          && !isset($field_values['settings']['off_label'])) {
+          $field_values['settings']['on_label'] = $this->t('Yes');
+          $field_values['settings']['off_label'] = $this->t('No');
+        }
         break;
 
       case 'datetime':
-        switch ($schema_property) {
-          case 'expires':
-          case 'dateCreated':
-          case 'dateDeleted':
-          case 'dateIssued':
-          case 'dateModified':
-          case 'datePosted':
-          case 'datePublished':
-          case 'dateVehicleFirstRegistered':
-          case 'dissolutionDate':
-          case 'paymentDueDate':
-          case 'validFrom':
-          case 'validThrough':
-            $is_date = TRUE;
-            break;
+        if (!isset($field_storage_values['settings']['datetime_type'])) {
+          switch ($schema_property) {
+            case 'expires':
+            case 'dateCreated':
+            case 'dateDeleted':
+            case 'dateIssued':
+            case 'dateModified':
+            case 'datePosted':
+            case 'datePublished':
+            case 'dateVehicleFirstRegistered':
+            case 'dissolutionDate':
+            case 'paymentDueDate':
+            case 'validFrom':
+            case 'validThrough':
+              $is_date = TRUE;
+              break;
 
-          case 'startDate':
-          case 'endDate':
-            $is_date = (!$this->schemaTypeManager->isSubTypeOf($schema_type, ['Event', 'Schedule']));
-            break;
+            case 'startDate':
+            case 'endDate':
+              $is_date = (!$this->schemaTypeManager->isSubTypeOf($schema_type, [
+                'Event',
+                'Schedule',
+              ]));
+              break;
 
-          default:
-            $range_includes = $this->schemaTypeManager->getPropertyRangeIncludes($schema_property);
-            $is_date = (in_array('Date', $range_includes) && !in_array('DateTime', $range_includes));
-            break;
+            default:
+              $range_includes = $this->schemaTypeManager->getPropertyRangeIncludes($schema_property);
+              $is_date = (in_array('Date', $range_includes) && !in_array('DateTime', $range_includes));
+              break;
+          }
+          $field_storage_values['settings']['datetime_type'] = $is_date ? 'date' : 'datetime';
         }
-        $field_storage_values['settings']['datetime_type'] = $is_date ? 'date' : 'datetime';
         break;
 
       case 'entity_reference':
       case 'entity_reference_revisions':
-        $target_type = $field_storage_values['settings']['target_type'] ?? 'node';
-        $range_includes = $this->getMappingStorage()->getSchemaPropertyRangeIncludes($schema_type, $schema_property)
-          ?: ['Thing'];
+        if (!isset($field_values['settings']['handler_settings'])) {
+          $target_type = $field_storage_values['settings']['target_type'] ?? 'node';
+          $range_includes = $this->getMappingStorage()
+            ->getSchemaPropertyRangeIncludes($schema_type, $schema_property)
+            ?: ['Thing'];
 
-        // Make sure that the ranges includes only includes Things
-        // and not DataTypes or Enumerations.
-        foreach ($range_includes as $range_include_type) {
-          if (!$this->schemaTypeManager->isThing($range_include_type)) {
-            unset($range_includes[$range_include_type]);
+          // Make sure that the ranges includes only includes Things
+          // and not DataTypes or Enumerations.
+          foreach ($range_includes as $range_include_type) {
+            if (!$this->schemaTypeManager->isThing($range_include_type)) {
+              unset($range_includes[$range_include_type]);
+            }
           }
-        }
 
-        $handler_settings = [];
-        $handler_settings['target_type'] = $target_type;
-        $handler_settings['schema_types'] = $range_includes;
+          $handler_settings = [];
+          $handler_settings['target_type'] = $target_type;
+          $handler_settings['schema_types'] = $range_includes;
+          $handler_settings['excluded_schema_types'] = [];
+          $handler_settings['ignore_additional_mappings'] = FALSE;
 
-        $field_values['settings'] = [
-          'handler' => 'schemadotorg:' . $target_type,
-          'handler_settings' => $handler_settings,
-        ];
-        break;
-
-      case 'integer':
-      case 'float':
-      case 'decimal':
-        $unit_plural = $this->schemaTypeManager->getPropertyUnit($schema_property, 0);
-        if ($unit_plural) {
-          $unit_singular = $this->schemaTypeManager->getPropertyUnit($schema_property, 1);
-          if ((string) $unit_singular != (string) $unit_plural) {
-            $field_values['settings']['suffix'] = ' ' . $unit_singular . '| ' . $unit_plural;
-          }
-          else {
-            $field_values['settings']['suffix'] = ' ' . $unit_singular;
-          }
+          $field_values['settings'] = [
+            'handler' => 'schemadotorg:' . $target_type,
+            'handler_settings' => $handler_settings,
+          ];
         }
         break;
 
       case 'email':
         $formatter_id = 'email_mailto';
         break;
+    }
+  }
 
-      case 'string':
-        if (!empty($field_storage_values['max_length'])) {
-          $field_storage_values['settings'] = [
-            'max_length' => $field_storage_values['max_length'],
-          ];
-          unset($field_storage_values['max_length']);
-        }
-        break;
+  /**
+   * Default field settings.
+   *
+   * @param string $schema_type
+   *   The Schema.org type.
+   * @param string $schema_property
+   *   The Schema.org property.
+   * @param array $field_storage_values
+   *   Field storage config values.
+   * @param array $field_values
+   *   Field config values.
+   * @param array $field_settings
+   *   Field settings.
+   */
+  protected function setDefaultFieldSettings(
+    string $schema_type,
+    string $schema_property,
+    array &$field_storage_values,
+    array &$field_values,
+    array $field_settings,
+  ): void {
+    $entity_type_id = $field_values['entity_type'];
+    $field_type = $field_storage_values['type'];
 
-      case 'list_string':
-        if (!empty($field_storage_values['allowed_values'])) {
-          $field_storage_values['settings'] = [
-            'allowed_values' => $field_storage_values['allowed_values'],
-            'allowed_values_function' => '',
-          ];
-          unset($field_storage_values['allowed_values']);
-        }
-        break;
+    $property_settings = $this->schemaEntityFieldManager->getPropertyDefaultField($entity_type_id, $schema_type, $schema_property);
+
+    $default_field_storage_settings = $this->fieldTypePluginManager->getDefaultStorageSettings($field_type);
+    $field_storage_values['settings'] = array_intersect_key($field_settings, $default_field_storage_settings)
+      + array_intersect_key($property_settings, $default_field_storage_settings)
+      + ($field_storage_values['settings'] ?? [])
+      + $default_field_storage_settings;
+
+    $default_field_settings = $this->fieldTypePluginManager->getDefaultFieldSettings($field_type);
+    $field_values['settings'] = array_intersect_key($field_settings, $default_field_settings)
+      + array_intersect_key($property_settings, $default_field_settings)
+      + ($field_values['settings'] ?? [])
+      + $default_field_settings;
+
+    if (isset($field_values['settings']['handler_settings'])) {
+      $field_values['settings']['handler_settings'] = array_intersect_key($field_settings, $field_values['settings']['handler_settings'])
+        + $field_values['settings']['handler_settings'];
     }
   }
 

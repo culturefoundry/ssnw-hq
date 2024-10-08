@@ -158,7 +158,11 @@ trait SchemaDotOrgBuildTrait {
     // Additional mappings.
     if (isset($mapping_defaults['additional_mappings'])) {
       $details['additional_mappings'] = [];
-      foreach ($mapping_defaults['additional_mappings'] as $additional_mapping) {
+      foreach ($mapping_defaults['additional_mappings'] as $schema_type => $additional_mapping) {
+        if (!isset($additional_mapping['schema_type'])) {
+          continue;
+        }
+
         $additional_mapping_schema_type = $additional_mapping['schema_type'];
         $additional_mapping_schema_properties = $additional_mapping['schema_properties'];
         $additional_mapping_type = "$entity_type_id:$bundle:$additional_mapping_schema_type";
@@ -170,7 +174,7 @@ trait SchemaDotOrgBuildTrait {
           schema_type: $additional_mapping_schema_type,
         );
         foreach ($additional_mapping_defaults['properties'] as $property_name => &$property_definition) {
-          if (!in_array($property_name, $additional_mapping_schema_properties)) {
+          if (empty($additional_mapping_schema_properties[$property_name])) {
             $property_definition['name'] = '';
           }
           else {

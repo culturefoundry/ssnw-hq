@@ -5,11 +5,14 @@ dependencies:
     - field.field.node.event.body
     - field.field.node.event.schema_duration
     - field.field.node.event.schema_end_date
+    - field.field.node.event.schema_has_part
+    - field.field.node.event.schema_is_part_of
     - field.field.node.event.schema_start_date
     - node.type.event
   module:
     - datetime
     - field_group
+    - link
     - text
     - user
 third_party_settings:
@@ -21,7 +24,7 @@ third_party_settings:
       label: General
       parent_name: ''
       region: content
-      weight: -5
+      weight: -20
       format_type: fieldset
       format_settings: {  }
     group_event:
@@ -32,7 +35,17 @@ third_party_settings:
       label: Event
       parent_name: ''
       region: content
-      weight: -1
+      weight: -17
+      format_type: fieldset
+      format_settings: {  }
+    group_hierarchy:
+      children:
+        - schema_has_part
+        - schema_is_part_of
+      label: Hierarchy
+      parent_name: ''
+      region: content
+      weight: 21
       format_type: fieldset
       format_settings: {  }
 id: node.event.default
@@ -45,7 +58,7 @@ content:
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 17
+    weight: 18
     region: content
   links:
     settings: {  }
@@ -67,7 +80,27 @@ content:
       timezone_override: ''
       format_type: medium
     third_party_settings: {  }
-    weight: 10
+    weight: 15
+    region: content
+  schema_has_part:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  schema_is_part_of:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 2
     region: content
   schema_start_date:
     type: datetime_default
@@ -76,6 +109,6 @@ content:
       timezone_override: ''
       format_type: medium
     third_party_settings: {  }
-    weight: 9
+    weight: 14
     region: content
 hidden: {  }

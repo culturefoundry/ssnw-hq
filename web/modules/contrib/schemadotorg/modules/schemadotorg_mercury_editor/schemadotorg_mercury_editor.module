@@ -8,55 +8,65 @@
 declare(strict_types=1);
 
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Render\Element;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * @see mercury_editor_form_layout_paragraphs_component_form_alter()
+ */
+function schemadotorg_mercury_editor_form_layout_paragraphs_component_form_alter(array &$form, FormStateInterface $form_state): void {
+  $form += ['#after_build' => []];
+  $form['#after_build'] = array_merge(
+    ['schemadotorg_mercury_editor_form_layout_paragraphs_component_form_after_build'],
+    $form['#after_build'],
+  );
+}
+
+/**
+ * After build callback for the form.
+ *
+ * @see mercury_editor_form_layout_paragraphs_component_form_alter()
+ */
+function schemadotorg_mercury_editor_form_layout_paragraphs_component_form_after_build(array $form, FormStateInterface $form_state): array {
+  // Check if behavior plugins are being used.
+  if (!isset($form['behavior_plugins'])) {
+    return $form;
+  }
+
+  // Because style options are enabled for all paragraph types,
+  // we need to hide the 'Styles' tab if there are no visible behavior plugins.
+  // @see \Drupal\schemadotorg_layout_paragraphs\SchemaDotOrgLayoutParagraphsManager::paragraphsTypeCreate
+  $visible_children = Element::getVisibleChildren($form['behavior_plugins']);
+  if (empty($visible_children)) {
+    unset($form['tabs']['#options']['styles']);
+    unset($form['behavior_plugins']['#attributes']['class']);
+  }
+  if ($visible_children === ['style_options']
+    && !Element::getVisibleChildren($form['behavior_plugins']['style_options'])) {
+    unset($form['tabs']['#options']['styles']);
+    unset($form['behavior_plugins']['#attributes']['class']);
+  }
+  return $form;
+}
 
 /**
  * Implements hook_form_BASE_FORM_ID_alter().
  */
 function schemadotorg_mercury_editor_form_schemadotorg_mapping_form_alter(array &$form, FormStateInterface &$form_state): void {
-  if (!\Drupal::moduleHandler()->moduleExists('schemadotorg_ui')) {
-    return;
-  }
-
-  /** @var \Drupal\schemadotorg\Form\SchemaDotOrgMappingForm $form_object */
-  $form_object = $form_state->getFormObject();
-  /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface|null $mapping */
-  $mapping = $form_object->getEntity();
-
-  // Exit if no Schema.org type has been selected.
-  if (!$mapping->getSchemaType()) {
-    return;
-  }
-
-  // Append (via the Mercury Editor) to layout mapping settings.
-  if (isset($form['mapping']['mainEntity'])) {
-    $form['mapping']['mainEntity']['#title'] .= ' (' . t('via the Mercury Editor') . ')';
-    if (isset($form['mapping']['mainEntity']['name'])
-      && $form['mapping']['mainEntity']['name']['#type'] === 'checkbox') {
-      $form['mapping']['mainEntity']['name']['#title'] .= ' (' . t('via the Mercury Editor') . ')';
-      $form['mapping']['mainEntity']['name']['#description'] = t("If checked, a 'Layout' field is added to the content type which allows content authors to build layouts using the Mercury Editor.");
-    }
-  }
+  /** @var \Drupal\schemadotorg_mercury_editor\SchemaDotOrgMercuryEditorManagerInterface $schemadotorg_mercury_editor_manager */
+  $schemadotorg_mercury_editor_manager = \Drupal::service('schemadotorg_mercury_editor.manager');
+  $schemadotorg_mercury_editor_manager->mappingFormAlter($form, $form_state);
 }
 
 /**
  * Implements hook_schemadotorg_mapping_presave().
  */
 function schemadotorg_mercury_editor_schemadotorg_mapping_presave(SchemaDotOrgMappingInterface $mapping): void {
-  if ($mapping->isSyncing()) {
-    return;
-  }
-
-  // The layout paragraphs property name.
-  // @see \Drupal\schemadotorg_layout_paragraphs\SchemaDotOrgLayoutParagraphsManagerInterface::PROPERTY_NAME
-  $property_name = 'mainEntity';
-  if ($mapping->getTargetEntityTypeId() === 'node'
-    && $mapping->hasSchemaPropertyMapping($property_name)) {
-    $target_bundle = $mapping->getTargetBundle();
-    \Drupal::configFactory()->getEditable('mercury_editor.settings')
-      ->set("bundles.node.$target_bundle", $target_bundle)
-      ->save();
-  }
+  /** @var \Drupal\schemadotorg_mercury_editor\SchemaDotOrgMercuryEditorManagerInterface $schemadotorg_mercury_editor_manager */
+  $schemadotorg_mercury_editor_manager = \Drupal::service('schemadotorg_mercury_editor.manager');
+  $schemadotorg_mercury_editor_manager->mappingPresave($mapping);
 }
 
 /**
@@ -74,25 +84,18 @@ function schemadotorg_mercury_editor_schemadotorg_property_field_alter(
   ?string &$formatter_id,
   array &$formatter_settings,
 ): void {
-  // Check that the field is an entity_reference_revisions type that is
-  // targeting layout paragraphs.
-  if ($field_storage_values['type'] !== 'entity_reference_revisions'
-    || $field_storage_values['settings']['target_type'] !== 'paragraph'
-    || $schema_property !== 'mainEntity') {
-    return;
-  }
-
-  // Make sure the entity type and Schema.org type supports layout paragraphs.
-  $entity_type_id = $field_storage_values['entity_type'];
-  if ($entity_type_id !== 'node') {
-    return;
-  }
-
-  // Unset experimental layout builder.
-  // @see \Drupal\schemadotorg_layout_paragraphs\SchemaDotOrgLayoutParagraphsManager::alterPropertyField
-  $formatter_id = 'layout_paragraphs';
-  $formatter_settings['label'] = 'hidden';
-  unset($formatter_settings['empty_message']);
+  /** @var \Drupal\schemadotorg_mercury_editor\SchemaDotOrgMercuryEditorManagerInterface $schemadotorg_mercury_editor_manager */
+  $schemadotorg_mercury_editor_manager = \Drupal::service('schemadotorg_mercury_editor.manager');
+  $schemadotorg_mercury_editor_manager->propertyFieldAlter(
+    $schema_type,
+    $schema_property,
+    $field_storage_values,
+    $field_values,
+    $widget_id,
+    $widget_settings,
+    $formatter_id,
+    $formatter_settings
+  );
 }
 
 /**

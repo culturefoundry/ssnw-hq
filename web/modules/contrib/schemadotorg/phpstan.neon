@@ -24,6 +24,12 @@ parameters:
       - "#^Call to an undefined method Drupal\\\\Core\\\\Render\\\\RendererInterface\\:\\:renderInIsolation\\(\\)\\.$#"
 
       ##########################################################################
+      # Global: Undefined property.
+      ##########################################################################
+
+      - "#^Access to an undefined property Drupal\\\\Core\\\\Field\\\\FieldItemInterface\\:\\:\\$entity\\.$#"
+
+      ##########################################################################
       # Global: Dependency inject ::create method.
       ##########################################################################
 
@@ -36,6 +42,12 @@ parameters:
       - "#^Parameter \\#2 \\$message of method Drupal\\\\Core\\\\Form\\\\FormStateInterface\\:\\:(setErrorByName|setError)\\(\\) expects string, Drupal\\\\Core\\\\StringTranslation\\\\TranslatableMarkup given\\.#"
 
       - "#^Method Drupal\\\\Core\\\\Form\\\\FormBuilderInterface\\:\\:getForm\\(\\) invoked with \\d parameters, 1 required\\.$#"
+
+      ##########################################################################
+      # Global: Drush.
+      ##########################################################################s
+
+      - "#^Call to method (writeln|confirm|select|choice)\\(\\) on an unknown class Drush\\\\Style\\\\DrushStyle\\.#"
 
       ##########################################################################
       # Global: Tests.
@@ -56,7 +68,7 @@ parameters:
       # SchemaDotOrg custom entity properties.
       ##########################################################################
 
-      - "#^Access to an undefined property.*(schemaDotOrgType|schemaDotOrgProperty)\\.$#"
+      - "#^Access to an undefined property.*(schemaDotOrgType|schemaDotOrgProperty|schemaDotOrgField)\\.$#"
 
       ##########################################################################
       # Access to an undefined property for fields.
@@ -78,6 +90,10 @@ parameters:
         count: 3
         path: modules/schemadotorg_content_model_documentation/tests/src/Kernel/SchemaDotOrgContentModelDocumentationKernelTest.php
 
+      - message: "#^Access to an undefined property Drupal\\\\Core\\\\Field\\\\FieldItemInterface::\\$(override|override_format)\\.$#"
+        count: 2
+        path: modules/schemadotorg_entity_reference_override/src/SchemaDotOrgEntityReferenceOverrideManager.php
+
       - message: "#^Access to an undefined property Drupal\\\\Core\\\\Field\\\\FieldItemInterface\\:\\:\\$(lat|lng)\\.$#"
         count: 2
         path: modules/schemadotorg_geolocation/schemadotorg_geolocation.module
@@ -85,10 +101,6 @@ parameters:
       - message: "#^Access to an undefined property Drupal\\\\Core\\\\Field\\\\FieldItemInterface\\:\\:\\$(from|to)\\.$#"
         count: 6
         path: modules/schemadotorg_jsonld/schemadotorg_jsonld.schemadotorg.inc
-
-      - message: "#^Access to an undefined property Drupal\\\\Core\\\\Field\\\\FieldItemInterface\\:\\:\\$entity\\.$#"
-        count: 2
-        path: modules/schemadotorg_jsonld/src/SchemaDotOrgJsonLdBuilder.php
 
       - message: "#^Access to an undefined property Drupal\\\\Core\\\\Field\\\\FieldItem(List)?Interface\\:\\:\\$(value|summary|format|uri|end_value|entity)\\.$#"
         count: 15

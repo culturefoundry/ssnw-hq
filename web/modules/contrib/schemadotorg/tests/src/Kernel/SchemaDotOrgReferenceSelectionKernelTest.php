@@ -124,12 +124,22 @@ class SchemaDotOrgReferenceSelectionKernelTest extends SchemaDotOrgEntityKernelT
   public function testSelectionTargetBundles(): void {
     // Set up the memberOf to member entity reference relationship.
     $this->appendSchemaTypeDefaultProperties('Person', ['memberOf']);
-    $this->appendSchemaTypeDefaultProperties('Organization', ['member']);
+    $this->appendSchemaTypeDefaultProperties('Organization', ['member', 'subjectOf']);
     $this->config('schemadotorg.settings')
       ->clear('schema_properties.range_includes.member')
       ->set('schema_properties.default_fields.memberOf.type', 'field_ui:entity_reference:node')
       ->set('schema_properties.default_fields.organization.type', 'field_ui:entity_reference:node')
       ->save();
+
+    // Defined mapping defaults with an additional Schema.org mapping to WebPage.
+    $defaults = [
+      'additional_mappings' => [
+        'WebPage' => [
+          'schema_type' => 'WebPage',
+          'schema_properties' => [],
+        ],
+      ],
+    ];
 
     /* ********************************************************************** */
 
@@ -138,7 +148,7 @@ class SchemaDotOrgReferenceSelectionKernelTest extends SchemaDotOrgEntityKernelT
       ->getStorage('field_config');
 
     // Create a Person.
-    $this->createSchemaEntity('node', 'Person');
+    $this->createSchemaEntity('node', 'Person', $defaults);
 
     // Check that Person schema_member_of field has no target bundles.
     /** @var \Drupal\Core\Field\FieldConfigInterface $field_config */
@@ -146,7 +156,7 @@ class SchemaDotOrgReferenceSelectionKernelTest extends SchemaDotOrgEntityKernelT
     $this->assertEquals([], $field_config->getSetting('handler_settings')['target_bundles']);
 
     // Create a Organization.
-    $this->createSchemaEntity('node', 'Organization');
+    $this->createSchemaEntity('node', 'Organization', $defaults);
 
     // Reset field config storage.
     $field_config_storage->resetCache();
@@ -163,7 +173,7 @@ class SchemaDotOrgReferenceSelectionKernelTest extends SchemaDotOrgEntityKernelT
     $this->assertEquals(['person' => 'person', 'organization' => 'organization'], $field_config->getSetting('handler_settings')['target_bundles']);
 
     // Create a LocalBusiness.
-    $this->createSchemaEntity('node', 'LocalBusiness');
+    $this->createSchemaEntity('node', 'LocalBusiness', $defaults);
 
     // Reset field config storage.
     $field_config_storage->resetCache();
@@ -171,7 +181,12 @@ class SchemaDotOrgReferenceSelectionKernelTest extends SchemaDotOrgEntityKernelT
     // Check that Organization schema_member field now has person,
     // organization and local_business as the target bundles.
     $field_config = $field_config_storage->load('node.organization.schema_member');
-    $this->assertEquals(['person' => 'person', 'organization' => 'organization', 'local_business' => 'local_business'], $field_config->getSetting('handler_settings')['target_bundles']);
+    $expected_target_bundles = [
+      'person' => 'person',
+      'organization' => 'organization',
+      'local_business' => 'local_business',
+    ];
+    $this->assertEquals($expected_target_bundles, $field_config->getSetting('handler_settings')['target_bundles']);
 
     // Check that Organization schema_member field now has person,
     // organization as the target bundles with local_business excluded.
@@ -181,8 +196,39 @@ class SchemaDotOrgReferenceSelectionKernelTest extends SchemaDotOrgEntityKernelT
     $handler_settings['excluded_schema_types'] = ['LocalBusiness' => 'LocalBusiness'];
     $field_config->setSetting('handler_settings', $handler_settings);
     $field_config->save();
+    $expected_target_bundles = [
+      'person' => 'person',
+      'organization' => 'organization',
+    ];
+    $this->assertEquals($expected_target_bundles, $field_config->getSetting('handler_settings')['target_bundles']);
 
-    $this->assertEquals(['person' => 'person', 'organization' => 'organization'], $field_config->getSetting('handler_settings')['target_bundles']);
+    // Create a WebPage.
+    $this->createSchemaEntity('node', 'WebPage', $defaults);
+
+    // Check that Organization schema_subject_of targets all WebPage mappings,
+    // including additional mappings.
+    /** @var \Drupal\Core\Field\FieldConfigInterface $field_config */
+    $field_config = $field_config_storage->load('node.organization.schema_subject_of');
+    $expected_target_bundles = [
+      'local_business' => 'local_business',
+      'organization' => 'organization',
+      'page' => 'page',
+      'person' => 'person',
+    ];
+    $this->assertEquals($expected_target_bundles, $field_config->getSetting('handler_settings')['target_bundles']);
+
+    // Check ignoring additional mappings for schema_subject_of targets only
+    // the WebPage mapping.
+    /** @var \Drupal\Core\Field\FieldConfigInterface $field_config */
+    $field_config = $field_config_storage->load('node.organization.schema_subject_of');
+    $handler_settings = $field_config->getSetting('handler_settings');
+    $handler_settings['ignore_additional_mappings'] = TRUE;
+    $field_config->setSetting('handler_settings', $handler_settings);
+    $field_config->save();
+    $expected_target_bundles = [
+      'page' => 'page',
+    ];
+    $this->assertEquals($expected_target_bundles, $field_config->getSetting('handler_settings')['target_bundles']);
 
   }
 

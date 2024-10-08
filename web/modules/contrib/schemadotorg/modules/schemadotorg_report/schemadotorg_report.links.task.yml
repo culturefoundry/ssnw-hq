@@ -11,6 +11,7 @@ schemadotorg_report.types:
   title: Types
   route_name: schemadotorg_report.types
   base_route: schemadotorg_report
+  weight: 0
 schemadotorg_report.types.table:
   title: All
   route_name: schemadotorg_report.types
@@ -46,6 +47,7 @@ schemadotorg_report.properties:
   title: Properties
   route_name: schemadotorg_report.properties
   base_route: schemadotorg_report
+  weight: 10
 schemadotorg_report.properties.table:
   title: All
   route_name: schemadotorg_report.properties
@@ -69,6 +71,19 @@ schemadotorg_report.relationships:
   title: Relationships
   route_name: schemadotorg_report.relationships
   base_route: schemadotorg_report
+  weight: 20
+schemadotorg_report.relationships.diagram:
+  title: Diagram
+  route_name: schemadotorg_report.relationships
+  parent_id: schemadotorg_report.relationships
+schemadotorg_report.relationships.overview:
+  title: Overview
+  route_name: schemadotorg_report.relationships.overview
+  parent_id: schemadotorg_report.relationships
+schemadotorg_report.relationships.targets:
+  title: Targets
+  route_name: schemadotorg_report.relationships.targets
+  parent_id: schemadotorg_report.relationships
 
 # Names
 
@@ -76,6 +91,7 @@ schemadotorg_report.names:
   title: Names
   route_name: schemadotorg_report.names
   base_route: schemadotorg_report
+  weight: 30
 schemadotorg_report.names.overview:
   title: Overview
   route_name: schemadotorg_report.names
@@ -103,6 +119,7 @@ schemadotorg_report.references:
   title: References
   route_name: schemadotorg_report.references
   base_route: schemadotorg_report
+  weight: 40
 schemadotorg_report.overview:
   title: View
   route_name: schemadotorg_report.references

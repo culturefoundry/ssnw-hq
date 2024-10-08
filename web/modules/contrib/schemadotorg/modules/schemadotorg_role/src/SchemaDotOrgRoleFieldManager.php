@@ -15,7 +15,6 @@ use Drupal\schemadotorg\SchemaDotOrgEntityTypeBuilderInterface;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 use Drupal\schemadotorg\SchemaDotOrgMappingManagerInterface;
 use Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface;
-use Drupal\schemadotorg_field_group\SchemaDotOrgFieldGroupEntityDisplayBuilderInterface;
 
 /**
  * Schema.org role field manager.
@@ -38,8 +37,6 @@ class SchemaDotOrgRoleFieldManager implements SchemaDotOrgRoleFieldManagerInterf
    *   The Schema.org entity type builder.
    * @param \Drupal\schemadotorg\SchemaDotOrgMappingManagerInterface $mappingManager
    *   The Schema.org mapping manager.
-   * @param \Drupal\schemadotorg_field_group\SchemaDotOrgFieldGroupEntityDisplayBuilderInterface|null $fieldGroupEntityDisplayBuilder
-   *   The Schema.org field group entity display builder.
    */
   public function __construct(
     protected ConfigFactoryInterface $configFactory,
@@ -48,7 +45,6 @@ class SchemaDotOrgRoleFieldManager implements SchemaDotOrgRoleFieldManagerInterf
     protected SchemaDotOrgSchemaTypeManagerInterface $schemaTypeManager,
     protected SchemaDotOrgEntityTypeBuilderInterface $entityTypeBuilder,
     protected SchemaDotOrgMappingManagerInterface $mappingManager,
-    protected ?SchemaDotOrgFieldGroupEntityDisplayBuilderInterface $fieldGroupEntityDisplayBuilder,
   ) {}
 
   /**
@@ -151,7 +147,7 @@ class SchemaDotOrgRoleFieldManager implements SchemaDotOrgRoleFieldManagerInterf
       $mapping_defaults = $this->mappingManager->getMappingDefaults($entity_type_id, $bundle, $schema_type);
 
       $field = $mapping_defaults['properties'][$schema_property];
-      $field['machine_name'] = $role_field_definition['field_name'];
+      $field['field_name'] = $role_field_definition['field_name'];
       $field['label'] = $role_field_definition['label'];
       $field['description'] = $role_field_definition['description'];
       $field['schema_type'] = $schema_type;
@@ -160,11 +156,6 @@ class SchemaDotOrgRoleFieldManager implements SchemaDotOrgRoleFieldManagerInterf
       $this->entityTypeBuilder->addFieldToEntity($entity_type_id, $bundle, $field);
 
       $properties[$field_name] = $schema_property;
-    }
-
-    // Set roles into field groups.
-    if ($this->fieldGroupEntityDisplayBuilder) {
-      $this->fieldGroupEntityDisplayBuilder->setFieldGroups($mapping, $properties);
     }
   }
 
@@ -179,7 +170,7 @@ class SchemaDotOrgRoleFieldManager implements SchemaDotOrgRoleFieldManagerInterf
       'bundle' => $bundle,
       'schema_type' => $schema_type,
     ];
-    $role_field_instances = $this->schemaTypeManager->getSetting($config->get('field_instances'), $parts, TRUE);
+    $role_field_instances = $this->schemaTypeManager->getSetting($config->get('field_instances'), $parts, ['multiple' => TRUE]);
     if (!$role_field_instances) {
       return [];
     }

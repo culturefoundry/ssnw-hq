@@ -87,7 +87,7 @@ function schemadotorg_taxonomy_schemadotorg_mapping_insert(SchemaDotOrgMappingIn
 /**
  * Implements hook_schemadotorg_property_field_type_alter().
  */
-function schemadotorg_taxonomy_schemadotorg_property_field_type_alter(array &$field_types, string $schema_type, string $schema_property): void {
+function schemadotorg_taxonomy_schemadotorg_property_field_type_alter(array &$field_types, string $entity_type_id, string $schema_type, string $schema_property): void {
   /** @var \Drupal\schemadotorg_taxonomy\SchemaDotOrgTaxonomyPropertyVocabularyManagerInterface $taxonomy_property_vocabulary_manager */
   $taxonomy_property_vocabulary_manager = \Drupal::service('schemadotorg_taxonomy.property_vocabulary_manager');
   $taxonomy_property_vocabulary_manager->propertyFieldTypeAlter($field_types, $schema_type, $schema_property);
@@ -135,14 +135,6 @@ function schemadotorg_taxonomy_form_schemadotorg_types_settings_form_alter(array
     '#type' => 'details',
     '#title' => t('Taxonomy settings'),
   ];
-  $form['schemadotorg_taxonomy']['default_field_groups'] = [
-    '#type' => 'schemadotorg_settings',
-    '#title' => t('Default field groups'),
-    '#required' => TRUE,
-    '#description' => t("Enter default vocabulary field group names and labels. All field group names will be prefixed with group_*. The 'taxonomy' field group is required and will be used as the default field group for default vocabularies."),
-    '#access' => \Drupal::moduleHandler()->moduleExists('field_group'),
-    '#example' => 'group_name: Group label',
-  ];
   $form['schemadotorg_taxonomy']['default_vocabularies'] = [
     '#type' => 'schemadotorg_settings',
     '#title' => t('Default vocabularies'),
@@ -159,12 +151,6 @@ SchemaType--propertyName:
   group: group_name
 ',
   ];
-
-  // Add validate callback.
-  $form['#validate'][] = 'schemadotorg_taxonomy_form_schemadotorg_types_settings_form_validate';
-
-  // Add submit callback.
-  $form['#submit'][] = 'schemadotorg_taxonomy_settings_form_submit';
 }
 
 /**
@@ -183,7 +169,9 @@ function schemadotorg_taxonomy_form_schemadotorg_properties_settings_form_alter(
     '#title' => t('Default vocabulary properties'),
     '#description' => t('Enter Schema.org properties that should be mapped to a vocabulary.')
     . '<br/>'
-    . t('If the mapped vocabulary does exist it will be created when the Schema.org property mapping is created.'),
+    . t('If the mapped vocabulary does exist it will be created when the Schema.org property mapping is created.')
+    . ' '
+    . t('Omitting Schema.org types will apply the default vocabulary to all content types.'),
     '#description_link' => 'properties',
     '#example' => '
 propertyName:
@@ -191,37 +179,10 @@ propertyName:
   label: Vocabulary name
   description: Vocabulary description goes here
   auto_create: true
+  schema_types:
+    - SchemaType
+    - entity_type_id--SchemaType
+    - entity_type_id--bundle
 ',
   ];
-
-  // Add submit callback.
-  $form['#submit'][] = 'schemadotorg_taxonomy_settings_form_submit';
-}
-
-/**
- * Form validation handler for schemadotorg_properties_settings_form().
- *
- * @see schemadotorg_taxonomy_form_schemadotorg_type_settings_form_alter()
- */
-function schemadotorg_taxonomy_form_schemadotorg_types_settings_form_validate(array &$form, FormStateInterface $form_state): void {
-  // Require the 'taxonomy' field group for default vocabularies.
-  $values = $form_state->getValue('schemadotorg_taxonomy');
-  if (!isset($values['default_field_groups']['taxonomy'])) {
-    $form_state->setError($form['schemadotorg_taxonomy']['default_field_groups'], t("The 'taxonomy' default field group is required."));
-  }
-}
-
-/**
- * Form submission handler for schemadotorg_properties_settings_form().
- *
- * @see schemadotorg_taxonomy_form_schemadotorg_type_settings_form_alter()
- * @see schemadotorg_taxonomy_form_schemadotorg_properties_settings_form_alter()
- */
-function schemadotorg_taxonomy_settings_form_submit(array &$form, FormStateInterface $form_state): void {
-  $config = \Drupal::configFactory()->getEditable('schemadotorg_taxonomy.settings');
-  $values = $form_state->getValue('schemadotorg_taxonomy');
-  foreach ($values as $key => $value) {
-    $config->set($key, $value);
-  }
-  $config->save();
 }

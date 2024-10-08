@@ -32,6 +32,8 @@ Configuration
 - Go to the Schema.org JSON:LD configuration page.  
   (/admin/config/schemadotorg/settings/jsonld#edit-schemadotorg-jsonld)
 - Go to the 'JSON-LD settings' details.
+- Enter Schema.org type default values.
+- Enter the main properties for a Schema.org types. 
 - Enter the default Schema.org property order.
 - Enter the Schema.org property image styles.
 - Enter how an entity reference's Schema.org type should be displayed via JSON-LD.

@@ -8,8 +8,10 @@ use Drupal\Component\Serialization\Yaml;
 use Drupal\Core\Link;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Url;
+use Drupal\schemadotorg\SchemaDotOrgEntityFieldManagerInterface;
 use Drupal\schemadotorg\SchemaDotOrgMappingManagerInterface;
 use Drupal\schemadotorg\Traits\SchemaDotOrgMappingStorageTrait;
+use Drupal\schemadotorg\Utility\SchemaDotOrgArrayHelper;
 use Drupal\schemadotorg_additional_mappings\SchemaDotOrgAdditionalMappingsManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -20,10 +22,16 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase {
   use SchemaDotOrgMappingStorageTrait;
   use SchemaDotOrgMappingStorageTrait;
+
   /**
    * The Schema.org mapping manager service.
    */
   protected SchemaDotOrgMappingManagerInterface $schemaMappingManager;
+
+  /**
+   * The Schema.org entity field manager.
+   */
+  protected SchemaDotOrgEntityFieldManagerInterface $schemaEntityFieldManager;
 
   /**
    * The Schema.org additional mappings manager service.
@@ -36,6 +44,7 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
   public static function create(ContainerInterface $container): static {
     $instance = parent::create($container);
     $instance->schemaMappingManager = $container->get('schemadotorg.mapping_manager');
+    $instance->schemaEntityFieldManager = $container->get('schemadotorg.entity_field_manager');
     $instance->additionalMappingsManager = $container->has('schemadotorg_additional_mappings.manager')
       ? $container->get('schemadotorg_additional_mappings.manager')
       : NULL;
@@ -406,6 +415,29 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
           '#type' => 'html_tag',
           '#tag' => 'pre',
           '#plain_text' => Yaml::encode($mapping_defaults),
+          '#attributes' => ['data-schemadotorg-codemirror-mode' => 'text/x-yaml'],
+          '#attached' => ['library' => ['schemadotorg/codemirror.yaml']],
+        ],
+      ];
+    }
+    else {
+      // @see
+      $default_field = $this->schemaEntityFieldManager->getPropertyDefaultField('node', 'Thing', $id);
+      $field_type_options = $this->schemaEntityFieldManager->getPropertyFieldTypeOptions('node', 'Thing', $id);
+      $recommended_category = (string) $this->t('Recommended');
+      $field_type = (isset($field_type_options[$recommended_category]))
+        ? array_key_first($field_type_options[$recommended_category])
+        : NULL;
+      SchemaDotOrgArrayHelper::insertAfter($default_field, 'name', 'type', $field_type);
+
+      $build['field_defaults'] = [
+        '#type' => 'details',
+        '#title' => $this->t('Field defaults'),
+        '#description' => $this->t('The below field defaults are used when the Schema.org property is created via a Schema.org type.'),
+        'code' => [
+          '#type' => 'html_tag',
+          '#tag' => 'pre',
+          '#plain_text' => Yaml::encode($default_field),
           '#attributes' => ['data-schemadotorg-codemirror-mode' => 'text/x-yaml'],
           '#attached' => ['library' => ['schemadotorg/codemirror.yaml']],
         ],

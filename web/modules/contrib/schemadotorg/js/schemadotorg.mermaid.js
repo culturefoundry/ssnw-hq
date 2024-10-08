@@ -32,11 +32,18 @@
         }
       });
 
-      // Via post render close opened details.
+      // Via post render close opened details and svg-pan-zoom
       mermaid.run({
         querySelector: '.mermaid, .language-mermaid',
         postRenderCallback: () => {
           closedDetails.forEach((element) => element.removeAttribute('open'));
+
+          // @see https://github.com/ariutta/svg-pan-zoom
+          if (window.svgPanZoom) {
+            svgPanZoom('.mermaid svg, .language-mermaid svg', {
+              controlIconsEnabled: true,
+            });
+          }
         },
       });
     },

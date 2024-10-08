@@ -33,20 +33,7 @@ function schemadotorg_type_tray_form_schemadotorg_types_settings_form_alter(arra
   $form['schemadotorg_type_tray'] = [
     '#type' => 'details',
     '#title' => t('Type tray settings'),
-  ];
-  $form['schemadotorg_type_tray']['schema_types'] = [
-    '#type' => 'schemadotorg_settings',
-    '#title' => t('Schema.org types'),
-    '#description' => t('Enter Schema.org types to be place in type tray categories.'),
-    '#description_link' => 'types',
-    '#example' => '
-group_name:
-  name: Group label
-  types:
-    - SchemaType01
-    - SchemaType02
-    - SchemaType03
-',
+    '#description' => t("To update 'Type tray' categories, go to 'Schema.org types categories' under 'Type settings' above."),
   ];
   $form['schemadotorg_type_tray']['existing_nodes_link_text'] = [
     '#type' => 'textfield',
@@ -64,9 +51,7 @@ group_name:
  * @see schemadotorg_type_tray_form_schemadotorg_properties_settings_form_alter()
  */
 function schemadotorg_type_tray_settings_form_submit(array &$form, FormStateInterface $form_state): void {
-  $schema_types = $form_state->getValue(['schemadotorg_type_tray', 'schema_types']);
-
   /** @var \Drupal\schemadotorg_type_tray\SchemaDotOrgTypeTrayManagerInterface $type_tray_manager */
   $type_tray_manager = \Drupal::service('schemadotorg_type_tray.manager');
-  $type_tray_manager->syncCategories($schema_types);
+  $type_tray_manager->syncCategories();
 }

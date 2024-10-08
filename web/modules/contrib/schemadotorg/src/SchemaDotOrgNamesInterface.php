@@ -61,6 +61,28 @@ interface SchemaDotOrgNamesInterface {
   public function snakeCaseToCamelCase(string $string): string;
 
   /**
+   * Convert snake case (snake_case) to title case (Title Case).
+   *
+   * @param string $string
+   *   The snake case string.
+   *
+   * @return string
+   *   The snake case string converted to title case.
+   */
+  public function snakeCaseToTitleCase(string $string): string;
+
+  /**
+   * Convert snake case (snake_case) to sentence case (Sentence case).
+   *
+   * @param string $string
+   *   The snake case string.
+   *
+   * @return string
+   *   The camel case string converted to sentence case.
+   */
+  public function snakeCaseToSentenceCase(string $string): string;
+
+  /**
    * Convert camel case (camelCase) to snake case (snake_case).
    *
    * @param string $string
@@ -83,10 +105,10 @@ interface SchemaDotOrgNamesInterface {
   public function camelCaseToTitleCase(string $string): string;
 
   /**
-   * Convert camel case (camelCase) to sentence case (Sentence ase).
+   * Convert camel case (camelCase) to sentence case (Sentence case).
    *
    * @param string $string
-   *   Thecamel case string.
+   *   The camel case string.
    *
    * @return string
    *   The camel case string converted to sentence case.

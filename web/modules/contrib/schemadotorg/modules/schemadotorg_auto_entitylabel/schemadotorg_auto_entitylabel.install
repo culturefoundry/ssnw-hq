@@ -1,0 +1,25 @@
+<?php
+
+/**
+ * @file
+ * Installation hooks for the Schema.org Blueprints Inline Entity Form module.
+ */
+
+declare(strict_types=1);
+
+/**
+ * Support multiple entity types.
+ */
+function schemadotorg_auto_entitylabel_update_10001(): void {
+  $config = \Drupal::configFactory()
+    ->getEditable('schemadotorg_auto_entitylabel.settings');
+
+  $original_default_types = $config->get('default_types');
+  $updated_default_types = [];
+  foreach ($original_default_types as $type => $default_type) {
+    $updated_default_types['node--' . $type] = $default_type;
+  }
+  $config->set('default_types', $updated_default_types);
+
+  $config->save();
+}

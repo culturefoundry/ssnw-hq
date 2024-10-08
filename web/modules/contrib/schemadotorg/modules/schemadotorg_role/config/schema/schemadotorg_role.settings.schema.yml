@@ -39,9 +39,3 @@ schemadotorg_role.settings:
           sequence:
             type: string
             label: 'Field name'
-    entity_reference_overrides:
-      type: sequence
-      label: 'Entity reference overrides'
-      sequence:
-        type: string
-        label: 'Schema.org property'

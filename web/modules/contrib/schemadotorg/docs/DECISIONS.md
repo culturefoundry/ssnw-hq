@@ -36,7 +36,7 @@ non-function decisions behind the Schema.org Blueprints module.
 - [schemadotorg/schemadotorg.api.php](https://git.drupalcode.org/project/schemadotorg/-/blob/1.0.x/schemadotorg.api.php)
 - [schemadotorg/modules/schemadotorg_jsonld/schemadotorg_jsonld.api.php](https://git.drupalcode.org/project/schemadotorg/-/blob/1.0.x/modules/schemadotorg_jsonld/schemadotorg_jsonld.api.php)
 
-#### Use [CommonMark](https://commonmark.thephpleague.com/) with [GitHub-Flavored Markdown](https://github.github.com/gfm/).
+##### Use [CommonMark](https://commonmark.thephpleague.com/) with [GitHub-Flavored Markdown](https://github.github.com/gfm/).
 
 
 # 2000 - Code architecture
@@ -83,7 +83,7 @@ non-function decisions behind the Schema.org Blueprints module.
 
 ##### Schema.org should provide 80% of a site's base content architecture and the remaining 20% is custom configuration and code
 
-##### Examples from Schema.org should be considered the canonical reference for implementation guidelines
+##### Examples from https://Schema.org should be considered the canonical reference for implementation guidelines
 
 ##### Map Drupal entity types to Schema.org types
 - User - https://schema.org/Person
@@ -93,28 +93,72 @@ non-function decisions behind the Schema.org Blueprints module.
 - Paragraph - https://schema.org/StructuredValue and https://schema.org/Intangible
 - Content Block - https://schema.org/WebContent, https://schema.org/Statement,  and https://schema.org/SpecialAnnouncement
 
+##### Use the [United States customary units](https://en.wikipedia.org/wiki/United_States_customary_units) for measurements with [Unit of Measure (UOM)](https://www.doa.la.gov/media/r4roqhpi/unitofmeasurecodes.pdf) codes.
+
 ##### Use the [additionalType](https://schema.org/additionalType) property to add more specific types which are not defined by Schema.org
+- Use general Schema.org types as additional type when possible.
+- Use machine names (i.e., snake_case) for additional type values because
+  machine names are Drupal and API best practices and easier to use via
+  template suggestions and queries.
+
+##### Use dedicated content types over an [additionalType](https://schema.org/additionalType) when the content type has specific use-case.
+- Specific use cases for content types include...
+  - Custom content authoring
+  - Dedicated access controls
+  - Dedicate API endpoint
+
+##### Use common/shared Schema.org properties with best practices
+- Use https://schema.org/contactPoint with https://schema.org/contactType for multiple phone numbers and email addresses.
+- Use https://schema.org/Role with https://schema.org/Organization to https://schema.org/Person relationships, 
+  which includes https://schema.org/actor, https://schema.org/employee, https://schema.org/member, https://schema.org/performer, https://schema.org/provider, https://schema.org/organizer, and https://schema.org/sponsor.
+- Use https://schema.org/image for the main image of a https://schema.org/WebPage
+- Use https://schema.org/video  for the main video of a https://schema.org/WebPage
+- Use https://schema.org/additionalProperty for additional properties
+- Use https://schema.org/sameAs for social media links
+- Use https://schema.org/relatedLink for other related web pages, including related blog posts. Related links can be personalized and dynamic.
+- Use https://schema.org/significantLink for significant URLs on the page, including the content immediately relevant to the current page. Significant links should not be personalized because they are always relevant.
+- Use https://schema.org/about  for direct corresponding relationships. Generally, a https://schema.org/CreativeWork should be about only one https://schema.org/Thing.
+- Use https://schema.org/mentions for information included in the page's content. Mentions could be extracted from the body's inline links. Mentions should not be personalized.
 
 ##### Define inverse of relationships using entity references
-
-- [Person](https://schema.org/Person), [Place](https://schema.org/Place), and [Organization](https://schema.org/Organziation) relationships
-  - subOrganization ↔ parentOrganization: Used to build Organization hierarchy
-  - memberOf ↔ member: Used to associate a Person with a (conceptual) Organization
-  - worksFor ↔ employee: Used to associate a Person with a (physical) LocalBusiness
-  - containedInPlace ↔ containsPlace: Used to associate Place within a Place
-- [CreativeWork](https://schema.org/CreativeWork) relationships
-  - isPartOf ↔ hasPart: Used to build CreativeWork (with WebPage) parent/child relationships and hierarchies across multiple pages and datasets.
-  - subjectOf ↔ about: Used to associate a Thing with a CreativeWork  (@see [mentions](https://schema.org/mentions))
-  - mainEntity ↔ mainEntityOfPage: Used to build CreativeWork parent/child relationships within a single page
+- For [Person](https://schema.org/Person), [Place](https://schema.org/Place), and [Organization](https://schema.org/Organziation) relationships 
+  - `subOrganization ↔ parentOrganization`: Used to build Organization hierarchy
+  - `memberOf ↔ member`: Used to associate a Person with a (conceptual) Organization
+- For [CreativeWork](https://schema.org/CreativeWork) relationships
+  - `isPartOf ↔ hasPart`: Used to build CreativeWork (with WebPage) parent/child relationships and hierarchies across multiple pages and datasets.
+  - `subjectOf ↔ about`: Used to associate a Thing with a CreativeWork  (@see [mentions](https://schema.org/mentions))
+  - `mainEntity ↔ mainEntityOfPage`: Used to build CreativeWork parent/child relationships within a single page
 - References
   - [Case Study: Does Webpage Schema (About & Mentions) Improve Rankings?](https://inlinks.com/case-studies/case-study-does-webpage-schema-about-mentions-improve-rankings/)
+
+##### Use the highest level Schema.org type and property when possible.
+- Use `member ↔ memberOf` instead of `worksFor ↔ employee`
+- Use `subOrganization ↔ parentOrganization` instead of `containedInPlace ↔ containsPlace`
+- Use [audience](https://schema.org/audience) with [WebPage](https://schema.org/WebPage) and [MedicalWebPage](https://schema.org/MedicalWebPage) and don't use [medicalAudience](https://schema.org/medicalAudience)
 
 ##### Allow Schema.org mappings to have additional mappings.
 - The main/primary mapping is the equivalent the https://schema.org/mainEntityOfPage.
 - All public facing content (a.k.a. nodes) should have https://schema.org/WebPage as an additional mapping.
 
+##### Support [Google Structured Data](https://developers.google.com/search/docs/appearance/structured-data/intro-structured-data)
+- Provide reasonable initial support for the common Google Structured Data types.
+- Support the below Schema.org types 
+  - [Article](https://developers.google.com/search/docs/appearance/structured-data/article)
+  - [BreadCrumb](https://developers.google.com/search/docs/appearance/structured-data/breadcrumb)
+  - [Course](https://developers.google.com/search/docs/appearance/structured-data/course-info)
+  - [FAQ](https://developers.google.com/search/docs/appearance/structured-data/faqpage)
+  - [JobPosting](https://developers.google.com/search/docs/appearance/structured-data/job-posting)
+  - [LocalBusiness](https://developers.google.com/search/docs/appearance/structured-data/local-business)
+  - [Organization](https://developers.google.com/search/docs/appearance/structured-data/organization)
+  - [ProfilePage](https://developers.google.com/search/docs/appearance/structured-data/profile-page)
+  - [Vehicle](https://developers.google.com/search/docs/appearance/structured-data/vehicle-listing)
+  - [Quiz](https://developers.google.com/search/docs/appearance/structured-data/education-qa)
+- Support the below Schema.org properties
+  - [image](https://developers.google.com/search/docs/appearance/structured-data/article) 1x1, 4x3, and 16x9 sizes. (@see schemadotorg_demo_standard.module)
 
-# 4000 - User experience
+#### Use a taxonomy vocabulary for property values that need to be update-able, field-able, filter-able, token-able, or hierarchical.
+
+# 4000 - User experience / Site building
 
 ##### Provide a demo of the ideal content authoring experience that can be created via Schema.org Blueprints
 
@@ -136,6 +180,10 @@ non-function decisions behind the Schema.org Blueprints module.
   - Multi-column layouts on a webpage
   - Webpages that require complex widgets including forms, slideshows, tabs, etc…
   - Content that is not generally distributed via an API
+
+##### Fields and field groups should be ordered from general to specific information.
+- Common and general fields should be first on node edit forms.
+- Uncommon and specific field should be last on node edit forms.
 
 
 # 5000 - Dependency management
@@ -194,9 +242,9 @@ for managing optional dependencies and patches.
 - Look at popular and supported distributions for suggestions.
 - Choose modules that address clearly defined goals of the backend and front-end user experience.
 
-##### Consistently name entity fields using (field|schema)_{bundle}_{name} or (field|schema)_{name}
+##### Consistently name entity fields using `(field|schema)_{bundle}_{name}` or `(field|schema)_{name}`
 
-##### Use the 'schema_- field prefix to distinguish Schema.org properties from other fields.
+##### Use the `schema_` field prefix to distinguish Schema.org properties from other fields.
 
 ##### Use field-related modules that structure and manage https://schema.org/DataType and https://schema.org/Intangible.
 - [Address](https://www.drupal.org/project/address) ⭐ for https://schema.org/address

@@ -55,6 +55,7 @@ recommended_schema_types:
       - EducationalOrganization
       - CourseInstance
       - Course
+      - Quiz
   food:
     label: Food
     types:
@@ -151,6 +152,7 @@ default_base_fields:
     - headline
     - title
     - name
+    - textValue
   body:
     - articleBody
     - description

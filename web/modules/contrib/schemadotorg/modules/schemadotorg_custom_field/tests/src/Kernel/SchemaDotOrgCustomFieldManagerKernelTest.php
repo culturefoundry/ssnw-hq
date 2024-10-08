@@ -29,8 +29,10 @@ class SchemaDotOrgCustomFieldManagerKernelTest extends SchemaDotOrgEntityKernelT
    * {@inheritdoc}
    */
   protected static $modules = [
+    'cer',
     'custom_field',
     'schemadotorg_options',
+    'schemadotorg_cer',
     'schemadotorg_custom_field',
   ];
 
@@ -41,6 +43,9 @@ class SchemaDotOrgCustomFieldManagerKernelTest extends SchemaDotOrgEntityKernelT
     parent::setUp();
 
     $this->installConfig(static::$modules);
+
+    \Drupal::moduleHandler()->loadInclude('schemadotorg_cer', 'install');
+    schemadotorg_cer_install(FALSE);
   }
 
   /**
@@ -65,6 +70,7 @@ class SchemaDotOrgCustomFieldManagerKernelTest extends SchemaDotOrgEntityKernelT
           'unsigned' => 0,
           'precision' => '10',
           'scale' => '2',
+          'datetime_type' => 'datetime',
         ],
         'calories' => [
           'name' => 'calories',
@@ -72,7 +78,8 @@ class SchemaDotOrgCustomFieldManagerKernelTest extends SchemaDotOrgEntityKernelT
           'max_length' => '255',
           'unsigned' => 0,
           'precision' => '10',
-          'scale' => '2',
+          'scale' => '0',
+          'datetime_type' => 'datetime',
         ],
         'carbohydrate_content' => [
           'name' => 'carbohydrate_content',
@@ -80,7 +87,8 @@ class SchemaDotOrgCustomFieldManagerKernelTest extends SchemaDotOrgEntityKernelT
           'max_length' => '255',
           'unsigned' => 0,
           'precision' => '10',
-          'scale' => '2',
+          'scale' => '0',
+          'datetime_type' => 'datetime',
         ],
         'cholesterol_content' => [
           'name' => 'cholesterol_content',
@@ -88,7 +96,8 @@ class SchemaDotOrgCustomFieldManagerKernelTest extends SchemaDotOrgEntityKernelT
           'max_length' => '255',
           'unsigned' => 0,
           'precision' => '10',
-          'scale' => '2',
+          'scale' => '0',
+          'datetime_type' => 'datetime',
         ],
         'fat_content' => [
           'name' => 'fat_content',
@@ -96,7 +105,8 @@ class SchemaDotOrgCustomFieldManagerKernelTest extends SchemaDotOrgEntityKernelT
           'max_length' => '255',
           'unsigned' => 0,
           'precision' => '10',
-          'scale' => '2',
+          'scale' => '0',
+          'datetime_type' => 'datetime',
         ],
         'fiber_content' => [
           'name' => 'fiber_content',
@@ -104,7 +114,8 @@ class SchemaDotOrgCustomFieldManagerKernelTest extends SchemaDotOrgEntityKernelT
           'max_length' => '255',
           'unsigned' => 0,
           'precision' => '10',
-          'scale' => '2',
+          'scale' => '0',
+          'datetime_type' => 'datetime',
         ],
         'protein_content' => [
           'name' => 'protein_content',
@@ -112,7 +123,8 @@ class SchemaDotOrgCustomFieldManagerKernelTest extends SchemaDotOrgEntityKernelT
           'max_length' => '255',
           'unsigned' => 0,
           'precision' => '10',
-          'scale' => '2',
+          'scale' => '0',
+          'datetime_type' => 'datetime',
         ],
         'saturated_fat_content' => [
           'name' => 'saturated_fat_content',
@@ -120,7 +132,8 @@ class SchemaDotOrgCustomFieldManagerKernelTest extends SchemaDotOrgEntityKernelT
           'max_length' => '255',
           'unsigned' => 0,
           'precision' => '10',
-          'scale' => '2',
+          'scale' => '0',
+          'datetime_type' => 'datetime',
         ],
         'sodium_content' => [
           'name' => 'sodium_content',
@@ -128,7 +141,8 @@ class SchemaDotOrgCustomFieldManagerKernelTest extends SchemaDotOrgEntityKernelT
           'max_length' => '255',
           'unsigned' => 0,
           'precision' => '10',
-          'scale' => '2',
+          'scale' => '0',
+          'datetime_type' => 'datetime',
         ],
         'sugar_content' => [
           'name' => 'sugar_content',
@@ -136,7 +150,8 @@ class SchemaDotOrgCustomFieldManagerKernelTest extends SchemaDotOrgEntityKernelT
           'max_length' => '255',
           'unsigned' => 0,
           'precision' => '10',
-          'scale' => '2',
+          'scale' => '0',
+          'datetime_type' => 'datetime',
         ],
         'trans_fat_content' => [
           'name' => 'trans_fat_content',
@@ -144,7 +159,8 @@ class SchemaDotOrgCustomFieldManagerKernelTest extends SchemaDotOrgEntityKernelT
           'max_length' => '255',
           'unsigned' => 0,
           'precision' => '10',
-          'scale' => '2',
+          'scale' => '0',
+          'datetime_type' => 'datetime',
         ],
         'unsaturated_fat_content' => [
           'name' => 'unsaturated_fat_content',
@@ -152,7 +168,8 @@ class SchemaDotOrgCustomFieldManagerKernelTest extends SchemaDotOrgEntityKernelT
           'max_length' => '255',
           'unsigned' => 0,
           'precision' => '10',
-          'scale' => '2',
+          'scale' => '0',
+          'datetime_type' => 'datetime',
         ],
       ],
     ];
@@ -190,8 +207,8 @@ class SchemaDotOrgCustomFieldManagerKernelTest extends SchemaDotOrgEntityKernelT
           'description' => 'The number of calories.',
           'description_display' => 'after',
           'placeholder' => '',
-          'min' => NULL,
-          'max' => NULL,
+          'min' => 0,
+          'max' => 1000,
           'prefix' => '',
           'suffix' => ' calories',
           'required' => FALSE,
@@ -318,6 +335,7 @@ class SchemaDotOrgCustomFieldManagerKernelTest extends SchemaDotOrgEntityKernelT
           'unsigned' => 0,
           'precision' => '10',
           'scale' => '2',
+          'datetime_type' => 'datetime',
         ],
         'accepted_answer' => [
           'name' => 'accepted_answer',
@@ -326,6 +344,7 @@ class SchemaDotOrgCustomFieldManagerKernelTest extends SchemaDotOrgEntityKernelT
           'unsigned' => 0,
           'precision' => '10',
           'scale' => '2',
+          'datetime_type' => 'datetime',
         ],
       ],
     ];
@@ -378,6 +397,7 @@ class SchemaDotOrgCustomFieldManagerKernelTest extends SchemaDotOrgEntityKernelT
           'unsigned' => 0,
           'precision' => '10',
           'scale' => '2',
+          'datetime_type' => 'datetime',
         ],
         'dose_value' => [
           'name' => 'dose_value',
@@ -386,6 +406,7 @@ class SchemaDotOrgCustomFieldManagerKernelTest extends SchemaDotOrgEntityKernelT
           'unsigned' => 0,
           'precision' => '10',
           'scale' => '2',
+          'datetime_type' => 'datetime',
         ],
         'dose_unit' => [
           'name' => 'dose_unit',
@@ -394,6 +415,7 @@ class SchemaDotOrgCustomFieldManagerKernelTest extends SchemaDotOrgEntityKernelT
           'unsigned' => 0,
           'precision' => '10',
           'scale' => '2',
+          'datetime_type' => 'datetime',
         ],
         'frequency' => [
           'name' => 'frequency',
@@ -402,6 +424,7 @@ class SchemaDotOrgCustomFieldManagerKernelTest extends SchemaDotOrgEntityKernelT
           'unsigned' => 0,
           'precision' => '10',
           'scale' => '2',
+          'datetime_type' => 'datetime',
         ],
       ],
     ];
@@ -423,22 +446,214 @@ class SchemaDotOrgCustomFieldManagerKernelTest extends SchemaDotOrgEntityKernelT
           'required' => FALSE,
           'empty_option' => '- Select -',
           'allowed_values' => [
-            ['key' => 'Daily', 'value' => 'Daily'],
-            ['key' => '2 times a day', 'value' => '2 times a day'],
-            ['key' => '3 times a day', 'value' => '3 times a day'],
-            ['key' => '4 times a day', 'value' => '4 times a day'],
-            ['key' => '5 times a day', 'value' => '5 times a day'],
-            ['key' => 'Every 3 hours', 'value' => 'Every 3 hours'],
-            ['key' => 'Every 6 hours', 'value' => 'Every 6 hours'],
-            ['key' => 'Every 8 hours', 'value' => 'Every 8 hours'],
-            ['key' => 'Every 12 hours', 'value' => 'Every 12 hours'],
-            ['key' => 'Every 24 hours', 'value' => 'Every 24 hours'],
-            ['key' => 'Bedtime', 'value' => 'Bedtime'],
+            ['key' => 'daily', 'value' => 'Daily'],
+            ['key' => '2_times_a_day', 'value' => '2 times a day'],
+            ['key' => '3_times_a_day', 'value' => '3 times a day'],
+            ['key' => '4_times_a_day', 'value' => '4 times a day'],
+            ['key' => '5_times_a_day', 'value' => '5 times a day'],
+            ['key' => 'every_3_hours', 'value' => 'Every 3 hours'],
+            ['key' => 'every_6_hours', 'value' => 'Every 6 hours'],
+            ['key' => 'every_8_hours', 'value' => 'Every 8 hours'],
+            ['key' => 'every_12_hours', 'value' => 'Every 12 hours'],
+            ['key' => 'every_24_hours', 'value' => 'Every 24 hours'],
+            ['key' => 'bedtime', 'value' => 'Bedtime'],
           ],
         ],
       ],
     ];
     $this->assertEquals($expected_settings_frequency, $settings['field_settings']['frequency']);
+
+    /* ********************************************************************** */
+
+    // Check Quiz mapping defaults hasPart to custom.
+    $mapping_default = $this->mappingManager->getMappingDefaults(
+      entity_type_id: 'node',
+      schema_type: 'Quiz',
+    );
+    $this->assertEquals('custom', $mapping_default['properties']['hasPart']['type']);
+  }
+
+  /**
+   * Test Schema.org custom field settings.
+   */
+  public function testCustomSettings(): void {
+    // Check default_schema_properties custom field settings.
+    $this->config('schemadotorg_custom_field.settings')
+      ->set('default_schema_properties.Thing--alternateName', [
+        'schema_type' => 'Thing',
+        'schema_properties' => [
+          'integer' => [
+            'data_type' => 'integer',
+            'max_length' => '999',
+            'unsigned' => 0,
+            'precision' => '99',
+            'scale' => '9',
+            'min' => '99',
+            'max' => '999',
+          ],
+          'string' => [
+            'data_type' => 'string',
+            'widget_type' => 'select',
+            'name' => 'custom_string',
+            'label' => 'Custom string',
+            'description' => 'Custom description',
+            'placeholder' => 'Custom placeholder',
+            'maxlength' => 999,
+            'prefix' => 'Custom prefix',
+            'suffix' => 'Custom suffix',
+            'required' => TRUE,
+          ],
+          'allowed_values' => [
+            'data_type' => 'string',
+            'empty_option' => 'Custom empty option',
+            'allowed_values' => [
+              'one' => 'One',
+              'two' => 'Two',
+              'three' => 'Three',
+            ],
+          ],
+          'entity_reference' => [
+            'data_type' => 'entity_reference',
+            'empty_option' => 'Custom entity reference',
+            'target_type' => 'media',
+            'handler_settings' => [
+              'target_bundles' => ['image' => 'image'],
+            ],
+          ],
+        ],
+      ])
+      ->save();
+    $this->appendSchemaTypeDefaultProperties('Thing', 'alternateName');
+    $this->createSchemaEntity('node', 'Thing');
+
+    // Check alternate name custom field storage columns.
+    /** @var \Drupal\field\FieldStorageConfigInterface|null $field_storage_config */
+    $field_storage_config = FieldStorageConfig::loadByName('node', 'schema_alternate_name');
+    $expected_settings = [
+      'columns' => [
+        'integer' => [
+          'name' => 'integer',
+          'type' => 'integer',
+          'max_length' => '999',
+          'unsigned' => 0,
+          'precision' => '99',
+          'scale' => '9',
+          'datetime_type' => 'datetime',
+        ],
+        'custom_string' => [
+          'name' => 'custom_string',
+          'type' => 'string',
+          'max_length' => '255',
+          'unsigned' => 0,
+          'precision' => '10',
+          'scale' => '2',
+          'datetime_type' => 'datetime',
+        ],
+        'allowed_values' => [
+          'name' => 'allowed_values',
+          'type' => 'string',
+          'max_length' => '255',
+          'unsigned' => 0,
+          'precision' => '10',
+          'scale' => '2',
+          'datetime_type' => 'datetime',
+        ],
+        'entity_reference' => [
+          'name' => 'entity_reference',
+          'type' => 'entity_reference',
+          'max_length' => '255',
+          'unsigned' => 0,
+          'precision' => '10',
+          'scale' => '2',
+          'datetime_type' => 'datetime',
+          'target_type' => 'media',
+        ],
+      ],
+    ];
+    $this->assertEquals($expected_settings, $field_storage_config->getSettings());
+
+    // Check schema_alternate_name custom field column widget settings.
+    /** @var \Drupal\Core\Field\FieldConfigInterface $field_config */
+    $field_config = FieldConfig::loadByName('node', 'thing', 'schema_alternate_name');
+    $settings = $field_config->getSettings();
+    $expected_settings = [
+      'integer' => [
+        'type' => 'integer',
+        'weight' => 0,
+        'check_empty' => FALSE,
+        'widget_settings' => [
+          'label' => 'Integer',
+          'settings' => [
+            'description' => '',
+            'description_display' => 'after',
+            'placeholder' => '',
+            'min' => 99,
+            'max' => 999,
+            'prefix' => '',
+            'suffix' => '',
+            'required' => FALSE,
+          ],
+        ],
+      ],
+      'custom_string' => [
+        'type' => 'select',
+        'weight' => 1,
+        'check_empty' => FALSE,
+        'widget_settings' => [
+          'label' => 'Custom string',
+          'settings' => [
+            'description' => 'Custom description',
+            'description_display' => 'after',
+            'required' => TRUE,
+            'empty_option' => '- Select -',
+            'allowed_values' => [],
+          ],
+        ],
+      ],
+      'allowed_values' => [
+        'type' => 'select',
+        'weight' => 2,
+        'check_empty' => FALSE,
+        'widget_settings' => [
+          'label' => 'Allowed_values',
+          'settings' => [
+            'description' => '',
+            'description_display' => 'after',
+            'required' => FALSE,
+            'empty_option' => 'Custom empty option',
+            'allowed_values' => [
+              ['value' => 'One', 'key' => 'one'],
+              ['value' => 'Two', 'key' => 'two'],
+              ['value' => 'Three', 'key' => 'three'],
+            ],
+          ],
+        ],
+      ],
+      'entity_reference' => [
+        'type' => 'entity_reference_autocomplete',
+        'weight' => 3,
+        'check_empty' => FALSE,
+        'widget_settings' => [
+          'label' => 'Entity_reference',
+          'settings' => [
+            'description' => '',
+            'description_display' => 'after',
+            'size' => 60,
+            'placeholder' => '',
+            'required' => FALSE,
+            'match_operator' => 'CONTAINS',
+            'match_limit' => 10,
+            'handler' => 'default:media',
+            'handler_settings' => [
+              'target_bundles' => [
+                'image' => 'image',
+              ],
+            ],
+          ],
+        ],
+      ],
+    ];
+    $this->assertEquals($expected_settings, $settings['field_settings']);
   }
 
 }

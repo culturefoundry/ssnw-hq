@@ -1,0 +1,44 @@
+schemadotorg_entity_reference_override.settings:
+  type: config_object
+  label: 'Schema.org Entity Reference Override settings'
+  mapping:
+    schema_properties:
+      type: sequence
+      label: 'Entity reference override Schema.org properties'
+      sequence:
+        type: mapping
+        label: 'Entity reference override Schema.org property'
+        mapping:
+          override_format:
+            type: string
+            label: 'Custom text format'
+          override_label:
+            type: label
+            label: 'Custom text label'
+          override_action:
+            type: string
+            label: 'Use custom text to'
+          type:
+            type: string
+            label: Type
+          title:
+            type: text
+            label: Title
+          description:
+            type: text
+            label: Description
+          required:
+            type: boolean
+            label: Required
+          size:
+            type: integer
+            label: Size
+          placeholder:
+            type: text
+            label: Placeholder
+          options:
+            type: sequence
+            label: Options
+            sequence:
+              type: text
+              label: Option

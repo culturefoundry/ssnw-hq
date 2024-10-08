@@ -32,8 +32,8 @@ class SchemaDotOrgJsonLdManagerKernelTest extends SchemaDotOrgJsonLdKernelTestBa
       ->save();
 
     $this->createMediaImage();
-    $this->createSchemaEntity('media', 'ImageObject');
-    $this->createSchemaEntity('node', 'Place');
+    $media_mapping = $this->createSchemaEntity('media', 'ImageObject');
+    $place_mapping = $this->createSchemaEntity('node', 'Place');
     $this->createSchemaEntity('node', 'Event');
     $this->createSchemaEntity('node', 'ContactPoint');
 
@@ -139,31 +139,31 @@ class SchemaDotOrgJsonLdManagerKernelTest extends SchemaDotOrgJsonLdKernelTestBa
     // the default Schema.org type.
     $this->assertEquals(
       ['@type' => 'Organization', 'name' => '{some_organization}'],
-      $this->manager->getSchemaPropertyValueDefaultType('Organization', 'alumniOf', '{some_organization}')
+      $this->manager->getSchemaPropertyValueDefaultSchemaType('Organization', 'alumniOf', '{some_organization}')
     );
     $this->assertEquals(
       ['{some_answer}'],
-      $this->manager->getSchemaPropertyValueDefaultType('Organization', 'acceptedAnswer', ['{some_answer}'])
+      $this->manager->getSchemaPropertyValueDefaultSchemaType('Organization', 'acceptedAnswer', ['{some_answer}'])
     );
     $this->assertEquals(
       ['@type' => 'Answer', 'text' => 1],
-      $this->manager->getSchemaPropertyValueDefaultType('Organization', 'acceptedAnswer', 1)
+      $this->manager->getSchemaPropertyValueDefaultSchemaType('Organization', 'acceptedAnswer', 1)
     );
     // Check that Schema.org Answer uses 'text' instead of 'name' as
     // the main property.
     $this->assertEquals(
       ['@type' => 'Answer', 'text' => '{some_answer}'],
-      $this->manager->getSchemaPropertyValueDefaultType('Organization', 'acceptedAnswer', '{some_answer}')
+      $this->manager->getSchemaPropertyValueDefaultSchemaType('Organization', 'acceptedAnswer', '{some_answer}')
     );
     // Check that default type property values are appended.
     $this->assertEquals(
       ['@type' => 'Offer', 'price' => 100.00, 'priceCurrency' => 'USD'],
-      $this->manager->getSchemaPropertyValueDefaultType('MenuItem', 'offers', 100.00)
+      $this->manager->getSchemaPropertyValueDefaultSchemaType('MenuItem', 'offers', 100.00)
     );
     // Check that default type property values are appended.
     $this->assertEquals(
       ['@type' => 'Offer', 'price' => 100.00, 'priceCurrency' => 'USD'],
-      $this->manager->getSchemaPropertyValueDefaultType('MenuItem', 'offers', ['@type' => 'Offer', 'price' => 100.00])
+      $this->manager->getSchemaPropertyValueDefaultSchemaType('MenuItem', 'offers', ['@type' => 'Offer', 'price' => 100.00])
     );
 
     // Check getting how an entity reference should be included in JSON-LD.
@@ -188,8 +188,8 @@ class SchemaDotOrgJsonLdManagerKernelTest extends SchemaDotOrgJsonLdKernelTestBa
     );
 
     // Check determining if the entity's Schema should include an @url.
-    $this->assertTrue($this->manager->hasSchemaUrl($place_node));
-    $this->assertFalse($this->manager->hasSchemaUrl($media));
+    $this->assertTrue($this->manager->hasSchemaUrl($place_mapping));
+    $this->assertFalse($this->manager->hasSchemaUrl($media_mapping));
   }
 
 }

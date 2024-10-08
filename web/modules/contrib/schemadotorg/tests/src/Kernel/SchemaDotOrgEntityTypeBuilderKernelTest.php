@@ -98,7 +98,7 @@ class SchemaDotOrgEntityTypeBuilderKernelTest extends SchemaDotOrgEntityKernelTe
       'name' => SchemaDotOrgEntityFieldManagerInterface::ADD_FIELD,
       'type' => 'string',
       'label' => 'Alternate names',
-      'machine_name' => 'schema_alternate_name',
+      'field_name' => 'schema_alternate_name',
       'description' => '',
       'unlimited' => '1',
       'required' => '1',
@@ -147,7 +147,7 @@ class SchemaDotOrgEntityTypeBuilderKernelTest extends SchemaDotOrgEntityKernelTe
       'name' => SchemaDotOrgEntityFieldManagerInterface::ADD_FIELD,
       'type' => 'text_with_summary',
       'label' => 'Body',
-      'machine_name' => 'body',
+      'field_name' => 'body',
       'description' => '',
       'unlimited' => '0',
       'required' => '0',
@@ -180,7 +180,7 @@ class SchemaDotOrgEntityTypeBuilderKernelTest extends SchemaDotOrgEntityKernelTe
       'name' => SchemaDotOrgEntityFieldManagerInterface::ADD_FIELD,
       'type' => 'image',
       'label' => ' Image',
-      'machine_name' => 'schema_image',
+      'field_name' => 'schema_image',
       'description' => '',
       'unlimited' => '0',
       'required' => '1',
@@ -199,7 +199,7 @@ class SchemaDotOrgEntityTypeBuilderKernelTest extends SchemaDotOrgEntityKernelTe
       'name' => SchemaDotOrgEntityFieldManagerInterface::ADD_FIELD,
       'type' => 'list_string',
       'label' => 'Additional type',
-      'machine_name' => 'schema_additional_type',
+      'field_name' => 'schema_additional_type',
       'schema_type' => 'Thing',
       'schema_property' => 'additionalType',
       'default_value' => 'one',
@@ -223,6 +223,30 @@ class SchemaDotOrgEntityTypeBuilderKernelTest extends SchemaDotOrgEntityKernelTe
     /** @var \Drupal\field\FieldConfigInterface $field */
     $field = FieldConfig::load('node.thing.schema_additional_type');
     $this->assertEquals(['value' => 'one'], $field->get('default_value'));
+
+    // Check adding a sameAs entity reference field to an entity.
+    $field = [
+      'name' => SchemaDotOrgEntityFieldManagerInterface::ADD_FIELD,
+      'type' => 'field_ui:entity_reference:node',
+      'label' => 'Same as',
+      'field_name' => 'schema_same_as',
+      'schema_type' => 'Thing',
+      'schema_property' => 'sameAs',
+      'schema_types' => ['Person' => 'Person'],
+      'excluded_schema_types' => ['Organization' => 'Organization'],
+    ];
+    $this->schemaEntityTypeBuilder->addFieldToEntity('node', 'thing', $field);
+
+    /** @var \Drupal\field\FieldConfigInterface|null $field_storage */
+    $field = FieldConfig::load('node.thing.schema_same_as');
+    $expected_allowed_values = [
+      'target_type' => 'node',
+      'schema_types' => ['Person' => 'Person'],
+      'excluded_schema_types' => ['Organization' => 'Organization'],
+      'target_bundles' => [],
+      'ignore_additional_mappings' => FALSE,
+    ];
+    $this->assertEquals($expected_allowed_values, $field->getSetting('handler_settings'));
   }
 
 }

@@ -39,7 +39,7 @@ content:
     third_party_settings: {  }
   schema_image:
     type: image_image
-    weight: 5
+    weight: 8
     region: content
     settings:
       progress_indicator: throbber
@@ -61,7 +61,7 @@ content:
     third_party_settings: {  }
   title:
     type: string_textfield
-    weight: 100
+    weight: -5
     region: content
     settings:
       size: 60

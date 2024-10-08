@@ -16,10 +16,10 @@ services:
     arguments: ['@module_handler', '@current_user', '@schemadotorg.schema_type_manager']
   schemadotorg.entity_type_builder:
     class: Drupal\schemadotorg\SchemaDotOrgEntityTypeBuilder
-    arguments: ['@config.factory', '@messenger', '@module_handler', '@entity_type.manager', '@entity_display.repository', '@plugin.manager.field.field_type', '@schemadotorg.schema_type_manager', '@schemadotorg.entity_display_builder']
+    arguments: ['@config.factory', '@messenger', '@module_handler', '@entity_type.manager', '@entity_display.repository', '@plugin.manager.field.field_type', '@schemadotorg.schema_type_manager', '@schemadotorg.entity_field_manager', '@schemadotorg.entity_display_builder']
   schemadotorg.entity_display_builder:
     class: Drupal\schemadotorg\SchemaDotOrgEntityDisplayBuilder
-    arguments: ['@module_handler', '@config.factory', '@entity_type.manager', '@entity_display.repository', '@schemadotorg.names']
+    arguments: ['@module_handler', '@config.factory', '@entity_type.manager', '@entity_display.repository', '@schemadotorg.names', '@schemadotorg.schema_type_manager']
   schemadotorg.entity_field_manager:
     class: Drupal\schemadotorg\SchemaDotOrgEntityFieldManager
     arguments: ['@module_handler', '@config.factory', '@entity_type.manager', '@entity_field.manager', '@plugin.manager.field.field_type', '@schemadotorg.schema_type_manager']

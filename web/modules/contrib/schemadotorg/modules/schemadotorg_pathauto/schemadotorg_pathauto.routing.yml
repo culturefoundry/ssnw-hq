@@ -1,0 +1,7 @@
+schemadotorg_pathauto.report:
+  path: '/admin/reports/schemadotorg/docs/paths'
+  defaults:
+    _title: 'Schema.org: Paths'
+    _controller: '\Drupal\schemadotorg_pathauto\Controller\SchemaDotOrgPathautoReportController::index'
+  requirements:
+    _permission: 'access site reports'

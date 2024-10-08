@@ -10,7 +10,7 @@ id: node.page.schema_image
 field_name: schema_image
 entity_type: node
 bundle: page
-label: 'Primary image of page'
+label: Image
 description: 'Indicates the main image on the page.'
 required: false
 translatable: true

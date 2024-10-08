@@ -11,12 +11,18 @@ schemadotorg_options.settings:
         sequence:
           type: text
           label: Text
-    schema_property_allowed_values_suffixes:
+    schema_property_allowed_values_remove:
       type: sequence
-      label: 'Schema.org property allowed values suffixes'
+      label: 'Schema.org property allowed values remove prefixes/suffixes'
       sequence:
         type: text
-        label: 'Schema.org property allowed values suffix'
+        label: 'Schema.org property allowed values remove prefix/suffix'
+    allowed_value_text:
+      type: sequence
+      label: 'Allowed value text'
+      sequence:
+        type: string
+        label: 'Allowed values text'
     allowed_value_uris:
       type: sequence
       label: 'Allowed value URIs'

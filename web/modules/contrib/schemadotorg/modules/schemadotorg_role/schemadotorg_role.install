@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Installation hooks for the Schema.org Blueprints WebPage module.
+ * Installation hooks for the Schema.org Blueprints Role module.
  */
 
 declare(strict_types=1);
@@ -22,4 +22,14 @@ function schemadotorg_role_update_10001(): void {
   $config->set('field_instances', $field_instances);
   $config->clear('schema_types');
   $config->save();
+}
+
+/**
+ * Issue #3448906: Improve roles support for the Entity Reference Override module.
+ */
+function schemadotorg_role_update_10002(): void {
+  \Drupal::configFactory()
+    ->getEditable('schemadotorg_role.settings')
+    ->clear('entity_reference_overrides')
+    ->save();
 }

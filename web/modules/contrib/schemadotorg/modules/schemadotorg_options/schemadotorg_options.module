@@ -17,18 +17,18 @@ use Drupal\Core\TypedData\OptionsProviderInterface;
 /**
  * Implements hook_schemadotorg_property_field_type_alter().
  */
-function schemadotorg_options_schemadotorg_property_field_type_alter(array &$field_types, string $schema_type, string $schema_property): void {
+function schemadotorg_options_schemadotorg_property_field_type_alter(array &$field_types, string $entity_type_id, string $schema_type, string $schema_property): void {
   /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager */
   $schema_type_manager = \Drupal::service('schemadotorg.schema_type_manager');
 
   // Set default field type for Schema.org types/properties with allowed values.
   $schema_property_allowed_values = \Drupal::config('schemadotorg_options.settings')
     ->get('schema_property_allowed_values');
-  $setting_parts = [
+  $parts = [
     'schema_type' => $schema_type,
     'schema_property' => $schema_property,
   ];
-  if ($schema_type_manager->getSetting($schema_property_allowed_values, $setting_parts)) {
+  if ($schema_type_manager->getSetting($schema_property_allowed_values, $parts)) {
     $field_types = ['list_string' => 'list_string'] + $field_types;
     return;
   }
@@ -36,7 +36,7 @@ function schemadotorg_options_schemadotorg_property_field_type_alter(array &$fie
   // Do not adjust the property's field type if a default field type is defined.
   /** @var \Drupal\schemadotorg\SchemaDotOrgEntityFieldManagerInterface $schema_field_manager */
   $schema_field_manager = \Drupal::service('schemadotorg.entity_field_manager');
-  $default_field = $schema_field_manager->getPropertyDefaultField($schema_type, $schema_property);
+  $default_field = $schema_field_manager->getPropertyDefaultField($entity_type_id, $schema_type, $schema_property);
   if (!empty($default_field['type'])) {
     return;
   }
@@ -85,11 +85,11 @@ function schemadotorg_options_schemadotorg_property_field_alter(
   $schema_type_manager = \Drupal::service('schemadotorg.schema_type_manager');
   $schema_property_allowed_values_settings = \Drupal::config('schemadotorg_options.settings')
     ->get('schema_property_allowed_values');
-  $setting_parts = [
+  $parts = [
     'schema_type' => $schema_type,
     'schema_property' => $schema_property,
   ];
-  $schema_property_allowed_values = $schema_type_manager->getSetting($schema_property_allowed_values_settings, $setting_parts);
+  $schema_property_allowed_values = $schema_type_manager->getSetting($schema_property_allowed_values_settings, $parts);
   if ($schema_property_allowed_values) {
     $field_storage_values['settings'] = [
       'allowed_values' => $schema_property_allowed_values,
@@ -131,12 +131,13 @@ function schemadotorg_options_schemadotorg_property_field_alter(
     }
   }
 
-  // Remove allowed values suffixes based on the Schema.org property.
+  // Remove allowed values prefixes and suffixes based on the Schema.org property.
   $schema_property_allowed_values_suffix = \Drupal::config('schemadotorg_options.settings')
-    ->get("schema_property_allowed_values_suffixes.$schema_property");
+    ->get("schema_property_allowed_values_remove.$schema_property");
   if ($schema_property_allowed_values_suffix) {
     foreach ($allowed_values as $value => $text) {
-      $allowed_values[$value] = str_replace(' ' . $schema_property_allowed_values_suffix, '', $text);
+      $text = preg_replace('#(^' . $schema_property_allowed_values_suffix . ' | ' . $schema_property_allowed_values_suffix . '$)#', '', $text);
+      $allowed_values[$value] = $text;
     }
   }
 
@@ -156,12 +157,37 @@ function schemadotorg_options_schemadotorg_property_field_alter(
  * Implements hook_schemadotorg_jsonld_schema_property_alter().
  */
 function schemadotorg_options_schemadotorg_jsonld_schema_property_alter(mixed &$value, FieldItemInterface $item, BubbleableMetadata $bubbleable_metadata): void {
-  if ($item instanceof OptionsProviderInterface && is_string($value)) {
-    $uri = \Drupal::config('schemadotorg_options.settings')
-      ->get("allowed_value_uris.$value");
-    if ($uri) {
-      $value = $uri;
+  if (!$item instanceof OptionsProviderInterface || is_array($value)) {
+    return;
+  }
+
+  $entity = $item->getEntity();
+  /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
+  $mapping_storage = \Drupal::entityTypeManager()
+    ->getStorage('schemadotorg_mapping');
+  $mapping = $mapping_storage->loadByEntity($entity);
+
+  // Convert option value to option text.
+  if ($mapping) {
+    /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager */
+    $schema_type_manager = \Drupal::service('schemadotorg.schema_type_manager');
+    $parts = [
+      'schema_type' => $mapping->getSchemaType(),
+      'schema_property' => $mapping->getSchemaPropertyMapping($item->getFieldDefinition()->getName()),
+    ];
+    $allowed_value_text = \Drupal::config('schemadotorg_options.settings')
+      ->get('allowed_value_text');
+    if ($schema_type_manager->getSetting($allowed_value_text, $parts)) {
+      $allowed_values = options_allowed_values($item->getFieldDefinition()->getFieldStorageDefinition(), $entity);
+      $value = $allowed_values[$value] ?? $value;
     }
+  }
+
+  // Convert value to URI.
+  $uri = \Drupal::config('schemadotorg_options.settings')
+    ->get("allowed_value_uris.$value");
+  if ($uri) {
+    $value = $uri;
   }
 }
 
@@ -194,12 +220,22 @@ SchemaType--propertyName:
   option02: Options 2
 ',
   ];
-  $form['schemadotorg_options']['schema_property_allowed_values_suffixes'] = [
+  $form['schemadotorg_options']['schema_property_allowed_values_remove'] = [
     '#type' => 'schemadotorg_settings',
-    '#title' => t('Schema.org property allowed values suffixes'),
-    '#description' => t('Enter Schema.org properties with allowed values suffixes that should be removed..'),
+    '#title' => t('Schema.org property allowed values prefixes/suffixes'),
+    '#description' => t('Enter Schema.org properties with allowed values prefixes and suffixes that should be removed.'),
     '#description_link' => 'properties',
     '#example' => 'propertyName: suffix',
+  ];
+  $form['schemadotorg_options']['allowed_value_text'] = [
+    '#type' => 'schemadotorg_settings',
+    '#title' => t('Allowed value text'),
+    '#description' => t('Enter the Schema.org properties that should return the text for an allowed value in the Schema.org JSON-LD.'),
+    '#description_link' => 'properties',
+    '#example' => "
+- propertyName
+- SchemaType--propertyName
+",
   ];
   $form['schemadotorg_options']['allowed_value_uris'] = [
     '#type' => 'schemadotorg_settings',

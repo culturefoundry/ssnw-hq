@@ -8,12 +8,12 @@ schemadotorg_inline_entity_form.settings:
       sequence:
         type: string
         label: 'Schema.org default property'
-    default_schema_type_form_displays:
+    default_type_form_displays:
       type: sequence
-      label: 'Default Schema.org type form displays'
+      label: 'Default type form displays'
       sequence:
         type: string
-        label: 'Default Schema.org type form display'
+        label: 'Default type form display'
     default_form_display_components:
       type: sequence
       label: 'Default form display components'

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Drupal\schemadotorg_additional_mappings;
 
+use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -69,17 +70,66 @@ class SchemaDotOrgAdditionalMappingsManager implements SchemaDotOrgAdditionalMap
       ->getStorage('schemadotorg_mapping')
       ->load("$entity_type_id.$bundle");
 
+    $default_additional_mappings = $this->getDefaultAdditionalMappings($entity_type_id, $bundle, $schema_type);
+
     $additional_mappings = ($mapping)
       ? $mapping->getAdditionalMappings()
-      : $this->getDefaultAdditionalMappings($entity_type_id, $bundle, $schema_type);
+      : $default_additional_mappings;
+
+    // Convert 'field name' => 'Schema.org property' associative array
+    // to 'Schema.org property' => TRUE associative array.
+    foreach ($additional_mappings as &$additional_mapping) {
+      $schema_properties = [];
+      foreach ($additional_mapping['schema_properties'] as $schema_property) {
+        $schema_properties[$schema_property] = TRUE;
+      }
+      $additional_mapping['schema_properties'] = $schema_properties;
+    }
 
     // Apply starter kit default mappings.
     // @see \Drupal\schemadotorg\SchemaDotOrgMappingManager::getMappingDefaults
     if (!empty($defaults['additional_mappings'])) {
-      foreach ($defaults['additional_mappings'] as $schema_type => $additional_mapping) {
-        if (isset($additional_mappings[$schema_type])) {
-          $additional_mappings[$schema_type]['schema_properties'] = $additional_mapping['schema_properties']
-            + $additional_mappings[$schema_type]['schema_properties'];
+      foreach ($defaults['additional_mappings'] as $additional_schema_type => $default_additional_mapping) {
+        // Make sure that the default additional mapping exists.
+        if (!isset($default_additional_mappings[$additional_schema_type])) {
+          continue;
+        }
+
+        // Unset additional mapping if the additional mapping's Schema.org type
+        // is set to NULL or the starter kit sets it to FALSE.
+        $is_schema_type_null = is_array($default_additional_mapping)
+          && (NestedArray::keyExists($default_additional_mapping, ['schema_type']))
+          && (NestedArray::getValue($default_additional_mapping, ['schema_type']) === NULL);
+        if ($default_additional_mapping === FALSE || $is_schema_type_null) {
+          $additional_mappings[$additional_schema_type] = [
+            'schema_type' => NULL,
+            'schema_properties' => [],
+          ];
+          continue;
+        }
+
+        // Make sure the additional mapping for the Schema.org type is defined.
+        $additional_mappings += [
+          $additional_schema_type => [
+            'schema_type' => $additional_schema_type,
+            'schema_properties' => [],
+          ],
+        ];
+
+        // Apply the defaults additional mapping Schema.org properties.
+        $default_schema_properties = $default_additional_mapping['properties']
+          ?? $default_additional_mapping['schema_properties']
+          ?? [];
+
+        // Create a list of allowed Schema.org properties.
+        $allowed_schema_properties = array_combine(
+          $default_additional_mappings[$additional_schema_type]['schema_properties'],
+          $default_additional_mappings[$additional_schema_type]['schema_properties']
+        );
+        foreach ($default_schema_properties as $default_schema_property => $default_schema_property_state) {
+          if (isset($allowed_schema_properties[$default_schema_property])) {
+            $additional_mappings[$additional_schema_type]['schema_properties'][$default_schema_property] = $default_schema_property_state;
+          }
         }
       }
     }
@@ -110,18 +160,12 @@ class SchemaDotOrgAdditionalMappingsManager implements SchemaDotOrgAdditionalMap
     $mapping_defaults = $form_state->get('mapping_defaults');
     $target_entity_type_id = $mapping->getTargetEntityTypeId();
     $target_bundle = $mapping_defaults['entity']['id'];
+    $additional_mappings = $mapping_defaults['additional_mappings'];
 
     $default_additional_mappings = $this->getDefaultAdditionalMappings($target_entity_type_id, $target_bundle, $schema_type);
     if (!$default_additional_mappings) {
       return;
     }
-
-    // Store default additional mappings for ::mappingFormValidate callback.
-    $form_state->set('default_additional_mappings', $default_additional_mappings);
-
-    $additional_mappings = $mapping->isNew()
-      ? $default_additional_mappings
-      : $mapping->getAdditionalMappings();
 
     $form['mapping']['additional_mappings'] = [
       '#type' => 'details',
@@ -135,7 +179,6 @@ class SchemaDotOrgAdditionalMappingsManager implements SchemaDotOrgAdditionalMap
 
       $additional_schema_type = $additional_mappings[$default_additional_schema_type]['schema_type'] ?? NULL;
       $additional_schema_properties = $additional_mappings[$default_additional_schema_type]['schema_properties'] ?? [];
-
       if ($additional_schema_type) {
         $form['mapping']['additional_mappings']['#open'] = TRUE;
       }
@@ -183,11 +226,20 @@ class SchemaDotOrgAdditionalMappingsManager implements SchemaDotOrgAdditionalMap
 
       $type_definition = $this->schemaTypeManager->getType($default_additional_schema_type);
 
-      $form['mapping']['additional_mappings'][$default_additional_schema_type] = [];
-      $form['mapping']['additional_mappings'][$default_additional_schema_type]['schema_type'] = [
-        '#type' => 'checkbox',
+      $form['mapping']['additional_mappings'][$default_additional_schema_type] = [
+        '#type' => 'details',
         '#title' => $type_definition['drupal_label'],
         '#description' => $this->schemaTypeBuilder->formatComment($type_definition['drupal_description']),
+        '#open' => (bool) $additional_schema_type,
+      ];
+      $t_args = [
+        '@type' => $type_definition['drupal_label'],
+        ':href' => $this->schemaTypeBuilder->getItemUrl($default_additional_schema_type)->toString(),
+      ];
+      $form['mapping']['additional_mappings'][$default_additional_schema_type]['schema_type'] = [
+        '#type' => 'checkbox',
+        '#title' => $this->t('Enable @type mapping', ['@type' => $type_definition['drupal_label']]),
+        '#description' => $this->t('If checked, additional Schema.org properties related to the <a href=":href">@type</a> Schema.org type will be included with this mapping.', $t_args),
         '#return_value' => $default_additional_schema_type,
         '#default_value' => $additional_schema_type,
       ];
@@ -202,7 +254,7 @@ class SchemaDotOrgAdditionalMappingsManager implements SchemaDotOrgAdditionalMap
           'status' => $this->t('Field status'),
         ],
         '#options' => $options,
-        '#default_value' => array_combine($additional_schema_properties, $additional_schema_properties),
+        '#default_value' => $additional_schema_properties,
         '#access' => (bool) $options,
         // Add missing wrapper for #states to work as expected.
         '#prefix' => '<div class="js-form-wrapper">',
@@ -211,42 +263,55 @@ class SchemaDotOrgAdditionalMappingsManager implements SchemaDotOrgAdditionalMap
           'visible' => [
             'input[name="mapping[additional_mappings][' . $default_additional_schema_type . '][schema_type]"]' => ['checked' => TRUE],
           ],
-          'checked' => [
-            'input[name="mapping[additional_mappings][' . $default_additional_schema_type . '][schema_type]"]' => ['checked' => TRUE],
-          ],
         ],
       ];
     }
-
-    // Add validation callback.
-    $form['#validate'][] = [static::class, 'mappingFormValidate'];
   }
 
   /**
-   * Form submission validation for schemadotorg_additional_mappings_form_schemadotorg_mapping_form.
-   *
-   * @see \Drupal\schemadotorg_additional_mappings\SchemaDotOrgAdditionalMappingsManager::mappingFormAlter()
+   * {@inheritdoc}
    */
-  public static function mappingFormValidate(array &$form, FormStateInterface $form_state): void {
-    $default_additional_mappings = $form_state->get('default_additional_mappings');
-    $additional_mappings = $form_state->getValue(['mapping', 'additional_mappings']);
+  public function mappingPreSave(SchemaDotOrgMappingInterface $mapping): void {
+    $default_additional_mappings = $this->getDefaultAdditionalMappings(
+      $mapping->getTargetEntityTypeId(),
+      $mapping->getTargetBundle(),
+      $mapping->getSchemaType(),
+    );
 
+    $additional_mappings = $mapping->getAdditionalMappings();
     foreach ($additional_mappings as $schema_type => &$additional_mapping) {
-      if (empty($additional_mapping['schema_type'])) {
+      // Unset the additional mapping if it doesn't have a Schema.org type.
+      if (array_key_exists('schema_type', $additional_mapping)
+        && empty($additional_mapping['schema_type'])) {
         unset($additional_mappings[$schema_type]);
+        continue;
       }
-      else {
-        $default_schema_properties = $default_additional_mappings[$schema_type]['schema_properties'];
-        $schema_properties = array_filter($additional_mapping['schema_properties']);
-        $additional_mapping['schema_properties'] = array_flip(
-          array_intersect_key(
-            array_flip($default_schema_properties),
-            array_flip($schema_properties),
-          )
-        );
+
+      // Get the default additional mapping Schema.org properties.
+      $default_schema_properties = $default_additional_mappings[$schema_type]['schema_properties'] ?? [];
+
+      // Get Schema.org properties is an associative array.
+      // The additional mapping Schema.org properties can either be
+      // 'field name' => 'Schema.org property', or
+      // 'Schema.org property' => TRUE, associative array.
+      $schema_properties = [];
+      foreach ($additional_mapping['schema_properties'] as $key => $value) {
+        if ($value !== FALSE) {
+          $schema_property = ($value === TRUE || is_array($value)) ? $key : $value;
+          $schema_properties[$schema_property] = $schema_property;
+        }
       }
+
+      // Convert 'Schema.org property' => TRUE associative array
+      // back to 'field name' => 'Schema.org property' associative array.
+      $additional_mapping['schema_properties'] = array_flip(
+        array_intersect_key(
+          array_flip($default_schema_properties),
+          $schema_properties,
+        )
+      );
     }
-    $form_state->setValue(['mapping', 'additional_mappings'], $additional_mappings);
+    $mapping->set('additional_mappings', $additional_mappings);
   }
 
   /**
@@ -264,51 +329,75 @@ class SchemaDotOrgAdditionalMappingsManager implements SchemaDotOrgAdditionalMap
       return;
     }
 
+    /** @var \Drupal\schemadotorg\Entity\SchemaDotOrgMapping $mapping */
     $entity_type_id = $mapping->getTargetEntityTypeId();
     $bundle = $mapping->getTargetBundle();
     $schema_type = $mapping->get('schema_type');
     $schema_properties = $mapping->get('schema_properties');
+    $original = (isset($mapping->original)) ? clone $mapping->original : NULL;
 
+    $mapping_defaults = $mapping->getMappingDefaults();
     $additional_mappings = $mapping->getAdditionalMappings();
-
     foreach ($additional_mappings as $additional_mapping) {
       $additional_schema_type = $additional_mapping['schema_type'];
-      $additional_schema_properties_field_names = array_flip($additional_mapping['schema_properties']);
+      $additional_schema_properties = $additional_mapping['schema_properties'];
       if ($this->schemaTypeManager->isSubTypeOf($additional_schema_type, $schema_type)) {
         continue;
       }
 
-      $mapping_defaults = $this->schemaMappingManager->getMappingDefaults(
+      $additional_mapping_defaults = $this->schemaMappingManager->getMappingDefaults(
         entity_type_id: $entity_type_id,
         bundle: $bundle,
         schema_type: $additional_schema_type,
       );
 
       // Set the bundle that will have the additional mappings applied to it.
-      $mapping_defaults['entity']['id'] = $bundle;
+      $additional_mapping_defaults['entity']['id'] = $bundle;
 
       // Set the additional mapping properties.
-      foreach ($mapping_defaults['properties'] as $schema_property => &$field) {
+      $additional_schema_properties_field_names = array_flip($additional_schema_properties);
+      foreach ($additional_mapping_defaults['properties'] as $schema_property => &$field) {
         $field['name'] = $additional_schema_properties_field_names[$schema_property] ?? NULL;
+        $mapping_defaults_schema_property = $mapping_defaults['additional_mappings'][$additional_schema_type]['schema_properties'][$schema_property] ?? NULL;
+        if (is_array($mapping_defaults_schema_property)) {
+          $additional_mapping_defaults['properties'][$schema_property] = $mapping_defaults_schema_property
+            + $additional_mapping_defaults['properties'][$schema_property];
+        }
       }
 
       // Clear the additional mappings to prevent a recursion.
-      $mapping_defaults['additional_mappings'] = [];
+      $additional_mapping_defaults['additional_mappings'] = [];
+
+      // Update the mapping.
+      $mapping
+        ->set('schema_type', $additional_schema_type)
+        ->set('schema_properties', $additional_schema_properties)
+        ->set('additional_mappings', []);
+
+      // Set original mapping.
+      if (isset($mapping->original)) {
+        $additional_mapping_original = $original->getAdditionalMapping($additional_schema_type);
+        $mapping->original->set('schema_properties', $additional_schema_type);
+        $mapping->original->set('schema_properties', $additional_mapping_original['schema_properties'] ?? []);
+        $mapping->original->set('additional_mappings', []);
+      }
 
       // Save the additional mapping to create expected fields, forms, and displays
       // and get back the updated mapping, which will be reverted.
-      $mapping = $this->schemaMappingManager->saveMapping($entity_type_id, $additional_schema_type, $mapping_defaults);
+      $this->schemaMappingManager->saveMapping($entity_type_id, $additional_schema_type, $additional_mapping_defaults, $mapping);
     }
 
-    // Re-save the original mapping with update additional mappings
+    // Re-save the original mapping with updated additional mappings
     // without syncing enabled.
     $mapping->setSyncing(TRUE);
     $mapping
       ->set('target_bundle', $bundle)
       ->set('schema_type', $schema_type)
       ->set('schema_properties', $schema_properties)
-      ->set('additional_mappings', $additional_mappings)
-      ->save();
+      ->set('additional_mappings', $additional_mappings);
+    $mapping->original = $original;
+    $mapping->calculateDependencies();
+    $mapping->save();
     $mapping->setSyncing(FALSE);
   }
 
@@ -319,58 +408,46 @@ class SchemaDotOrgAdditionalMappingsManager implements SchemaDotOrgAdditionalMap
     $default_additional_mappings = $this->configFactory
       ->get('schemadotorg_additional_mappings.settings')
       ->get('default_additional_mappings');
-    $setting_parts = [
+    $parts = [
       'entity_type_id' => $entity_type_id,
       'bundle' => $bundle,
       'schema_type' => $schema_type,
     ];
-
-    $additional_mapping_types = $this->schemaTypeManager->getSetting($default_additional_mappings, $setting_parts, TRUE);
-    if (!$additional_mapping_types) {
+    $default_additional_mapping = $this->schemaTypeManager->getSetting($default_additional_mappings, $parts);
+    if (!$default_additional_mapping) {
       return [];
     }
 
     $additional_mappings = [];
 
-    $has_webpage_schema_type = FALSE;
-    foreach ($additional_mapping_types as $additional_mapping_type) {
-      foreach ($additional_mapping_type as $additional_schema_type) {
-        if ($this->schemaTypeManager->isSubTypeOf($additional_schema_type, $schema_type)) {
-          continue;
-        }
-
-        // Limit additional mapping Schema.org types to one type of
-        // https://schema.org/WebPage.
-        if ($this->schemaTypeManager->isSubTypeOf($additional_schema_type, 'WebPage')) {
-          if ($has_webpage_schema_type) {
-            continue;
-          }
-          $has_webpage_schema_type = TRUE;
-        }
-
-        $mapping_defaults = $this->schemaMappingManager->getMappingDefaults(
-          entity_type_id: $entity_type_id,
-          schema_type: $additional_schema_type,
-        );
-
-        $default_properties = $this->getDefaultProperties($schema_type, $additional_schema_type);
-        $schema_properties = [];
-        foreach ($mapping_defaults['properties'] as $schema_property => $property) {
-          if (isset($default_properties[$schema_property])) {
-            $field_name = $property['name'];
-            // Make sure the field is set if it does not already exist.
-            if (empty($field_name)
-              || $field_name === SchemaDotOrgEntityFieldManagerInterface::ADD_FIELD) {
-              $field_name = $this->schemaNames->getFieldPrefix() . $property['machine_name'];
-            }
-            $schema_properties[$field_name] = $schema_property;
-          }
-        }
-        $additional_mappings[$additional_schema_type] = [
-          'schema_type' => $additional_schema_type,
-          'schema_properties' => $schema_properties,
-        ];
+    foreach ($default_additional_mapping as $additional_schema_type) {
+      // Prevent recursion.
+      if ($this->schemaTypeManager->isSubTypeOf($schema_type, $additional_schema_type)) {
+        continue;
       }
+
+      $mapping_defaults = $this->schemaMappingManager->getMappingDefaults(
+        entity_type_id: $entity_type_id,
+        schema_type: $additional_schema_type,
+      );
+
+      $default_properties = $this->getDefaultProperties($schema_type, $additional_schema_type);
+      $schema_properties = [];
+      foreach ($mapping_defaults['properties'] as $schema_property => $property) {
+        if (isset($default_properties[$schema_property])) {
+          $field_name = $property['name'];
+          // Make sure the field is set if it does not already exist.
+          if (empty($field_name)
+            || $field_name === SchemaDotOrgEntityFieldManagerInterface::ADD_FIELD) {
+            $field_name = $this->schemaNames->getFieldPrefix() . $property['machine_name'];
+          }
+          $schema_properties[$field_name] = $schema_property;
+        }
+      }
+      $additional_mappings[$additional_schema_type] = [
+        'schema_type' => $additional_schema_type,
+        'schema_properties' => $schema_properties,
+      ];
     }
     return $additional_mappings;
   }
@@ -390,8 +467,8 @@ class SchemaDotOrgAdditionalMappingsManager implements SchemaDotOrgAdditionalMap
     $default_properties = $this->configFactory
       ->get('schemadotorg_additional_mappings.settings')
       ->get('default_properties');
-    $properties = $default_properties[$additional_schema_type]
-      ?? $default_properties["$schema_type--$additional_schema_type"]
+    $properties = $default_properties["$schema_type--$additional_schema_type"]
+      ?? $default_properties[$additional_schema_type]
       ?? NULL;
     return ($properties)
       ? array_combine($properties, $properties)

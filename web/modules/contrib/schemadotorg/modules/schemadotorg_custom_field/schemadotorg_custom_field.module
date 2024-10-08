@@ -12,9 +12,18 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\BubbleableMetadata;
 
 /**
+ * Implements hook_schemadotorg_mapping_defaults_alter().
+ */
+function schemadotorg_custom_field_schemadotorg_mapping_defaults_alter(array &$defaults, string $entity_type_id, ?string $bundle, string $schema_type): void {
+  /** @var \Drupal\schemadotorg_custom_field\SchemaDotOrgCustomFieldManagerInterface $custom_field_manager */
+  $custom_field_manager = \Drupal::service('schemadotorg_custom_field.manager');
+  $custom_field_manager->mappingDefaultsAlter($defaults, $entity_type_id, $bundle, $schema_type);
+}
+
+/**
  * Implements hook_schemadotorg_property_field_type_alter().
  */
-function schemadotorg_custom_field_schemadotorg_property_field_type_alter(array &$field_types, string $schema_type, string $schema_property): void {
+function schemadotorg_custom_field_schemadotorg_property_field_type_alter(array &$field_types, string $entity_type_id, string $schema_type, string $schema_property): void {
   /** @var \Drupal\schemadotorg_custom_field\SchemaDotOrgCustomFieldManagerInterface $custom_field_manager */
   $custom_field_manager = \Drupal::service('schemadotorg_custom_field.manager');
   $custom_field_manager->propertyFieldTypeAlter($field_types, $schema_type, $schema_property);
@@ -23,7 +32,7 @@ function schemadotorg_custom_field_schemadotorg_property_field_type_alter(array 
 /**
  * Implements hook_schemadotorg_property_field_prepare().
  */
-function schemadotorg_custom_field_schemadotorg_property_field_prepare(array &$default_field, string $schema_type, string $schema_property): void {
+function schemadotorg_custom_field_schemadotorg_property_field_prepare(array &$default_field, string $entity_type_id, string $schema_type, string $schema_property): void {
   /** @var \Drupal\schemadotorg_custom_field\SchemaDotOrgCustomFieldManagerInterface $custom_field_manager */
   $custom_field_manager = \Drupal::service('schemadotorg_custom_field.manager');
   $custom_field_manager->propertyFieldPrepare($default_field, $schema_type, $schema_property);
@@ -122,12 +131,41 @@ function schemadotorg_custom_field_form_schemadotorg_properties_settings_form_al
   . '# -----------------------' . PHP_EOL
   . implode(PHP_EOL, $data_types)
   . PHP_EOL
-  . 'propertyName:
-  type: SchemaType
-  properties:
-    propertyName01: string
-    propertyName02: integer
-    propertyName03: boolean',
+  . "propertyName:
+  schema_type: SchemaType
+  schema_properties:
+    propertyName01:
+      data_type: string
+      widget_type: select
+      name: 'custom_string'
+      label: 'Custom string'
+      description: 'Custom description'
+      placeholder: 'Custom placeholder'
+      prefix: 'Custom prefix'
+      suffix: 'Custom suffix'
+      empty_option: 'Custom empty option'
+      allowed_values:
+        one: One
+        two: Two
+        three: Three
+    propertyName02:
+      data_type: integer
+      max_length: 999
+      precision: 99
+      scale: 2
+      min: 0
+      max: 100
+      required: true
+    propertyName03:
+      data_type: string_long
+      rows: 3
+    propertyName04:
+      data_type: boolean
+entity_type_id--bundle--SchemaType--propertyName:
+  schema_type: SchemaType
+  schema_properties:
+    propertyName01:
+      data_type: string",
   ];
   $form['schemadotorg_custom_field']['default_format'] = [
     '#type' => 'select',

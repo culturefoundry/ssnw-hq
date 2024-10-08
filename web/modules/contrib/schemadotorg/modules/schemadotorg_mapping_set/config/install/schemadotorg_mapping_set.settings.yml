@@ -46,6 +46,12 @@ sets:
       - 'node:Menu'
       - 'node:Recipe'
       - 'node:FoodEstablishment'
+  course:
+    label: Course
+    types:
+      - 'paragraph:Schedule'
+      - 'node:CourseInstance'
+      - 'node:Course'
   movie:
     label: Movie
     types:
@@ -96,7 +102,6 @@ sets:
   medical_organization:
     label: 'Medical organization'
     types:
-      - 'paragraph:MedicalAudience'
       - 'node:MedicalTest'
       - 'node:Hospital'
       - 'node:MedicalBusiness'
@@ -110,16 +115,6 @@ sets:
   medical_information:
     label: 'Medical information'
     types:
-      - 'paragraph:MedicalAudience'
-      - 'paragraph:MedicalDevice'
-      - 'paragraph:MedicalContraindication'
-      - 'paragraph:MedicalIndication'
-      - 'paragraph:MedicalCause'
-      - 'paragraph:MedicalRiskFactor'
-      - 'paragraph:MedicalSignOrSymptom'
-      - 'paragraph:MedicalProcedure'
-      - 'paragraph:MedicalTherapy'
-      - 'paragraph:MedicalTest'
       - 'node:Drug'
       - 'node:DietarySupplement'
       - 'node:MedicalStudy'

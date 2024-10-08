@@ -102,6 +102,8 @@ class SchemaDotOrgCorrespondingReferenceManagerKernelTest extends SchemaDotOrgEn
       [
         'target_type' => 'node',
         'schema_types' => ['Thing' => 'Thing'],
+        'excluded_schema_types' => [],
+        'ignore_additional_mappings' => FALSE,
         'target_bundles' => ['page' => 'page', 'person' => 'person'],
       ],
       $field->getSetting('handler_settings')
@@ -114,6 +116,8 @@ class SchemaDotOrgCorrespondingReferenceManagerKernelTest extends SchemaDotOrgEn
       [
         'target_type' => 'node',
         'schema_types' => ['CreativeWork' => 'CreativeWork', 'Event' => 'Event'],
+        'excluded_schema_types' => [],
+        'ignore_additional_mappings' => FALSE,
         'target_bundles' => ['page' => 'page'],
       ],
       $field->getSetting('handler_settings')

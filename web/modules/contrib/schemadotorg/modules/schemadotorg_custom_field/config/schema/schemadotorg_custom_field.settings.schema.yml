@@ -9,15 +9,79 @@ schemadotorg_custom_field.settings:
         type: mapping
         label: 'Schema.org default property'
         mapping:
-          type:
+          schema_type:
             type: string
-            label: Type
-          properties:
+            label: 'Schema.org type'
+          schema_properties:
             type: sequence
-            label: Properties
+            label: 'Schema.org properties'
             sequence:
-              type: string
-              label: Property
+              type: mapping
+              label: 'Schema.org property'
+              mapping:
+                data_type:
+                  type: string
+                  label: 'Data type'
+                widget_type:
+                  type: string
+                  label: 'Widget type'
+                name:
+                  type: string
+                  label: Name
+                label:
+                  type: text
+                  label: Label
+                description:
+                  type: text
+                  label: Description
+                placeholder:
+                  type: text
+                  label: Placeholder
+                prefix:
+                  type: text
+                  label: Prefix
+                suffix:
+                  type: text
+                  label: Suffix
+                maxlength:
+                  type: integer
+                  label: Maxlength
+                min:
+                  type: integer
+                  label: Min
+                max:
+                  type: integer
+                  label: Max
+                precision:
+                  type: integer
+                  label: Precision
+                scale:
+                  type: integer
+                  label: Scale
+                datetime_type:
+                  type: string
+                  label: 'Date type'
+                required:
+                  type: boolean
+                  label: Required
+                empty_option:
+                  type: text
+                  label: 'Empty option'
+                target_type:
+                  type: string
+                  label: 'Target type'
+                handler_settings:
+                  type: ignore
+                  label: 'Handler settings'
+                allowed_values:
+                  type: sequence
+                  label: 'Allowed values'
+                  sequence:
+                    type: text
+                    label: 'Allowed value'
+                rows:
+                  type: integer
+                  label: Rows
     default_format:
       type: string
       label: 'Default format'

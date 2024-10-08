@@ -20,9 +20,9 @@ to JSON:API resources.
 Features
 --------
 
-- Automatically create JSON:API endpoints for Schema.org type mappings.
-- Automatically enable Schema.org properties for JSON:API endpoints.
-- Automatically rename JSON:API entity and field names to use corresponding
+- Automatically creates JSON:API endpoints for Schema.org type mappings.
+- Automatically enables Schema.org properties for JSON:API endpoints.
+- Automatically renames JSON:API entity and field names to use corresponding
   Schema.org types and properties.
 - Adds a JSON:API column with links to the Schema.org mappings admin page.  
   (/admin/config/schemadotorg)

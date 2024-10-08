@@ -6,10 +6,10 @@ namespace Drupal\schemadotorg\Entity;
 
 use Drupal\Core\Config\Entity\ConfigEntityBase;
 use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
-use Drupal\Core\Config\Entity\ConfigEntityInterface;
+use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityInterface;
-use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\field\FieldConfigInterface;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 
 /**
@@ -100,27 +100,16 @@ class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappin
   protected array $mappingDefaults;
 
   /**
-   * {@inheritdoc}
+   * The original Schema.org mapping.
    */
-  public function __construct(array $values, $entity_type) {
-    parent::__construct($values, $entity_type);
-    $this->setOriginalSchemaProperties($this->getSchemaProperties());
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function postSave(EntityStorageInterface $storage, $update = TRUE): void {
-    parent::postSave($storage, $update);
-    $this->setOriginalSchemaProperties($this->getSchemaProperties());
-  }
+  public ?SchemaDotOrgMappingInterface $original;
 
   /**
    * {@inheritdoc}
    */
   public function createDuplicate() {
     $duplicate = parent::createDuplicate();
-    $duplicate->setOriginalSchemaProperties($this->getSchemaProperties());
+    $duplicate->original = NULL;
     return $duplicate;
   }
 
@@ -239,8 +228,8 @@ class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappin
   /**
    * {@inheritdoc}
    */
-  public function setSchemaType($type): SchemaDotOrgMappingInterface {
-    $this->schema_type = $type;
+  public function setSchemaType($schema_type): SchemaDotOrgMappingInterface {
+    $this->schema_type = $schema_type;
     return $this;
   }
 
@@ -254,22 +243,10 @@ class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappin
   /**
    * {@inheritdoc}
    */
-  public function getOriginalSchemaProperties(): array {
-    return $this->original_schema_properties;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function setOriginalSchemaProperties(array $properties): void {
-    $this->original_schema_properties = $properties;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function getNewSchemaProperties(): array {
-    return array_diff_key($this->schema_properties, $this->original_schema_properties);
+    return (isset($this->original))
+     ? array_diff_key($this->getSchemaProperties(), $this->original->getSchemaProperties())
+     : $this->getSchemaProperties();
   }
 
   /**
@@ -282,50 +259,55 @@ class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappin
   /**
    * {@inheritdoc}
    */
-  public function getSchemaPropertyMapping($name): ?string {
-    return $this->schema_properties[$name] ?? NULL;
+  public function getSchemaPropertyMapping($field_name, bool $check_additional_mappings = FALSE): ?string {
+    $schema_properties = ($check_additional_mappings)
+      ? $this->getAllSchemaProperties()
+      : $this->getSchemaProperties();
+    return $schema_properties[$field_name] ?? NULL;
   }
 
   /**
    * {@inheritdoc}
    */
-  public function setSchemaPropertyMapping(string $name, string $property): SchemaDotOrgMappingInterface {
+  public function setSchemaPropertyMapping(string $field_name, string $schema_property): SchemaDotOrgMappingInterface {
     $schema_type = $this->getSchemaType();
 
     /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager */
     $schema_type_manager = \Drupal::service('schemadotorg.schema_type_manager');
-    if (!$schema_type_manager->hasProperty($schema_type, $property)) {
-      throw new \Exception("The '$property' property does not exist in Schema.org type '$schema_type'.");
+    if (!$schema_type_manager->hasProperty($schema_type, $schema_property)) {
+      throw new \Exception("The '$schema_property' property does not exist in Schema.org type '$schema_type'.");
     }
 
-    $this->schema_properties[$name] = $property;
+    $this->schema_properties[$field_name] = $schema_property;
     return $this;
   }
 
   /**
    * {@inheritdoc}
    */
-  public function removeSchemaProperty(string $name): SchemaDotOrgMappingInterface {
-    unset($this->schema_properties[$name]);
+  public function removeSchemaProperty(string $field_name): SchemaDotOrgMappingInterface {
+    unset($this->schema_properties[$field_name]);
     return $this;
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getSchemaPropertyFieldName(string $property): ?string {
+  public function getSchemaPropertyFieldName(string $schema_property, bool $check_additional_mappings = FALSE): ?string {
     // Get the field name from the main mapping's Schema.org properties.
     $schema_properties = array_flip($this->schema_properties);
-    if (isset($schema_properties[$property])) {
-      return $schema_properties[$property];
+    if (isset($schema_properties[$schema_property])) {
+      return $schema_properties[$schema_property];
     }
 
     // Get the field name from the additional mappings' Schema.org properties.
-    $additional_mappings = $this->getAdditionalMappings();
-    foreach ($additional_mappings as $additional_mapping) {
-      $additional_schema_properties = array_flip($additional_mapping['schema_properties']);
-      if (isset($additional_schema_properties[$property])) {
-        return $additional_schema_properties[$property];
+    if ($check_additional_mappings) {
+      $additional_mappings = $this->getAdditionalMappings();
+      foreach ($additional_mappings as $additional_mapping) {
+        $additional_schema_properties = array_flip($additional_mapping['schema_properties']);
+        if (isset($additional_schema_properties[$schema_property])) {
+          return $additional_schema_properties[$schema_property];
+        }
       }
     }
 
@@ -335,8 +317,12 @@ class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappin
   /**
    * {@inheritdoc}
    */
-  public function hasSchemaPropertyMapping(string $property): bool {
-    return in_array($property, $this->schema_properties);
+  public function hasSchemaPropertyMapping(string $schema_property, bool $check_additional_mappings = FALSE): bool {
+    $schema_properties = ($check_additional_mappings)
+      ? $this->getAllSchemaProperties()
+      : $this->getSchemaProperties();
+
+    return in_array($schema_property, $schema_properties);
   }
 
   /**
@@ -429,17 +415,15 @@ class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappin
     $bundle_config_dependency = $target_entity_type->getBundleConfigDependency($this->getTargetBundle());
     $this->addDependency($bundle_config_dependency['type'], $bundle_config_dependency['name']);
 
-    // If field.module is enabled, add dependencies on 'field_config' entities
-    // for both displayed and hidden fields. We intentionally leave out base
-    // field overrides, since the field still exists without them.
-    if (\Drupal::moduleHandler()->moduleExists('field')) {
-      $properties = $this->schema_properties;
-      $field_definitions = \Drupal::service('entity_field.manager')->getFieldDefinitions($this->getTargetEntityTypeId(), $this->getTargetBundle());
-      foreach (array_intersect_key($field_definitions, $properties) as $field_definition) {
-        if ($field_definition instanceof ConfigEntityInterface && $field_definition->getEntityTypeId() === 'field_config') {
-          $this->addDependency('config', $field_definition->getConfigDependencyName());
-        }
+    // Create dependency on the Schema.org property fields.
+    $schema_properties = $this->getAllSchemaProperties();
+    $field_definitions = \Drupal::service('entity_field.manager')->getFieldDefinitions($this->getTargetEntityTypeId(), $this->getTargetBundle());
+    foreach (array_intersect_key($field_definitions, $schema_properties) as $field_definition) {
+      if (!$field_definition instanceof FieldConfigInterface) {
+        continue;
       }
+
+      $this->addDependency('config', $field_definition->getConfigDependencyName());
     }
 
     return $this;
@@ -451,58 +435,23 @@ class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappin
   public function onDependencyRemoval(array $dependencies): bool {
     $changed = parent::onDependencyRemoval($dependencies);
     foreach ($dependencies['config'] as $entity) {
-      if ($entity->getEntityTypeId() === 'field_config') {
-        /** @var \Drupal\field\FieldConfigInterface $entity */
-        // Remove properties for fields that are being deleted.
-        if ($this->getSchemaPropertyMapping($entity->getName())) {
-          $this->removeSchemaProperty($entity->getName());
+      if (!$entity instanceof FieldConfigInterface) {
+        continue;
+      }
+
+      $field_name = $entity->getName();
+      if (isset($this->schema_properties[$field_name])) {
+        unset($this->schema_properties[$field_name]);
+        $changed = TRUE;
+      }
+      foreach ($this->additional_mappings as &$additional_mapping) {
+        if (isset($additional_mapping['schema_properties'][$field_name])) {
+          unset($additional_mapping['schema_properties'][$field_name]);
           $changed = TRUE;
         }
       }
     }
     return $changed;
-  }
-
-  /**
-   * Returns the plugin dependencies being removed.
-   *
-   * The function recursively computes the intersection between all plugin
-   * dependencies and all removed dependencies.
-   *
-   * Note: The two arguments do not have the same structure.
-   *
-   * @param array[] $plugin_dependencies
-   *   A list of dependencies having the same structure as the return value of
-   *   ConfigEntityInterface::calculateDependencies().
-   * @param array[] $removed_dependencies
-   *   A list of dependencies having the same structure as the input argument of
-   *   ConfigEntityInterface::onDependencyRemoval().
-   *
-   * @return array
-   *   A recursively computed intersection.
-   *
-   * @see \Drupal\Core\Config\Entity\ConfigEntityInterface::calculateDependencies()
-   * @see \Drupal\Core\Config\Entity\ConfigEntityInterface::onDependencyRemoval()
-   */
-  protected function getPluginRemovedDependencies(array $plugin_dependencies, array $removed_dependencies): array {
-    $intersect = [];
-    foreach ($plugin_dependencies as $type => $dependencies) {
-      if ($removed_dependencies[$type]) {
-        // Config and content entities have the dependency names as keys while
-        // module and theme dependencies are indexed arrays of dependency names.
-        // @see \Drupal\Core\Config\ConfigManager::callOnDependencyRemoval()
-        if (in_array($type, ['config', 'content'])) {
-          $removed = array_intersect_key($removed_dependencies[$type], array_flip($dependencies));
-        }
-        else {
-          $removed = array_values(array_intersect($removed_dependencies[$type], $dependencies));
-        }
-        if ($removed) {
-          $intersect[$type] = $removed;
-        }
-      }
-    }
-    return $intersect;
   }
 
   /**
@@ -512,6 +461,15 @@ class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappin
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
     $mapping_storage = \Drupal::entityTypeManager()->getStorage('schemadotorg_mapping');
     return $mapping_storage->loadByEntity($entity);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function getAdditionalType(ContentEntityInterface $entity): ?string {
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
+    $mapping_storage = \Drupal::entityTypeManager()->getStorage('schemadotorg_mapping');
+    return $mapping_storage->getAdditionalType($entity);
   }
 
 }

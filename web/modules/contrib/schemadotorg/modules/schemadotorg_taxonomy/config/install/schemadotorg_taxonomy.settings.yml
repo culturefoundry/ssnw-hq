@@ -1,5 +1,3 @@
-default_field_groups:
-  taxonomy: 'Categories and Services'
 default_vocabularies: {  }
 schema_property_vocabularies:
   alumniOf:
@@ -8,6 +6,9 @@ schema_property_vocabularies:
   amenityFeature:
     id: amenity
     label: Amenity
+  audience:
+    id: audience
+    label: Audience
   availableService:
     id: medical_service
     label: 'Medical service'
@@ -26,6 +27,9 @@ schema_property_vocabularies:
   medicalSpecialty:
     id: medical_specialty
     label: 'Medical specialty'
+  occupationalCategory:
+    id: occupational_category
+    label: 'Occupational category'
   recipeCategory:
     id: recipe_category
     label: 'Recipe category'

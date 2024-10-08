@@ -43,15 +43,38 @@ class SchemaDotOrgPathautoTokenTest extends SchemaDotOrgTokenKernelTestBase {
    * Tests Schema.org tokens.
    */
   public function testTokens(): void {
-    // Check that a mapped node type supports the 'schemadotorg:base-path' token.
+    $this->appendSchemaTypeDefaultProperties('Thing', 'alternateName');
+
+    // Check that a mapped node type supports 'schemadotorg:*' tokens.
     $this->createSchemaEntity('node', 'Event');
     $node = Node::create(['type' => 'event', 'title' => 'Some event']);
     $node->save();
     $this->assertTokens(
       'node',
       ['node' => $node],
-      ['schemadotorg:base-path' => 'events']
+      [
+        'schemadotorg:base-path' => 'events',
+        'schemadotorg:alternate-name' => 'Some event',
+      ]
     );
+
+    // Check that a mapped node type supports 'schemadotorg:alternate-name' token.
+    $this->createSchemaEntity('node', 'Thing');
+    $node = Node::create([
+      'type' => 'thing',
+      'title' => 'Some thing',
+      'schema_alternate_name' => 'thing',
+    ]);
+    $node->save();
+    $this->assertTokens(
+      'node',
+      ['node' => $node],
+      [
+        'schemadotorg:base-path' => NULL,
+        'schemadotorg:alternate-name' => 'thing',
+      ]
+    );
+
   }
 
 }

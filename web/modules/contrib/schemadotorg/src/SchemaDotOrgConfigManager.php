@@ -163,7 +163,6 @@ class SchemaDotOrgConfigManager implements SchemaDotOrgConfigManagerInterface {
     $config_sort = [
       'schemadotorg.settings' => [
         'ksort' => [
-          'schema_types.main_properties',
           'schema_properties.range_includes',
           'schema_properties.default_fields',
         ],

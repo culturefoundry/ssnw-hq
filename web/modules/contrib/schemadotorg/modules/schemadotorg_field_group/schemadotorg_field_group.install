@@ -1,0 +1,49 @@
+<?php
+
+/**
+ * @file
+ * Installation hooks for the Schema.org Blueprints Field Group module.
+ */
+
+declare(strict_types=1);
+
+/**
+ * Issue #3450840: Add weight to field group.
+ */
+function schemadotorg_field_group_update_10000(): void {
+  $config = \Drupal::configFactory()
+    ->getEditable('schemadotorg_field_group.settings');
+  $default_group_weights = [
+    'links' => 20,
+    'hierarchy' => 21,
+    'references' => 22,
+    'relationships' => 23,
+    'taxonomy' => 24,
+    'identifiers' => 25,
+  ];
+  $default_field_groups = $config->get('default_field_groups');
+  foreach ($default_field_groups as &$default_field_group) {
+    $weight = -20;
+    foreach ($default_field_group as $field_group_name => &$field_group_settings) {
+      $field_group_settings['weight'] = $default_group_weights[$field_group_name] ?? $weight++;
+    }
+  }
+  $config->set('default_field_groups', $default_field_groups);
+  $config->save();
+}
+
+/**
+ * Issue #3453480: Add description support for field group.
+ */
+function schemadotorg_field_group_update_10001(): void {
+  $config = \Drupal::configFactory()
+    ->getEditable('schemadotorg_field_group.settings');
+  $default_field_groups = $config->get('default_field_groups');
+  foreach ($default_field_groups as &$default_field_group) {
+    foreach ($default_field_group as &$field_group_settings) {
+      $field_group_settings['description'] = '';
+    }
+  }
+  $config->set('default_field_groups', $default_field_groups);
+  $config->save();
+}

@@ -4,12 +4,22 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\schemadotorg\Kernel;
 
+use Drupal\field\Entity\FieldConfig;
+
 /**
  * Tests Schema.org entity types.
  *
  * @group schemadotorg
  */
 class SchemaDotOrgEntityKernelTest extends SchemaDotOrgEntityKernelTestBase {
+
+
+  /**
+   * {@inheritdoc}
+   */
+  protected static $modules = [
+    'schemadotorg_additional_mappings',
+  ];
 
   /**
    * {@inheritdoc}
@@ -19,6 +29,8 @@ class SchemaDotOrgEntityKernelTest extends SchemaDotOrgEntityKernelTestBase {
 
     $this->installSchema('file', ['file_usage']);
     $this->installEntitySchema('file');
+
+    $this->installConfig(['schemadotorg_additional_mappings']);
   }
 
   /**
@@ -104,9 +116,98 @@ class SchemaDotOrgEntityKernelTest extends SchemaDotOrgEntityKernelTestBase {
     $this->assertEquals($mapping->getSchemaProperties(), [
       'body' => 'description',
       'schema_image' => 'image',
-      'schema_same_as' => 'sameAs',
       'title' => 'name',
     ]);
+  }
+
+  /**
+   * Tests Schema.org mapping dependencies.
+   */
+  public function testDependencies(): void {
+    $mapping = $this->createSchemaEntity('node', 'Person');
+
+    // Check calculating dependencies and Schema.org properties with additional mappings.
+    $expected_dependencies = [
+      'config' => [
+        'field.field.node.person.body',
+        'field.field.node.person.schema_additional_name',
+        'field.field.node.person.schema_email',
+        'field.field.node.person.schema_family_name',
+        'field.field.node.person.schema_given_name',
+        'field.field.node.person.schema_image',
+        'field.field.node.person.schema_knows_language',
+        'field.field.node.person.schema_member_of',
+        'field.field.node.person.schema_related_link',
+        'field.field.node.person.schema_same_as',
+        'field.field.node.person.schema_significant_link',
+        'field.field.node.person.schema_telephone',
+        'field.field.node.person.schema_works_for',
+        'node.type.person',
+      ],
+      'module' => ['node'],
+    ];
+    $this->assertEquals($expected_dependencies, $mapping->getDependencies());
+    $expected_schema_properties = [
+      'schema_additional_name' => 'additionalName',
+      'body' => 'description',
+      'schema_email' => 'email',
+      'schema_family_name' => 'familyName',
+      'schema_given_name' => 'givenName',
+      'schema_image' => 'image',
+      'schema_knows_language' => 'knowsLanguage',
+      'schema_member_of' => 'memberOf',
+      'title' => 'name',
+      'schema_same_as' => 'sameAs',
+      'schema_telephone' => 'telephone',
+      'schema_works_for' => 'worksFor',
+      'created' => 'dateCreated',
+      'changed' => 'dateModified',
+      'langcode' => 'inLanguage',
+      'schema_related_link' => 'relatedLink',
+      'schema_significant_link' => 'significantLink',
+    ];
+    $this->assertEquals($expected_schema_properties, $mapping->getAllSchemaProperties());
+
+    // Check removal of dependencies and Schema.org properties with additional mappings.
+    FieldConfig::loadByName('node', 'person', 'schema_image')->delete();
+    FieldConfig::loadByName('node', 'person', 'schema_related_link')->delete();
+    FieldConfig::loadByName('node', 'person', 'schema_significant_link')->delete();
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping */
+    $mapping = $this->mappingStorage->loadUnchanged($mapping->id());
+    $expected_dependencies = [
+      'config' => [
+        'field.field.node.person.body',
+        'field.field.node.person.schema_additional_name',
+        'field.field.node.person.schema_email',
+        'field.field.node.person.schema_family_name',
+        'field.field.node.person.schema_given_name',
+        'field.field.node.person.schema_knows_language',
+        'field.field.node.person.schema_member_of',
+        'field.field.node.person.schema_same_as',
+        'field.field.node.person.schema_telephone',
+        'field.field.node.person.schema_works_for',
+        'node.type.person',
+      ],
+      'module' => ['node'],
+    ];
+    $this->assertEquals($expected_dependencies, $mapping->getDependencies());
+    $expected_schema_properties = [
+      'schema_additional_name' => 'additionalName',
+      'body' => 'description',
+      'schema_email' => 'email',
+      'schema_family_name' => 'familyName',
+      'schema_given_name' => 'givenName',
+      'schema_knows_language' => 'knowsLanguage',
+      'schema_member_of' => 'memberOf',
+      'title' => 'name',
+      'schema_same_as' => 'sameAs',
+      'schema_telephone' => 'telephone',
+      'schema_works_for' => 'worksFor',
+      'created' => 'dateCreated',
+      'changed' => 'dateModified',
+      'langcode' => 'inLanguage',
+    ];
+    $this->assertEquals($expected_schema_properties, $mapping->getAllSchemaProperties());
   }
 
 }

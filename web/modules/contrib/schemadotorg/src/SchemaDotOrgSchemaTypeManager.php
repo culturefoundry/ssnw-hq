@@ -6,7 +6,6 @@ namespace Drupal\schemadotorg;
 
 use Drupal\Core\Database\Connection;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\schemadotorg\Utility\SchemaDotOrgStringHelper;
 
 /**
@@ -39,17 +38,24 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
     ['entity_type_id', 'schema_property'],
     ['entity_type_id', 'schema_type'],
 
+    ['entity_type_id', 'schema_type', 'additional_type'],
+    ['entity_type_id', 'bundle', 'additional_type'],
+    ['bundle', 'additional_type'],
+    ['schema_type', 'additional_type'],
+
     ['bundle', 'field_name'],
     ['bundle', 'schema_type'],
     ['bundle', 'schema_property'],
 
     ['schema_type', 'field_name'],
+    ['schema_type', 'bundle'],
     ['schema_type', 'schema_property'],
 
-    ['schema_property'],
-    ['schema_type'],
-    ['field_name'],
     ['bundle'],
+    ['schema_type'],
+    ['additional_type'],
+    ['field_name'],
+    ['schema_property'],
     ['entity_type_id'],
   ];
 
@@ -69,6 +75,12 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
    * Schema.org superseded cache.
    */
   protected array $supersededCache;
+
+
+  /**
+   * Schema.org breadcrumbs cache.
+   */
+  protected array $breadcrumbsCache;
 
   /**
    * Constructs a SchemaDotOrgSchemaTypeManager object.
@@ -253,24 +265,17 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
    * {@inheritdoc}
    */
   public function getItem(string $table, string $id, array $fields = []): array|FALSE {
-    $table_name = 'schemadotorg_' . $table;
-    if (empty($fields)) {
-      if (!isset($this->itemsCache[$table][$id])) {
-        $item = $this->database->query('SELECT *
-          FROM {' . $this->database->escapeTable($table_name) . '}
-          WHERE label=:id', [':id' => $id])->fetchAssoc();
-        $this->itemsCache[$table][$id] = $this->setItemDrupalFields($table, $item);
-      }
-      return $this->itemsCache[$table][$id];
-    }
-    else {
+    $cid = $id . ($fields ? '.' . implode('.', $fields) : '');
+    if (!isset($this->itemsCache[$table][$cid])) {
+      $table_name = 'schemadotorg_' . $table;
       $item = $this->database->select($table_name, 't')
         ->fields('t', $fields)
         ->condition('label', (array) $id)
         ->execute()
         ->fetchAssoc();
-      return $this->setItemDrupalFields($table, $item);
+      $this->itemsCache[$table][$cid] = $this->setItemDrupalFields($table, $item);
     }
+    return $this->itemsCache[$table][$cid];
   }
 
   /**
@@ -340,35 +345,6 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
 
     // Finally, return the first type in range_includes type definitions.
     return array_key_first($type_definitions);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getPropertyUnit(string $property, int|string|null $value = 0): string|TranslatableMarkup|NULL {
-    if ($value === NULL) {
-      return NULL;
-    }
-
-    $property_definition = $this->getItem(static::SCHEMA_PROPERTIES, $property);
-    if (!$property_definition) {
-      return NULL;
-    }
-
-    $range_includes = ['https://schema.org/Energy', 'https://schema.org/Mass'];
-    if (!in_array($property_definition['range_includes'], $range_includes)) {
-      return NULL;
-    }
-
-    preg_match('/\b(grams|milligrams|calories)\b/', $property_definition['comment'], $match);
-    $unit = $match[1] ?? NULL;
-
-    return match ($unit) {
-      'grams' => ($value == '1') ? $this->t('gram') : $this->t('grams'),
-      'milligrams' => ($value == '1') ? $this->t('milligram') : $this->t('milligrams'),
-      'calories' => ($value == '1') ? $this->t('calorie') : $this->t('calories'),
-      default => NULL,
-    };
   }
 
   /**
@@ -711,19 +687,23 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
    * {@inheritdoc}
    */
   public function getTypeBreadcrumbs(string $type): array {
-    $breadcrumbs = [];
-    $breadcrumb_id = $type;
-    $breadcrumbs[$breadcrumb_id] = [];
-    $this->getTypeBreadcrumbsRecursive($breadcrumbs, $breadcrumb_id, $type);
+    if (!isset($this->breadcrumbsCache[$type])) {
+      $breadcrumbs = [];
+      $breadcrumb_id = $type;
+      $breadcrumbs[$breadcrumb_id] = [];
+      $this->getTypeBreadcrumbsRecursive($breadcrumbs, $breadcrumb_id, $type);
 
-    $sorted_breadcrumbs = [];
-    foreach ($breadcrumbs as $breadcrumb) {
-      $sorted_breadcrumb = array_reverse($breadcrumb, TRUE);
-      $breadcrumb_path = implode('/', array_keys($sorted_breadcrumb));
-      $sorted_breadcrumbs[$breadcrumb_path] = $sorted_breadcrumb;
+      $sorted_breadcrumbs = [];
+      foreach ($breadcrumbs as $breadcrumb) {
+        $sorted_breadcrumb = array_reverse($breadcrumb, TRUE);
+        $breadcrumb_path = implode('/', array_keys($sorted_breadcrumb));
+        $sorted_breadcrumbs[$breadcrumb_path] = $sorted_breadcrumb;
+      }
+      ksort($sorted_breadcrumbs);
+
+      $this->breadcrumbsCache[$type] = $sorted_breadcrumbs;
     }
-    ksort($sorted_breadcrumbs);
-    return $sorted_breadcrumbs;
+    return $this->breadcrumbsCache[$type];
   }
 
   /**
@@ -745,7 +725,13 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   /**
    * {@inheritdoc}
    */
-  public function getSetting(array $settings, SchemaDotOrgMappingInterface|array $parts, bool $multiple = FALSE): mixed {
+  public function getSetting(array $settings, SchemaDotOrgMappingInterface|array $parts, array $options = [], ?array $patterns = NULL): mixed {
+    // Set options defaults.
+    $options += [
+      'multiple' => FALSE,
+      'parents' => TRUE,
+    ];
+
     // Get the parts from a Schema.org mapping.
     if ($parts instanceof SchemaDotOrgMappingInterface) {
       $parts = [
@@ -759,8 +745,7 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
     $parts = array_filter($parts);
 
     // Set patterns.
-    // @todo Determine if patterns should be customizable.
-    $patterns = $this->settingPatterns;
+    $patterns = $patterns ?? $this->settingPatterns;
 
     // Handle settings that are a simple indexed array.
     if (array_is_list($settings)) {
@@ -778,7 +763,7 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
     }
 
     // Get all the possible searches.
-    if (isset($parts['schema_type'])) {
+    if ($options['parents'] && isset($parts['schema_type'])) {
       // For Schema.org type, include the parent types in the searches.
       $parent_types = $this->getParentTypes($parts['schema_type']);
       $parent_types = array_reverse($parent_types);
@@ -805,7 +790,7 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
         // Check if the settings name/key exists and return it.
         $settings_name = implode('--', $search_pattern);
         if (array_key_exists($settings_name, $settings)) {
-          if (!$multiple) {
+          if (!$options['multiple']) {
             return $settings[$settings_name];
           }
           $multiple_settings[$settings_name] = $settings[$settings_name];

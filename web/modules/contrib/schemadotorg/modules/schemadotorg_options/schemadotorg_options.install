@@ -21,3 +21,58 @@ function schemadotorg_options_update_10000(): void {
     ->set('allowed_value_uris', $data['allowed_value_uris'])
     ->save();
 }
+
+/**
+ * Convert allowed values keys to snake_case.
+ */
+function schemadotorg_options_update_10001(): void {
+  $config = \Drupal::configFactory()->getEditable('schemadotorg_options.settings');
+
+  // Convert allowed values keys to snake_case.
+  $schema_property_allowed_values = $config->get('schema_property_allowed_values');
+  foreach ($schema_property_allowed_values as $index => $schema_property_allowed_value) {
+    $allowed_values = [];
+    foreach ($schema_property_allowed_value as $key => $value) {
+      if (is_string($key)) {
+        $key = preg_replace('/[ -,]+/', '_', strtolower($key));
+      }
+      $allowed_values[$key] = $value;
+    }
+    $schema_property_allowed_values[$index] = $allowed_values;
+  }
+  $config->set('schema_property_allowed_values', $schema_property_allowed_values);
+
+  // Add allowed value text.
+  $module_path = \Drupal::service('extension.list.module')->getPath('schemadotorg_options');
+  $data = Yaml::decode(file_get_contents($module_path . '/config/install/schemadotorg_options.settings.yml'));
+  $config->set('allowed_value_text', $data['allowed_value_text']);
+
+  $config->save();
+}
+
+/**
+ * Issue #3465040: Improve options cleanup.
+ */
+function schemadotorg_options_update_10002(): void {
+  $config = \Drupal::configFactory()->getEditable('schemadotorg_options.settings');
+  $values = $config->get('schema_property_allowed_values_suffixes');
+  $values['eventStatus'] = 'Event';
+  $config->set('schema_property_allowed_values_remove', $values);
+  $config->clear('schema_property_allowed_values_suffixes');
+  $config->save();
+}
+
+/**
+ * Update Schema.org property allowed values settings.
+ */
+function schemadotorg_options_update_10003(): void {
+  $module_path = \Drupal::service('extension.list.module')->getPath('schemadotorg_options');
+  $data = Yaml::decode(file_get_contents($module_path . '/config/install/schemadotorg_options.settings.yml'));
+  $default_allowed_values = $data['schema_property_allowed_values'];
+
+  $config = \Drupal::configFactory()->getEditable('schemadotorg_options.settings');
+  $allowed_values = $config->get('schema_property_allowed_values') + $default_allowed_values;
+  ksort($allowed_values);
+  $config->set('schema_property_allowed_values', $allowed_values);
+  $config->save();
+}

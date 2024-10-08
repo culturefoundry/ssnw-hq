@@ -19,6 +19,9 @@ entity_reference_selection.schemadotorg:
       sequence:
         type: string
         label: 'Excluded Schema.org type'
+    ignore_additional_mappings:
+      type: boolean
+      label: 'Ignore additional Schema.org mappings'
     target_bundles:
       type: sequence
       label: 'Entity bundles'

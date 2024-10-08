@@ -4,10 +4,10 @@ schemadotorg_auto_entitylabel.settings:
   mapping:
     default_types:
       type: sequence
-      label: 'Schema.org default types'
+      label: 'Default types'
       sequence:
         type: mapping
-        label: 'Schema.org default types'
+        label: 'Default types'
         mapping:
           pattern:
             type: string

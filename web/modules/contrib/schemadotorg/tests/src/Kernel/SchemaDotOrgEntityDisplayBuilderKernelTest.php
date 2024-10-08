@@ -40,37 +40,23 @@ class SchemaDotOrgEntityDisplayBuilderKernelTest extends SchemaDotOrgEntityKerne
     $default_field_weights = $this->schemaEntityDisplayBuilder->getDefaultFieldWeights();
     $this->assertEquals(2, $default_field_weights['name']);
     $this->assertEquals(3, $default_field_weights['title']);
-    $this->assertEquals(4, $default_field_weights['alternateName']);
-    $this->assertEquals(12, $default_field_weights['description']);
+    $this->assertEquals(5, $default_field_weights['alternateName']);
+    $this->assertEquals(17, $default_field_weights['description']);
 
     // Check setting entity displays for a field.
     $this->schemaEntityDisplayBuilder->setFieldDisplays(
-      '',
-      '',
-      [],
       [
         'entity_type' => 'node',
         'bundle' => 'thing',
         'field_name' => 'name',
+        'schema_type' => 'Thing',
+        'schema_property' => 'name',
       ],
       NULL,
       [],
       NULL,
       []
     );
-    /** @var \Drupal\Core\Entity\Display\EntityViewDisplayInterface $entity_view_display */
-    $entity_view_display = EntityViewDisplay::load('node.thing.default');
-    $expected_value = [
-      'settings' => [],
-      'third_party_settings' => [],
-      'weight' => 201,
-      'region' => 'content',
-    ];
-    $this->assertEquals($expected_value, $entity_view_display->getComponent('name'));
-
-    // Check setting entity display field weights for Schema.org properties.
-    $this->schemaEntityDisplayBuilder->setFieldWeights($mapping, ['name' => 'name']);
-    \Drupal::entityTypeManager()->getStorage('entity_view_display')->resetCache();
     /** @var \Drupal\Core\Entity\Display\EntityViewDisplayInterface $entity_view_display */
     $entity_view_display = EntityViewDisplay::load('node.thing.default');
     $expected_value = [

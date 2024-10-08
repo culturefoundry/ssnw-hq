@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Drupal\Tests\schemadotorg_taxonomy\Kernel;
 
 use Drupal\content_translation\ContentTranslationManagerInterface;
+use Drupal\Core\Entity\EntityDisplayRepositoryInterface;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\language\Entity\ContentLanguageSettings;
+use Drupal\schemadotorg\SchemaDotOrgEntityFieldManagerInterface;
 use Drupal\taxonomy\Entity\Vocabulary;
 use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgEntityKernelTestBase;
 
@@ -29,6 +31,11 @@ class SchemaDotOrgTaxonomyPropertyVocabularyManagerKernelTest extends SchemaDotO
   ];
 
   /**
+   * The entity display repository.
+   */
+  protected EntityDisplayRepositoryInterface $entityDisplayRepository;
+
+  /**
    * The content translation manager.
    */
   protected ContentTranslationManagerInterface $contentTranslationManager;
@@ -43,6 +50,7 @@ class SchemaDotOrgTaxonomyPropertyVocabularyManagerKernelTest extends SchemaDotO
     $this->installEntitySchema('taxonomy_term');
     $this->installConfig(['schemadotorg_taxonomy']);
 
+    $this->entityDisplayRepository = $this->container->get('entity_display.repository');
     $this->contentTranslationManager = $this->container->get('content_translation.manager');
   }
 
@@ -50,9 +58,8 @@ class SchemaDotOrgTaxonomyPropertyVocabularyManagerKernelTest extends SchemaDotO
    * Test Schema.org taxonomy property vocabulary manager.
    */
   public function testManager(): void {
+    // Create a Recipe.
     $this->createSchemaEntity('node', 'Recipe');
-
-    /* ********************************************************************** */
 
     // Check that recipeCategory property defaults to
     // 'entity_reference:taxonomy_term' field type.
@@ -73,6 +80,28 @@ class SchemaDotOrgTaxonomyPropertyVocabularyManagerKernelTest extends SchemaDotO
     // Check that recipe_category vocabulary is translated.
     $this->assertNotNull(ContentLanguageSettings::load('taxonomy_term.recipe_category'));
     $this->assertTrue($this->contentTranslationManager->isEnabled('taxonomy_term', 'recipe_category'));
+
+    // Check the widget display is set to 'entity_reference_autocomplete_tags'.
+    $form_display = $this->entityDisplayRepository->getFormDisplay('node', 'recipe');
+    $form_component = $form_display->getComponent('schema_recipe_category');
+    $this->assertEquals('entity_reference_autocomplete_tags', $form_component['type']);
+
+    /* ********************************************************************** */
+
+    // Check the widget display is set to 'options_select'.
+    $defaults = [
+      'entity' => ['id' => 'other_physician'],
+      'properties' => [
+        'medicalSpecialty' => [
+          'name' => SchemaDotOrgEntityFieldManagerInterface::ADD_FIELD,
+          'widget_id' => 'options_select',
+        ],
+      ],
+    ];
+    $this->createSchemaEntity('node', 'Physician', $defaults);
+    $form_display = $this->entityDisplayRepository->getFormDisplay('node', 'other_physician');
+    $form_component = $form_display->getComponent('schema_medical_specialty');
+    $this->assertEquals('options_select', $form_component['type']);
   }
 
 }

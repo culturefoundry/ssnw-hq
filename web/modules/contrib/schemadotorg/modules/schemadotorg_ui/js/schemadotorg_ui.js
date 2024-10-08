@@ -29,7 +29,7 @@
           reset.setAttribute('style', 'display: none');
           reset.addEventListener('click', () => {
             input.value = '';
-            input.dispatchEvent(new Event('keyup'));
+            input.dispatchEvent(new Event('input'));
             input.focus();
           });
           input.parentNode.appendChild(reset);
@@ -41,7 +41,7 @@
         let filterRows;
         if (table) {
           filterRows = table.querySelectorAll('div.schemadotorg-ui-property');
-          input.addEventListener('keyup', debounce(filterBlockList, 200));
+          input.addEventListener('input', debounce(filterBlockList, 200));
         }
 
         // Make sure the filter input is always empty when the page loads.

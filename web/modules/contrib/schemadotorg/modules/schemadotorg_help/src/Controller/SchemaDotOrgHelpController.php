@@ -463,7 +463,7 @@ class SchemaDotOrgHelpController extends ControllerBase {
       }
 
       $row = [];
-      if ($this->moduleHandler->moduleExists($module_name)) {
+      if ($this->moduleHandler()->moduleExists($module_name)) {
         $row['title'] = [
           'data' => [
             'name' => [

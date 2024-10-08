@@ -36,7 +36,15 @@ class SchemaDotOrgDiagramController extends ControllerBase {
    *   A renderable array containing the the Schema.org diagrams.
    */
   public function index(NodeInterface $node): array {
-    return $this->schemaDiagram->buildDiagrams($node);
+    $diagrams = $this->schemaDiagram->buildDiagrams($node);
+    if (empty($diagrams)) {
+      return [
+        '#markup' => $this->t('There are no diagrams available.'),
+        '#prefix' => '<p>',
+        '#suffix' => '</p>',
+      ];
+    }
+    return $diagrams;
   }
 
   /**

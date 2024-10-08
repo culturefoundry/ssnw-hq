@@ -14,6 +14,20 @@ use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 interface SchemaDotOrgCustomFieldManagerInterface {
 
   /**
+   * Alters Schema.org mapping entity defaults value to always enable custom field.
+   *
+   * @param array $defaults
+   *   The Schema.org mapping entity default values.
+   * @param string $entity_type_id
+   *   The entity type ID.
+   * @param string|null $bundle
+   *   The bundle.
+   * @param string $schema_type
+   *   The Schema.org type.
+   */
+  public function mappingDefaultsAlter(array &$defaults, string $entity_type_id, ?string $bundle, string $schema_type): void;
+
+  /**
    * Alter the field types for Schema.org property.
    *
    * @param array $field_types
@@ -57,17 +71,38 @@ interface SchemaDotOrgCustomFieldManagerInterface {
   ): void;
 
   /**
-   * Get a custom field's Schema.org default properties.
+   * Determine if a Schema.org property is a custom field.
    *
-   * @param string $schema_type
+   * @param string|null $entity_type_id
+   *   The entity type ID.
+   * @param string|null $bundle
+   *   The bundle.
+   * @param string|null $schema_type
    *   The Schema.org type.
-   * @param string $schema_property
+   * @param string|null $schema_property
+   *   The Schema.org property.
+   *
+   * @return bool
+   *   TRUE if a Schema.org property is a custom field.
+   */
+  public function hasDefaultProperties(?string $entity_type_id = NULL, ?string $bundle = NULL, ?string $schema_type = NULL, ?string $schema_property = NULL): bool;
+
+  /**
+   * Retrieves the default custom field properties.
+   *
+   * @param string|null $entity_type_id
+   *   The entity type ID.
+   * @param string|null $bundle
+   *   The bundle.
+   * @param string|null $schema_type
+   *   The Schema.org type.
+   * @param string|null $schema_property
    *   The Schema.org property.
    *
    * @return array|null
-   *   A custom field's Schema.org default properties.
+   *   The default custom field properties.
    */
-  public function getDefaultProperties(string $schema_type, string $schema_property): ?array;
+  public function getDefaultProperties(?string $entity_type_id = NULL, ?string $bundle = NULL, ?string $schema_type = NULL, ?string $schema_property = NULL): ?array;
 
   /**
    * Prepare a property's field data before the Schema.org mapping form.

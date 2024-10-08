@@ -108,7 +108,26 @@ Tips
 Checklist
 ---------
 
-Below are common steps for building a starter kit.
+Below are common steps for copying an existing starter kit.
+
+- [ ] Copy the starter kit into the new namespace (schemadotorg_starterkit_recipe => acme_recipe)
+- [ ] Rename all files in the starter kit directory. 
+  - schemadotorg_starterkit_recipe => acme_recipe
+  - SchemaDotOrgStarterkitRecipe => AcmeRecipe
+- [ ] Rename namespaces in the code.
+  - schemadotorg_starterkit_recipe => acme_recipe
+  - SchemaDotOrgStarterkitRecipe => AcmeRecipe
+- [ ] Rename string in the code.
+  - Schema.org Blueprints Starter Kit: Recipes => Acme: Recipes
+- [ ] Review the starter kit in the admin UI.
+  - /admin/config/schemadotorg/starterkits
+- [ ] Test install the renamed starter kit.
+- [ ] Review README.md, config/rewrite, and *.module.
+- [ ] Remove unneeded features from README.md, config/rewrite, and *.module.
+- [ ] Rebuild build the config snapshot test. 
+  - test/src/Function/AcmeRecipeConfigSnapshotTest.php
+
+Below are common steps for building a new starter kit.
 
 - [ ] Determine Schema.org types
 - [ ] Determine Schema.org properties

@@ -82,6 +82,27 @@ class SchemaDotOrgTaxonomyPropertyVocabularyManager implements SchemaDotOrgTaxon
       return;
     }
 
+    // If the widget id is not specified, use the entity reference tree
+    // and tags widget.
+    if (empty($widget_id)) {
+      if ($this->moduleHandler->moduleExists('entity_reference_tree')) {
+        $widget_id = 'entity_reference_tree';
+        $widget_settings = [
+          'theme' => 'default',
+          'dots' => 0,
+          'size' => 60,
+          'placeholder' => '',
+          'match_operator' => 'CONTAINS',
+          'match_limit' => 10,
+          'dialog_title' => (string) $this->t('Select items'),
+          'label' => (string) $this->t('Select items'),
+        ];
+      }
+      else {
+        $widget_id = 'entity_reference_autocomplete_tags';
+      }
+    }
+
     // Check to see if the Schema.org property has vocabulary settings.
     $property_vocabulary_settings = $this->getPropertyVocabularySettings($schema_property);
     if (!$property_vocabulary_settings) {
@@ -109,24 +130,6 @@ class SchemaDotOrgTaxonomyPropertyVocabularyManager implements SchemaDotOrgTaxon
         'auto_create' => TRUE,
       ],
     ];
-
-    // Use the entity reference tree and tags widget.
-    if ($this->moduleHandler->moduleExists('entity_reference_tree')) {
-      $widget_id = 'entity_reference_tree';
-      $widget_settings = [
-        'theme' => 'default',
-        'dots' => 0,
-        'size' => 60,
-        'placeholder' => '',
-        'match_operator' => 'CONTAINS',
-        'match_limit' => 10,
-        'dialog_title' => (string) $this->t('Select items'),
-        'label' => (string) $this->t('Select items'),
-      ];
-    }
-    else {
-      $widget_id = 'entity_reference_autocomplete_tags';
-    }
   }
 
   /**

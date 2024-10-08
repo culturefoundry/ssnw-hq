@@ -12,6 +12,10 @@ path_json:
       }
     }
 default_schema_type_json:
+  PronounceableText: |
+    {
+      "speechToTextMarkup": "GAEP"
+    }
   node--CreativeWork: |
     {
       "copyrightHolder": "[site:name]",

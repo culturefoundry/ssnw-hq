@@ -90,6 +90,16 @@ mermaid:
   js:
     https://cdn.jsdelivr.net/npm/mermaid@10.5.0/dist/mermaid.min.js: { type: external, minified: true }
 
+svg-pan-zoom:
+  remote: https://github.com/ariutta/svg-pan-zoom
+  version: '3.6.1'
+  license:
+    name: BDS
+    url: https://github.com/ariutta/svg-pan-zoom/blob/master/LICENSE
+    gpl-compatible: true
+  js:
+    https://cdn.jsdelivr.net/gh/ariutta/svg-pan-zoom@3.6.1/dist/svg-pan-zoom.js: { type: external, minified: true }
+
 codemirror:
   remote: http://codemirror.net
   version: &webform_codemirror_version '5.65.15'

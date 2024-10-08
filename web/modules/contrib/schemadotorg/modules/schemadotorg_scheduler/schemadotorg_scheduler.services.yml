@@ -1,0 +1,4 @@
+services:
+  schemadotorg_scheduler.manager:
+    class: Drupal\schemadotorg_scheduler\SchemaDotOrgSchedulerManager
+    arguments: ['@config.factory', '@module_handler', '@entity_type.manager', '@entity_display.repository', '@schemadotorg.schema_type_manager']

@@ -23,7 +23,7 @@ html.js .schemadotorg-jsonld-preview-copy {
 }
 
 .schemadotorg-jsonld-preview-copy-message::before {
-  content: '✓';
+  content: "✓";
 }
 
 .schemadotorg-jsonld-preview-endpoints .form-item {

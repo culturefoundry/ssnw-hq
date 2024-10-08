@@ -121,9 +121,9 @@ class SchemaDotOrgEntityFieldManagerKernelTest extends SchemaDotOrgEntityKernelT
     $this->assertNull($this->fieldManager->getField('node', 'schema_identifier'));
 
     // Check getting a Schema.org property's default field settings.
-    $default_field = $this->fieldManager->getPropertyDefaultField('Person', 'additionalName');
+    $default_field = $this->fieldManager->getPropertyDefaultField('node', 'Person', 'additionalName');
     $this->assertEquals('Middle name', $default_field['label']);
-    $default_field = $this->fieldManager->getPropertyDefaultField('Person', 'affiliation');
+    $default_field = $this->fieldManager->getPropertyDefaultField('node', 'Person', 'affiliation');
     $expected_field = [
       'label' => 'Affiliations',
       'unlimited' => TRUE,
@@ -143,6 +143,11 @@ class SchemaDotOrgEntityFieldManagerKernelTest extends SchemaDotOrgEntityKernelT
         'text_long' => 'Text (formatted, long)',
         'text_with_summary' => 'Text (formatted, long, with summary)',
       ],
+      'Address' => [
+        'address' => 'Address',
+        'address_country' => 'Country',
+        'address_zone' => 'Zone',
+      ],
       'Date and time' => [
         'datetime' => 'Date',
         'timestamp' => 'Timestamp',
@@ -152,9 +157,7 @@ class SchemaDotOrgEntityFieldManagerKernelTest extends SchemaDotOrgEntityKernelT
         'image' => 'Image',
       ],
       'General' => [
-        'address' => 'Address',
         'boolean' => 'Boolean',
-        'address_country' => 'Country',
         'email' => 'Email',
         'internal_property_test' => 'Internal Property (test)',
         'link' => 'Link',
@@ -167,7 +170,6 @@ class SchemaDotOrgEntityFieldManagerKernelTest extends SchemaDotOrgEntityKernelT
         'field_test' => 'Test field item',
         'serialized_item_test' => 'Test serialized field item',
         'serialized_property_item_test' => 'Test serialized property field item',
-        'address_zone' => 'Zone',
       ],
       'Number' => [
         'decimal' => 'Number (decimal)',
@@ -186,7 +188,7 @@ class SchemaDotOrgEntityFieldManagerKernelTest extends SchemaDotOrgEntityKernelT
         'list_integer' => 'List (integer)',
       ],
     ];
-    $actual_field_type_options = $this->fieldManager->getPropertyFieldTypeOptions('Thing', 'alternateName');
+    $actual_field_type_options = $this->fieldManager->getPropertyFieldTypeOptions('node', 'Thing', 'alternateName');
     $this->convertArrayValuesToStrings($actual_field_type_options);
     $this->assertEquals($expected_field_type_options, $actual_field_type_options);
 
@@ -291,7 +293,7 @@ class SchemaDotOrgEntityFieldManagerKernelTest extends SchemaDotOrgEntityKernelT
     ];
     foreach ($tests as $test) {
       // Checking keys which also checks the sort order of the field types.
-      $this->assertEquals(array_keys($test[1]), array_keys($this->fieldManager->getSchemaPropertyFieldTypes('Thing', $test[0])));
+      $this->assertEquals(array_keys($test[1]), array_keys($this->fieldManager->getSchemaPropertyFieldTypes('node', 'Thing', $test[0])));
     }
   }
 

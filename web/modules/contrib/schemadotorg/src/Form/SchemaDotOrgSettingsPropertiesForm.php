@@ -64,12 +64,27 @@ class SchemaDotOrgSettingsPropertiesForm extends SchemaDotOrgSettingsFormBase {
       '#description' => $this->t('Enter default Schema.org property field definition used when adding a Schema.org property to an entity type.'),
       '#description_link' => 'properties',
       '#example' => implode(PHP_EOL, $field_types) . '
-SchemaType--propertyName:
+propertyName:
   type: string
   label: Property name
+  description: Property description
   unlimited: true
   required: true
-propertyName:
+  max_length: 100
+  default_value: 0
+  prefix: Prefix
+  suffix: Suffix
+  # Applicable to number fields.
+  scale: 2
+  min: 0
+  max: 100
+  # Applicable to entity reference handler settings.
+  schema_types:
+    SchemaType: SchemaType
+  excluded_schema_types:
+    SchemaType: SchemaType
+  ignore_additional_mappings: true
+SchemaType--propertyName:
   type: string
 ',
     ];
@@ -80,6 +95,10 @@ propertyName:
       '#description' => $this->t('Enter default Schema.org property field formatter settings used when adding a Schema.org property to an entity type.'),
       '#description_link' => 'properties',
       '#example' => '
+entity_type_id:
+  label: hidden
+entity_type_id--bundle:
+  label: hidden
 SchemaType--propertyName:
   label: hidden
 propertyName:
@@ -107,10 +126,13 @@ SchemaType--propertyName:
       '#title' => $this->t('Default Schema.org property field weights'),
       '#description' => $this->t('Enter Schema.org property default field order/weight to help order fields as they are added to entity types.'),
       '#example' => '
-- field_name_01
-- field_name_02
-- field_name_03
-',
+- schemaProperty
+- field_name
+- entity_type--field_name
+- entity_type--schemaProperty
+- entity_type--bundle--field_name
+- entity_type--SchemaType--schemaProperty
+- SchemaType--schemaProperty',
     ];
     $form['schema_properties']['range_includes'] = [
       '#type' => 'schemadotorg_settings',

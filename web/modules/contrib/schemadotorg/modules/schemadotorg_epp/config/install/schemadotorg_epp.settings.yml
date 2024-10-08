@@ -1,14 +1,19 @@
 node_links:
   Organization:
-    memberOf: Person
-    worksFor: Person
-    parentOrganization: Organization
-  LodgingBusiness:
-    containedInPlace: Accommodation
-  WebPage:
-    isPartOf: WebPage
+    'Organization?parentOrganization': 'Add @label'
+    'JobPosting?hiringOrganization': 'Add @label'
+    'Person?memberOf': 'Add @label as member'
+    'Person?worksFor': 'Add @label as employee'
+    'Event?organizer': 'Add @label as organizer'
+    'Event?sponsor': 'Add @label as sponsor'
+    'WebPage?isPartOf': 'Add @label'
+  MedicalCondition:
+    'HealthTopicContent?isPartOf&about': 'Add @label'
   CreativeWork:
-    about: CreativeWork
-  MedicalEntity:
-    about: CreativeWork
+    'CreativeWork?isPartOf': 'Add @label'
+  Person:
+    'Event?performer': 'Add @label as performer'
+  Place:
+    'Place?containsPlace': 'Add @label'
+    'Person?workLocation': 'Add @label'
 node_links_dropdown: true

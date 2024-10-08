@@ -42,7 +42,7 @@ function schemadotorg_smart_date_schemadotorg_property_field_alter(
 
   // If the 'Smart Date Recurring' module is installed, use for the field and
   // formatter.
-  if (\Drupal::moduleHandler()->moduleExists('smart_date_recur')) {
+  if (empty($formatter_id) && \Drupal::moduleHandler()->moduleExists('smart_date_recur')) {
     $field_values['third_party_settings'] = [
       'smart_date_recur' => [
         'allow_recurring' => TRUE,

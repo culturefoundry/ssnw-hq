@@ -25,7 +25,6 @@ function schemadotorg_cer_install(bool $is_syncing): void {
   $schema_config_manager->setMappingTypeSchemaTypeDefaultProperties('node', 'Thing', ['subjectOf']);
   $schema_config_manager->setMappingTypeSchemaTypeDefaultProperties('node', 'Event', ['about']);
   $schema_config_manager->setMappingTypeSchemaTypeDefaultProperties('node', 'CreativeWork', ['about']);
-
 }
 
 /**

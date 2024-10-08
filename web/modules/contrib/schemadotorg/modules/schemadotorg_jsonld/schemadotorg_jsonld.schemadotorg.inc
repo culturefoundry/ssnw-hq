@@ -95,8 +95,8 @@ function range_schemadotorg_jsonld_schema_property_alter(mixed &$value, FieldIte
       'minValue' => $item->from,
       'maxValue' => $item->to,
     ];
-    $value += \Drupal::config('schemadotorg.settings')
-      ->get("schema_types.default_property_values.$schema_type") ?? [];
+    $value += \Drupal::config('schemadotorg_jsonld.settings')
+      ->get("schema_type_default_values.$schema_type") ?? [];
   }
   elseif ($item->from === $item->to) {
     $value = $item->from;

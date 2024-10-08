@@ -8,6 +8,19 @@
 declare(strict_types=1);
 
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function schemadotorg_diagram_help(string $route_name, RouteMatchInterface $route_match): string|NULL {
+  switch ($route_name) {
+    case 'entity.node.schemadotorg_diagram':
+      return '<p>' . t('The <strong>Schema.org Diagrams preview</strong> displays the diagrams for the current node.') . '<p>';
+  }
+
+  return NULL;
+}
 
 /**
  * Implements hook_local_tasks_alter().

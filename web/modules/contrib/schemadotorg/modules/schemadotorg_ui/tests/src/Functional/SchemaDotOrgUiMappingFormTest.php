@@ -237,16 +237,13 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
       ],
       'schema_gender' => [
         'allowed_values' => [
-          'Female' => 'Female',
-          'Male' => 'Male',
-          'Unspecified' => 'Unspecified',
+          'female' => 'Female',
+          'male' => 'Male',
+          'unspecified' => 'Unspecified',
         ],
       ],
       'schema_knows_language' => [
         'allowed_values_function' => 'schemadotorg_options_allowed_values_language',
-      ],
-      'schema_nationality' => [
-        'allowed_values_function' => 'schemadotorg_options_allowed_values_country',
       ],
       'schema_works_for' => [
         'max_length' => 255,
@@ -288,7 +285,6 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
       'schema_honorific_suffix' => ['type' => 'options_select'],
       'schema_job_title' => ['type' => 'string_textfield'],
       'schema_knows_language' => ['type' => 'options_select'],
-      'schema_nationality' => ['type' => 'options_select'],
       'schema_telephone' => ['type' => 'telephone_default'],
       'schema_same_as' => ['type' => 'link_default'],
       'schema_works_for' => ['type' => 'string_textfield'],

@@ -89,7 +89,7 @@ class SchemadotorgStarterkitController extends ControllerBase {
       $is_installable = TRUE;
       $is_installed = $this->moduleHandler()->moduleExists($module_name);
 
-      $settings = $this->schemaStarterkitManager->getStarterkitSettings($module_name);
+      $settings = $this->schemaStarterkitManager->getStarterkitSettingsData($module_name);
 
       // Skip hidden module.
       if (!empty($module_data[$module_name]->info['hidden'])
@@ -307,6 +307,20 @@ class SchemadotorgStarterkitController extends ControllerBase {
       ];
     }
 
+    // Append operations as the last row in the table.
+    if ($rows) {
+      $rows[] = [
+        ['colspan' => 2],
+        'operations' => [
+          'data' => [
+            '#type' => 'operations',
+            '#links' => $this->getOperations($name, ['query' => $this->getRedirectDestination()->getAsArray()]),
+          ],
+          'style' => 'white-space: nowrap',
+        ],
+      ];
+    }
+
     $header = [
       'schema_type' => ['data' => $this->t('Schema.org type(s)'), 'width' => '15%'],
       'entity_type' => ['data' => $this->t('Entity label (type) / description'), 'width' => '70%'],
@@ -365,7 +379,7 @@ class SchemadotorgStarterkitController extends ControllerBase {
     }
     else {
       if ($this->moduleHandler()->moduleExists('devel_generate')) {
-        $settings = $this->schemaStarterkitManager->getStarterkitSettings($module_name);
+        $settings = $this->schemaStarterkitManager->getStarterkitSettingsData($module_name);
         if (!empty($settings['types'])) {
           $operations['generate'] = $this->t('Generate content');
           $operations['kill'] = $this->t('Kill content');

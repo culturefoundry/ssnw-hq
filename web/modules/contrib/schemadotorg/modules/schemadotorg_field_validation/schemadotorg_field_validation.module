@@ -18,12 +18,12 @@ function schemadotorg_field_validation_field_config_insert(FieldConfigInterface 
     return;
   }
 
-  if (empty($field_config->schemaDotOrgProperty) || $field_config->getType() !== 'string') {
+  if (empty($field_config->schemaDotOrgField) || $field_config->getType() !== 'string') {
     return;
   }
 
   $field_name = $field_config->getName();
-  $schema_property = $field_config->schemaDotOrgProperty;
+  $schema_property = $field_config->schemaDotOrgField['schema_property'];
 
   $validation_rules = \Drupal::config('schemadotorg_field_validation.settings')
     ->get('rules');

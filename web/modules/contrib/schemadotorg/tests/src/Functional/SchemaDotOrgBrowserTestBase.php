@@ -75,6 +75,32 @@ abstract class SchemaDotOrgBrowserTestBase extends BrowserTestBase {
   /* ************************************************************************ */
 
   /**
+   * Passes if a link with the specified label and href is found.
+   *
+   * @param string $label
+   *   Text between the anchor tags.
+   * @param string $href
+   *   The full or partial value of the 'href' attribute of the anchor tag.
+   * @param string $message
+   *   (optional) A message to display with the assertion. Do not translate.
+   *
+   * @see \Drupal\Tests\WebAssert::linkExists
+   * @see \Drupal\Tests\WebAssert::linkByHrefExists
+   */
+  protected function assertLinkExists(string $label, string $href, string $message = ''): void {
+    $message = ($message ?: strtr('Link with label %label and href %href not found.', ['%label' => $label, '%href' => $href]));
+    $links = $this->getSession()->getPage()->findAll('named', ['link', $label]);
+    $result = FALSE;
+    foreach ($links as $link) {
+      if ($link->hasAttribute('href')
+        && str_contains($link->getAttribute('href'), $href)) {
+        $result = TRUE;
+      }
+    }
+    $this->assertSession()->assert($result, $message);
+  }
+
+  /**
    * Assert saving a settings form does not alter the expected values.
    *
    * @param string $name

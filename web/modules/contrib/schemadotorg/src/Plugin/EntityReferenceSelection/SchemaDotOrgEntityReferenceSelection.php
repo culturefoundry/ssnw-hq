@@ -94,6 +94,7 @@ abstract class SchemaDotOrgEntityReferenceSelection extends SelectionPluginBase 
     return [
       'schema_types' => [],
       'excluded_schema_types' => [],
+      'ignore_additional_mappings' => FALSE,
       'target_bundles' => [],
     ] + parent::defaultConfiguration();
   }
@@ -152,6 +153,16 @@ abstract class SchemaDotOrgEntityReferenceSelection extends SelectionPluginBase 
       '#tags' => TRUE,
       '#target_type' => 'Thing',
       '#default_value' => $configuration['excluded_schema_types'],
+    ];
+
+    $form['ignore_additional_mappings'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Ignore additional Schema.org mappings'),
+      '#description' => $this->t('If checked, additional Schema.org mappings will not being included in the searched Schema.org types.')
+      . ' '
+      . $this->t('For example, if most nodes are mapped to WebPage via additional mappings, but you want to reference only nodes that are mapped directly to WebPage, you should ignore additional Schema.org mappings.'),
+      '#return_value' => TRUE,
+      '#default_value' => $configuration['ignore_additional_mappings'],
     ];
 
     return $form;
@@ -327,22 +338,34 @@ abstract class SchemaDotOrgEntityReferenceSelection extends SelectionPluginBase 
    *   the bundle.
    */
   public static function getTargetBundles(array $configuration): array {
+    $configuration += [
+      'schema_types' => [],
+      'excluded_schema_types' => [],
+      'ignore_additional_mappings' => FALSE,
+    ];
+
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
     $mapping_storage = \Drupal::entityTypeManager()->getStorage('schemadotorg_mapping');
+
+    // Set options to getting target bundles.
+    $options = [
+      'ignore_thing' => FALSE,
+      'ignore_additional_mappings' => $configuration['ignore_additional_mappings'],
+    ];
 
     // Get target bundles for the selected Schema.org types.
     $target_bundles = $mapping_storage->getRangeIncludesTargetBundles(
       $configuration['target_type'],
       $configuration['schema_types'],
-      FALSE,
+      $options,
     );
 
     // Excluded Schema.org types from target bundles.
-    if (!empty($configuration['excluded_schema_types'])) {
+    if ($configuration['excluded_schema_types']) {
       $exclude_target_bundles = $mapping_storage->getRangeIncludesTargetBundles(
         $configuration['target_type'],
         $configuration['excluded_schema_types'],
-        FALSE,
+        $options,
       );
       if (!empty($exclude_target_bundles)) {
         $target_bundles = array_diff_key($target_bundles, $exclude_target_bundles);

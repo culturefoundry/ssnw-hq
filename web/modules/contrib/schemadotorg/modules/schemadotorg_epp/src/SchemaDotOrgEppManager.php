@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace Drupal\schemadotorg_epp;
 
-use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Url;
-use Drupal\field\Entity\FieldConfig;
 use Drupal\node\NodeInterface;
-use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 use Drupal\schemadotorg\SchemaDotOrgNamesInterface;
 use Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface;
 use Drupal\schemadotorg\Traits\SchemaDotOrgMappingStorageTrait;
@@ -28,6 +26,8 @@ class SchemaDotOrgEppManager implements SchemaDotOrgEppManagerInterface {
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $configFactory
    *   The config factory service.
+   * @param \Drupal\Core\Session\AccountProxyInterface $currentUser
+   *   The current user.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
    *   The entity type manager.
    * @param \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schemaNames
@@ -37,6 +37,7 @@ class SchemaDotOrgEppManager implements SchemaDotOrgEppManagerInterface {
    */
   public function __construct(
     protected ConfigFactoryInterface $configFactory,
+    protected AccountProxyInterface $currentUser,
     protected EntityTypeManagerInterface $entityTypeManager,
     protected SchemaDotOrgNamesInterface $schemaNames,
     protected SchemaDotOrgSchemaTypeManagerInterface $schemaTypeManager,
@@ -128,150 +129,89 @@ class SchemaDotOrgEppManager implements SchemaDotOrgEppManagerInterface {
    *   An array of links with title and url.
    */
   public function getNodeLinks(NodeInterface $node): array {
-    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
-    $mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
-
-    // Check that the node is mapped to a Schema.org type.
-    $mapping = $mapping_storage->loadByEntity($node);
-    if (!$mapping) {
-      return [];
-    }
-
-    $node_links = [];
-    $node_field_names = $this->getNodeFieldNames($node);
-    foreach ($node_field_names as $bundle => $field_names) {
-      $fields = [];
-      foreach ($field_names as $field_name => $query_param) {
-        $bundle_label = $this->entityTypeManager
-          ->getStorage('node_type')
-          ->load($bundle)->label();
-        $field_config = FieldConfig::loadByName('node', $bundle, $field_name);
-        if (!$field_config) {
-          continue;
-        }
-
-        $field_label = $field_config->label();
-
-        $t_args = [
-          '@type' => $bundle_label,
-          '@field' => $field_label,
-        ];
-        $node_links["$bundle--$query_param"] = [
-          'title' => $this->formatPlural(count($field_names), 'Add @type', 'Add @type (@field)', $t_args),
-          'url' => Url::fromRoute(
-            'node.add',
-            ['node_type' => $bundle],
-            ['query' => [$query_param => $node->id()]],
-          ),
-        ];
-
-        // Track the bundle's fields query and label.
-        $fields[$query_param] = $field_label;
-        if (count($fields) > 1) {
-          $t_args = [
-            '@type' => $bundle_label,
-            '@field' => implode(' + ', $fields),
-          ];
-          $node_links[$bundle . '--' . implode('--', array_keys($fields))] = [
-            'title' => $this->t('Add @type (@field)', $t_args),
-            'url' => Url::fromRoute(
-              'node.add',
-              ['node_type' => $bundle],
-              ['query' => array_fill_keys(array_keys($fields), $node->id())],
-            ),
-          ];
-        }
-      }
-    }
-
-    return $node_links;
-  }
-
-  /**
-   * Get a Schema.org mapping's parent Schema.org types.
-   *
-   * @param \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping
-   *   A Schema.org mapping.
-   *
-   * @return array
-   *   A Schema.org mapping's parent Schema.org types.
-   */
-  protected function getParentSchemaTypes(SchemaDotOrgMappingInterface $mapping): array {
-    $parent_schema_types = [];
-    $schema_types = $mapping->getAllSchemaTypes();
-    foreach ($schema_types as $schema_type) {
-      $parent_schema_types += array_reverse(
-        $this->schemaTypeManager->getParentTypes($schema_type)
-      );
-    }
-    return $parent_schema_types;
-  }
-
-  /**
-   * Get a node's prepopulated bundles and field names.
-   *
-   * @param \Drupal\node\NodeInterface $node
-   *   A node.
-   *
-   * @return array
-   *   An associative array containing a node's
-   *   prepopulated bundles and field names.
-   */
-  protected function getNodeFieldNames(NodeInterface $node): array {
     // Check that the node is mapped to a Schema.org type.
     $mapping = $this->getMappingStorage()->loadByEntity($node);
     if (!$mapping) {
       return [];
     }
 
-    $query = [];
-    $parent_schema_types = $this->getParentSchemaTypes($mapping);
-    foreach ($parent_schema_types as $parent_schema_type) {
-      $schema_type_node_links = $this->configFactory
-        ->get('schemadotorg_epp.settings')
-        ->get("node_links.$parent_schema_type");
-      if (!$schema_type_node_links) {
-        continue;
-      }
+    // Get the node's node links settings.
+    $settings = $this->schemaTypeManager->getSetting(
+      $this->configFactory->get('schemadotorg_epp.settings')->get('node_links'),
+      $mapping,
+      ['multiple' => TRUE],
+    ) ?? [];
 
-      foreach ($schema_type_node_links as $node_link_schema_property => $node_link_schema_type) {
-        $node_link_mappings = $this->getMappingStorage()
-          ->loadMultipleBySchemaType('node', $node_link_schema_type);
-        foreach ($node_link_mappings as $node_link_mapping) {
-          $node_link_bundle = $node_link_mapping->getTargetBundle();
-          $node_link_schema_type = $node_link_mapping->getSchemaType();
+    // Create the node links.
+    $node_links = [];
+    foreach ($settings as $setting) {
+      foreach ($setting as $link => $title) {
+        // Parse the SchemaType?schemeProperty01&schemaProperty02 link patterns.
+        $target_schema_properties = preg_split('/[?&]/', $link);
+        $target_schema_type = array_shift($target_schema_properties);
 
-          // Get the node link's field name.
-          $node_link_field_name = $node_link_mapping->getSchemaPropertyFieldName($node_link_schema_property);
-          if (!$node_link_field_name) {
+        // Loop through target mappings and create node links.
+        $target_bundles = ($this->schemaTypeManager->isType($target_schema_type))
+          ? $this->getMappingStorage()->getRangeIncludesTargetBundles('node', [$target_schema_type])
+          : [$target_schema_type];
+        foreach ($target_bundles as $target_bundle) {
+          // Check create content access for node links.
+          if (!$this->currentUser->hasPermission('create ' . $target_bundle . ' content')) {
             continue;
           }
 
-          // Make sure the target entity reference supports the node's bundle.
-          /** @var \Drupal\field\FieldConfigInterface $node_link_field */
-          $node_link_field = FieldConfig::loadByName('node', $node_link_bundle, $node_link_field_name);
-          if (!NestedArray::keyExists($node_link_field->getSettings(), [
-            'handler_settings',
-            'target_bundles',
-            $node->getType(),
-          ])) {
+          $target_mapping = $this->getMappingStorage()
+            ->loadByBundle('node', $target_bundle);
+          if (!$target_mapping) {
             continue;
-          };
-
-          $query_param_name = $this->getQueryParameterName($node_link_schema_property);
-          $target_bundles = $this->getMappingStorage()
-            ->getRangeIncludesTargetBundles('node', [$node_link_schema_type]);
-
-          $node_types = $this->entityTypeManager->getStorage('node_type')
-            ->loadMultiple($target_bundles);
-          foreach ($node_types as $node_type) {
-            $query += [$node_type->id() => []];
-            $query[$node_type->id()][$node_link_field_name] = $query_param_name;
           }
+
+          $target_label = $this->entityTypeManager
+            ->getStorage('node_type')
+            ->load($target_bundle)->label();
+
+          // Get custom parameters.
+          $query_custom_parameters = [];
+          foreach ($target_schema_properties as $target_schema_property) {
+            if (str_contains($target_schema_property, '=')) {
+              [$query_param, $query_value] = explode('=', $target_schema_property);
+              $query_custom_parameters[$query_param] = $query_value;
+            }
+          }
+
+          // Get Schema.org parameters.
+          $query_schema_properties = array_flip(
+            array_intersect_key(
+              array_flip($target_mapping->getAllSchemaProperties()),
+              array_flip($target_schema_properties)
+            )
+          );
+
+          // Build the query from the custom parameters and Schema.org parameters.
+          $query = $query_custom_parameters;
+          foreach ($query_schema_properties as $query_schema_property) {
+            $query_parameter_name = $this->getQueryParameterName($query_schema_property);
+            $query[$query_parameter_name] = $node->id();
+          }
+
+          if (empty($query)) {
+            continue;
+          }
+
+          // Build the node link.
+          $key = $target_bundle . '--' . implode('--', array_keys($query));
+          $node_links[$key] = [
+            'title' => $this->t($title, ['@label' => $target_label]),
+            'url' => Url::fromRoute(
+              'node.add',
+              ['node_type' => $target_bundle],
+              ['query' => $query],
+            ),
+          ];
         }
       }
     }
-    return $query;
+    return $node_links;
   }
 
   /**

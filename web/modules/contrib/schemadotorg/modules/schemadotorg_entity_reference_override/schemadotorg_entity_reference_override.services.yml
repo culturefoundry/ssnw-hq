@@ -1,0 +1,4 @@
+services:
+  schemadotorg_entity_reference_override.manager:
+    class: Drupal\schemadotorg_entity_reference_override\SchemaDotOrgEntityReferenceOverrideManager
+    arguments: ['@config.factory', '@entity_type.manager', '@schemadotorg.schema_type_manager']

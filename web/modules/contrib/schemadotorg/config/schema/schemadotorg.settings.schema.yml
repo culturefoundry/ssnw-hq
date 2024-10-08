@@ -36,12 +36,6 @@ schemadotorg.settings:
               description:
                 type: text
                 label: Description
-        main_properties:
-          type: sequence
-          label: 'Schema.org types main properties'
-          sequence:
-            type: string
-            label: 'Schema.org type main property'
         default_properties:
           type: sequence
           label: 'Default Schema.org type properties'
@@ -51,15 +45,6 @@ schemadotorg.settings:
             sequence:
               type: string
               label: 'Schema.org property'
-        default_property_values:
-          type: sequence
-          label: 'Default Schema.org type property values'
-          sequence:
-            type: sequence
-            label: 'Schema.org type'
-            sequence:
-              type: string
-              label: 'Schema.org property value'
         default_field_types:
           type: sequence
           label: 'Default field types'
@@ -69,6 +54,25 @@ schemadotorg.settings:
             sequence:
               type: string
               label: 'Field types'
+        categories:
+          type: sequence
+          label: 'Categories'
+          sequence:
+            type: mapping
+            label: 'Category'
+            mapping:
+              label:
+                type: text
+                label: Label
+              color:
+                type: string
+                label: Color
+              types:
+                type: sequence
+                label: Types
+                sequence:
+                  type: string
+                  label: Type
     schema_properties:
       type: mapping
       label: 'Schema.org properties'
@@ -119,6 +123,57 @@ schemadotorg.settings:
               default_value:
                 type: ignore
                 label: 'Default value'
+              prefix:
+                type: text
+                label: Prefix
+              suffix:
+                type: text
+                label: Suffix
+              scale:
+                type: integer
+                label: Scale
+              min:
+                type: integer
+                label: Minimum
+              max:
+                type: integer
+                label: Maximum
+              granularity:
+                type: text
+                label: Granularity
+              allowed_formats:
+                type: sequence
+                label: 'Allowed formats'
+                sequence:
+                  type: string
+                  label: 'Allowed format'
+              schema_types:
+                type: sequence
+                label: 'Handler settings: Schema.org types'
+                sequence:
+                  type: string
+                  label: 'Schema.org type'
+              excluded_schema_types:
+                type: sequence
+                label: 'Handler settings: Excluded Schema.org types'
+                sequence:
+                  type: string
+                  label: 'Excluded Schema.org type'
+              ignore_additional_mappings:
+                type: boolean
+                label: 'Ignore additional Schema.org mappings'
+              widget_id:
+                type: string
+                label: 'Widget ID'
+              widget_settings:
+                type: ignore
+                label: 'Widget settings'
+              formatter_id:
+                type: string
+                label: 'Formatter ID'
+              formatter_settings:
+                type: ignore
+                label: 'Formatter settings'
         default_field_formatter_settings:
           type: sequence
           label: 'Default field formatter settings'

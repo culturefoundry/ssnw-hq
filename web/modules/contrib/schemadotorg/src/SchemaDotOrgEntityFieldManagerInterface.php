@@ -60,28 +60,32 @@ interface SchemaDotOrgEntityFieldManagerInterface {
   /**
    * Get a Schema.org property's default field settings.
    *
-   * @param string $type
+   * @param string $entity_type_id
+   *   The entity type ID.
+   * @param string $schema_type
    *   The Schema.org type.
-   * @param string $property
+   * @param string $schema_property
    *   The Schema.org property.
    *
    * @return array
    *   A Schema.org property's default field settings.
    */
-  public function getPropertyDefaultField(string $type, string $property): array;
+  public function getPropertyDefaultField(string $entity_type_id, string $schema_type, string $schema_property): array;
 
   /**
    * Gets a Schema.org type's property's available field types as options.
    *
-   * @param string $type
+   * @param string $entity_type_id
+   *   The entity type ID.
+   * @param string $schema_type
    *   The Schema.org type.
-   * @param string $property
+   * @param string $schema_property
    *   The Schema.org property.
    *
    * @return array[]
    *   A property's available field types as options.
    */
-  public function getPropertyFieldTypeOptions(string $type, string $property): array;
+  public function getPropertyFieldTypeOptions(string $entity_type_id, string $schema_type, string $schema_property): array;
 
   /**
    * Gets available fields as options.
@@ -108,6 +112,8 @@ interface SchemaDotOrgEntityFieldManagerInterface {
    * - String or entity reference.
    * - Alter field types.
    *
+   * @param string $entity_type_id
+   *   The entity type ID.
    * @param string $schema_type
    *   The Schema.org type.
    * @param string $schema_property
@@ -118,6 +124,6 @@ interface SchemaDotOrgEntityFieldManagerInterface {
    *
    * @see hook_schemadotorg_property_field_type_alter()
    */
-  public function getSchemaPropertyFieldTypes(string $schema_type, string $schema_property): array;
+  public function getSchemaPropertyFieldTypes(string $entity_type_id, string $schema_type, string $schema_property): array;
 
 }

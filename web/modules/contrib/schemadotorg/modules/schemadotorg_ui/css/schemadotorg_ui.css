@@ -10,8 +10,8 @@
 }
 
 .schemadotorg-ui-quick-start {
-  margin-bottom: .5em;
-  padding: .5em 0;
+  margin-bottom: 0.5em;
+  padding: 0.5em 0;
   border: 1px solid #ccc;
   border-radius: var(--ginBorderDefault);
 }
@@ -38,7 +38,8 @@ details.schemadotorg-ui--add-field {
   display: inline-block;
 }
 
-.schemadotorg-ui-properties-filter input.schemadotorg-ui-properties-filter-reset {
+.schemadotorg-ui-properties-filter
+  input.schemadotorg-ui-properties-filter-reset {
   position: absolute;
   top: 0;
   right: 0;
@@ -48,7 +49,8 @@ details.schemadotorg-ui--add-field {
   line-height: 1;
 }
 
-.schemadotorg-ui-properties-filter.form-item input.schemadotorg-ui-properties-filter-reset {
+.schemadotorg-ui-properties-filter.form-item
+  input.schemadotorg-ui-properties-filter-reset {
   padding-right: 1em;
 }
 
@@ -62,7 +64,9 @@ details.schemadotorg-ui--add-field {
   display: none !important;
 }
 
-.schemadotorg-ui-properties-filter-matches tbody > tr.schemadotorg-ui-properties-filter-match {
+.schemadotorg-ui-properties-filter-matches
+  tbody
+  > tr.schemadotorg-ui-properties-filter-match {
   display: table-row !important;
 }
 

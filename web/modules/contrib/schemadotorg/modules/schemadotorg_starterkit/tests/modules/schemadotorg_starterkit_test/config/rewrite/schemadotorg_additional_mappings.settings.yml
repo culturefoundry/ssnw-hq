@@ -1,0 +1,13 @@
+replace:
+  - default_properties.WebPage
+default_properties:
+  WebPage:
+    - dateCreated
+    - dateModified
+    - inLanguage
+    - name
+    - primaryImageOfPage
+    - relatedLink
+    - significantLink
+    - hasPart
+    - isPartOf

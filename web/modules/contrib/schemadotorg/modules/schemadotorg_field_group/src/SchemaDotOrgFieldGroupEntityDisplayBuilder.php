@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Drupal\schemadotorg_field_group;
 
-use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\Display\EntityDisplayInterface;
 use Drupal\Core\Entity\Display\EntityFormDisplayInterface;
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\Core\Entity\EntityDisplayRepositoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\field_group\Form\FieldGroupAddForm;
@@ -49,33 +49,72 @@ class SchemaDotOrgFieldGroupEntityDisplayBuilder implements SchemaDotOrgFieldGro
   /**
    * {@inheritdoc}
    */
-  public function setFieldGroups(SchemaDotOrgMappingInterface $mapping, array $properties = []): void {
-    $entity_type_id = $mapping->getTargetEntityTypeId();
-    $bundle = $mapping->getTargetBundle();
-    $schema_type = $mapping->getSchemaType();
-    $properties = $properties ?: $mapping->getNewSchemaProperties();
-    $mapping_values = $mapping->getMappingDefaults();
-
-    // Form display.
-    $form_modes = $this->schemaEntityDisplayBuilder->getFormModes($entity_type_id, $bundle);
-    foreach ($form_modes as $form_mode) {
-      $form_display = $this->entityDisplayRepository->getFormDisplay($entity_type_id, $bundle, $form_mode);
-      foreach ($properties as $field_name => $property) {
-        $this->setFieldGroup($form_display, $field_name, $schema_type, $property, $mapping_values);
-      }
-      $form_display->save();
+  public function mappingPreSave(SchemaDotOrgMappingInterface $mapping): void {
+    if ($mapping->isSyncing()) {
+      return;
     }
 
-    // View display.
-    $view_modes = $this->schemaEntityDisplayBuilder->getViewModes($entity_type_id, $bundle);
-    // Only support field groups in the default and full view modes.
-    $view_modes = array_intersect_key($view_modes, ['default' => 'default', 'full' => 'full']);
-    foreach ($view_modes as $view_mode) {
-      $view_display = $this->entityDisplayRepository->getViewDisplay($entity_type_id, $bundle, $view_mode);
-      foreach ($properties as $field_name => $property) {
-        $this->setFieldGroup($view_display, $field_name, $schema_type, $property, $mapping_values);
+    if (!$mapping->isNew() || $mapping->getTargetEntityTypeId() !== 'node') {
+      return;
+    }
+
+    // Set form and view display for existing title and body fields.
+    $schema_type = $mapping->getSchemaType();
+    $schema_properties = array_intersect_key(
+      $mapping->getNewSchemaProperties(),
+      ['title' => 'title', 'body' => 'body'],
+    );
+    if (!$schema_properties) {
+      return;
+    }
+
+    $entity_type_id = $mapping->getTargetEntityTypeId();
+    $bundle = $mapping->getTargetBundle();
+    $field_defaults = [];
+
+    foreach ($schema_properties as $field_name => $schema_property) {
+      // Form display.
+      $form_modes = $this->schemaEntityDisplayBuilder->getFormModes($entity_type_id, $bundle);
+      foreach ($form_modes as $form_mode) {
+        $form_display = $this->entityDisplayRepository->getFormDisplay($entity_type_id, $bundle, $form_mode);
+        $this->setFieldGroup($form_display, $field_name, $schema_type, $schema_property, $field_defaults);
+        $form_display->save();
       }
-      $view_display->save();
+
+      // View display.
+      $view_modes = $this->schemaEntityDisplayBuilder->getViewModes($entity_type_id, $bundle);
+      foreach ($view_modes as $view_mode) {
+        $view_display = $this->entityDisplayRepository->getViewDisplay($entity_type_id, $bundle, $view_mode);
+        $this->setFieldGroup($view_display, $field_name, $schema_type, $schema_property, $field_defaults);
+        $view_display->save();
+      }
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function entityDisplayPreSave(EntityDisplayInterface $display): void {
+    if ($display->isSyncing()) {
+      return;
+    }
+
+    $field = $display->schemaDotOrgField ?? NULL;
+    if (!$field) {
+      return;
+    }
+
+    $field_name = $field['field_name'];
+    $schema_type = $field['schema_type'];
+    $schema_property = $field['schema_property'];
+
+    $modes = $this->schemaEntityDisplayBuilder->getModes($display);
+    // Only support field groups in the default and full view modes.
+    if ($display instanceof EntityViewDisplayInterface) {
+      $modes = array_intersect_key($modes, ['default' => 'default', 'full' => 'full']);
+    }
+    if (isset($modes[$display->getMode()])) {
+      $this->setFieldGroup($display, $field_name, $schema_type, $schema_property, $field);
     }
   }
 
@@ -90,131 +129,46 @@ class SchemaDotOrgFieldGroupEntityDisplayBuilder implements SchemaDotOrgFieldGro
    *   The field name's associated Schema.org type.
    * @param string $schema_property
    *   The field name's associated Schema.org property.
-   * @param array $mapping_values
-   *   The Schema.org mapping values.
+   * @param array $field_defaults
+   *   The field defaults.
    *
    * @see field_group_group_save()
    * @see field_group_field_overview_submit()
    * @see \Drupal\field_group\Form\FieldGroupAddForm::submitForm
    */
-  protected function setFieldGroup(EntityDisplayInterface $display, string $field_name, string $schema_type, string $schema_property, array $mapping_values): void {
+  protected function setFieldGroup(EntityDisplayInterface $display, string $field_name, string $schema_type, string $schema_property, array $field_defaults): void {
     if (!$this->hasFieldGroup($display, $field_name, $schema_type, $schema_property)) {
       return;
     }
 
     $entity_type_id = $display->getTargetEntityTypeId();
+    $bundle = $display->getTargetBundle();
     $display_type = ($display instanceof EntityFormDisplayInterface) ? 'form' : 'view';
-
-    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface|null $mapping_type */
-    $mapping_type = $this->entityTypeManager
-      ->getStorage('schemadotorg_mapping_type')
-      ->load($entity_type_id);
-
-    $config = $this->configFactory->get('schemadotorg_field_group.settings');
-    $default_field_groups = $config->get('default_field_groups.' . $entity_type_id) ?? [];
-    $group_weights = array_flip(array_keys($default_field_groups));
-    foreach ($group_weights as $group_name => $group_weight) {
-      $group_weights[$group_name] = $group_weight - 5;
-    }
-    $max_group_weight = ($group_weights)
-      ? (int) ceil(max($group_weights) / 10) * 10
-      : 0;
-
-    /** @var \Drupal\field\FieldStorageConfigInterface|null $field_storage */
-    $field_storage = $this->entityTypeManager
-      ->getStorage('field_storage_config')
-      ->load("$entity_type_id.$field_name");
-    $field_type = ($field_storage) ? $field_storage->getType() : NULL;
-    $field_target_type = ($field_storage) ? $field_storage->getSetting('target_type') : NULL;
-
-    // Get group name and field weight from entity type
-    // field group configuration.
-    $group_name = NestedArray::getValue($mapping_values, ['properties', $schema_property, 'group']);
-    $field_weight = NestedArray::getValue($mapping_values, ['properties', $schema_property, 'group_field_weight']);
-    if (!$group_name) {
-      foreach ($default_field_groups as $default_field_group_name => $default_field_group) {
-        $properties = array_flip($default_field_group['properties']);
-        $setting_parts = [
-          'schema_type' => $schema_type,
-          'schema_property' => $schema_property,
-        ];
-        $field_group_weight = $this->schemaTypeManager->getSetting($properties, $setting_parts);
-        if (!is_null($field_group_weight)) {
-          $group_name = $default_field_group_name;
-          $field_weight = $field_group_weight;
-          break;
-        }
-      }
+    $field_group = $this->getFieldGroup(
+      $entity_type_id,
+      $field_name,
+      $schema_type,
+      $schema_property,
+      $field_defaults
+    );
+    if (!$field_group) {
+      return;
     }
 
-    // Set group name for sub properties of identifier.
-    if (!$group_name
-      && isset($default_field_groups['identifiers'])
-      && (
-        $this->schemaTypeManager->isSubPropertyOf($schema_property, 'identifier')
-      )
-    ) {
-      $group_name = 'identifiers';
-    }
-
-    // Set group name by field type.
-    if (!$group_name && $field_type) {
-      // Set links field groups.
-      if ($field_storage->getType() === 'link' && isset($default_field_groups['links'])) {
-        $group_name = 'links';
-      }
-      // Set entity reference and taxonomy field groups.
-      elseif ($field_type === 'entity_reference') {
-        if ($field_target_type === 'taxonomy_term' && isset($default_field_groups['taxonomy'])) {
-          $group_name = 'taxonomy';
-        }
-        elseif (isset($default_field_groups['relationships'])) {
-          $group_name = 'relationships';
-        }
-      }
-    }
-
-    // Set group name by the parent Schema.org type.
-    if (!$group_name) {
-      $default_schema_type_field_groups = $config->get('default_schema_type_field_groups');
-      foreach ($default_schema_type_field_groups as $default_schema_type => $default_field_group_name) {
-        if (isset($default_field_groups[$default_field_group_name])
-          && $this->schemaTypeManager->isSubTypeOf($schema_type, $default_schema_type)) {
-          $group_name = $default_field_group_name;
-        }
-      }
-    }
-
-    // Automatically generate a default catch all field group for
-    // the current Schema.org type.
-    if (!$group_name) {
-      // But don't generate a group for default fields.
-      $base_field_names = $mapping_type->getBaseFieldNames();
-      if (isset($base_field_names[$field_name])) {
-        return;
-      }
-      $group_name = $this->schemaNames->schemaIdToDrupalName('types', $schema_type);
-      $group_label = $this->schemaNames->camelCaseToSentenceCase($schema_type);
-      $group_weight = $max_group_weight;
-    }
-    else {
-      $group_label = $default_field_groups[$group_name]['label'];
-      $default_group_weights = [
-        'links' => 10 + $max_group_weight,
-        'relationships'  => 20 + $max_group_weight,
-        'taxonomy' => 30 + $max_group_weight,
-        'identifiers' => 40 + $max_group_weight,
-      ];
-      $group_weight = $default_group_weights[$group_name]
-        ?? $group_weights[$group_name]
-        ?? $max_group_weight;
-    }
-
-    // Set default field weight.
-    $field_weight = $field_weight ?? $this->schemaEntityDisplayBuilder->getSchemaPropertyDefaultFieldWeight($entity_type_id, $field_name, $schema_property);
+    $field_weight = $this->getFieldWeight(
+      $entity_type_id,
+      $bundle,
+      $field_name,
+      $schema_type,
+      $schema_property,
+      $field_defaults
+    );
 
     // Prefix group name.
-    $group_name = FieldGroupAddForm::GROUP_PREFIX . $group_name;
+    $group_name = FieldGroupAddForm::GROUP_PREFIX . $field_group['name'];
+    $group_label = $field_group['label'];
+    $group_weight = $field_group['weight'];
+    $group_description = $field_group['description'] ?? '';
 
     // Remove field name from an existing groups, so that it can be reset.
     $existing_groups = $display->getThirdPartySettings('field_group');
@@ -229,8 +183,13 @@ class SchemaDotOrgFieldGroupEntityDisplayBuilder implements SchemaDotOrgFieldGro
     // Get existing group.
     $group = $display->getThirdPartySetting('field_group', $group_name);
     if (!$group) {
-      $default_format_type = $config->get('default_' . $display_type . '_type') ?: '';
+      $default_format_type = $this->configFactory
+        ->get('schemadotorg_field_group.settings')
+        ->get('default_' . $display_type . '_type') ?: '';
       $default_format_settings = ($default_format_type === 'details') ? ['open' => TRUE] : [];
+      if ($display instanceof EntityFormDisplayInterface) {
+        $default_format_settings['description'] = $group_description;
+      }
       $group = [
         'label' => $group_label,
         'children' => [],
@@ -253,6 +212,192 @@ class SchemaDotOrgFieldGroupEntityDisplayBuilder implements SchemaDotOrgFieldGro
     $component = $display->getComponent($field_name);
     $component['weight'] = $field_weight;
     $display->setComponent($field_name, $component);
+  }
+
+  /**
+   * Get the field group for a given entity type, field name, schema type, schema property, and mapping values.
+   *
+   * @param string $entity_type_id
+   *   The entity type ID.
+   * @param string $field_name
+   *   The field name.
+   * @param string $schema_type
+   *   The schema type.
+   * @param string $schema_property
+   *   The schema property.
+   * @param array $field_defaults
+   *   The field defaults.
+   *
+   * @return array
+   *   An array containing the field group name, label, and weight.
+   */
+  protected function getFieldGroup(string $entity_type_id, string $field_name, string $schema_type, string $schema_property, array $field_defaults): array {
+    // Automatically generate a default catch all field group for
+    // the current Schema.org type.
+    $group_name = $this->getFieldGroupName($entity_type_id, $field_name, $schema_type, $schema_property, $field_defaults);
+    if ($group_name === FALSE) {
+      return [];
+    }
+    elseif (is_null($group_name)) {
+      /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface|null $mapping_type */
+      $mapping_type = $this->entityTypeManager
+        ->getStorage('schemadotorg_mapping_type')
+        ->load($entity_type_id);
+      // But don't generate a group for default fields.
+      $base_field_names = $mapping_type->getBaseFieldNames();
+      if (isset($base_field_names[$field_name])) {
+        return [];
+      }
+
+      return [
+        'name' => $this->schemaNames->schemaIdToDrupalName('types', $schema_type),
+        'label' => $this->schemaNames->camelCaseToSentenceCase($schema_type),
+        'description ' => '',
+        'weight' => 0,
+      ];
+    }
+    else {
+      $default_field_groups = $this->configFactory
+        ->get('schemadotorg_field_group.settings')
+        ->get('default_field_groups.' . $entity_type_id) ?? [];
+      return [
+        'name' => $group_name,
+        'label' => $default_field_groups[$group_name]['label'] ?? $group_name,
+        'description' => $default_field_groups[$group_name]['description'] ?? '',
+        'weight' => $default_field_groups[$group_name]['weight'] ?? 0,
+      ];
+    }
+  }
+
+  /**
+   * Get the field group name for a given entity, field, schema type, schema property, and mapping values.
+   *
+   * @param string $entity_type_id
+   *   The entity type ID.
+   * @param string $field_name
+   *   The field name.
+   * @param string $schema_type
+   *   The Schema.org type.
+   * @param string $schema_property
+   *   The Schema.org property.
+   * @param array $field_defaults
+   *   The field defaults.
+   *
+   * @return string|bool|null
+   *   The field group name, FALSE for no group, or null if not found.
+   */
+  protected function getFieldGroupName(string $entity_type_id, string $field_name, string $schema_type, string $schema_property, array $field_defaults): string|bool|null {
+    // Get group name from the field's defaults.
+    if (array_key_exists('group', $field_defaults)
+      && !is_null($field_defaults['group'])) {
+      return $field_defaults['group'];
+    }
+
+    // Get group name and field weight from entity type
+    // field group configuration.
+    $default_field_groups = $this->configFactory
+      ->get('schemadotorg_field_group.settings')
+      ->get('default_field_groups.' . $entity_type_id) ?? [];
+    foreach ($default_field_groups as $default_field_group_name => $default_field_group) {
+      $properties = array_flip($default_field_group['properties']);
+      $parts = [
+        'field_name' => $field_name,
+        'schema_type' => $schema_type,
+        'schema_property' => explode(':', $schema_property)[0],
+      ];
+      $field_group_setting = $this->schemaTypeManager->getSetting($properties, $parts);
+      if (!is_null($field_group_setting)) {
+        return $default_field_group_name;
+      }
+    }
+
+    // Set group name for sub properties of identifier.
+    if (isset($default_field_groups['identifiers'])
+      && $this->schemaTypeManager->isSubPropertyOf($schema_property, 'identifier')
+    ) {
+      return 'identifiers';
+    }
+
+    // Set group name by field type.
+    /** @var \Drupal\field\FieldStorageConfigInterface|null $field_storage */
+    $field_storage = $this->entityTypeManager
+      ->getStorage('field_storage_config')
+      ->load("$entity_type_id.$field_name");
+    if ($field_storage) {
+      $field_type = $field_storage->getType();
+      $field_target_type = $field_storage->getSetting('target_type');
+
+      if ($field_type === 'link' && isset($default_field_groups['links'])) {
+        return 'links';
+      }
+      elseif ($field_type === 'entity_reference') {
+        if ($field_target_type === 'taxonomy_term' && isset($default_field_groups['taxonomy'])) {
+          return 'taxonomy';
+        }
+        elseif (isset($default_field_groups['relationships'])) {
+          return 'relationships';
+        }
+      }
+    }
+
+    // Set group name by the parent Schema.org type.
+    $default_schema_type_field_groups = $this->configFactory
+      ->get('schemadotorg_field_group.settings')
+      ->get('default_schema_type_field_groups');
+    foreach ($default_schema_type_field_groups as $default_schema_type => $default_field_group_name) {
+      if (isset($default_field_groups[$default_field_group_name])
+        && $this->schemaTypeManager->isSubTypeOf($schema_type, $default_schema_type)) {
+        return $default_field_group_name;
+      }
+    }
+
+    return NULL;
+  }
+
+  /**
+   * Retrieves the weight of a field in the field group.
+   *
+   * @param string $entity_type_id
+   *   The ID of the entity type.
+   * @param string $bundle
+   *   The bundle.
+   * @param string $field_name
+   *   The name of the field.
+   * @param string $schema_type
+   *   The Schema.org type.
+   * @param string $schema_property
+   *   The Schema.org property.
+   * @param array $field_defaults
+   *   The field defaults.
+   *
+   * @return int
+   *   The weight of the field in the field group.
+   */
+  protected function getFieldWeight(string $entity_type_id, string $bundle, string $field_name, string $schema_type, string $schema_property, array $field_defaults): int {
+    $field_weight = $field_defaults['group_field_weight'] ?? NULL;
+    if ($field_weight) {
+      return $field_weight;
+    }
+
+    $default_field_groups = $this->configFactory
+      ->get('schemadotorg_field_group.settings')
+      ->get('default_field_groups.' . $entity_type_id) ?? [];
+    foreach ($default_field_groups as $default_field_group) {
+      $properties = array_flip($default_field_group['properties']);
+      $parts = [
+        'field_name' => $field_name,
+        'schema_type' => $schema_type,
+        // Get the main Schema.org property.
+        // (i.e., 'name' is the main property for 'name:prefix'.)
+        'schema_property' => explode(':', $schema_property)[0],
+      ];
+      $weight = $this->schemaTypeManager->getSetting($properties, $parts);
+      if (!is_null($weight)) {
+        return $weight;
+      }
+    }
+
+    return $this->schemaEntityDisplayBuilder->getSchemaPropertyDefaultFieldWeight($entity_type_id, $bundle, $field_name, $schema_type, $schema_property);
   }
 
   /**
@@ -282,36 +427,44 @@ class SchemaDotOrgFieldGroupEntityDisplayBuilder implements SchemaDotOrgFieldGro
       return TRUE;
     }
 
-    $entity_type_id = $display->getTargetEntityTypeId();
-    $bundle = $display->getTargetBundle();
-    $display_type = ($display instanceof EntityFormDisplayInterface) ? 'form' : 'view';
-    $display_mode = $display->getMode();
-
-    $disabled_patterns = [
-      $entity_type_id,
-      "$entity_type_id--$display_type",
-      "$entity_type_id--$display_type--$bundle",
-      "$entity_type_id--$display_type--$bundle--$field_name",
-      "$entity_type_id--$display_type--$schema_type",
-      "$entity_type_id--$display_type--$schema_type--$schema_property",
-      "$entity_type_id--$display_type--$schema_property",
-      "$entity_type_id--$display_type--$field_name",
-      "$entity_type_id--$display_type--$display_mode",
-      "$entity_type_id--$display_type--$display_mode--$bundle",
-      "$entity_type_id--$display_type--$display_mode--$bundle--$field_name",
-      "$entity_type_id--$display_type--$display_mode--$schema_type",
-      "$entity_type_id--$display_type--$display_mode--$schema_type--$schema_property",
-      "$entity_type_id--$display_type--$display_mode--$schema_property",
-      "$entity_type_id--$bundle",
-      "$entity_type_id--$bundle--$field_name",
-      "$entity_type_id--$schema_type",
-      "$entity_type_id--$schema_type--$schema_property",
-      "$entity_type_id--$schema_property",
-      "$entity_type_id--$field_name",
+    $parts = [
+      'entity_type_id' => $display->getTargetEntityTypeId(),
+      'bundle' => $display->getTargetBundle(),
+      'schema_type' => $schema_type,
+      'schema_property' => explode(':', $schema_property)[0],
+      'field_name' => $field_name,
+      'display_type' => ($display instanceof EntityFormDisplayInterface) ? 'form' : 'view',
+      'display_mode' => $display->getMode(),
     ];
 
-    $disabled = (bool) array_intersect($disable_field_groups, $disabled_patterns);
-    return !$disabled;
+    $patterns = [
+      ['entity_type_id'],
+      ['entity_type_id', 'display_type'],
+      ['entity_type_id', 'display_type', 'bundle'],
+      ['entity_type_id', 'display_type', 'bundle', 'field_name'],
+      ['entity_type_id', 'display_type', 'schema_type'],
+      ['entity_type_id', 'display_type', 'schema_type', 'schema_property'],
+      ['entity_type_id', 'display_type', 'schema_property'],
+      ['entity_type_id', 'display_type', 'field_name'],
+      ['entity_type_id', 'display_type', 'display_mode'],
+      ['entity_type_id', 'display_type', 'display_mode', 'bundle'],
+      ['entity_type_id', 'display_type', 'display_mode', 'bundle', 'field_name'],
+      ['entity_type_id', 'display_type', 'display_mode', 'schema_type'],
+      ['entity_type_id', 'display_type', 'display_mode', 'schema_type', 'schema_property'],
+      ['entity_type_id', 'display_type', 'display_mode', 'schema_property'],
+      ['entity_type_id', 'bundle'],
+      ['entity_type_id', 'bundle', 'field_name'],
+      ['entity_type_id', 'schema_type'],
+      ['entity_type_id', 'schema_type', 'schema_property'],
+      ['entity_type_id', 'schema_property'],
+      ['entity_type_id', 'field_name'],
+    ];
+
+    return !$this->schemaTypeManager->getSetting(
+      settings: $disable_field_groups,
+      parts: $parts,
+      patterns: $patterns,
+    );
   }
 
 }

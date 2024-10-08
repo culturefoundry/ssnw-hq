@@ -62,3 +62,8 @@ pre.schemadotorg-report-mapping-defaults-code span {
     margin: 0 0 1em 0;
   }
 }
+
+.schemadotorg-report-relationships-diagram svg {
+  min-height: 400px;
+  border: 1px solid #ccc;
+}

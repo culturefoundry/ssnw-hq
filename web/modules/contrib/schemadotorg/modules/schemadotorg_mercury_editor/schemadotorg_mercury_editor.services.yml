@@ -1,0 +1,4 @@
+services:
+  schemadotorg_mercury_editor.manager:
+    class: Drupal\schemadotorg_mercury_editor\SchemaDotOrgMercuryEditorManager
+    arguments: ['@config.factory', '@module_handler', '@schemadotorg_layout_paragraphs.manager']

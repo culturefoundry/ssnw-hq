@@ -6,6 +6,7 @@ namespace Drupal\schemadotorg;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\Display\EntityDisplayInterface;
+use Drupal\Core\Entity\Display\EntityFormDisplayInterface;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\Core\Entity\EntityDisplayRepositoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -34,6 +35,8 @@ class SchemaDotOrgEntityDisplayBuilder implements SchemaDotOrgEntityDisplayBuild
    *   The entity display repository.
    * @param \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schemaNames
    *   The Schema.org names service.
+   * @param \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schemaTypeManager
+   *   The Schema.org type manager.
    */
   public function __construct(
     protected ModuleHandlerInterface $moduleHandler,
@@ -41,6 +44,7 @@ class SchemaDotOrgEntityDisplayBuilder implements SchemaDotOrgEntityDisplayBuild
     protected EntityTypeManagerInterface $entityTypeManager,
     protected EntityDisplayRepositoryInterface $entityDisplayRepository,
     protected SchemaDotOrgNamesInterface $schemaNames,
+    protected SchemaDotOrgSchemaTypeManagerInterface $schemaTypeManager,
   ) {}
 
   /**
@@ -63,20 +67,36 @@ class SchemaDotOrgEntityDisplayBuilder implements SchemaDotOrgEntityDisplayBuild
    * Get the default field weight for Schema.org property.
    *
    * @param string $entity_type_id
-   *   The Schema.org property.
+   *   The entity type ID.
+   * @param string $bundle
+   *   The bundle.
    * @param string $field_name
-   *   The entity type.
+   *   THe field name.
+   * @param string $schema_type
+   *   The Schema.org type.
    * @param string $schema_property
-   *   The field name.
+   *   The Schema.org property.
    *
    * @return int
    *   The default field weight for Schema.org property.
    */
-  public function getSchemaPropertyDefaultFieldWeight(string $entity_type_id, string $field_name, string $schema_property): int {
+  public function getSchemaPropertyDefaultFieldWeight(string $entity_type_id, string $bundle, string $field_name, string $schema_type, string $schema_property): int {
+    // Get the main Schema.org property.
+    // (i.e., 'name' is the main property for 'name:prefix'.)
+    $schema_property = explode(':', $schema_property)[0];
+
     // Check default field weights.
     $default_field_weights = $this->getDefaultFieldWeights();
-    if (isset($default_field_weights[$schema_property])) {
-      return $default_field_weights[$schema_property];
+    $parts = [
+      'entity_type_id' => $entity_type_id,
+      'bundle' => $bundle,
+      'field_name' => $field_name,
+      'schema_type' => $schema_type,
+      'schema_property' => $schema_property,
+    ];
+    $default_field_weight = $this->schemaTypeManager->getSetting($default_field_weights, $parts, ['parents' => FALSE]);
+    if (!is_null($default_field_weight)) {
+      return $default_field_weight;
     }
 
     // Determine max field weight rounded up to 10.
@@ -125,7 +145,7 @@ class SchemaDotOrgEntityDisplayBuilder implements SchemaDotOrgEntityDisplayBuild
     $field_weight = $field_type_weights[$field_storage->getType()]
       ?? 50 + $max_field_weight;
 
-    // Add 5 to weight for multiple value fields..
+    // Add 5 to weight for multiple value fields.
     if ($field_storage->getCardinality() !== 1) {
       $field_weight += 5;
     }
@@ -136,19 +156,42 @@ class SchemaDotOrgEntityDisplayBuilder implements SchemaDotOrgEntityDisplayBuild
   /**
    * {@inheritdoc}
    */
+  public function initializeDisplays(SchemaDotOrgMappingInterface $mapping): void {
+    $entity_type_id = $mapping->getTargetEntityTypeId();
+    $bundle = $mapping->getTargetBundle();
+    $schema_type = $mapping->getSchemaType();
+
+    $form_modes = $this->getFormModes($entity_type_id, $bundle);
+    foreach ($form_modes as $form_mode) {
+      $form_display = $this->entityDisplayRepository->getFormDisplay($entity_type_id, $bundle, $form_mode);
+      $form_display->schemaDotOrgType = $schema_type;
+      $form_display->save();
+      unset($form_display->schemaDotOrgType);
+    }
+
+    $view_modes = $this->getViewModes($entity_type_id, $bundle);
+    foreach ($view_modes as $view_mode) {
+      $view_display = $this->entityDisplayRepository->getViewDisplay($entity_type_id, $bundle, $view_mode);
+      $view_display->schemaDotOrgType = $schema_type;
+      $view_display->save();
+      unset($view_display->schemaDotOrgType);
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function setFieldDisplays(
-    string $schema_type,
-    string $schema_property,
-    array $field_storage_values,
-    array $field_values,
+    array $field,
     ?string $widget_id,
     array $widget_settings,
     ?string $formatter_id,
     array $formatter_settings,
   ): void {
-    $entity_type_id = $field_values['entity_type'];
-    $bundle = $field_values['bundle'];
-    $field_name = $field_values['field_name'];
+    $schema_type = $field['schema_type'];
+    $schema_property = $field['schema_property'];
+    $entity_type_id = $field['entity_type'];
+    $bundle = $field['bundle'];
 
     $mapping_type = $this->loadMappingType($entity_type_id);
 
@@ -157,10 +200,10 @@ class SchemaDotOrgEntityDisplayBuilder implements SchemaDotOrgEntityDisplayBuild
       $form_modes = $this->getFormModes($entity_type_id, $bundle);
       foreach ($form_modes as $form_mode) {
         $form_display = $this->entityDisplayRepository->getFormDisplay($entity_type_id, $bundle, $form_mode);
-        $this->setComponent($form_display, $field_name, $widget_id, $widget_settings);
-        $form_display->schemaDotOrgType = $schema_type;
-        $form_display->schemaDotOrgProperty = $schema_property;
+        $this->setComponent($form_display, $field, $widget_id, $widget_settings);
+        $form_display->schemaDotOrgField = $field;
         $form_display->save();
+        unset($form_display->schemaDotOrgField);
       }
     }
 
@@ -177,17 +220,17 @@ class SchemaDotOrgEntityDisplayBuilder implements SchemaDotOrgEntityDisplayBuild
           }
 
           // Alter text with summary field to show trimmed summary.
-          $type = $field_storage_values['type'] ?? NULL;
-          if ($type === 'text_with_summary') {
+          $field_type = $field['type'] ?? NULL;
+          if ($field_type === 'text_with_summary') {
             $formatter_id = 'text_summary_or_trimmed';
             $formatter_settings = ['label' => 'hidden'];
           }
         }
 
-        $this->setComponent($view_display, $field_name, $formatter_id, $formatter_settings);
-        $view_display->schemaDotOrgType = $schema_type;
-        $view_display->schemaDotOrgProperty = $schema_property;
+        $this->setComponent($view_display, $field, $formatter_id, $formatter_settings);
+        $view_display->schemaDotOrgField = $field;
         $view_display->save();
+        unset($view_display->schemaDotOrgField);
       }
     }
   }
@@ -197,14 +240,14 @@ class SchemaDotOrgEntityDisplayBuilder implements SchemaDotOrgEntityDisplayBuild
    *
    * @param \Drupal\Core\Entity\Display\EntityDisplayInterface $display
    *   The entity display.
-   * @param string $field_name
-   *   The field name to be set.
+   * @param array $field
+   *   The field definition.
    * @param string|null $type
    *   The component's plugin id.
    * @param array $settings
    *   The component's plugin settings.
    */
-  protected function setComponent(EntityDisplayInterface $display, string $field_name, ?string $type, array $settings): void {
+  protected function setComponent(EntityDisplayInterface $display, array $field, ?string $type, array $settings): void {
     $options = [];
 
     // Set custom component type.
@@ -215,10 +258,10 @@ class SchemaDotOrgEntityDisplayBuilder implements SchemaDotOrgEntityDisplayBuild
     // Converted some $settings to $options.
     if (!empty($settings)) {
       if ($display instanceof EntityViewDisplayInterface) {
-        $option_names = ['label', 'third_party_settings'];
+        $option_names = ['label', 'weight', 'third_party_settings'];
       }
       else {
-        $option_names = ['third_party_settings'];
+        $option_names = ['weight', 'third_party_settings'];
       }
       foreach ($option_names as $option_name) {
         if (isset($settings[$option_name])) {
@@ -229,66 +272,23 @@ class SchemaDotOrgEntityDisplayBuilder implements SchemaDotOrgEntityDisplayBuild
       $options['settings'] = $settings;
     }
 
+    $entity_type_id = $field['entity_type'];
+    $bundle = $field['bundle'];
+    $field_name = $field['field_name'];
+    $schema_type = $field['schema_type'];
+    $schema_property = $field['schema_property'];
+    $options['weight'] = $options['weight'] ?? $this->getSchemaPropertyDefaultFieldWeight($entity_type_id, $bundle, $field_name, $schema_type, $schema_property);
     $display->setComponent($field_name, $options);
   }
 
   /**
    * {@inheritdoc}
    */
-  public function setFieldWeights(SchemaDotOrgMappingInterface $mapping, array $properties = []): void {
-    $entity_type_id = $mapping->getTargetEntityTypeId();
-    $bundle = $mapping->getTargetBundle();
-    $properties = $properties ?: $mapping->getNewSchemaProperties();
-
-    // Form display.
-    $form_modes = $this->getFormModes($entity_type_id, $bundle);
-    foreach ($form_modes as $form_mode) {
-      $form_display = $this->entityDisplayRepository->getFormDisplay($entity_type_id, $bundle, $form_mode);
-      foreach ($properties as $field_name => $property) {
-        $this->setFieldWeight($form_display, $field_name, $property);
-      }
-      $form_display->save();
-    }
-
-    // View display.
-    $view_modes = $this->getViewModes($entity_type_id, $bundle);
-    foreach ($view_modes as $view_mode) {
-      $view_display = $this->entityDisplayRepository->getViewDisplay($entity_type_id, $bundle, $view_mode);
-      foreach ($properties as $field_name => $property) {
-        $this->setFieldWeight($view_display, $field_name, $property);
-      }
-      $view_display->save();
-    }
-  }
-
-  /**
-   * Set entity display field weight for a Schema.org property.
-   *
-   * @param \Drupal\Core\Entity\Display\EntityDisplayInterface $display
-   *   The entity display.
-   * @param string $field_name
-   *   The field name to be set.
-   * @param string $schema_property
-   *   The field name's associated Schema.org property.
-   */
-  protected function setFieldWeight(EntityDisplayInterface $display, string $field_name, string $schema_property): void {
-    // Make sure the field component exists.
-    if (!$display->getComponent($field_name)) {
+  public function setComponentWeights(SchemaDotOrgMappingInterface $mapping): void {
+    if ($mapping->isSyncing()) {
       return;
     }
 
-    $entity_type_id = $display->getTargetEntityTypeId();
-    $field_weight = $this->getSchemaPropertyDefaultFieldWeight($entity_type_id, $field_name, $schema_property);
-
-    $component = $display->getComponent($field_name);
-    $component['weight'] = $field_weight;
-    $display->setComponent($field_name, $component);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function setComponentWeights(SchemaDotOrgMappingInterface $mapping): void {
     $entity_type_id = $mapping->getTargetEntityTypeId();
     $bundle = $mapping->getTargetBundle();
 
@@ -344,8 +344,19 @@ class SchemaDotOrgEntityDisplayBuilder implements SchemaDotOrgEntityDisplayBuild
   /**
    * {@inheritdoc}
    */
+  public function getModes(EntityDisplayInterface $display): array {
+    $entity_type_id = $display->getTargetEntityTypeId();
+    $bundle = $display->getTargetBundle();
+    return ($display instanceof EntityFormDisplayInterface)
+        ? $this->getFormModes($entity_type_id, $bundle)
+        : $this->getDisplayModes($entity_type_id, $bundle);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getFormModes(string $entity_type_id, string $bundle): array {
-    return $this->getModes(
+    return $this->getDisplayModes(
       $entity_type_id,
       $bundle,
       'Form',
@@ -358,7 +369,7 @@ class SchemaDotOrgEntityDisplayBuilder implements SchemaDotOrgEntityDisplayBuild
    */
   public function getViewModes(string $entity_type_id, string $bundle): array {
     $default_view_modes = ['teaser', 'content_browser'];
-    return $this->getModes(
+    return $this->getDisplayModes(
       $entity_type_id,
       $bundle,
       'View',
@@ -381,7 +392,7 @@ class SchemaDotOrgEntityDisplayBuilder implements SchemaDotOrgEntityDisplayBuild
    * @return array
    *   An array of display modes.
    */
-  protected function getModes(string $entity_type_id, string $bundle, string $type = 'View', array $default_modes = []): array {
+  protected function getDisplayModes(string $entity_type_id, string $bundle, string $type = 'View', array $default_modes = []): array {
     $mode_method = "get{$type}ModeOptionsByBundle";
     $mode_options = $this->entityDisplayRepository->$mode_method($entity_type_id, $bundle);
 

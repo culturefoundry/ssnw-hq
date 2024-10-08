@@ -19,13 +19,15 @@ third_party_settings:
         - schema_description
         - schema_image
         - schema_name
+        - custom
       label: General
       region: content
       parent_name: ''
-      weight: -5
+      weight: -20
       format_type: details
       format_settings:
         open: true
+        description: ''
 id: node.custom_thing.default
 targetEntityType: node
 bundle: custom_thing
@@ -39,7 +41,7 @@ content:
     third_party_settings: {  }
   custom:
     type: string_textfield
-    weight: 124
+    weight: -100
     region: content
     settings:
       size: 60
@@ -54,7 +56,7 @@ content:
     third_party_settings: {  }
   schema_description:
     type: text_textarea
-    weight: 17
+    weight: 18
     region: content
     settings:
       rows: 5
@@ -62,7 +64,7 @@ content:
     third_party_settings: {  }
   schema_image:
     type: image_image
-    weight: 22
+    weight: 23
     region: content
     settings:
       progress_indicator: throbber

@@ -9,59 +9,10 @@ declare(strict_types=1);
 
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityInterface;
-use Drupal\Core\Field\FieldItemInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\BubbleableMetadata;
 use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
-
-/**
- * Implements hook_schemadotorg_property_field_alter().
- */
-function schemadotorg_role_schemadotorg_property_field_alter(
-  string $schema_type,
-  string $schema_property,
-  array &$field_storage_values,
-  array &$field_values,
-  ?string &$widget_id,
-  array &$widget_settings,
-  ?string &$formatter_id,
-  array &$formatter_settings,
-): void {
-  // Check that the 'Entity Reference Override' module is installed.
-  if (!\Drupal::moduleHandler()->moduleExists('entity_reference_override')) {
-    return;
-  }
-
-  // Make sure the field storage type is an entity reference.
-  if (!in_array($field_storage_values['type'], ['entity_reference', 'entity_reference_override'])) {
-    return;
-  }
-
-  // Check that the Schema.org property should use an entity reference override.
-  $entity_reference_overrides = \Drupal::config('schemadotorg_role.settings')
-    ->get('entity_reference_overrides');
-  if (!in_array($schema_property, $entity_reference_overrides)) {
-    return;
-  }
-
-  // Change the field storage type.
-  $field_storage_values['type'] = 'entity_reference_override';
-
-  // Set the entity reference override label.
-  $field_values['settings']['override_label'] = (string) t("Enter role");
-
-  // Update the widget id and settings.
-  $widget_id = 'entity_reference_override_autocomplete';
-  $widget_settings = [];
-
-  // Update the formatter id and settings.
-  $formatter_id = 'entity_reference_override_label';
-  $formatter_settings = [
-    'link' => TRUE,
-    'override_action' => 'suffix',
-  ];
-}
 
 /**
  * Implements hook_schemadotorg_mapping_defaults_alter().
@@ -151,58 +102,6 @@ function schemadotorg_role_schemadotorg_jsonld_schema_type_entity_load(array &$d
       $data[$schema_property] = array_merge($items, $data[$schema_property]);
     }
   }
-}
-
-/**
- * Implements hook_schemadotorg_jsonld_schema_property_alter().
- */
-function schemadotorg_role_schemadotorg_jsonld_schema_property_alter(mixed &$value, FieldItemInterface $item, BubbleableMetadata $bubbleable_metadata): void {
-  // Get field information.
-  $field_name = $item->getFieldDefinition()->getName();
-  $field_type = $item->getFieldDefinition()->getType();
-
-  // Get Schema.org mapping and the Schema.org property.
-  /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
-  $mapping_storage = \Drupal::entityTypeManager()->getStorage('schemadotorg_mapping');
-  $entity = $item->getEntity();
-  $mapping = $mapping_storage->loadByEntity($entity);
-  $schema_property = $mapping->getSchemaPropertyMapping($field_name);
-
-  // Check that the 'Entity Reference Override' module is installed.
-  if (!\Drupal::moduleHandler()->moduleExists('entity_reference_override')) {
-    return;
-  }
-
-  // Make sure the field storage type is an entity reference.
-  if (!in_array($field_type, ['entity_reference', 'entity_reference_override'])) {
-    return;
-  }
-
-  // Check that the Schema.org property should use an entity reference override.
-  $entity_reference_overrides = \Drupal::config('schemadotorg_role.settings')
-    ->get('entity_reference_overrides');
-  if (!in_array($schema_property, $entity_reference_overrides)) {
-    return;
-  }
-
-  // The override value which is the role.
-  $override = $item->override;
-  if (empty($override)) {
-    return;
-  }
-
-  // Apply the override format.
-  $override_format = $item->override_format;
-  if ($override_format) {
-    $override = check_markup($override, $override_format);
-  }
-
-  // Set the https://schema.org/Role for the value.
-  $value = [
-    '@type' => 'Role',
-    'roleName' => $override,
-    $schema_property => $value,
-  ];
 }
 
 /* ************************************************************************** */
@@ -297,18 +196,6 @@ entity_type_id---bundle--SchemaType:
   schemaProperty:
     - field_name
     - field_name
-',
-  ];
-  $form['schemadotorg_role']['entity_reference_overrides'] = [
-    '#type' => 'schemadotorg_settings',
-    '#title' => t('Entity reference overrides'),
-    '#description' => t('Enter the Schema.org properties that should should use the Entity Reference Override field to capture an entity references roles.'),
-    '#description_link' => 'properties',
-    '#access' => \Drupal::moduleHandler()->moduleExists('entity_reference_override'),
-    '#example' => '
-- propertyName01
-- propertyName02
-- propertyName03
 ',
   ];
 }

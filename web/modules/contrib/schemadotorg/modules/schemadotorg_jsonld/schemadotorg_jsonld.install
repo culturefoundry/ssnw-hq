@@ -38,3 +38,14 @@ function schemadotorg_jsonld_update_10001(): void {
 
   $config->save();
 }
+
+/**
+ * In 'schemadotorg_jsonld.settings' change 'entity_types_exclude_url' to 'exclude_url'.
+ */
+function schemadotorg_jsonld_update_10002(): void {
+  $config = \Drupal::configFactory()
+    ->getEditable('schemadotorg_jsonld.settings');
+  $config->set('exclude_url', $config->get('entity_types_exclude_url') ?? []);
+  $config->clear('entity_types_exclude_url');
+  $config->save();
+}

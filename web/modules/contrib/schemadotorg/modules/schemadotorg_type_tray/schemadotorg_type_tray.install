@@ -15,9 +15,46 @@ function schemadotorg_type_tray_install(bool $is_syncing): void {
     return;
   }
 
-  $schema_types = \Drupal::config('schemadotorg_type_tray.settings')
-    ->get('schema_types');
   /** @var \Drupal\schemadotorg_type_tray\SchemaDotOrgTypeTrayManagerInterface $type_tray_manager */
   $type_tray_manager = \Drupal::service('schemadotorg_type_tray.manager');
-  $type_tray_manager->syncCategories($schema_types);
+  $type_tray_manager->syncCategories();
+}
+
+/**
+ * Issue #3455478: Improve categorization. Move type_tray.schema_types to schemadotorg.schema_types.categories.
+ */
+function schemadotorg_type_tray_update_10000(): void {
+  $colors = [
+    '#eddcd2',
+    '#fff1e6',
+    '#fde2e4',
+    '#fad2e1',
+    '#c5dedd',
+    '#dbe7e4',
+    '#f0efeb',
+    '#d6e2e9',
+    '#bcd4e6',
+    '#99c1de',
+  ];
+
+  $config = \Drupal::configFactory()
+    ->getEditable('schemadotorg_type_tray.settings');
+
+  $index = 0;
+  $categories = $config->get('schema_types');
+  if (!$categories) {
+    return;
+  }
+
+  foreach ($categories as &$settings) {
+    $settings['color'] = $colors[$index % count($colors)];
+    $index++;
+  }
+
+  \Drupal::configFactory()
+    ->getEditable('schemadotorg.settings')
+    ->set('schema_types.categories', $categories)
+    ->save();
+
+  $config->clear('schema_types')->save();
 }

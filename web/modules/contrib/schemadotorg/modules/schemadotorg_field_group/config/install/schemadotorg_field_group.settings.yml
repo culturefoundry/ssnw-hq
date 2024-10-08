@@ -1,10 +1,11 @@
-# eslint-disable
 default_field_groups:
   user:
     biographical:
       label: Biographical
+      description: ''
+      weight: -20
       properties:
-        - subtype
+        - additionalType
         - givenName
         - additionalName
         - familyName
@@ -17,6 +18,8 @@ default_field_groups:
         - description
     professional:
       label: Professional
+      description: ''
+      weight: -19
       properties:
         - jobTitle
         - worksFor
@@ -24,6 +27,8 @@ default_field_groups:
         - award
     contact:
       label: Contact
+      description: ''
+      weight: -18
       properties:
         - address
         - geo
@@ -37,10 +42,13 @@ default_field_groups:
   node:
     general:
       label: General
+      description: ''
+      weight: -20
       properties:
-        - subtype
+        - additionalType
         - title
         - name
+        - phoneticText
         - alternateName
         - proprietaryName
         - nonProprietaryName
@@ -71,6 +79,8 @@ default_field_groups:
         - associatedMedia
     employment:
       label: Employment
+      description: ''
+      weight: -19
       properties:
         - jobTitle
         - affiliation
@@ -84,6 +94,7 @@ default_field_groups:
         - responsibilities
         - skills
         - educationRequirements
+        - baseSalary
         - estimatedSalary
         - jobBenefits
         - jobLocation
@@ -91,25 +102,10 @@ default_field_groups:
         - eligibilityToWorkRequirement
         - employerOverview
         - applicationContact
-    education:
-      label: Education
-      properties:
-        - instructor
-        - teaches
-        - assesses
-        - numberOfCredits
-        - educationalLevel
-        - courseCode
-        - courseMode
-        - coursePrerequisites
-        - courseWorkload
-        - educationalCredentialAwarded
-        - occupationalCredentialAwarded
-        - educationalUse
-        - learningResourceType
-        - hasCourseInstance
     contact:
       label: Contact
+      description: ''
+      weight: -18
       properties:
         - address
         - geo
@@ -124,6 +120,8 @@ default_field_groups:
         - openingHoursSpecification
     event:
       label: Event
+      description: ''
+      weight: -17
       properties:
         - eventSchedule
         - eventStatus
@@ -133,6 +131,8 @@ default_field_groups:
         - location
     medical:
       label: Medical
+      description: ''
+      weight: -16
       properties:
         - naturalProgression
         - expectedPrognosis
@@ -161,6 +161,8 @@ default_field_groups:
         - isProprietary
     recipe:
       label: Recipe
+      description: ''
+      weight: -15
       properties:
         - recipeIngredient
         - recipeInstructions
@@ -173,10 +175,14 @@ default_field_groups:
         - nutrition
     content:
       label: Content
+      description: ''
+      weight: -14
       properties:
-       - mainEntity
+        - mainEntity
     links:
       label: Links
+      description: ''
+      weight: 20
       properties:
         - relatedLink
         - significantLink
@@ -184,20 +190,24 @@ default_field_groups:
         - sameAs
     organization:
       label: Organization
+      description: ''
+      weight: -13
       properties:
-        - worksFor
-        - department
-        - employee
-        - alumniOf
-        - alumni
-        - memberOf
-        - member
         - parentOrganization
         - subOrganization
+        - memberOf
+        - member
+        - alumniOf
+        - alumni
+        - department
+        - worksFor
+        - employee
         - founder
         - hospitalAffiliation
     hierarchy:
       label: Hierarchy
+      description: ''
+      weight: 21
       properties:
         - containedInPlace
         - containsPlace
@@ -208,8 +218,11 @@ default_field_groups:
         - partOfSeason
         - containsSeason
         - partOfSeries
+        - hasCourseInstance
     references:
       label: References
+      description: ''
+      weight: 22
       properties:
         - about
         - subjectOf
@@ -217,6 +230,8 @@ default_field_groups:
         - isBasedOn
     relationships:
       label: Relationships
+      description: ''
+      weight: 23
       properties:
         - actor
         - sponsor
@@ -225,11 +240,15 @@ default_field_groups:
         - healthCondition
         - relatedDrug
     taxonomy:
-      label: 'Categories/Services'
+      label: Categories/Services
+      description: ''
+      weight: 24
       properties:
         - keywords
     identifiers:
       label: Identifiers
+      description: ''
+      weight: 25
       properties:
         - identifier
         - healthPlanNetworkId
@@ -240,11 +259,12 @@ default_schema_type_field_groups:
 default_form_type: details
 default_view_type: fieldset
 disable_field_groups:
-  - 'node--view--teaser'
-  - 'node--mainEntity'
-  - 'node--created'
-  - 'node--uid'
-  - 'block_content'
-  - 'media'
-  - 'paragraph'
-  - 'taxonomy_term'
+  - node--view--teaser
+  - node--view--content_browser
+  - node--mainEntity
+  - node--created
+  - node--uid
+  - block_content
+  - media
+  - paragraph
+  - taxonomy_term

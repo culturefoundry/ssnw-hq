@@ -7,6 +7,7 @@
 
 declare(strict_types=1);
 
+use Drupal\Component\Utility\DeprecationHelper;
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Component\Utility\Unicode;
 use Drupal\Core\Access\AccessResult;
@@ -14,6 +15,7 @@ use Drupal\Core\Field\FieldConfigInterface;
 use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Field\FieldItemInterface;
 use Drupal\Core\Field\FieldItemListInterface;
+use Drupal\Core\File\FileExists;
 use Drupal\Core\File\FileSystemInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\BubbleableMetadata;
@@ -134,8 +136,12 @@ function schemadotorg_paragraphs_paragraphs_type_presave(ParagraphsTypeInterface
       if (file_exists($icon_path)) {
         $icon_directory = 'public://paragraphs_type_icon';
         $file_system->prepareDirectory($icon_directory, FileSystemInterface::MODIFY_PERMISSIONS | FileSystemInterface::CREATE_DIRECTORY);
-
-        $file_uri = $file_system->copy($icon_path, $icon_directory . '/' . $file_system->basename($icon_path), $file_system::EXISTS_REPLACE);
+        $file_uri = DeprecationHelper::backwardsCompatibleCall(
+          currentVersion: \Drupal::VERSION,
+          deprecatedVersion: '10.3',
+          currentCallable: fn() => $file_system->copy($icon_path, $icon_directory . '/' . $file_system->basename($icon_path), FileExists::Replace),
+          deprecatedCallable: fn() => $file_system->copy($icon_path, $icon_directory . '/' . $file_system->basename($icon_path), $file_system::EXISTS_REPLACE),
+        );
         $file_entity = File::create(['uri' => $file_uri]);
         $file_entity->save();
 
@@ -404,9 +410,9 @@ function schemadotorg_paragraphs_form_schemadotorg_types_settings_form_alter(arr
     '#description_link' => 'types',
     '#access' => \Drupal::moduleHandler()->moduleExists('paragraphs_library'),
     '#example' => '
-- SchemaType01
-- SchemaType02
-- SchemaType03
+- SchemaType
+- bundle
+- SchemaType--bundle
 ',
   ];
   $form['schemadotorg_paragraphs']['schema_property_access'] = [

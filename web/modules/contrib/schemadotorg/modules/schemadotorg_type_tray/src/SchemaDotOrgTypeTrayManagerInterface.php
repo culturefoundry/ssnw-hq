@@ -23,10 +23,7 @@ interface SchemaDotOrgTypeTrayManagerInterface {
    * Sync grouped Schema.org types with type tray categories.
    *
    * Schema.org grouping will be prepended to the type tray categories.
-   *
-   * @param array $schema_types
-   *   An array of grouped Schema.org type.
    */
-  public function syncCategories(array $schema_types): void;
+  public function syncCategories(): void;
 
 }

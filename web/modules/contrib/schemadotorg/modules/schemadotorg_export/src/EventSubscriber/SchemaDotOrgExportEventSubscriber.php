@@ -12,6 +12,7 @@ use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Url;
 use Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
@@ -24,10 +25,12 @@ class SchemaDotOrgExportEventSubscriber extends ServiceProviderBase implements E
   use StringTranslationTrait;
 
   /**
-   * Constructs a SchemaDotOrgJsonApiExtrasEventSubscriber object.
+   * Constructs a SchemaDotOrgExportEventSubscriber object.
    *
    * @param \Drupal\Core\Routing\RouteMatchInterface $routeMatch
    *   The current route match.
+   * @param \Symfony\Component\HttpFoundation\RequestStack $requestStack
+   *   The request stack.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
    *   The entity type manager.
    * @param \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schemaTypeManager
@@ -35,6 +38,7 @@ class SchemaDotOrgExportEventSubscriber extends ServiceProviderBase implements E
    */
   public function __construct(
     protected RouteMatchInterface $routeMatch,
+    protected RequestStack $requestStack,
     protected EntityTypeManagerInterface $entityTypeManager,
     protected SchemaDotOrgSchemaTypeManagerInterface $schemaTypeManager,
   ) {}
@@ -68,30 +72,6 @@ class SchemaDotOrgExportEventSubscriber extends ServiceProviderBase implements E
         );
         break;
 
-      case 'schemadotorg_mapping_set.overview':
-        $this->appendButton(
-          $event,
-          $this->t('<u>⇩</u> Download CSV'),
-          'schemadotorg_mapping_set.overview.export',
-        );
-        break;
-
-      case 'schemadotorg_mapping_set.details':
-        $this->appendButton(
-          $event,
-          $this->t('<u>⇩</u> Download CSV'),
-          'schemadotorg_mapping_set.details.export'
-        );
-        break;
-
-      case 'schemadotorg_starterkit.details':
-        $this->appendButton(
-          $event,
-          $this->t('<u>⇩</u> Download CSV'),
-          'schemadotorg_starterkit.details.export'
-        );
-        break;
-
       case 'schemadotorg_report':
         if ($this->schemaTypeManager->isType($this->routeMatch->getParameter('id'))) {
           $this->appendButton(
@@ -102,14 +82,18 @@ class SchemaDotOrgExportEventSubscriber extends ServiceProviderBase implements E
         }
         break;
 
-      case 'schemadotorg_report.relationships':
+      case 'schemadotorg_mapping_set.overview':
+      case 'schemadotorg_mapping_set.details':
+      case 'schemadotorg_starterkit.details':
+      case 'schemadotorg_report.relationships.overview':
+      case 'schemadotorg_report.relationships.targets':
+      case 'schemadotorg_pathauto.report':
         $this->appendButton(
           $event,
           $this->t('<u>⇩</u> Download CSV'),
-          'schemadotorg_report.relationships.export'
+          $route_name . '.export'
         );
         break;
-
     }
 
     if (preg_match('/^entity\.([^.]+)\.schemadotorg_mapping$/', $route_name, $match)) {
@@ -144,7 +128,10 @@ class SchemaDotOrgExportEventSubscriber extends ServiceProviderBase implements E
    */
   protected function appendButton(ViewEvent $event, string|MarkupInterface $text, string|Url $url): void {
     if (is_string($url)) {
-      $url = Url::fromRoute($url, $this->routeMatch->getRawParameters()->all());
+      $options = [
+        'query' => $this->requestStack->getCurrentRequest()->query->all(),
+      ];
+      $url = Url::fromRoute($url, $this->routeMatch->getRawParameters()->all(), $options);
     }
 
     $result = $event->getControllerResult();

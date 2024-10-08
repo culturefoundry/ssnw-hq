@@ -8,6 +8,7 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Extension\ModuleExtensionList;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 use Drupal\schemadotorg\SchemaDotOrgNamesInterface;
 use Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface;
@@ -54,38 +55,37 @@ class SchemaDotOrgTypeTrayManager implements SchemaDotOrgTypeTrayManagerInterfac
       return;
     }
 
-    $schema_type = $mapping->getSchemaType();
+    // Sync categories.
+    $this->syncCategories();
 
-    // Get the Schema.org type's category and weight.
-    [$type_category, $type_weight] = $this->getCategoryAndWeight($schema_type);
-
-    // Exit if no type tray category is found for the Schema.org type.
-    if (!$type_category) {
-      return;
+    // Get type tray values.
+    $categories = $this->configFactory
+      ->get('schemadotorg.settings')
+      ->get('schema_types.categories');
+    $settings = [];
+    foreach ($categories as $category_name => $category_definition) {
+      $type_weight = -20;
+      foreach ($category_definition['types'] as $category_type) {
+        $settings[$category_type] = [
+          'type_category' => $category_name,
+          'type_weight' => (string) $type_weight,
+        ];
+        $type_weight++;
+      }
     }
+    $values = $this->schemaTypeManager->getSetting($settings, $mapping) ?? [];
+    $values += [
+      'type_category' => '',
+      'type_weight' => (string) 0,
+      'type_icon' => $this->getFilePath($mapping, 'icon'),
+      'type_thumbnail' => $this->getFilePath($mapping, 'thumbnail'),
+      'existing_nodes_link_text' => $this->getLinkText($mapping),
+    ];
 
-    // Look for the Schema.org type's icon.
-    $type_icon = $this->getFilePath($schema_type, 'icon');
-
-    // Look for the Schema.org type's thumbnail.
-    $type_thumbnail = $this->getFilePath($schema_type, 'thumbnail');
-
-    // Add tray type settings to the node type's third party settings.
+    // Add tray type values to the node type's third party settings.
     // @see type_tray_form_node_type_form_alter()
     // @see type_tray_entity_builder()
     $node_type = $mapping->getTargetEntityBundleEntity();
-    $existing_nodes_link_text = $this->configFactory
-      ->get('schemadotorg_type_tray.settings')
-      ->get('existing_nodes_link_text');
-    $values = [
-      'type_category' => $type_category,
-      'type_thumbnail' => $type_thumbnail,
-      'type_icon' => $type_icon,
-      'existing_nodes_link_text' => $existing_nodes_link_text
-        ? $this->t($existing_nodes_link_text, ['%type_label' => $node_type->label()])
-        : '',
-      'type_weight' => (string) $type_weight,
-    ];
     foreach ($values as $key => $value) {
       $node_type->setThirdPartySetting('type_tray', $key, $value);
     }
@@ -95,67 +95,34 @@ class SchemaDotOrgTypeTrayManager implements SchemaDotOrgTypeTrayManagerInterfac
   /**
    * {@inheritdoc}
    */
-  public function syncCategories(array $schema_types): void {
+  public function syncCategories(): void {
     $config = $this->configFactory->getEditable('type_tray.settings');
     $existing_categories = $config->get('categories') ?? [];
 
-    $schema_categories = [];
-    foreach ($schema_types as $key => $schema_type) {
-      $schema_categories[$key] = $existing_categories[$key] ?? $schema_type['label'];
+    $categories = [];
+    $schema_type_categories = $this->configFactory->get('schemadotorg.settings')
+      ->get('schema_types.categories');
+    foreach ($schema_type_categories as $category_name => $category_definition) {
+      $categories[$category_name] = $existing_categories[$category_name]
+        ?? $category_definition['label'];
     }
 
-    $config->set('categories', $schema_categories + $existing_categories);
+    $config->set('categories', $categories + $existing_categories);
     $config->save();
-  }
-
-  /**
-   * Get the type tray category and weight for a Schema.org type.
-   *
-   * @param string $schema_type
-   *   A Schema.org type.
-   *
-   * @return array
-   *   An array containing the type tray category and weight
-   *   for a Schema.org type.
-   */
-  protected function getCategoryAndWeight(string $schema_type): array {
-    // Build Schema.org type to type tray category lookup.
-    $category_lookup = [];
-    $type_tray_schema_types = $this->configFactory
-      ->get('schemadotorg_type_tray.settings')
-      ->get('schema_types');
-    foreach ($type_tray_schema_types as $name => $type_tray_schema_type) {
-      $category_lookup += array_fill_keys($type_tray_schema_type['types'], $name);
-    }
-
-    // Look for the Schema.org type's category.
-    $breadcrumbs = $this->schemaTypeManager->getTypeBreadcrumbs($schema_type);
-    foreach ($breadcrumbs as $breadcrumb) {
-      $breadcrumb_types = array_reverse($breadcrumb);
-      foreach ($breadcrumb_types as $breadcrumb_type) {
-        if (isset($category_lookup[$breadcrumb_type])) {
-          $type_category = $category_lookup[$breadcrumb_type];
-          $type_weights = array_flip($type_tray_schema_types[$type_category]['types']);
-          $type_weight = $type_weights[$breadcrumb_type] - 20;
-          return [$type_category, $type_weight];
-        }
-      }
-    }
-    return [NULL, NULL];
   }
 
   /**
    * Get a file path for a Schema.org type by breadcrumb and module.
    *
-   * @param string $schema_type
-   *   A Schema.org type.
+   * @param \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping
+   *   The Schema.org mapping.
    * @param string $type
    *   The type tray file type.
    *
    * @return string
    *   A file path for a Schema.org type by breadcrumb and module.
    */
-  protected function getFilePath(string $schema_type, string $type): string {
+  protected function getFilePath(SchemaDotOrgMappingInterface $mapping, string $type): string {
     global $base_path;
 
     // Get installed module names with the 'schemadotorg_type_tray' module last.
@@ -164,8 +131,17 @@ class SchemaDotOrgTypeTrayManager implements SchemaDotOrgTypeTrayManagerInterfac
     unset($module_names['schemadotorg_type_tray']);
     $module_names['schemadotorg_type_tray'] = 'schemadotorg_type_tray';
 
-    // Look for the file path by breadcrumb and module.
-    $breadcrumbs = $this->schemaTypeManager->getTypeBreadcrumbs($schema_type);
+    // Look for the file path by bundle.
+    $bundle = $mapping->getTargetBundle();
+    foreach ($module_names as $module_name) {
+      $file_path = $this->extensionListModule->getPath($module_name) . "/images/schemadotorg_type_tray/$type/$bundle.png";
+      if (file_exists($file_path)) {
+        return $base_path . $file_path;
+      }
+    }
+
+    // Look for the file path by breadcrumb.
+    $breadcrumbs = $this->schemaTypeManager->getTypeBreadcrumbs($mapping->getSchemaType());
     foreach ($breadcrumbs as $breadcrumb) {
       $breadcrumb_types = array_reverse($breadcrumb);
       foreach ($breadcrumb_types as $breadcrumb_type) {
@@ -179,6 +155,25 @@ class SchemaDotOrgTypeTrayManager implements SchemaDotOrgTypeTrayManagerInterfac
       }
     }
     return '';
+  }
+
+  /**
+   * Get the link text for the given Schema.org mapping.
+   *
+   * @param \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping
+   *   The Schema.org mapping.
+   *
+   * @return \Drupal\Core\StringTranslation\TranslatableMarkup|string
+   *   The link text
+   */
+  protected function getLinkText(SchemaDotOrgMappingInterface $mapping): TranslatableMarkup|string {
+    $node_type = $mapping->getTargetEntityBundleEntity();
+    $existing_nodes_link_text = $this->configFactory
+      ->get('schemadotorg_type_tray.settings')
+      ->get('existing_nodes_link_text');
+    return $existing_nodes_link_text
+      ? $this->t($existing_nodes_link_text, ['%type_label' => $node_type->label()])
+      : '';
   }
 
 }

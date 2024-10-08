@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Drupal\Tests\schemadotorg_additional_mappings\Kernel;
 
 use Drupal\node\Entity\Node;
+use Drupal\paragraphs\Entity\Paragraph;
 use Drupal\Tests\schemadotorg_jsonld\Kernel\SchemaDotOrgJsonLdKernelTestBase;
 
 /**
@@ -19,6 +20,8 @@ class SchemaDotOrgAdditionalMappingsJsonLdKernelTest extends SchemaDotOrgJsonLdK
    * {@inheritdoc}
    */
   protected static $modules = [
+    'schemadotorg_paragraphs',
+    'schemadotorg_jsonld_custom',
     'schemadotorg_jsonld_breadcrumb',
     'schemadotorg_additional_mappings',
   ];
@@ -28,7 +31,11 @@ class SchemaDotOrgAdditionalMappingsJsonLdKernelTest extends SchemaDotOrgJsonLdK
    */
   protected function setUp(): void {
     parent::setUp();
-    $this->installConfig(['schemadotorg_additional_mappings']);
+
+    $this->installSchema('file', ['file_usage']);
+    $this->installEntitySchema('file');
+
+    $this->installConfig(['schemadotorg_additional_mappings', 'schemadotorg_jsonld_custom']);
     $this->manager = $this->container->get('schemadotorg_jsonld.manager');
     $this->builder = $this->container->get('schemadotorg_jsonld.builder');
 
@@ -39,9 +46,11 @@ class SchemaDotOrgAdditionalMappingsJsonLdKernelTest extends SchemaDotOrgJsonLdK
   /**
    * Test Schema.org WebPage.
    */
-  public function testWebPage(): void {
+  public function testJsonLd(): void {
     \Drupal::currentUser()->setAccount($this->createUser(['access content']));
 
+    /* ********************************************************************** */
+    // WebPage.
     /* ********************************************************************** */
 
     $this->createSchemaEntity('node', 'Recipe');
@@ -60,6 +69,8 @@ class SchemaDotOrgAdditionalMappingsJsonLdKernelTest extends SchemaDotOrgJsonLdK
     $this->assertEquals('Recipe', $jsonld['mainEntity']['@type']);
     $this->assertEquals('BreadcrumbList', $jsonld['breadcrumb']['@type']);
 
+    /* ********************************************************************** */
+    // ResearchProject.
     /* ********************************************************************** */
 
     $this->createSchemaEntity('node', 'MedicalStudy');
@@ -81,6 +92,65 @@ class SchemaDotOrgAdditionalMappingsJsonLdKernelTest extends SchemaDotOrgJsonLdK
     $jsonld = $this->builder->build($route_match);
     $this->assertEquals('MedicalWebPage', $jsonld['@type']);
     $this->assertEquals(['MedicalStudy', 'ResearchProject'], $jsonld['mainEntity']['@type']);
+
+    /* ********************************************************************** */
+    // PronounceableText.
+    /* ********************************************************************** */
+
+    $this->createSchemaEntity('node', 'Substance');
+
+    $study_node = Node::create([
+      'type' => 'substance',
+      'title' => 'Substance',
+      'schema_phonetic_text' => '[substance]',
+    ]);
+    $study_node->save();
+
+    // Check that JSON-LD form Substance includes
+    // https://schema.org/PronounceableText as the https://schema.org/name.
+    $jsonld = $this->builder->buildEntity($study_node);
+    $expected_jsonld = [
+      '@type' => [
+        'Substance',
+        'CreativeWork',
+      ],
+      '@url' => $study_node->toUrl()->setAbsolute()->toString(),
+      'name' => [
+        '@type' => 'PronounceableText',
+        'inLanguage' => 'en',
+        'phoneticText' => '[substance]',
+        'speechToTextMarkup' => 'GAEP',
+        'textValue' => 'Substance',
+      ],
+    ];
+    $this->assertEquals($expected_jsonld, $jsonld);
+
+    /* ********************************************************************** */
+    // Quotation.
+    /* ********************************************************************** */
+
+    $this->createSchemaEntity('paragraph', 'Quotation');
+
+    $quotation = Paragraph::create([
+      'type' => 'quotation',
+      'schema_text' => ['value' => 'Some quote', 'format' => 'empty_format'],
+      'schema_name' => 'Some person',
+      'schema_job_title' => 'Some job title',
+    ]);
+    $quotation->save();
+
+    $jsonld = $this->builder->buildEntity($quotation);
+    $expected_jsonld = [
+      '@type' => 'Quotation',
+      'inLanguage' => 'en',
+      'text' => '',
+      'creator' => [
+        '@type' => 'Person',
+        'name' => 'Some person',
+        'jobTitle' => 'Some job title',
+      ],
+    ];
+    $this->assertEquals($expected_jsonld, $jsonld);
   }
 
 }

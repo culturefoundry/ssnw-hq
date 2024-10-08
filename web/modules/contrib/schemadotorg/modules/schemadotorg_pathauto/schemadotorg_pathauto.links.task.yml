@@ -1,0 +1,5 @@
+schemadotorg_pathauto.report:
+  title: Paths
+  route_name: schemadotorg_pathauto.report
+  base_route: schemadotorg_report
+  weight: 21

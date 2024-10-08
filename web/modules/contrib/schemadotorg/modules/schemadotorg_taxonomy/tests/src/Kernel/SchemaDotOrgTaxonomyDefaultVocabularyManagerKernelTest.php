@@ -27,6 +27,7 @@ class SchemaDotOrgTaxonomyDefaultVocabularyManagerKernelTest extends SchemaDotOr
     'content_translation',
     'taxonomy',
     'field_group',
+    'schemadotorg_field_group',
     'schemadotorg_taxonomy',
   ];
 
@@ -43,7 +44,7 @@ class SchemaDotOrgTaxonomyDefaultVocabularyManagerKernelTest extends SchemaDotOr
 
     $this->installEntitySchema('taxonomy_vocabulary');
     $this->installEntitySchema('taxonomy_term');
-    $this->installConfig(['schemadotorg_taxonomy']);
+    $this->installConfig(['schemadotorg_field_group', 'schemadotorg_taxonomy']);
 
     $this->contentTranslationManager = $this->container->get('content_translation.manager');
   }
@@ -58,19 +59,14 @@ class SchemaDotOrgTaxonomyDefaultVocabularyManagerKernelTest extends SchemaDotOr
 
     // Config tags and article_tags as default vocabularies.
     \Drupal::configFactory()->getEditable('schemadotorg_taxonomy.settings')
-      ->set('default_field_groups.custom', 'Custom')
       ->set('default_vocabularies.tags', [
         'id' => 'tags',
         'label' => 'Tags',
       ])
-      ->set('default_vocabularies.Article--article_tags', [
+      ->set('default_vocabularies.article_tags', [
         'id' => 'article_tags',
         'label' => 'Article Tags',
-      ])
-      ->set('default_vocabularies.custom', [
-        'id' => 'custom',
-        'label' => 'Custom',
-        'group' => 'custom',
+        'schema_types' => ['Article'],
       ])
       ->save();
 
@@ -100,13 +96,9 @@ class SchemaDotOrgTaxonomyDefaultVocabularyManagerKernelTest extends SchemaDotOr
     $form_component = $form_display->getComponent('field_article_tags');
     $this->assertEquals('entity_reference_autocomplete_tags', $form_component['type']);
     $form_group = $form_display->getThirdPartySetting('field_group', 'group_taxonomy');
-    $this->assertEquals('Categories and Services', $form_group['label']);
+    $this->assertEquals('Categories/Services', $form_group['label']);
     $this->assertEquals('details', $form_group['format_type']);
     $this->assertEquals(['field_tags', 'field_article_tags'], $form_group['children']);
-    $form_group = $form_display->getThirdPartySetting('field_group', 'group_custom');
-    $this->assertEquals('Custom', $form_group['label']);
-    $this->assertEquals('details', $form_group['format_type']);
-    $this->assertEquals(['field_custom'], $form_group['children']);
 
     // Check that the view display and component are created.
     $view_display = $entity_display_repository->getViewDisplay('node', 'article');
@@ -116,13 +108,9 @@ class SchemaDotOrgTaxonomyDefaultVocabularyManagerKernelTest extends SchemaDotOr
     $view_component = $view_display->getComponent('field_article_tags');
     $this->assertEquals('entity_reference_label', $view_component['type']);
     $view_group = $view_display->getThirdPartySetting('field_group', 'group_taxonomy');
-    $this->assertEquals('Categories and Services', $view_group['label']);
+    $this->assertEquals('Categories/Services', $view_group['label']);
     $this->assertEquals('fieldset', $view_group['format_type']);
     $this->assertEquals(['field_tags', 'field_article_tags'], $view_group['children']);
-    $view_group = $view_display->getThirdPartySetting('field_group', 'group_custom');
-    $this->assertEquals('Custom', $view_group['label']);
-    $this->assertEquals('fieldset', $view_group['format_type']);
-    $this->assertEquals(['field_custom'], $view_group['children']);
 
     // Check that tags and article_tags vocabularies are translated.
     $this->assertNotNull(ContentLanguageSettings::load('taxonomy_term.tags'));

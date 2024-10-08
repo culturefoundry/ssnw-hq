@@ -106,9 +106,8 @@ class SchemaDotOrgParagraphsKernelTest extends SchemaDotOrgEntityKernelTestBase 
       ],
     ]);
     $person_node->save();
-
     // Check that the Person Schema.org JSON-LD includes
-    // the ContactPoint paragraph and paragraph library item..
+    // the ContactPoint paragraph and paragraph library item.
     $expected = [
       '@type' => 'Person',
       '@url' => $person_node->toUrl()->setAbsolute()->toString(),

@@ -103,7 +103,7 @@ class SchemaDotOrgMappingSetConfirmForm extends ConfirmFormBase {
     /** @var \Drupal\schemadotorg_mapping_set\Controller\SchemadotorgMappingSetController $controller */
     $controller = SchemadotorgMappingSetController::create($this->container);
     $form['description'] = [
-      'description' => $form['description'] + ['#prefix' => '<p>', '#suffix' => '</p>'],
+      'description' => $form['description'] + ['#weight' => -100, '#prefix' => '<p>', '#suffix' => '</p>'],
       'types' => $controller->buildDetails($this->name, $operation),
     ];
 

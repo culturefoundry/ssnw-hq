@@ -9,6 +9,8 @@
 
 declare(strict_types=1);
 
+use Drupal\Core\Entity\Display\EntityFormDisplayInterface;
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\field\FieldConfigInterface;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
@@ -17,13 +19,27 @@ use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
  * Implements hook_ENTITY_TYPE_presave().
  */
 function schemadotorg_field_group_schemadotorg_mapping_presave(SchemaDotOrgMappingInterface $mapping): void {
-  if ($mapping->isSyncing()) {
-    return;
-  }
-
   /** @var \Drupal\schemadotorg_field_group\SchemaDotOrgFieldGroupEntityDisplayBuilderInterface $schema_field_group_display_builder */
   $schema_field_group_display_builder = \Drupal::service('schemadotorg_field_group.entity_display_builder');
-  $schema_field_group_display_builder->setFieldGroups($mapping);
+  $schema_field_group_display_builder->mappingPreSave($mapping);
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_presave().
+ */
+function schemadotorg_field_group_entity_form_display_presave(EntityFormDisplayInterface $form_display): void {
+  /** @var \Drupal\schemadotorg_field_group\SchemaDotOrgFieldGroupEntityDisplayBuilderInterface $schema_field_group_display_builder */
+  $schema_field_group_display_builder = \Drupal::service('schemadotorg_field_group.entity_display_builder');
+  $schema_field_group_display_builder->entityDisplayPreSave($form_display);
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_presave().
+ */
+function schemadotorg_field_group_entity_view_display_presave(EntityViewDisplayInterface $view_display): void {
+  /** @var \Drupal\schemadotorg_field_group\SchemaDotOrgFieldGroupEntityDisplayBuilderInterface $schema_field_group_display_builder */
+  $schema_field_group_display_builder = \Drupal::service('schemadotorg_field_group.entity_display_builder');
+  $schema_field_group_display_builder->entityDisplayPreSave($view_display);
 }
 
 /**
@@ -110,11 +126,15 @@ function schemadotorg_field_group_form_schemadotorg_properties_settings_form_alt
     $form['schemadotorg_field_group']['default_field_groups'][$entity_type_id] = [
       '#type' => 'schemadotorg_settings',
       '#title' => t('Default @type field groups', ['@type' => $entity_type_label]),
-      '#description' => t('Enter the default field groups and field order used to group Schema.org properties as they are added to the @type entity type.', $t_args),
+      '#description' => t('Enter the default field groups and field order used to group Schema.org properties as they are added to the @type entity type.', $t_args)
+        . '<br/>'
+        . t("NOTE: Schema.org properties that are not assigned to a field group will be automatically added to field group based on the property's associated Schema.org type."),
       '#description_link' => 'properties',
       '#example' => '
 group_name:
   name: Group label
+  description: Group description
+  weight: 0
   properties:
     - property01
     - property02

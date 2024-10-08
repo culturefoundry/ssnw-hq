@@ -21,7 +21,7 @@ content:
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 12
+    weight: 17
     region: content
   links:
     settings: {  }
@@ -43,7 +43,7 @@ content:
       timezone_override: ''
       format_type: medium
     third_party_settings: {  }
-    weight: 10
+    weight: 15
     region: content
   schema_start_date:
     type: datetime_default
@@ -52,6 +52,6 @@ content:
       timezone_override: ''
       format_type: medium
     third_party_settings: {  }
-    weight: 9
+    weight: 14
     region: content
 hidden: {  }

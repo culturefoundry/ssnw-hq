@@ -75,6 +75,9 @@ and field configuration settings.
 - **[Schema.org Blueprints Entity Prepopulate](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_epp)**  
   Configures and manages entity prepopulation for Schema.org relationships (i.e. entity references).
 
+- **[Schema.org Blueprints Entity Reference Override](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_entity_reference_override)**  
+  Integrates the Entity Reference Override field to add a https://schema.org/Role to entity references.
+
 - **[Schema.org Blueprints Existing Values Autocomplete Widget](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_existing_values_autocomplete_widget)**  
   Allows an autocomplete widget to be automatically added to Schema.org properties within an entity type/bundle Schema.org mapping.
 

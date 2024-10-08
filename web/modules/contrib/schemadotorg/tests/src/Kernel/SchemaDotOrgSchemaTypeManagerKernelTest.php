@@ -171,16 +171,6 @@ class SchemaDotOrgSchemaTypeManagerKernelTest extends SchemaDotOrgKernelTestBase
     $this->assertEquals('Answer', $this->schemaTypeManager->getPropertyDefaultType('acceptedAnswer'));
     $this->assertNull($this->schemaTypeManager->getPropertyDefaultType('recipeInstructions'));
 
-    // Check getting a Schema.org property's unit.
-    $this->assertNull($this->schemaTypeManager->getPropertyUnit('id'));
-    $this->assertNull($this->schemaTypeManager->getPropertyUnit('id', 1));
-    $this->assertEquals('grams', $this->schemaTypeManager->getPropertyUnit('carbohydrateContent'));
-    $this->assertEquals('gram', $this->schemaTypeManager->getPropertyUnit('carbohydrateContent', 1));
-    $this->assertNull($this->schemaTypeManager->getPropertyUnit('carbohydrateContent', NULL));
-    $this->assertEquals('milligrams', $this->schemaTypeManager->getPropertyUnit('cholesterolContent'));
-    $this->assertEquals('milligram', $this->schemaTypeManager->getPropertyUnit('cholesterolContent', 1));
-    $this->assertNull($this->schemaTypeManager->getPropertyUnit('cholesterolContent', NULL));
-
     // Check getting Schema.org type or property items.
     $items = $this->schemaTypeManager->getItems(SchemaDotOrgSchemaTypeManagerInterface::SCHEMA_TYPES, ['Thing', 'Place']);
     $this->assertEquals('https://schema.org/Thing', $items['Thing']['id']);
@@ -452,62 +442,65 @@ class SchemaDotOrgSchemaTypeManagerKernelTest extends SchemaDotOrgKernelTestBase
       'name' => 'A name',
     ];
 
-    $setting_parts = [
+    $parts = [
       'schema_type' => 'Recipe',
       'schema_property' => 'isFamilyFriendly',
     ];
     $this->assertEquals(
       'Recipe is family friendly',
-      $this->schemaTypeManager->getSetting($settings, $setting_parts)
+      $this->schemaTypeManager->getSetting($settings, $parts)
     );
 
-    $setting_parts = [
+    $parts = [
       'schema_type' => 'Recipe',
       'schema_property' => 'additionalType',
     ];
     $this->assertEquals(
       'Creative work has additional type',
-      $this->schemaTypeManager->getSetting($settings, $setting_parts)
+      $this->schemaTypeManager->getSetting($settings, $parts)
+    );
+    $this->assertNull(
+      $this->schemaTypeManager->getSetting($settings, $parts, ['parents' => FALSE])
     );
 
-    $setting_parts = [
+    $parts = [
       'schema_type' => 'Recipe',
       'schema_property' => 'name',
     ];
     $this->assertEquals(
       'A name',
-      $this->schemaTypeManager->getSetting($settings, $setting_parts)
+      $this->schemaTypeManager->getSetting($settings, $parts)
     );
-    $setting_parts = [
+    $parts = [
       'schema_type' => 'CreativeWork',
       'schema_property' => 'name',
     ];
     $this->assertEquals(
       'A name',
-      $this->schemaTypeManager->getSetting($settings, $setting_parts)
+      $this->schemaTypeManager->getSetting($settings, $parts)
     );
-    $setting_parts = [
+    $parts = [
       'bundle' => 'medical_study',
       'schema_type' => 'ResearchProject',
     ];
     $this->assertEquals(
       'Medical studies are also research projects.',
-      $this->schemaTypeManager->getSetting($settings, $setting_parts)
+      $this->schemaTypeManager->getSetting($settings, $parts)
     );
 
-    $setting_parts = [
+    $parts = [
       'schema_type' => 'Place',
     ];
     $this->assertEquals(
       'This is a place.',
-      $this->schemaTypeManager->getSetting($settings, $setting_parts)
+      $this->schemaTypeManager->getSetting($settings, $parts)
     );
     $this->assertEquals(
       [
         'Place' => 'This is a place.',
         'Thing' => 'This is thing',
       ],
-      $this->schemaTypeManager->getSetting($settings, $setting_parts, TRUE)
+      $this->schemaTypeManager->getSetting($settings, $parts, ['multiple' => TRUE])
     );
 
     // Check getting setting from an indexed array by type and property.

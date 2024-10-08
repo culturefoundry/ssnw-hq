@@ -47,7 +47,6 @@ class SchemaDotOrgEntityPrepopulateNodeLinksTest extends SchemaDotOrgBrowserTest
     $this->createSchemaEntity('node', 'Person');
     $this->createSchemaEntity('node', 'Organization');
     $this->createSchemaEntity('node', 'LocalBusiness');
-
     $this->drupalLogin($this->rootUser);
 
     /* ********************************************************************** */
@@ -65,23 +64,17 @@ class SchemaDotOrgEntityPrepopulateNodeLinksTest extends SchemaDotOrgBrowserTest
 
     // Check organization node links.
     $this->drupalGet($organization_node->toUrl());
-    $assert->linkExists('Add Person');
-    $assert->linkByHrefExists('/node/add/person?member_of=' . $organization_node->id());
-    $assert->linkByHrefNotExists('/node/add/person?works_for=' . $organization_node->id());
-    $assert->linkExists('Add Local Business');
-    $assert->linkByHrefExists('/node/add/local_business?parent_organization=' . $organization_node->id());
-    $assert->linkExists('Add Organization');
-    $assert->linkByHrefExists('/node/add/organization?parent_organization=' . $organization_node->id());
+    $this->assertLinkExists('Add Organization', '/node/add/organization?parent_organization=' . $organization_node->id());
+    $this->assertLinkExists('Add Local Business', '/node/add/local_business?parent_organization=' . $organization_node->id());
+    $this->assertLinkExists('Add Person as member', '/node/add/person?member_of=' . $organization_node->id());
+    $this->assertLinkExists('Add Person as employee', '/node/add/person?works_for=' . $organization_node->id());
 
     // Check local business node links.
     $this->drupalGet($local_business_node->toUrl());
-    $assert->linkExists('Add Person');
-    $assert->linkByHrefNotExists('/node/add/person?member_of=' . $local_business_node->id());
-    $assert->linkByHrefExists('/node/add/person?works_for=' . $local_business_node->id());
-    $assert->linkExists('Add Local Business');
-    $assert->linkByHrefExists('/node/add/local_business?parent_organization=' . $local_business_node->id());
-    $assert->linkExists('Add Organization');
-    $assert->linkByHrefExists('/node/add/organization?parent_organization=' . $local_business_node->id());
+    $this->assertLinkExists('Add Organization', '/node/add/organization?parent_organization=' . $local_business_node->id());
+    $this->assertLinkExists('Add Local Business', '/node/add/local_business?parent_organization=' . $local_business_node->id());
+    $this->assertLinkExists('Add Person as member', '/node/add/person?member_of=' . $local_business_node->id());
+    $this->assertLinkExists('Add Person as employee', '/node/add/person?works_for=' . $local_business_node->id());
 
     // Check that node links are displayed as dropdown.
     $this->drupalGet($organization_node->toUrl());

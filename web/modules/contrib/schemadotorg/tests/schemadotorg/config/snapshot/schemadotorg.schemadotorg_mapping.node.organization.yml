@@ -4,7 +4,6 @@ dependencies:
   config:
     - field.field.node.organization.body
     - field.field.node.organization.schema_image
-    - field.field.node.organization.schema_same_as
     - node.type.organization
   module:
     - node
@@ -16,5 +15,4 @@ schema_properties:
   body: description
   schema_image: image
   title: name
-  schema_same_as: sameAs
 additional_mappings: {  }

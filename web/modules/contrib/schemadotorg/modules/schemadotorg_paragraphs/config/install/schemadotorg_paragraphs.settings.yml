@@ -15,6 +15,7 @@ paragraphs_library:
   - MediaGallery
   - ImageGallery
   - VideoGallery
+  - WebContent
 schema_property_access:
   Person--ContactPoint:
     - contactType

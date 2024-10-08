@@ -50,7 +50,7 @@ class SchemaDotOrgJsonLdRangeKernelTest extends SchemaDotOrgEntityKernelTestBase
     $job_node = Node::create([
       'type' => 'job_posting',
       'title' => 'Some job',
-      'schema_estimated_salary' => [
+      'schema_base_salary' => [
         'from' => 100000,
         'to' => 200000,
       ],
@@ -61,7 +61,7 @@ class SchemaDotOrgJsonLdRangeKernelTest extends SchemaDotOrgEntityKernelTestBase
       '@type' => 'JobPosting',
       '@url' => $job_node->toUrl()->setAbsolute()->toString(),
       'title' => 'Some job',
-      'estimatedSalary' => [
+      'baseSalary' => [
         '@type' => 'MonetaryAmount',
         'minValue' => 100000,
         'maxValue' => 200000,

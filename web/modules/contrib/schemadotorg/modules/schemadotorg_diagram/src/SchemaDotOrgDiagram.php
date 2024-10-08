@@ -200,7 +200,7 @@ class SchemaDotOrgDiagram implements SchemaDotOrgDiagramInterface {
 
     $node_id = '1-' . $node->id();
 
-    foreach ($node->$parent_field_name as $item) {
+    foreach ($node->get($parent_field_name) as $item) {
       /** @var \Drupal\node\NodeInterface|null $parent_node */
       $parent_node = $item->entity;
       if (!$parent_node) {
@@ -234,7 +234,7 @@ class SchemaDotOrgDiagram implements SchemaDotOrgDiagramInterface {
     }
 
     $parent_id = ($depth - 1) . '-' . $node->id();
-    foreach ($node->$child_field_name as $item) {
+    foreach ($node->get($child_field_name) as $item) {
       /** @var \Drupal\node\NodeInterface|null $child_node */
       $child_node = $item->entity;
       if (!$child_node) {
@@ -358,7 +358,7 @@ class SchemaDotOrgDiagram implements SchemaDotOrgDiagramInterface {
     $field_name = $mapping->getSchemaPropertyFieldName($schema_property);
     if (!$field_name
       || !$node->hasField($field_name)
-      || !($node->$field_name instanceof EntityReferenceFieldItemListInterface)) {
+      || !($node->get($field_name) instanceof EntityReferenceFieldItemListInterface)) {
       return NULL;
     }
 

@@ -39,13 +39,13 @@ class SchemaDotOrgOptionsKernelTest extends SchemaDotOrgEntityKernelTestBase {
     $this->createSchemaEntity('node', 'Recipe');
     $this->createSchemaEntity('node', 'MedicalStudy');
 
-    // Check that gender is assigned custom allowed values..
+    // Check that gender is assigned custom allowed values.
     /** @var \Drupal\field\FieldStorageConfigInterface|null $field_storage */
     $field_storage = FieldStorageConfig::load('node.schema_gender');
     $expected_allowed_values = [
-      'Male' => 'Male',
-      'Female' => 'Female',
-      'Unspecified' => 'Unspecified',
+      'male' => 'Male',
+      'female' => 'Female',
+      'unspecified' => 'Unspecified',
     ];
     $this->assertEquals($expected_allowed_values, $field_storage->getSetting('allowed_values'));
 
@@ -72,7 +72,7 @@ class SchemaDotOrgOptionsKernelTest extends SchemaDotOrgEntityKernelTestBase {
     ];
     $this->assertEquals($expected_allowed_values, $field_storage->getSetting('allowed_values'));
 
-    // Check that status allowed values use OptGroup for multiple enumerations..
+    // Check that status allowed values use OptGroup for multiple enumerations.
     /** @var \Drupal\field\FieldStorageConfigInterface|null $field_storage */
     $field_storage = FieldStorageConfig::load('node.schema_status');
     $expected_allowed_values = [
@@ -100,23 +100,23 @@ class SchemaDotOrgOptionsKernelTest extends SchemaDotOrgEntityKernelTestBase {
 
     // Check default field type for Schema.org properties with allowed values.
     $field_types = ['string' => 'string'];
-    schemadotorg_options_schemadotorg_property_field_type_alter($field_types, 'Person', 'gender');
+    schemadotorg_options_schemadotorg_property_field_type_alter($field_types, 'node', 'Person', 'gender');
     $this->assertEquals(['list_string' => 'list_string', 'string' => 'string'], $field_types);
 
     // Check that the property's field type if a default field type is defined.
     $field_types = ['string' => 'string'];
-    schemadotorg_options_schemadotorg_property_field_type_alter($field_types, 'SpecialAnnouncement', 'category');
+    schemadotorg_options_schemadotorg_property_field_type_alter($field_types, 'node', 'SpecialAnnouncement', 'category');
     $this->assertEquals(['list_string' => 'list_string', 'string' => 'string'], $field_types);
 
     // Check that the property's field type if a default field type is defined.
     $field_types = ['string' => 'string'];
-    schemadotorg_options_schemadotorg_property_field_type_alter($field_types, 'Recommendation', 'category');
+    schemadotorg_options_schemadotorg_property_field_type_alter($field_types, 'node', 'Recommendation', 'category');
     $this->assertEquals(['list_string' => 'list_string', 'string' => 'string'], $field_types);
 
     // Check settings default field type to list string for
     // allowed values function.
     $field_types = ['string' => 'string'];
-    schemadotorg_options_schemadotorg_property_field_type_alter($field_types, 'Person', 'knowsLanguage');
+    schemadotorg_options_schemadotorg_property_field_type_alter($field_types, 'node', 'Person', 'knowsLanguage');
     $this->assertEquals(['list_string' => 'list_string', 'string' => 'string'], $field_types);
   }
 

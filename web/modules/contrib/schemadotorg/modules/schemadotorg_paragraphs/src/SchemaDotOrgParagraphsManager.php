@@ -43,8 +43,7 @@ class SchemaDotOrgParagraphsManager implements SchemaDotOrgParagraphsManagerInte
       return;
     }
 
-    $schema_type = $mapping->getSchemaType();
-    if (!$this->useParagraphsLibrary($schema_type)) {
+    if (!$this->useParagraphsLibrary($mapping)) {
       return;
     }
 
@@ -75,11 +74,11 @@ class SchemaDotOrgParagraphsManager implements SchemaDotOrgParagraphsManagerInte
     }
 
     // Widget.
-    $widget_id = 'paragraphs';
+    $widget_id = $widget_id ?? 'paragraphs';
 
     // Set the default paragraph type to 'none', to provide a cleaner initial UX
     // because all Schema.org fields/properties are optional.
-    $widget_settings['default_paragraph_type'] = '_none';
+    $widget_settings['default_paragraph_type'] = $widget_settings['default_paragraph_type'] ?? '_none';
   }
 
   /**
@@ -116,8 +115,7 @@ class SchemaDotOrgParagraphsManager implements SchemaDotOrgParagraphsManagerInte
 
       /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $target_mapping */
       $target_mapping = reset($target_mappings);
-      $target_schema_type = $target_mapping->getSchemaType();
-      if ($this->useParagraphsLibrary($target_schema_type)) {
+      if ($this->useParagraphsLibrary($target_mapping)) {
         $target_bundles['from_library'] = 'from_library';
         break;
       }
@@ -141,15 +139,15 @@ class SchemaDotOrgParagraphsManager implements SchemaDotOrgParagraphsManagerInte
   }
 
   /**
-   * Check if a Schema.org type should be added to Paragraphs library.
+   * Check if a Schema.org mapping should be added to Paragraphs library.
    *
-   * @param string $type
-   *   The Schema.org type.
+   * @param \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping
+   *   The Schema.org mapping.
    *
    * @return bool
-   *   TRUE if a Schema.org type should be added to Paragraphs library.
+   *   TRUE if a Schema.org mapping should be added to Paragraphs library.
    */
-  protected function useParagraphsLibrary(string $type): bool {
+  protected function useParagraphsLibrary(SchemaDotOrgMappingInterface $mapping): bool {
     if (!$this->moduleHandler->moduleExists('paragraphs_library')) {
       return FALSE;
     }
@@ -158,7 +156,7 @@ class SchemaDotOrgParagraphsManager implements SchemaDotOrgParagraphsManagerInte
       ->get('schemadotorg_paragraphs.settings')
       ->get('paragraphs_library');
 
-    return $this->schemaTypeManager->isSubTypeOf($type, $paragraphs_library);
+    return (bool) $this->schemaTypeManager->getSetting($paragraphs_library, $mapping);
   }
 
 }

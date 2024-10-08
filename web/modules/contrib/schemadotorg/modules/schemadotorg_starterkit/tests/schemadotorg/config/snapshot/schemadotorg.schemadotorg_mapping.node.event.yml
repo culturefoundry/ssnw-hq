@@ -5,6 +5,8 @@ dependencies:
     - field.field.node.event.body
     - field.field.node.event.schema_duration
     - field.field.node.event.schema_end_date
+    - field.field.node.event.schema_has_part
+    - field.field.node.event.schema_is_part_of
     - field.field.node.event.schema_start_date
     - node.type.event
   module:
@@ -20,4 +22,13 @@ schema_properties:
   langcode: inLanguage
   title: name
   schema_start_date: startDate
-additional_mappings: {  }
+additional_mappings:
+  WebPage:
+    schema_type: WebPage
+    schema_properties:
+      created: dateCreated
+      changed: dateModified
+      schema_has_part: hasPart
+      langcode: inLanguage
+      schema_is_part_of: isPartOf
+      title: name

@@ -17,9 +17,10 @@ content moderation for Schema.org types as they are created.
 Features
 --------
 
+- Do not display the 'Moderation control' view component if 
+  the Moderation Sidebar module is enabled.
 - Enables content moderation workflows for Schema.org (content) types as
   they are created.
-- Hides content moderation control widget from all view modes except full.
 
 
 Requirements
@@ -38,3 +39,7 @@ Configuration
 - Enter the default content moderation workflow per entity type and Schema.org type.
 
 
+Known Issues
+------------
+
+- [Issue #3468716: Default Drupal core's moderation control widget to hidden when this module is enabled](https://www.drupal.org/project/moderation_sidebar/issues/3468716)

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Drupal\schemadotorg;
 
 use Drupal\Core\Config\Entity\ConfigEntityStorage;
+use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -111,18 +112,36 @@ class SchemaDotOrgMappingStorage extends ConfigEntityStorage implements SchemaDo
   /**
    * {@inheritdoc}
    */
-  public function getSchemaPropertyTargetBundles(string $target_type, string $schema_type, string $schema_property): array {
+  public function getSchemaPropertyTargetBundles(string $target_type, string $schema_type, string $schema_property, array $options = []): array {
     $range_includes = $this->getSchemaPropertyRangeIncludes($schema_type, $schema_property);
-    return $this->getRangeIncludesTargetBundles($target_type, $range_includes);
+    return $this->getRangeIncludesTargetBundles($target_type, $range_includes, $options);
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getRangeIncludesTargetBundles(string $target_type, array $range_includes, $ignore_thing = TRUE): array {
+  public function getRangeIncludesTargetBundles(string $target_type, array $range_includes, array $options = []): array {
+    $options += [
+      'ignore_thing' => TRUE,
+      'ignore_additional_mappings' => FALSE,
+    ];
+
     // Ignore 'Thing' because it is too generic.
-    if ($ignore_thing) {
+    if ($options['ignore_thing']) {
       unset($range_includes['Thing']);
+    }
+
+    // Ignore all data types to improve performance by reducing queries and
+    // ensure that data types like  https://schema.org/PronounceableText can't
+    // be used as an entity reference's target bundle.
+    $range_includes = array_diff_key(
+      $range_includes,
+      $this->schemaTypeManager->getDataTypes()
+    );
+
+    // If range includes is empty, there can't be any target bundles.
+    if (empty($range_includes)) {
+      return [];
     }
 
     // If the range includes Thing, we can return all the mapping
@@ -139,7 +158,7 @@ class SchemaDotOrgMappingStorage extends ConfigEntityStorage implements SchemaDo
     }
 
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface[] $mappings */
-    $mappings = $this->loadMultipleBySchemaType($target_type, $range_includes);
+    $mappings = $this->loadMultipleBySchemaType($target_type, $range_includes, $options);
 
     $target_bundles = [];
     foreach ($mappings as $mapping) {
@@ -227,16 +246,32 @@ class SchemaDotOrgMappingStorage extends ConfigEntityStorage implements SchemaDo
   /**
    * {@inheritdoc}
    */
-  public function loadMultipleBySchemaType(string $entity_type_id, array|string $schema_type): array {
+  public function loadMultipleBySchemaType(string $entity_type_id, array|string $schema_type, array $options = []): array {
+    $options += [
+      'ignore_additional_mappings' => FALSE,
+    ];
+
     $type_children = $this->schemaTypeManager->getAllSubTypes((array) $schema_type);
 
-    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface[] $mappings */
-    $mappings = $this->loadByProperties(['target_entity_type_id' => $entity_type_id]);
-    foreach ($mappings as $mapping_id => $mapping) {
-      $is_subtype = array_key_exists($mapping->getSchemaType(), $type_children);
-      $has_additional_mapping = (bool) array_intersect_key($mapping->getAdditionalMappings(), $type_children);
-      if (!$is_subtype && !$has_additional_mapping) {
-        unset($mappings[$mapping_id]);
+    if ($options['ignore_additional_mappings']) {
+      $mapping_ids = $this->getQuery()
+        ->condition('target_entity_type_id', $entity_type_id)
+        ->condition('schema_type', $type_children, 'IN')
+        ->accessCheck(FALSE)
+        ->execute();
+      /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface[] $mappings */
+      $mappings = ($mapping_ids) ? $this->loadMultiple($mapping_ids) : [];
+      return $mappings;
+    }
+    else {
+      /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface[] $mappings */
+      $mappings = $this->loadByProperties(['target_entity_type_id' => $entity_type_id]);
+      foreach ($mappings as $mapping_id => $mapping) {
+        $is_subtype = array_key_exists($mapping->getSchemaType(), $type_children);
+        $has_additional_mapping = (bool) array_intersect_key($mapping->getAdditionalMappings(), $type_children);
+        if (!$is_subtype && !$has_additional_mapping) {
+          unset($mappings[$mapping_id]);
+        }
       }
     }
 
@@ -257,6 +292,23 @@ class SchemaDotOrgMappingStorage extends ConfigEntityStorage implements SchemaDo
       'target_bundle' => $entity->bundle(),
     ]);
     return ($entities) ? reset($entities) : NULL;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getAdditionalType(ContentEntityInterface $entity): ?string {
+    $mapping = $this->loadByEntity($entity);
+    if (!$mapping) {
+      return NULL;
+    }
+
+    $field_name = $mapping->getSchemaPropertyFieldName('additionalType');
+    if (!$field_name || !$entity->hasField($field_name)) {
+      return NULL;
+    }
+
+    return $entity->get($field_name)->value ?? NULL;
   }
 
   /**

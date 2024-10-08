@@ -224,12 +224,14 @@ function schemadotorg_media_schemadotorg_property_field_alter(
   }
 
   // If the Media library is installed use it via the widget's form display.
-  if (\Drupal::moduleHandler()->moduleExists('media_library')) {
+  if (empty($widget_id) && \Drupal::moduleHandler()->moduleExists('media_library')) {
     $widget_id = 'media_library_widget';
   }
 
   // Display the rendered media.
-  $formatter_id = 'entity_reference_entity_view';
+  if (empty($formatter_id)) {
+    $formatter_id = 'entity_reference_entity_view';
+  }
 }
 
 /* ************************************************************************** */

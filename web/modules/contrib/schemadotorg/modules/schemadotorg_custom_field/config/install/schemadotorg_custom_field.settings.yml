@@ -1,53 +1,207 @@
 default_schema_properties:
-  estimatedSalary:
-    type: MonetaryAmount
-    properties:
-      minValue: decimal
-      maxValue: decimal
-  nutrition:
-    type: NutritionInformation
-    properties:
-      servingSize: string
-      calories: integer
-      carbohydrateContent: integer
-      cholesterolContent: integer
-      fatContent: integer
-      fiberContent: integer
-      proteinContent: integer
-      saturatedFatContent: integer
-      sodiumContent: integer
-      sugarContent: integer
-      transFatContent: integer
-      unsaturatedFatContent: integer
+  additionalProperty:
+    schema_type: PropertyValue
+    schema_properties:
+      name:
+        data_type: string
+      value:
+        data_type: string
+  contactPoint:
+    schema_type: ContactPoint
+    schema_properties:
+      contactType:
+        data_type: string
+        allowed_values:
+          office: Office
+          laboratory: Laboratory
+          appointments: Appointments
+          mobile: Mobile
+          fax: Fax
+      telephone:
+        data_type: string
+      email:
+        data_type: string
+      description:
+        data_type: string
   doseSchedule:
-    type: DoseSchedule
-    properties:
-      targetPopulation: string
-      doseValue: integer
-      doseUnit: string
-      frequency: string
-  recommendedIntake:
-    type: RecommendedDoseSchedule
-    properties:
-      targetPopulation: string
-      doseValue: decimal
-      doseUnit: string
-      frequency: string
+    schema_type: DoseSchedule
+    schema_properties:
+      targetPopulation:
+        data_type: string
+      doseValue:
+        data_type: integer
+      doseUnit:
+        data_type: string
+      frequency:
+        data_type: string
+  educationalAlignment:
+    schema_type: AlignmentObject
+    schema_properties:
+      alignmentType:
+        data_type: string
+      targetName:
+        data_type: string
+      targetDescription:
+        data_type: string
+      educationalFramework:
+        data_type: string
+      targetUrl:
+        data_type: uri
+  educationRequirements:
+    schema_type: EducationalOccupationalCredential
+    schema_properties:
+      description:
+        data_type: string
+      credentialCategory:
+        data_type: string
+  experienceRequirements:
+    schema_type: OccupationalExperienceRequirements
+    schema_properties:
+      description:
+        data_type: string
+      monthsOfExperience:
+        data_type: integer
   maximumIntake:
-    type: DoseSchedule
-    properties:
-      targetPopulation: string
-      doseValue: integer
-      doseUnit: string
-      frequency: string
+    schema_type: DoseSchedule
+    schema_properties:
+      targetPopulation:
+        data_type: string
+      doseValue:
+        data_type: integer
+      doseUnit:
+        data_type: string
+      frequency:
+        data_type: string
+  nutrition:
+    schema_type: NutritionInformation
+    schema_properties:
+      servingSize:
+        data_type: string
+      calories:
+        data_type: integer
+        suffix: ' calories'
+        scale: 0
+        min: 0
+        max: 1000
+      carbohydrateContent:
+        data_type: integer
+        suffix: ' grams'
+        scale: 0
+        min: 0
+        max: 1000
+      cholesterolContent:
+        data_type: integer
+        suffix: milligrams
+        scale: 0
+        min: 0
+        max: 1000
+      fatContent:
+        data_type: integer
+        suffix: ' grams'
+        scale: 0
+        min: 0
+        max: 1000
+      fiberContent:
+        data_type: integer
+        suffix: ' grams'
+        scale: 0
+        min: 0
+        max: 1000
+      proteinContent:
+        data_type: integer
+        suffix: ' grams'
+        scale: 0
+        min: 0
+        max: 1000
+      saturatedFatContent:
+        data_type: integer
+        suffix: ' grams'
+        scale: 0
+        min: 0
+        max: 1000
+      sodiumContent:
+        data_type: integer
+        suffix: ' grams'
+        scale: 0
+        min: 0
+        max: 1000
+      sugarContent:
+        data_type: integer
+        suffix: ' grams'
+        scale: 0
+        min: 0
+        max: 1000
+      transFatContent:
+        data_type: integer
+        suffix: ' grams'
+        scale: 0
+        min: 0
+        max: 1000
+      unsaturatedFatContent:
+        data_type: integer
+        suffix: ' grams'
+        scale: 0
+        min: 0
+        max: 1000
+  recommendedIntake:
+    schema_type: RecommendedDoseSchedule
+    schema_properties:
+      targetPopulation:
+        data_type: string
+      doseValue:
+        data_type: decimal
+      doseUnit:
+        data_type: string
+      frequency:
+        data_type: string
+  syllabusSections:
+    schema_type: Syllabus
+    schema_properties:
+      name:
+        data_type: string
+      description:
+        data_type: string_long
+  vehicleEngine:
+    schema_type: EngineSpecification
+    schema_properties:
+      engineType:
+        data_type: string
+      fuelType:
+        data_type: string
+      enginePower:
+        data_type: integer
+        suffix: ' horsepower'
+      engineDisplacement:
+        data_type: integer
+        suffix: ' cubic inches'
+      torque:
+        data_type: integer
+        suffix: 'pound-feet'
   FAQPage--mainEntity:
-    type: Question
-    properties:
-      name: string_long
-      acceptedAnswer: string_long
+    schema_type: Question
+    schema_properties:
+      name:
+        data_type: string_long
+      acceptedAnswer:
+        data_type: string_long
   QAPage--mainEntity:
-    type: Question
-    properties:
-      name: string_long
-      acceptedAnswer: string_long
+    schema_type: Question
+    schema_properties:
+      name:
+        data_type: string_long
+      acceptedAnswer:
+        data_type: string_long
+  Quiz--hasPart:
+    schema_type: Question
+    schema_properties:
+      name:
+        data_type: string_long
+      eduQuestionType:
+        data_type: string
+        allowed_values:
+          multiple_choice: Multiple choice
+          open_ended: Open ended
+          flashcard: Flashcard
+      acceptedAnswer:
+        data_type: string_long
 default_format: basic_html

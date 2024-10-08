@@ -20,6 +20,7 @@ use Drupal\Core\Routing\RouteMatch;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\image\ImageStyleInterface;
+use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 use Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface;
 use Symfony\Component\Routing\RouterInterface;
 
@@ -247,56 +248,87 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
   /**
    * {@inheritdoc}
    */
-  public function getSchemaPropertyValueDefaultType(string $type, string $property, mixed $value): array|string|int|bool|NULL {
-    $default_property_values = $this->configFactory
-      ->get('schemadotorg.settings')
-      ->get('schema_types.default_property_values');
+  public function getSchemaPropertyValueDefaultSchemaType(string $schema_type, string $schema_property, mixed $value): array|string|int|bool|NULL {
+    // If the value is an array return it with the  @type  default values.
     if (is_array($value)) {
-      $value_type = $value['@type'] ?? '';
-      $default_values = $default_property_values[$value_type] ?? [];
-      return $value + $default_values;
+      $range_include = $value['@type'] ?? NULL;
+      return $value + $this->getSchemaTypeDefaultValues($schema_type, $schema_property, $range_include);
     }
 
     $schema_properties_range_includes = $this->configFactory
       ->get('schemadotorg.settings')
       ->get("schema_properties.range_includes");
-    $range_includes = $schema_properties_range_includes["$type--$property"]
-      ?? $schema_properties_range_includes[$property]
-      ?? NULL;
-    if ($range_includes) {
-      $property_type = reset($range_includes);
-    }
-    else {
-      $property_type = $this->schemaTypeManager->getPropertyDefaultType($property);
-    }
-
-    if (!$property_type) {
+    $parts = [
+      'schema_type' => $schema_type,
+      'schema_property' => $schema_property,
+    ];
+    $range_includes = $this->schemaTypeManager->getSetting($schema_properties_range_includes, $parts);
+    $schema_property_schema_type = ($range_includes)
+      ? reset($range_includes)
+      : $this->schemaTypeManager->getPropertyDefaultType($schema_property);
+    if (!$schema_property_schema_type) {
       return $value;
     }
 
-    $main_property = $this->getSchemaTypeMainProperty($property_type);
+    $main_property = $this->getSchemaTypeMainProperty($schema_property_schema_type);
     if (!$main_property) {
       return $value;
     }
 
-    $default_values = $default_property_values[$property_type] ?? [];
     return [
-      '@type' => $property_type,
+      '@type' => $schema_property_schema_type,
       $main_property => $value,
-    ] + $default_values;
+    ] + $this->getSchemaTypeDefaultValues($schema_type, $schema_property, $schema_property_schema_type);
+  }
+
+  /**
+   * Gets the default values for a range includes Schema.org type.
+   *
+   * @param string $schema_type
+   *   The schema type.
+   * @param string $schema_property
+   *   The schema property.
+   * @param string|null $range_include
+   *   The range include value.
+   *
+   * @return array
+   *   The default values for a range includes Schema.org type.
+   */
+  protected function getSchemaTypeDefaultValues(string $schema_type, string $schema_property, ?string $range_include): array {
+    if (!$range_include) {
+      return [];
+    }
+
+    $schema_type_default_values = $this->configFactory
+      ->get('schemadotorg_jsonld.settings')
+      ->get('schema_type_default_values');
+
+    $parts = [
+      'schema_type' => $schema_type,
+      'schema_property' => $schema_property,
+      'range_include' => $range_include,
+    ];
+
+    $patterns = [
+      ['schema_type', 'schema_property', 'range_include'],
+      ['schema_property', 'range_include'],
+      ['range_include'],
+    ];
+
+    return $this->schemaTypeManager->getSetting(
+      settings: $schema_type_default_values,
+      parts: $parts,
+      patterns: $patterns
+    ) ?? [];
   }
 
   /**
    * {@inheritdoc}
    */
-  public function hasSchemaUrl(EntityInterface $entity): bool {
-    if (!$entity->hasLinkTemplate('canonical')) {
-      return FALSE;
-    }
-
-    return !in_array(
-      $entity->getEntityTypeId(),
-      $this->configFactory->get('schemadotorg_jsonld.settings')->get('entity_types_exclude_url')
+  public function hasSchemaUrl(SchemaDotOrgMappingInterface $mapping): bool {
+    return !$this->schemaTypeManager->getSetting(
+      $this->configFactory->get('schemadotorg_jsonld.settings')->get('exclude_url'),
+      $mapping
     );
   }
 
@@ -332,25 +364,25 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
   /**
    * Get Schema.org type's main property.
    *
-   * @param string $type
+   * @param string $schema_type
    *   The Schema.org type.
    *
    * @return string|null
    *   A Schema.org type's main property. (Defaults to 'name')
    */
-  protected function getSchemaTypeMainProperty(string $type): ?string {
+  protected function getSchemaTypeMainProperty(string $schema_type): ?string {
     $main_properties = $this->configFactory
-      ->get('schemadotorg.settings')
-      ->get('schema_types.main_properties');
+      ->get('schemadotorg_jsonld.settings')
+      ->get('schema_type_main_properties');
 
-    $breadcrumbs = $this->schemaTypeManager->getTypeBreadcrumbs($type);
+    $breadcrumbs = $this->schemaTypeManager->getTypeBreadcrumbs($schema_type);
     foreach ($breadcrumbs as $breadcrumb) {
       $breadcrumb = array_reverse($breadcrumb);
-      foreach ($breadcrumb as $type) {
+      foreach ($breadcrumb as $breadcrumb_type) {
         // Using array key exists to account main property being set to NULL,
         // which means the Schema.org type does NOT have a main property.
-        if (array_key_exists($type, $main_properties)) {
-          return $main_properties[$type];
+        if (array_key_exists($breadcrumb_type, $main_properties)) {
+          return $main_properties[$breadcrumb_type];
         }
       }
     }

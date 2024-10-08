@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\schemadotorg_office_hours\Kernel;
 
-use Drupal\Tests\token\Kernel\KernelTestBase;
+use Drupal\Tests\token\Kernel\TokenKernelTestBase;
 
 require_once __DIR__ . '/../../../schemadotorg_office_hours.install';
 
@@ -15,7 +15,7 @@ require_once __DIR__ . '/../../../schemadotorg_office_hours.install';
  * @covers schemadotorg_office_hours_uninstall()
  * @group schemadotorg
  */
-class SchemaDotOrgOfficeHoursInstallTest extends KernelTestBase {
+class SchemaDotOrgOfficeHoursInstallTest extends TokenKernelTestBase {
 
   /**
    * {@inheritdoc}

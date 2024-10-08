@@ -35,5 +35,5 @@ Configuration
 - Go to the Schema.org properties configuration page.  
   (/admin/config/schemadotorg/settings/properties#edit-schemadotorg-epp)
 - Go to the 'Entity prepopulate settings' details.
-- Enter Schema.org types with property that support entity reference prepopulation.
+- Enter Schema.org types with there link target/hrefs and labels.
 - Check or uncheck displaying node links as a dropdown.

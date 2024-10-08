@@ -72,6 +72,20 @@ class SchemaDotOrgNames implements SchemaDotOrgNamesInterface {
   /**
    * {@inheritdoc}
    */
+  public function snakeCaseToTitleCase(string $string): string {
+    return $this->camelCaseToTitleCase($this->snakeCaseToCamelCase($string));
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function snakeCaseToSentenceCase(string $string): string {
+    return $this->camelCaseToSentenceCase($this->snakeCaseToCamelCase($string));
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function camelCaseToSnakeCase(string $string): string {
     $intermediate = preg_replace('/(?!^)([[:upper:]][[:lower:]]+)/', '_$0', $string);
     $snake_case = preg_replace('/(?!^)([[:lower:]])([[:upper:]])/', '$1_$2', $intermediate);

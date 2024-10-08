@@ -1,0 +1,22 @@
+<?php
+
+/**
+ * @file
+ * Installation hooks for the Schema.org Blueprints Report module.
+ */
+
+declare(strict_types=1);
+
+use Drupal\Component\Serialization\Yaml;
+
+/**
+ * Issue #3455862: Allow diagram to excluded Schema.org properties.
+ */
+function schemadotorg_report_update_10000(): void {
+  $module_path = \Drupal::service('extension.list.module')->getPath('schemadotorg_report');
+  $data = Yaml::decode(file_get_contents($module_path . '/config/install/schemadotorg_report.settings.yml'));
+  \Drupal::configFactory()
+    ->getEditable('schemadotorg_report.settings')
+    ->set('diagram_excluded_schema_properties', $data['diagram_excluded_schema_properties'])
+    ->save();
+}

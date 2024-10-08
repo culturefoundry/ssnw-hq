@@ -26,6 +26,11 @@ class SchemaDotOrgStarterkitManager implements SchemaDotOrgStarterkitManagerInte
   use SchemaDotOrgDevelGenerateTrait;
 
   /**
+   * Cached starter kit settings.
+   */
+  protected array $settings = [];
+
+  /**
    * Constructs a SchemaDotOrgStarterkitManager object.
    *
    * @param \Drupal\Core\File\FileSystemInterface $fileSystem
@@ -106,17 +111,35 @@ class SchemaDotOrgStarterkitManager implements SchemaDotOrgStarterkitManagerInte
    * {@inheritdoc}
    */
   public function getStarterkitSettings(string $module): FALSE|array {
-    $settings = $this->getStarterkitSettingsData($module);
-    if ($settings && !empty($settings['types'])) {
-      foreach ($settings['types'] as $type => $type_defaults) {
-        $settings['types'][$type] = $this->getStarterSettingsTypeDefaults($type, $type_defaults);
-        // Unset empty type defaults.
-        if (empty($settings['types'][$type])) {
-          unset($settings['types'][$type]);
+    if (!isset($this->settings[$module])) {
+      $settings = $this->getStarterkitSettingsData($module);
+      if ($settings && !empty($settings['types'])) {
+        foreach ($settings['types'] as $type => $type_defaults) {
+          $settings['types'][$type] = $this->getStarterSettingsTypeDefaults($type, $type_defaults);
+          // Unset empty type defaults.
+          if (empty($settings['types'][$type])) {
+            unset($settings['types'][$type]);
+          }
         }
       }
+      $this->settings[$module] = $settings;
     }
-    return $settings;
+    return $this->settings[$module];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getStarterkitSettingsData(string $module): FALSE|array {
+    $module_path = $this->extensionListModule->getPath($module);
+    $module_schemadotorg_path = "$module_path/$module.schemadotorg_starterkit.yml";
+    if (!file_exists($module_schemadotorg_path)) {
+      return FALSE;
+    }
+
+    $settings = Yaml::decode(file_get_contents($module_schemadotorg_path));
+    return ($settings !== TRUE ? $settings : [])
+      + ['hidden' => FALSE, 'dependencies' => [], 'types' => []];
   }
 
   /**
@@ -275,27 +298,6 @@ class SchemaDotOrgStarterkitManager implements SchemaDotOrgStarterkitManagerInte
   }
 
   /**
-   * Get Schema.org starter kit settings from module's YAML file.
-   *
-   * @param string $module
-   *   The module.
-   *
-   * @return false|array
-   *   Schema.org starter kit settings for a module.
-   */
-  protected function getStarterkitSettingsData(string $module): FALSE|array {
-    $module_path = $this->extensionListModule->getPath($module);
-    $module_schemadotorg_path = "$module_path/$module.schemadotorg_starterkit.yml";
-    if (!file_exists($module_schemadotorg_path)) {
-      return FALSE;
-    }
-
-    $settings = Yaml::decode(file_get_contents($module_schemadotorg_path));
-    return ($settings !== TRUE ? $settings : [])
-      + ['hidden' => FALSE, 'dependencies' => [], 'types' => []];
-  }
-
-  /**
    * Get the Schema.org starter kit type defaults merged with the preconfigured defaults.
    *
    * @param string $type
@@ -337,7 +339,18 @@ class SchemaDotOrgStarterkitManager implements SchemaDotOrgStarterkitManagerInte
 
         if (is_array($property)
           && empty($type_defaults['properties'][$property_name]['name'])) {
-          $type_defaults['properties'][$property_name]['name'] = SchemaDotOrgEntityFieldManagerInterface::ADD_FIELD;
+          if ($this->schemaTypeManager->hasProperty($schema_type, $property_name)) {
+            // Add new Schema.org property.
+            $type_defaults['properties'][$property_name]['name'] = SchemaDotOrgEntityFieldManagerInterface::ADD_FIELD;
+          }
+          elseif (preg_match('/^[_a-z0-9]*$/', $property_name)) {
+            // Add new custom field.
+            $type_defaults['properties'][$property_name]['name'] = $property_name;
+          }
+          else {
+            // Throw an exception for invalid property/field names.
+            throw new \Exception("Invalid property/field name: $property_name");
+          }
         }
       }
     }

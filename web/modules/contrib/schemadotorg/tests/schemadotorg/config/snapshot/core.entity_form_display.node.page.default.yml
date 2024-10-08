@@ -19,7 +19,7 @@ mode: default
 content:
   body:
     type: text_textarea_with_summary
-    weight: 13
+    weight: 18
     region: content
     settings:
       rows: 9
@@ -42,7 +42,7 @@ content:
     third_party_settings: {  }
   schema_image:
     type: image_image
-    weight: 7
+    weight: 10
     region: content
     settings:
       progress_indicator: throbber
@@ -50,7 +50,7 @@ content:
     third_party_settings: {  }
   schema_related_link:
     type: link_default
-    weight: 89
+    weight: 95
     region: content
     settings:
       placeholder_url: ''
@@ -58,7 +58,7 @@ content:
     third_party_settings: {  }
   schema_significant_link:
     type: link_default
-    weight: 88
+    weight: 94
     region: content
     settings:
       placeholder_url: ''
@@ -80,7 +80,7 @@ content:
     third_party_settings: {  }
   title:
     type: string_textfield
-    weight: 2
+    weight: -5
     region: content
     settings:
       size: 60

@@ -33,6 +33,16 @@ class SchemaDotOrgEntityFieldManager implements SchemaDotOrgEntityFieldManagerIn
   use SchemaDotOrgMappingStorageTrait;
 
   /**
+   * Cache for property default fields.
+   */
+  protected array $propertyDefaultFieldsCache = [];
+
+  /**
+   * Property field type options cache.
+   */
+  protected array $propertyFieldTypeOptionsCache = [];
+
+  /**
    * Constructs a SchemaDotOrgEntityFieldManager object.
    *
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $moduleHandler
@@ -101,52 +111,67 @@ class SchemaDotOrgEntityFieldManager implements SchemaDotOrgEntityFieldManagerIn
   }
 
   /**
-   * Get a Schema.org property's default field settings.
-   *
-   * @param string $type
-   *   The Schema.org type.
-   * @param string $property
-   *   The Schema.org property.
-   *
-   * @return array
-   *   A Schema.org property's default field settings.
+   * {@inheritdoc}
    */
-  public function getPropertyDefaultField(string $type, string $property): array {
+  public function getPropertyDefaultField(string $entity_type_id, string $schema_type, string $schema_property): array {
+    $cid = "$entity_type_id.$schema_type.$schema_property";
+    if (isset($this->propertyDefaultFieldsCache[$cid])) {
+      return $this->propertyDefaultFieldsCache[$cid];
+    }
+
     $default_field = [];
 
     // Get custom field default settings.
     $default_fields = $this->configFactory
       ->get('schemadotorg.settings')
       ->get('schema_properties.default_fields');
-    $default_field += $default_fields["$type--$property"] ?? [];
-    $default_field += $default_fields[$property] ?? [];
+    $parts = [
+      'entity_type_id' => $entity_type_id,
+      'schema_type' => $schema_type,
+      'schema_property' => $schema_property,
+    ];
+    $settings = $this->schemaTypeManager->getSetting($default_fields, $parts, ['multiple' => TRUE]) ?? [];
+    foreach ($settings as $setting) {
+      $default_field += $setting;
+    }
 
     // Get property field default settings.
-    $property_definition = $this->schemaTypeManager->getProperty($property);
+    $property_definition = $this->schemaTypeManager->getProperty($schema_property);
+    if (!$property_definition) {
+      $this->propertyDefaultFieldsCache[$cid] = $default_field;
+      return $this->propertyDefaultFieldsCache[$cid];
+    }
+
     $default_field += [
       'name' => $property_definition['drupal_name'],
       'label' => $property_definition['drupal_label'],
       'description' => $property_definition['drupal_description'],
-      'unlimited' => $this->unlimitedProperties[$property] ?? FALSE,
+      'unlimited' => $this->unlimitedProperties[$schema_property] ?? FALSE,
       'required' => FALSE,
     ];
 
     // Allow modules to alter the default field via a hook.
     $this->moduleHandler->invokeAllWith(
       'schemadotorg_property_field_prepare',
-      function (callable $hook) use (&$default_field, $type, $property): void {
-        $hook($default_field, $type, $property);
+      function (callable $hook) use (&$default_field, $entity_type_id, $schema_type, $schema_property): void {
+        $hook($default_field, $entity_type_id, $schema_type, $schema_property);
       }
     );
 
-    return $default_field;
+    $this->propertyDefaultFieldsCache[$cid] = $default_field;
+    return $this->propertyDefaultFieldsCache[$cid];
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getPropertyFieldTypeOptions(string $type, string $property): array {
-    $recommended_field_types = $this->getSchemaPropertyFieldTypes($type, $property);
+  public function getPropertyFieldTypeOptions(string $entity_type_id, string $schema_type, string $schema_property): array {
+    $cid = "$entity_type_id.$schema_type.$schema_property";
+    if (isset($this->propertyFieldTypeOptionsCache[$cid])) {
+      return $this->propertyFieldTypeOptionsCache[$cid];
+    }
+
+    $recommended_field_types = $this->getSchemaPropertyFieldTypes($entity_type_id, $schema_type, $schema_property);
     $recommended_category = (string) $this->t('Recommended');
 
     $options = [$recommended_category => []];
@@ -171,6 +196,8 @@ class SchemaDotOrgEntityFieldManager implements SchemaDotOrgEntityFieldManagerIn
       $recommended_field_types = array_intersect_key($recommended_field_types, $options[$recommended_category]);
       $options[$recommended_category] = array_replace($recommended_field_types, $options[$recommended_category]);
     }
+
+    $this->propertyFieldTypeOptionsCache[$cid] = $options;
     return $options;
   }
 
@@ -313,7 +340,7 @@ class SchemaDotOrgEntityFieldManager implements SchemaDotOrgEntityFieldManagerIn
   /**
    * {@inheritdoc}
    */
-  public function getSchemaPropertyFieldTypes(string $schema_type, string $schema_property): array {
+  public function getSchemaPropertyFieldTypes(string $entity_type_id, string $schema_type, string $schema_property): array {
     $range_includes = $this->getMappingStorage()->getSchemaPropertyRangeIncludes($schema_type, $schema_property);
 
     // Remove generic Schema.org types from range includes.
@@ -339,7 +366,7 @@ class SchemaDotOrgEntityFieldManager implements SchemaDotOrgEntityFieldManagerIn
     $field_types = [];
 
     // Set Schema.org property specific field types.
-    $default_field = $this->getPropertyDefaultField($schema_type, $schema_property);
+    $default_field = $this->getPropertyDefaultField($entity_type_id, $schema_type, $schema_property);
     $default_field_type = $default_field['type'] ?? NULL;
     if ($this->fieldTypeExists($default_field_type)) {
       $field_types[$default_field_type] = $default_field_type;
@@ -388,7 +415,13 @@ class SchemaDotOrgEntityFieldManager implements SchemaDotOrgEntityFieldManagerIn
     }
 
     // Allow modules to alter property field types.
-    $this->moduleHandler->alter('schemadotorg_property_field_type', $field_types, $schema_type, $schema_property);
+    // Allow modules to alter the default field via a hook.
+    $this->moduleHandler->invokeAllWith(
+      'schemadotorg_property_field_type_alter',
+      function (callable $hook) use (&$field_types, $entity_type_id, $schema_type, $schema_property): void {
+        $hook($field_types, $entity_type_id, $schema_type, $schema_property);
+      }
+    );
 
     return $field_types;
   }

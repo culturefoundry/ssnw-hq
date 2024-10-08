@@ -24,7 +24,7 @@ class SchemaDotOrgNodeLocalTaskTest extends SchemaDotOrgBrowserTestBase {
   ];
 
   /**
-   * Test Schema.org Schema.org node tab/task..
+   * Test Schema.org Schema.org node tab/task.
    */
   public function testNode(): void {
     $assert = $this->assertSession();

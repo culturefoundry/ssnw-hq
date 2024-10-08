@@ -58,7 +58,7 @@ function schemadotorg_translation_schemadotorg_jsonld_schema_type_entity_alter(a
   // Make the entity's Schema can include an @url.
   /** @var \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdManagerInterface $schemadotorg_jsonld_manager */
   $schemadotorg_jsonld_manager = \Drupal::service('schemadotorg_jsonld.manager');
-  if (!$schemadotorg_jsonld_manager->hasSchemaUrl($entity)) {
+  if (!$schemadotorg_jsonld_manager->hasSchemaUrl($mapping)) {
     return;
   }
 

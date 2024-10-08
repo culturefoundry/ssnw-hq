@@ -66,17 +66,6 @@ SchemaType:
   - propertyName03
 ",
     ];
-    $form['schema_types']['default_property_values'] = [
-      '#type' => 'schemadotorg_settings',
-      '#title' => $this->t('Default Schema.org type property values'),
-      '#description' => $this->t('Enter default Schema.org type property value.'),
-      '#description_link' => 'types',
-      '#example' => '
-SchemaType:
-  propertyName01: DefaultValue01
-  propertyName02: DefaultValue02
-',
-    ];
     $form['schema_types']['default_field_types'] = [
       '#type' => 'schemadotorg_settings',
       '#title' => $this->t('Default Schema.org type field types'),
@@ -91,12 +80,24 @@ SchemaType:
   - field_type_03
 ',
     ];
-    $form['schema_types']['main_properties'] = [
+    $form['schema_types']['categories'] = [
       '#type' => 'schemadotorg_settings',
-      '#title' => $this->t('Schema.org type main properties'),
-      '#description' => $this->t('Enter the main property for a Schema.org type. Defaults to <em>name</em> for unspecified Schema.org types. Set the main property to <em>null</em> when there is no applicable main property for the Schema.org type.'),
+      '#title' => $this->t('Schema.org type categories'),
+      '#description' => $this->t('Enter Schema.org type categories used to organize Schema.org types throughout the admin UI/UX.')
+        . ' '
+        . $this->t('For help with color palettes see <a href=":href" target="_blank">coolors.co</a>.', [':href' => 'https://coolors.co/eddcd2-fff1e6-fde2e4-fad2e1-c5dedd-dbe7e4-f0efeb-d6e2e9-bcd4e6-99c1de']),
       '#description_link' => 'types',
-      '#example' => 'SchemaType: propertyName',
+      '#example' => "
+group_name:
+  name: Group label
+  color: '#ffffcc'
+  types:
+    - SchemaType
+    - entity_type_id--SchemaType
+    - bundle--SchemaType
+    - entity_type_id--bundle
+    - entity_type_id--bundle--SchemaType
+",
     ];
     return parent::buildForm($form, $form_state);
   }

@@ -279,7 +279,7 @@ class SchemaDotOrgJsonLdPreviewBuilder implements SchemaDotOrgJsonLdPreviewBuild
   /**
    * Build a row.
    *
-   * @param string $key
+   * @param string|int $key
    *   The row's keu.
    * @param mixed|null $value
    *   THe row's value.
@@ -289,7 +289,7 @@ class SchemaDotOrgJsonLdPreviewBuilder implements SchemaDotOrgJsonLdPreviewBuild
    * @return array|array[]
    *   The row.
    */
-  protected function buildRow(string $key, mixed $value, int $indent = 0): array {
+  protected function buildRow(string|int $key, mixed $value, int $indent = 0): array {
     if (is_null($value)) {
       return [
         [
@@ -308,14 +308,23 @@ class SchemaDotOrgJsonLdPreviewBuilder implements SchemaDotOrgJsonLdPreviewBuild
         $value = $value ? 'True' : 'False';
       }
       elseif (is_string($value)) {
-        // Add a <wbr/> after each slash within all URLs.
+        // Link all URLs within the JSON-LD value.
+        // @see https://stackoverflow.com/questions/22202821/preg-match-all-regex-to-find-full-urls-in-string
         $value = preg_replace_callback(
-          '/(https?:\/\/[^\s]+)/i',
-          fn($matches) => str_replace('/', '/<wbr/>', $matches[0]),
-          htmlentities($value)
+          "/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i",
+          function ($matches) {
+            $href = $matches[0];
+            // Add a <wbr/> after each slash within all URLs.
+            $text = preg_replace_callback(
+              '/(https?:\/\/[^\s]+)/i',
+              fn($matches) => str_replace('/', '/<wbr/>', $matches[0]),
+              htmlentities($href)
+            );
+            return '<a href="' . $href . '">' . $text . '</a>';
+          },
+          $value,
         );
       }
-
       return [
         [
           'data' => [

@@ -6,6 +6,7 @@ namespace Drupal\schemadotorg;
 
 use Drupal\Core\Config\Entity\ConfigEntityStorageInterface;
 use Drupal\Core\Config\Entity\ImportableEntityStorageInterface;
+use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityInterface;
 
 /**
@@ -87,11 +88,13 @@ interface SchemaDotOrgMappingStorageInterface extends ConfigEntityStorageInterfa
    *   The Schema.org type.
    * @param string $schema_property
    *   The Schema.org property.
+   * @param array $options
+   *   (optional) Additional options.
    *
    * @return array
    *   The Schema.org property's target bundles.
    */
-  public function getSchemaPropertyTargetBundles(string $target_type, string $schema_type, string $schema_property): array;
+  public function getSchemaPropertyTargetBundles(string $target_type, string $schema_type, string $schema_property, array $options = []): array;
 
   /**
    * Gets the Schema.org range includes target bundles.
@@ -100,13 +103,13 @@ interface SchemaDotOrgMappingStorageInterface extends ConfigEntityStorageInterfa
    *   The target entity type ID.
    * @param array $range_includes
    *   An array of Schema.org types.
-   * @param bool $ignore_thing
-   *   Ignore Schema.org Thing type when calculated target bundles.
+   * @param array $options
+   *   (optional) Additional options.
    *
    * @return array
    *   The Schema.org range includes target bundles.
    */
-  public function getRangeIncludesTargetBundles(string $target_type, array $range_includes, bool $ignore_thing = TRUE): array;
+  public function getRangeIncludesTargetBundles(string $target_type, array $range_includes, array $options = []): array;
 
   /**
    * Determine if Schema.org type is mapped to an entity.
@@ -190,11 +193,13 @@ interface SchemaDotOrgMappingStorageInterface extends ConfigEntityStorageInterfa
    *   The entity type ID.
    * @param array|string $schema_type
    *   The Schema.org type(s).
+   * @param array $options
+   *   (optional) Additional options.
    *
    * @return \Drupal\schemadotorg\SchemaDotOrgMappingInterface[]
    *   The Schema.org mapping entities.
    */
-  public function loadMultipleBySchemaType(string $entity_type_id, array|string $schema_type): array;
+  public function loadMultipleBySchemaType(string $entity_type_id, array|string $schema_type, array $options = []): array;
 
   /**
    * Load by entity.
@@ -206,5 +211,18 @@ interface SchemaDotOrgMappingStorageInterface extends ConfigEntityStorageInterfa
    *   The Schema.org mapping entity.
    */
   public function loadByEntity(EntityInterface $entity): ?SchemaDotOrgMappingInterface;
+
+  /**
+   * Get the additional type value for a mapped content entity.
+   *
+   * @param \Drupal\Core\Entity\ContentEntityInterface $entity
+   *   A content entity.
+   *
+   * @return string|null
+   *   The additional type value for a mapped content entity or NULL if
+   *   the entity does not have a Schema.org mapping or
+   *   an additionalType property.
+   */
+  public function getAdditionalType(ContentEntityInterface $entity): ?string;
 
 }

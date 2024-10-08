@@ -6,8 +6,6 @@ namespace Drupal\Tests\schemadotorg\Traits;
 
 use Drupal\Component\Render\MarkupInterface;
 use Drupal\Core\Url;
-use Drupal\field\Entity\FieldConfig;
-use Drupal\field\Entity\FieldStorageConfig;
 
 /**
  * Provides convenience methods for Schema.org assertions.
@@ -56,27 +54,18 @@ trait SchemaDotOrgTestTrait {
     $schema_names = $this->container->get('schemadotorg.names');
 
     $bundle = $schema_names->camelCaseToSnakeCase($schema_type);
-    $field_name = $schema_names->getFieldPrefix() . $schema_names->schemaIdToDrupalName('properties', $schema_property);
-    $label = $schema_names->camelCaseToSentenceCase($schema_property);
-
-    $field_storage_config = FieldStorageConfig::create([
-      'entity_type' => $entity_type_id,
-      'field_name' => $field_name,
+    $field = [
       'type' => $field_type,
-    ]);
-    $field_storage_config->schemaDotOrgType = $schema_type;
-    $field_storage_config->schemaDotOrgProperty = $schema_property;
-    $field_storage_config->save();
+      'field_name' => $schema_names->getFieldPrefix() . $schema_names->schemaIdToDrupalName('properties', $schema_property),
+      'label' => $schema_names->camelCaseToSentenceCase($schema_property),
+      'schema_type' => $schema_type,
+      'schema_property' => $schema_property,
+    ];
 
-    $field_config = FieldConfig::create([
-      'entity_type' => $entity_type_id,
-      'bundle' => $bundle,
-      'field_name' => $field_name,
-      'label' => $label,
-    ]);
-    $field_config->schemaDotOrgType = $schema_type;
-    $field_config->schemaDotOrgProperty = $schema_property;
-    $field_config->save();
+    /** @var \Drupal\schemadotorg\SchemaDotOrgEntityTypeBuilderInterface $schema_entity_type_builder */
+    $schema_entity_type_builder = $this->container->get('schemadotorg.entity_type_builder');
+    $schema_entity_type_builder->addFieldToEntity($entity_type_id, $bundle, $field);
+
   }
 
   /**

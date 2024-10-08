@@ -231,8 +231,9 @@ class SchemaDotOrgTranslationManager implements SchemaDotOrgTranslationManagerIn
     $config = $this->configFactory->get('schemadotorg_translation.settings');
 
     // Check excluded Schema.org properties.
-    $schema_type = $field_config->schemaDotOrgType ?? NULL;
-    $schema_property = $field_config->schemaDotOrgProperty ?? NULL;
+    $field = $field_config->schemaDotOrgField ?? [];
+    $schema_type = $field['schema_type'] ?? NULL;
+    $schema_property = $field['schema_property'] ?? NULL;
     if (!$schema_type || !$schema_property) {
       $mapping = $this->loadMapping($entity_type_id, $bundle);
       if ($mapping) {

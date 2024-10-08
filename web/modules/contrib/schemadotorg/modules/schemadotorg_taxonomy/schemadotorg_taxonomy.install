@@ -99,3 +99,38 @@ function schemadotorg_taxonomy_uninstall(bool $is_syncing): void {
 
   schemadotorg_taxonomy_modules_uninstalled(['schemadotorg_jsonapi', 'schemadotorg_jsonld_endpoint']);
 }
+
+/**
+ * Issue #3453919: Improve schemadotorg_taxonomy.module default vocabularies.
+ */
+function schemadotorg_taxonomy_update_10000(): void {
+  $config = \Drupal::configFactory()->getEditable('schemadotorg_taxonomy.settings');
+  $default_vocabularies = $config->get('default_vocabularies');
+  $updated_vocabularies = [];
+  foreach ($default_vocabularies as $vocabulary_id => $vocabulary_settings) {
+    $schema_type = NULL;
+    if (str_contains($vocabulary_id, '--')) {
+      [$schema_type, $vocabulary_id] = explode('--', $vocabulary_id);
+    }
+
+    if (!isset($updated_vocabularies[$vocabulary_id])) {
+      $updated_vocabularies[$vocabulary_id] = $vocabulary_settings;
+    }
+    if ($schema_type) {
+      $updated_vocabularies[$vocabulary_id] += ['schema_types' => []];
+      $updated_vocabularies[$vocabulary_id]['schema_types'][] = $schema_type;
+    }
+  }
+  $config->set('default_vocabularies', $updated_vocabularies);
+  $config->save();
+}
+
+/**
+ * TBD.
+ */
+function schemadotorg_taxonomy_update_10001(): void {
+  \Drupal::configFactory()
+    ->getEditable('schemadotorg_taxonomy.settings')
+    ->clear('default_field_groups:')
+    ->save();
+}

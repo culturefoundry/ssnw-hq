@@ -2,12 +2,6 @@ schemadotorg_taxonomy.settings:
   type: config_object
   label: 'Schema.org Taxonomy settings'
   mapping:
-    default_field_groups:
-      type: sequence
-      label: 'Default field groups'
-      sequence:
-        type: string
-        label: 'Default field group'
     default_vocabularies:
       type: sequence
       label: 'Default vocabularies'
@@ -27,9 +21,36 @@ schemadotorg_taxonomy.settings:
           auto_create:
             type: boolean
             label: 'Auto create'
+          field_name:
+            type: text
+            label: 'Vocabulary field name'
           group:
             type: string
             label: 'Group name'
+          schema_types:
+            type: sequence
+            label: 'Schema.org types'
+            sequence:
+              type: string
+              label: 'Schema.org type'
+          unlimited:
+            type: boolean
+            label: 'Unlimited values'
+          required:
+            type: boolean
+            label: 'Required field'
+          widget_id:
+            type: string
+            label: 'Widget ID'
+          widget_settings:
+            type: ignore
+            label: 'Widget settings'
+          formatter_id:
+            type: string
+            label: 'Formatter ID'
+          formatter_settings:
+            type: ignore
+            label: 'Formatter settings'
     schema_property_vocabularies:
       type: sequence
       label: 'Default properties'

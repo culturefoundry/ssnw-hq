@@ -7,6 +7,7 @@
 
 declare(strict_types=1);
 
+use Drupal\address\AddressInterface;
 use Drupal\Core\Field\FieldItemInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\BubbleableMetadata;
@@ -55,7 +56,8 @@ function schemadotorg_address_schemadotorg_property_field_alter(
  */
 function schemadotorg_address_schemadotorg_jsonld_schema_property_alter(mixed &$value, FieldItemInterface $item, BubbleableMetadata $bubbleable_metadata): void {
   $field_type = $item->getFieldDefinition()->getType();
-  if ($field_type !== 'address') {
+  if ($field_type !== 'address'
+    || !$item instanceof AddressInterface) {
     return;
   }
 
@@ -70,6 +72,13 @@ function schemadotorg_address_schemadotorg_jsonld_schema_property_alter(mixed &$
     'address_line2' => 'streetAddress',
   ];
   $values = $item->getValue();
+
+  // Lookup the locality's string value.
+  /** @var \Drupal\address\Repository\SubdivisionRepository $address_subdivision_repository */
+  $address_subdivision_repository = \Drupal::service('address.subdivision_repository');
+  $subdivision_list = $address_subdivision_repository->getList([$item->getCountryCode()], $item->getLocale());
+  $values['locality'] = $subdivision_list[$values['locality']] ?? $values['locality'];
+
   // Set default values.
   $values += [
     'organization' => '',

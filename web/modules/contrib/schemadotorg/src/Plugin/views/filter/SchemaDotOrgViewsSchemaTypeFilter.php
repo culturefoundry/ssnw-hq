@@ -95,7 +95,11 @@ class SchemaDotOrgViewsSchemaTypeFilter extends InOperator {
    * {@inheritdoc}
    */
   protected function opSimple(): void {
-    $bundles = $this->getMappingStorage()->getRangeIncludesTargetBundles($this->entityTypeId, $this->value, FALSE);
+    $bundles = $this->getMappingStorage()->getRangeIncludesTargetBundles(
+      $this->entityTypeId,
+      $this->value,
+      ['ignore_thing' => FALSE]
+    );
 
     // Replace $this->value which is Schema.org types with bundles so that
     // parent::opSimple() continues to work as expected.

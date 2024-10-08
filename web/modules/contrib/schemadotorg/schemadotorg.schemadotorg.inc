@@ -17,28 +17,6 @@ use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 /* ************************************************************************** */
 
 /**
- * Implements hook_schemadotorg_property_field_alter() for the duration_field.module.
- */
-function duration_field_schemadotorg_property_field_alter(
-  string $schema_type,
-  string $schema_property,
-  array &$field_storage_values,
-  array &$field_values,
-  ?string &$widget_id,
-  array &$widget_settings,
-  ?string &$formatter_id,
-  array &$formatter_settings,
-): void {
-  // Make sure the field type is set to 'duration'.
-  if ($field_storage_values['type'] !== 'duration') {
-    return;
-  }
-
-  // Set duration granularity to hours and minutes.
-  $field_values['settings'] = ['granularity' => 'h:i'];
-}
-
-/**
  * Implements hook_schemadotorg_jsonld_schema_property_alter() for the duration_field.module.
  */
 function duration_field_schemadotorg_jsonld_schema_property_alter(mixed &$value, FieldItemInterface $item, BubbleableMetadata $bubbleable_metadata): void {
@@ -73,19 +51,21 @@ function content_browser_schemadotorg_property_field_alter(
   }
 
   // Use the content browser for node entity references.
-  $target_type = $field_storage_values['settings']['target_type'];
-  if ($target_type === 'node') {
-    $widget_id = 'entity_browser_entity_reference';
-    $widget_settings = [
-      'entity_browser' => 'browse_content',
-      'field_widget_display' => 'label',
-      'field_widget_edit' => TRUE,
-      'field_widget_remove' => TRUE,
-      'field_widget_replace' => TRUE,
-      'open' => FALSE,
-      'field_widget_display_settings' => [],
-      'selection_mode' => 'selection_append',
-    ];
+  if (empty($widget_id)) {
+    $target_type = $field_storage_values['settings']['target_type'];
+    if ($target_type === 'node') {
+      $widget_id = 'entity_browser_entity_reference';
+      $widget_settings = [
+        'entity_browser' => 'browse_content',
+        'field_widget_display' => 'label',
+        'field_widget_edit' => TRUE,
+        'field_widget_remove' => TRUE,
+        'field_widget_replace' => TRUE,
+        'open' => FALSE,
+        'field_widget_display_settings' => [],
+        'selection_mode' => 'selection_append',
+      ];
+    }
   }
 }
 
@@ -152,8 +132,13 @@ function focal_point_schemadotorg_property_field_alter(
   ?string &$formatter_id,
   array &$formatter_settings,
 ): void {
+  // Make sure the field type is set to 'image'.
+  if ($field_storage_values['type'] !== 'image') {
+    return;
+  }
+
   // Set an image field's default form widget settings to use focal point.
-  if ($field_storage_values['type'] === 'image') {
+  if (empty($widget_id)) {
     $widget_id = 'image_focal_point';
     $widget_settings = [
       'progress_indicator' => 'throbber',
@@ -187,8 +172,10 @@ function linkit_schemadotorg_property_field_alter(
   }
 
   // Use linkit for the link URL autocompletion.
-  $widget_id = 'linkit';
-  $widget_settings = ['linkit_auto_link_text' => TRUE];
+  if (empty($widget_id)) {
+    $widget_id = 'linkit';
+    $widget_settings = ['linkit_auto_link_text' => TRUE];
+  }
 }
 
 /* ************************************************************************** */
@@ -201,7 +188,7 @@ function linkit_schemadotorg_property_field_alter(
  * Defaults all 'Media' (reference) fields to use the
  * 'Media with contextual modifications' field type.
  */
-function media_library_media_modify_schemadotorg_property_field_type_alter(array &$field_types, string $schema_type, string $schema_property): void {
+function media_library_media_modify_schemadotorg_property_field_type_alter(array &$field_types, string $entity_type_id, string $schema_type, string $schema_property): void {
   if (isset($field_types['field_ui:entity_reference:media'])) {
     $field_types = ['entity_reference_entity_modify' => t('Media with contextual modifications')]
       + $field_types;
@@ -226,8 +213,7 @@ function media_library_media_modify_schemadotorg_property_field_alter(
   ?string &$formatter_id,
   array &$formatter_settings,
 ): void {
-
-  // Only alter the 'Media with contextual modifications' field storage type.
+  // Make sure the field type is set to 'entity_reference_entity_modify'.
   if ($field_storage_values['type'] !== 'entity_reference_entity_modify') {
     return;
   }

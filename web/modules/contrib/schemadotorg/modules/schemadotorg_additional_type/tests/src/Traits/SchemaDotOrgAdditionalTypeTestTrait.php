@@ -29,20 +29,19 @@ trait SchemaDotOrgAdditionalTypeTestTrait {
     $schema_type_manager = \Drupal::service('schemadotorg.schema_type_manager');
     $allowed_values = $schema_type_manager->getAllTypeChildrenAsOptions($schema_type);
 
-    FieldStorageConfig::create([
-      'entity_type' => $entity_type_id,
-      'field_name' => 'schema_' . $bundle . '_type',
-      'type' => 'list_string',
-      'allowed_values' => $allowed_values,
-    ])->save();
-
-    $field_config = FieldConfig::create([
+    $field = [
       'entity_type' => $entity_type_id,
       'bundle' => $bundle,
       'field_name' => 'schema_' . $bundle . '_type',
-    ]);
+      'type' => 'list_string',
+      'allowed_values' => $allowed_values,
+    ];
+    FieldStorageConfig::create($field)->save();
+    $field_config = FieldConfig::create($field);
+
     $field_config->schemaDotOrgType = $schema_type;
     $field_config->schemaDotOrgProperty = 'additionalType';
+    $field_config->schemaDotOrgField = $field;
     $field_config->save();
   }
 

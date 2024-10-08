@@ -76,7 +76,7 @@ Contributed Modules
 - **[Content Browser](https://www.drupal.org/project/content_browser)**  
   Uses the content browser for node entity references.
 - **[Focal Point](https://www.drupal.org/project/focal_point)**
-  Ensures that existing entity image fields use focal point.
+  Ensures that existing entity image fields use focal point.  
 - **[Linkit](https://www.drupal.org/project/linkit)**  
   Uses linkit for the link URL autocompletion.
 - **[Media Library Media Modify](https://www.drupal.org/project/media_library_media_modify)**  

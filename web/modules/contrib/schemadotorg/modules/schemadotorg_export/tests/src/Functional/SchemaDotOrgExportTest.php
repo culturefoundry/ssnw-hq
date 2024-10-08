@@ -105,9 +105,14 @@ class SchemaDotOrgExportTest extends SchemaDotOrgBrowserTestBase {
     $assert->responseContains('https://schema.org/author,author,"The author of this content or rating. Please note that author is special in that HTML 5 provides a special mechanism for indicating authorship via the rel tag. That is equivalent to this and may be used interchangeably.",,,,"https://schema.org/CreativeWork, https://schema.org/Rating","https://schema.org/Organization, https://schema.org/Person",,,,,author,Author,"The author of this content or rating.",');
 
     // Check Schema.org relationships CSV export.
-    $this->drupalGet('admin/reports/schemadotorg/relationships/export');
-    $assert->responseContains('Label,ID,Description,"Schema.org type",Hierarchy,Relationships,Enumerations,Taxonomy,Media');
-    $assert->responseContains('Thing,thing,"The most generic type of item.",https://schema.org/Thing,,,https://schema.org/additionalType,,');
+    $this->drupalGet('admin/reports/schemadotorg/relationships/overview/export');
+    $assert->responseContains('Category,"Content type",ID,Description,"Schema.org type",Hierarchical,References,Links,Enumerations,Taxonomies,Media');
+    $assert->responseContains('Other,Thing,thing,"The most generic type of item.",https://schema.org/Thing,,,,https://schema.org/additionalType,,');
+
+    // Check Schema.org relationships targets CSV export.
+    $this->drupalGet('admin/reports/schemadotorg/relationships/targets/export');
+    $assert->responseContains('Category,"Content type","Schema.org type","Schema.org property","Relationship type","Unlimited values","Required field","Target types","Allowed values"');
+    $assert->responseContains('Other,Thing,https://schema.org/Thing,additionalType,Enumeration,Yes,No,,"Action');
   }
 
 }

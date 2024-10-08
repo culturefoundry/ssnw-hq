@@ -65,12 +65,14 @@ function schemadotorg_epp_form_schemadotorg_properties_settings_form_alter(array
   $form['schemadotorg_epp']['node_links'] = [
     '#type' => 'schemadotorg_settings',
     '#title' => t('Node links'),
-    '#description' => t('Enter Schema.org parent type with child properties and types that support entity reference prepopulation.'),
+    '#description' => t('Enter Schema.org types with there link target/hrefs and labels.'),
     '#description_link' => 'properties',
-    '#example' => '
+    '#example' => "
 SchemaType:
-  property: SchemaType
-',
+  'SchemaType?schemaProperty': 'Add @label'
+bundle:
+  'bundle?schemaProperty01': 'Add @label as something'
+",
   ];
   $form['schemadotorg_epp']['node_links_dropdown'] = [
     '#type' => 'checkbox',

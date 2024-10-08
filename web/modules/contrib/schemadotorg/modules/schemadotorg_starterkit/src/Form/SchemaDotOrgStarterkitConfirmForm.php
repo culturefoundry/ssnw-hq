@@ -165,7 +165,7 @@ class SchemaDotOrgStarterkitConfirmForm extends ConfirmFormBase {
     $form = parent::buildForm($form, $form_state);
 
     $form['description'] = [
-      'description' => $form['description'] + ['#prefix' => '<p>', '#suffix' => '</p>'],
+      'description' => $form['description'] + ['#weight' => -100, '#prefix' => '<p>', '#suffix' => '</p>'],
       'types' => $this->buildSchemaTypes(),
     ];
 
@@ -175,6 +175,16 @@ class SchemaDotOrgStarterkitConfirmForm extends ConfirmFormBase {
         $form['note'] = [
           '#weight' => 101,
           '#markup' => $this->t('Please note that the installation and setting up of multiple entity types and fields may take a minute or two to complete.'),
+          '#prefix' => '<div><em>',
+          '#suffix' => '</em></div>',
+        ];
+        break;
+
+      case 'update':
+        // Add note after the actions element which has a weight of 100.
+        $form['description']['note'] = [
+          '#weight' => -99,
+          '#markup' => $this->t('Updating this starter kit will add missing entity types/fields and/or update existing entity types/field.'),
           '#prefix' => '<div><em>',
           '#suffix' => '</em></div>',
         ];

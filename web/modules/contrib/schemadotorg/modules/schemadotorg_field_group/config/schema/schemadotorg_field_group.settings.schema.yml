@@ -13,8 +13,14 @@ schemadotorg_field_group.settings:
           label: 'Default field group'
           mapping:
             label:
-              type: string
+              type: label
               label: Label
+            description:
+              type: text
+              label: Description
+            weight:
+              type: integer
+              label: Weight
             properties:
               type: sequence
               label: Properties

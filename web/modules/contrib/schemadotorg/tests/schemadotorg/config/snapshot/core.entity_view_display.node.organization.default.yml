@@ -4,11 +4,9 @@ dependencies:
   config:
     - field.field.node.organization.body
     - field.field.node.organization.schema_image
-    - field.field.node.organization.schema_same_as
     - node.type.organization
   module:
     - image
-    - link
     - text
     - user
 id: node.organization.default
@@ -21,7 +19,7 @@ content:
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 12
+    weight: 17
     region: content
   links:
     settings: {  }
@@ -37,18 +35,6 @@ content:
       image_loading:
         attribute: lazy
     third_party_settings: {  }
-    weight: 5
-    region: content
-  schema_same_as:
-    type: link
-    label: above
-    settings:
-      trim_length: 80
-      url_only: false
-      url_plain: false
-      rel: ''
-      target: ''
-    third_party_settings: {  }
-    weight: 146
+    weight: 8
     region: content
 hidden: {  }

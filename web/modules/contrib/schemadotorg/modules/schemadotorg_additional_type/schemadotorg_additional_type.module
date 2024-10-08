@@ -10,6 +10,7 @@ declare(strict_types=1);
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\node\NodeInterface;
 
 /**
  * Implements hook_help().
@@ -45,6 +46,37 @@ function schemadotorg_additional_type_form_schemadotorg_mapping_form_alter(array
 }
 
 /* ************************************************************************** */
+// Node add/edit form enhancements.
+/* ************************************************************************** */
+
+/**
+ * Implements hook_ENTITY_TYPE_prepare_form().
+ */
+function schemadotorg_additional_type_node_prepare_form(NodeInterface $node, string $operation, FormStateInterface $form_state): void {
+  /** @var \Drupal\schemadotorg_additional_type\SchemaDotOrgAdditionalTypeManagerInterface $additional_type_manager */
+  $additional_type_manager = \Drupal::service('schemadotorg_additional_type.manager');
+  $additional_type_manager->nodePrepareForm($node, $operation, $form_state);
+}
+
+/**
+ * Implements hook_link_alter().
+ */
+function schemadotorg_additional_type_link_alter(array &$variables): void {
+  /** @var \Drupal\Core\Url|null $url */
+  $url = $variables['url'] ?? NULL;
+  if (!$url
+    || !$url->isRouted()
+    || $url->getRouteName() !== 'node.add'
+    || !empty($url->getOption('query'))) {
+    return;
+  }
+
+  /** @var \Drupal\schemadotorg_additional_type\SchemaDotOrgAdditionalTypeManagerInterface $additional_type_manager */
+  $additional_type_manager = \Drupal::service('schemadotorg_additional_type.manager');
+  $additional_type_manager->linkAlter($variables);
+}
+
+/* ************************************************************************** */
 // Schema.org JSON-LD.
 /* ************************************************************************** */
 
@@ -55,17 +87,24 @@ function schemadotorg_additional_type_form_schemadotorg_mapping_form_alter(array
  * define custom JSON-LD data for any entity type.
  */
 function schemadotorg_additional_type_schemadotorg_jsonld_schema_type_entity_alter(array &$data, EntityInterface $entity): void {
-  // Check that the additional type property is set, if not exit.
-  if (empty($data['additionalType'])) {
+  // Check that the additional type property is set and is string, if not exit.
+  if (empty($data['additionalType']) || !is_string($data['additionalType'])) {
     return;
   }
 
-  // If the additional type property is valid subtype move it to the @type
-  // and unset the additionalType property.
   /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager */
   $schema_type_manager = \Drupal::service('schemadotorg.schema_type_manager');
-  if ($schema_type_manager->isSubTypeOf($data['additionalType'], $data['@type'])) {
-    $data['@type'] = $data['additionalType'];
+
+  /** @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_name */
+  $schema_name = \Drupal::service('schemadotorg.names');
+
+  // If the additional type property is valid subtype move it to the @type
+  // and unset the additionalType property.
+  $additional_type = $data['additionalType'];
+  $additional_type = str_replace(' ', '_', $additional_type);
+  $additional_type = $schema_name->snakeCaseToUpperCamelCase($additional_type);
+  if ($schema_type_manager->isSubTypeOf($additional_type, $data['@type'])) {
+    $data['@type'] = $additional_type;
     unset($data['additionalType']);
   }
 }
@@ -89,11 +128,21 @@ function schemadotorg_additional_type_form_schemadotorg_types_settings_form_alte
     '#type' => 'schemadotorg_settings',
     '#title' => t('Default additional types'),
     '#description' => t('Enter Schema.org types that support additional typing by default.'),
-    '#description_link' => 'subtypes',
+    '#description_link' => 'types',
     '#example' => '
-- SchemaType01
-- SchemaType02
-- SchemaType03
+- SchemaType
+- bundle
+',
+  ];
+  $form['schemadotorg_additional_type']['required_types'] = [
+    '#type' => 'schemadotorg_settings',
+    '#title' => t('Required additional types'),
+    '#description' => t('Enter Schema.org types and bundles whose additional type field should be required.'),
+    '#description_link' => 'types',
+    '#example' => '
+- SchemaType
+- entity_type_id--SchemaType
+- bundle
 ',
   ];
   $form['schemadotorg_additional_type']['default_allowed_values'] = [
@@ -101,13 +150,33 @@ function schemadotorg_additional_type_form_schemadotorg_types_settings_form_alte
     '#title' => t('Schema.org default additional types allowed values'),
     '#description' => t('Enter default additional type allowed values for Schema.org types.')
       . ' '
-      . t('Subtype allowed values that are not valid Schema.org types will be rendered as an <a href=":href">additionalType</a> property via JSON-LD', [':href' => 'https://schema.org/additionalType']),
+      . t('Additional type allowed values that are not valid Schema.org types will be rendered as an <a href=":href">additionalType</a> property via JSON-LD', [':href' => 'https://schema.org/additionalType'])
+      . ' '
+      . t('Additional type values can be snake case machine names that will automatically be converted to Schema.org types when appropriate.'),
     '#description_link' => 'types',
     '#example' => '
 SchemaType:
-  SchemaSubtype01: Subtype 01
-  SchemaSubtype02: Subtype 02
-  SchemaSubtype03: Subtype 03
+  schema_subtype_01: Subtype 01
+  schema_subtype_02: Subtype 02
+  schema_subtype_03: Subtype 03
+SchemaType--bundle:
+  schema_subtype_01: Subtype 01
+  schema_subtype_02: Subtype 02
+  schema_subtype_03: Subtype 03
+entity_type_id--bundle:
+  schema_subtype_01: Subtype 01
+  schema_subtype_02: Subtype 02
+  schema_subtype_03: Subtype 03
+bundle:
+  schema_subtype_01: Subtype 01
+  schema_subtype_02: Subtype 02
+  schema_subtype_03: Subtype 03
 ',
+  ];
+  $form['schemadotorg_additional_type']['use_snake_case'] = [
+    '#type' => 'checkbox',
+    '#title' => t('Use snake case for additional type values'),
+    '#description' => t('If checked, additional type value will automatically be snake cased.'),
+    '#return_value' => TRUE,
   ];
 }

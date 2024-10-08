@@ -7,6 +7,8 @@
 
 declare(strict_types=1);
 
+use Drupal\Component\Serialization\Yaml;
+
 /**
  * Implements hook_requirements().
  */
@@ -123,4 +125,45 @@ function schemadotorg_update_10006(): void {
   };
   $config->set('schema_properties.default_field_weights', $default_field_weights);
   $config->save();
+}
+
+/**
+ * Issue #3451513: Move schema_types.default_property_values and schema_types.main_properties to schemadotorg_jsonld.module.
+ */
+function schemadotorg_update_10007(): void {
+  if (\Drupal::moduleHandler()->moduleExists('schemadotorg_jsonld')) {
+    $config = \Drupal::config('schemadotorg.settings');
+    \Drupal::configFactory()
+      ->getEditable('schemadotorg_jsonld.settings')
+      ->set('schema_type_default_values', $config->get('schema_types.default_property_values'))
+      ->set('schema_type_main_properties', $config->get('schema_types.main_properties'))
+      ->save();
+  }
+
+  \Drupal::configFactory()
+    ->getEditable('schemadotorg.settings')
+    ->clear('schema_types.default_property_values')
+    ->clear('schema_types.main_properties')
+    ->save();
+}
+
+/**
+ * Update to Schema.org v27.0.
+ */
+function schemadotorg_update_10008(): void {
+  /** @var \Drupal\schemadotorg\SchemaDotOrgInstallerInterface $installer */
+  $installer = \Drupal::service('schemadotorg.installer');
+  $installer->install();
+}
+
+/**
+ * Issue #3455478: Improve categorization.
+ */
+function schemadotorg_update_10009(): void {
+  $config = \Drupal::configFactory()->getEditable('schemadotorg.settings');
+  if (!$config->get('schema_types.categories')) {
+    $module_path = \Drupal::service('extension.list.module')->getPath('schemadotorg');
+    $data = Yaml::decode(file_get_contents($module_path . '/config/install/schemadotorg.settings.yml'));
+    $config->set('schema_types.categories', $data['schema_types']['categories'])->save();
+  }
 }

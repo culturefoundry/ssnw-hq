@@ -123,10 +123,12 @@ function schemadotorg_help_form_after_build(array $form, FormStateInterface $for
   /** @var \Drupal\Core\Extension\ModuleExtensionList $module_extension_list */
   $module_extension_list = \Drupal::service('extension.list.module');
   foreach (Element::children($form) as $module_name) {
-    if (!\Drupal::moduleHandler()->moduleExists($module_name) ||
-      isset($form[$module_name]['#description'])) {
+    if (!\Drupal::moduleHandler()->moduleExists($module_name)) {
       continue;
     }
+
+    // Store the default description which is appended last.
+    $default_description = $form[$module_name]['#description'] ?? NULL;
 
     // For each Schema.org Blueprints sub-module's configuration settings
     // include the sub-module's info with a link to help/documentation.
@@ -163,6 +165,12 @@ function schemadotorg_help_form_after_build(array $form, FormStateInterface $for
         '#markup' => t('This module is experimental.'),
         '#prefix' => '<em>',
         '#suffix' => '</em>',
+      ];
+    }
+    if ($default_description) {
+      $form[$module_name]['#description']['default'] = [
+        '#prefix' => '<br/><br/>',
+        '#markup' => $default_description,
       ];
     }
   }

@@ -10,7 +10,9 @@ dependencies:
     - field.field.node.person.schema_image
     - field.field.node.person.schema_knows_language
     - field.field.node.person.schema_member_of
+    - field.field.node.person.schema_related_link
     - field.field.node.person.schema_same_as
+    - field.field.node.person.schema_significant_link
     - field.field.node.person.schema_telephone
     - field.field.node.person.schema_works_for
     - node.type.person
@@ -33,4 +35,14 @@ schema_properties:
   schema_same_as: sameAs
   schema_telephone: telephone
   schema_works_for: worksFor
-additional_mappings: {  }
+additional_mappings:
+  ProfilePage:
+    schema_type: ProfilePage
+    schema_properties:
+      created: dateCreated
+      changed: dateModified
+      langcode: inLanguage
+      title: name
+      schema_image: primaryImageOfPage
+      schema_related_link: relatedLink
+      schema_significant_link: significantLink

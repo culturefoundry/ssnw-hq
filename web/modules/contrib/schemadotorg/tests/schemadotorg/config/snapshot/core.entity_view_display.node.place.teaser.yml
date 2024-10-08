@@ -25,7 +25,7 @@ content:
     settings:
       trim_length: 600
     third_party_settings: {  }
-    weight: 12
+    weight: 17
     region: content
   links:
     settings: {  }
@@ -48,7 +48,7 @@ content:
       image_loading:
         attribute: lazy
     third_party_settings: {  }
-    weight: 5
+    weight: 8
     region: content
 hidden:
   schema_latitude: true

@@ -12,23 +12,26 @@ Table of contents
 Introduction
 ------------
 
-The **Schema.org Blueprints Pathauto*- automatically enables scheduling for
+The **Schema.org Blueprints Pathauto** automatically enables scheduling for
 Schema.org types as they are created.
 
 
 Features
 --------
 
-- Adds \[node:schemadotorg:base-path\] to pathauto's safe tokens
+- Adds \[node:schemadotorg:base-path\] to pathauto's safe tokens.
+- Adds \[node:schemadotorg:alternate-name\] token to support shorter paths.
 - Creates Pathauto patterns for Schema.org types.
 - Provides custom Schema.org type (and subtype) base path token. 
   (i.e., \[node:schemadotorg:base-path\])
+- Provides a report displaying the pathauto patterns and base paths for 
+  all Schema.org mappings. (/admin/reports/schemadotorg/docs/paths)
 
 
 Requirements
 ------------
 
-**[Pathauto](https://www.drupal.org/project/pathauto)*-    
+**[Pathauto](https://www.drupal.org/project/pathauto)**      
 Automatically generates URL/path aliases for various kinds of content (nodes, taxonomy terms, users) without requiring the user to manually specify the path alias.
 
 

@@ -39,6 +39,14 @@ interface SchemaDotOrgAdditionalMappingsManagerInterface {
   public function mappingFormAlter(array &$form, FormStateInterface $form_state): void;
 
   /**
+   * Clean up additional mapping before it is saved.
+   *
+   * @param \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping
+   *   The Schema.org mapping.
+   */
+  public function mappingPreSave(SchemaDotOrgMappingInterface $mapping): void;
+
+  /**
    * Add additional mappings to an entity after a mapping is inserted or updated.
    *
    * @param \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping

@@ -61,7 +61,7 @@ class SchemaDotOrgAdditionalTypeEventSubscriber extends ServiceProviderBase impl
       'class' => [RESPONSIVE_PRIORITY_LOW],
       'width' => '10%',
     ];
-    $this->insertAfter($header, 'schema_type', 'schema_type', $header_cell);
+    $this->insertAfter($header, 'schema_type', 'additional_type', $header_cell);
 
     // Rows.
     // Add 'Schema.org additional type' to row after 'Schema.org type'.
@@ -71,7 +71,7 @@ class SchemaDotOrgAdditionalTypeEventSubscriber extends ServiceProviderBase impl
       $row_cell = $mapping->getSchemaPropertyFieldName('additionalType')
         ? $this->t('Yes')
         : $this->t('No');
-      $this->insertAfter($row, 'schema_type', 'schema_type', $row_cell);
+      $this->insertAfter($row, 'schema_type', 'additional_type', $row_cell);
     }
 
     $event->setControllerResult($result);

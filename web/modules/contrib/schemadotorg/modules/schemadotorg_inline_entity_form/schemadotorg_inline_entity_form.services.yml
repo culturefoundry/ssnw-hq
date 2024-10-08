@@ -1,0 +1,4 @@
+services:
+  schemadotorg_inline_entity_form.manager:
+    class: Drupal\schemadotorg_inline_entity_form\SchemaDotOrgInlineEntityFormManager
+    arguments: ['@module_handler', '@config.factory', '@entity_type.manager', '@entity_display.repository', '@schemadotorg.schema_type_manager']

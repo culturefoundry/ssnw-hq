@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\schemadotorg_layout_paragraphs\Kernel;
 
+use Drupal\Core\Entity\EntityDisplayRepositoryInterface;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\schemadotorg\SchemaDotOrgEntityFieldManagerInterface;
 use Drupal\schemadotorg_layout_paragraphs\SchemaDotOrgLayoutParagraphsManagerInterface;
@@ -22,8 +23,17 @@ class SchemaDotOrgLayoutParagraphsManagerKernelTest extends SchemaDotOrgEntityKe
    * {@inheritdoc}
    */
   protected static $modules = [
+    'layout_discovery',
+    'layout_paragraphs',
+    'field_group',
+    'schemadotorg_field_group',
     'schemadotorg_layout_paragraphs',
   ];
+
+  /**
+   * The entity display repository.
+   */
+  protected EntityDisplayRepositoryInterface $entityDisplayRepository;
 
   /**
    * The Schema.org Layout Paragraphs manager.
@@ -36,7 +46,9 @@ class SchemaDotOrgLayoutParagraphsManagerKernelTest extends SchemaDotOrgEntityKe
   protected function setUp(): void {
     parent::setUp();
 
-    $this->installConfig('schemadotorg_layout_paragraphs');
+    $this->installConfig(['schemadotorg_field_group', 'schemadotorg_layout_paragraphs']);
+
+    $this->entityDisplayRepository = $this->container->get('entity_display.repository');
 
     /** @var \Drupal\schemadotorg_layout_paragraphs\SchemaDotOrgLayoutParagraphsManagerInterface $layout_paragraphs_manager */
     $layout_paragraphs_manager = $this->container->get('schemadotorg_layout_paragraphs.manager');
@@ -89,6 +101,27 @@ class SchemaDotOrgLayoutParagraphsManagerKernelTest extends SchemaDotOrgEntityKe
     /** @var \Drupal\Core\Field\FieldConfigInterface $field_config */
     $field_config = FieldConfig::loadByName('node', 'advanced_page', 'schema_main_entity');
     $this->assertEquals('Layout', $field_config->label());
+
+    // Check that default view display limits components for Layout Paragraphs.
+    $view_display = $this->entityDisplayRepository->getViewDisplay('node', 'advanced_page');
+    $components = $view_display->getComponents();
+    $expected_components = [
+      'links' => 'links',
+      'schema_main_entity' => 'schema_main_entity',
+      'uid' => 'uid',
+      'title' => 'title',
+      'created' => 'created',
+    ];
+    $actual_components = array_combine(array_keys($components), array_keys($components));
+    $this->assertEquals($expected_components, $actual_components);
+
+    // Check that the form display has field groups.
+    $form_display = $this->entityDisplayRepository->getFormDisplay('node', 'advanced_page');
+    $this->assertArrayHasKey('field_group', $form_display->get('third_party_settings'));
+
+    // Check that the default view display does not have field groups.
+    $view_display = $this->entityDisplayRepository->getViewDisplay('node', 'advanced_page');
+    $this->assertArrayNotHasKey('field_group', $view_display->get('third_party_settings'));
   }
 
 }

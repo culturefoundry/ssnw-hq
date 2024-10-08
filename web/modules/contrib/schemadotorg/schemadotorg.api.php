@@ -19,12 +19,14 @@ declare(strict_types=1);
  *
  * @param array $field_types
  *   An array of field types.
+ * @param string $entity_type_id
+ *   The entity type ID.
  * @param string $schema_type
  *   The Schema.org type.
  * @param string $schema_property
  *   The Schema.org property.
  */
-function hook_schemadotorg_property_field_type_alter(array &$field_types, string $schema_type, string $schema_property): void {
+function hook_schemadotorg_property_field_type_alter(array &$field_types, string $entity_type_id, string $schema_type, string $schema_property): void {
   // Use SmartDate for startDate and endDate.
   if (in_array($schema_property, ['startDate', 'endData'])
     || \Drupal::moduleHandler()->moduleExists('smartdate')) {
@@ -42,7 +44,7 @@ function hook_schemadotorg_property_field_type_alter(array &$field_types, string
  * @param string $schema_property
  *   The Schema.org property.
  */
-function hook_schemadotorg_property_field_prepare(array &$default_field, string $schema_type, string $schema_property): void {
+function hook_schemadotorg_property_field_prepare(array &$default_field, string $entity_type_id, string $schema_type, string $schema_property): void {
   // Programmatically update the name field for an Event Schema.org type.
   if ($schema_type === 'Event' && $schema_property === 'name') {
     $default_field['name']['label'] = t('Event title');

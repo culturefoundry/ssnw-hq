@@ -32,6 +32,19 @@ function schemadotorg_additional_mappings_form_schemadotorg_mapping_form_alter(a
 }
 
 /**
+ * Implements hook_ENTITY_TYPE_presave().
+ */
+function schemadotorg_additional_mappings_schemadotorg_mapping_presave(SchemaDotOrgMappingInterface $mapping): void {
+  if ($mapping->isSyncing()) {
+    return;
+  }
+
+  /** @var \Drupal\schemadotorg_additional_mappings\SchemaDotOrgAdditionalMappingsManagerInterface $schema_webpage_manager */
+  $schema_webpage_manager = \Drupal::service('schemadotorg_additional_mappings.manager');
+  $schema_webpage_manager->mappingPreSave($mapping);
+}
+
+/**
  * Implements hook_ENTITY_TYPE_postsave().
  */
 function schemadotorg_additional_mappings_schemadotorg_mapping_postsave(SchemaDotOrgMappingInterface $mapping): void {

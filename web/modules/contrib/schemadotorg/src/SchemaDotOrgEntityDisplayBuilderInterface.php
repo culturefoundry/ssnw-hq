@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Drupal\schemadotorg;
 
+use Drupal\Core\Entity\Display\EntityDisplayInterface;
+
 /**
  * Schema.org entity display builder interface.
  */
@@ -26,57 +28,53 @@ interface SchemaDotOrgEntityDisplayBuilderInterface {
    * Get the default field weight for Schema.org property.
    *
    * @param string $entity_type_id
+   *   The entity type id.
+   * @param string $bundle
    *   The Schema.org property.
    * @param string $field_name
-   *   The entity type.
-   * @param string $schema_property
    *   The field name.
-   *
-   * @return int
-   *   The default field weight for Schema.org property.
-   */
-  public function getSchemaPropertyDefaultFieldWeight(string $entity_type_id, string $field_name, string $schema_property): int;
-
-  /**
-   * Set entity displays for a field.
-   *
    * @param string $schema_type
    *   The Schema.org type.
    * @param string $schema_property
    *   The Schema.org property.
-   * @param array $field_storage_values
-   *   Field storage config values.
-   * @param array $field_values
-   *   Field config values.
+   *
+   * @return int
+   *   The default field weight for Schema.org property.
+   */
+  public function getSchemaPropertyDefaultFieldWeight(string $entity_type_id, string $bundle, string $field_name, string $schema_type, string $schema_property): int;
+
+  /**
+   * Initialize all form and view displays for a new Schema.org mapping.
+   *
+   * This method saves all form and view displays for a new Schema.org mapping
+   * with a $display->schemaDotOrgType = 'SchemaType'; defined;
+   *
+   * @param \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping
+   *   A new Schema.org mapping.
+   */
+  public function initializeDisplays(SchemaDotOrgMappingInterface $mapping): void;
+
+  /**
+   * Set the display settings for a field.
+   *
+   * @param array $field
+   *   The field definition.
    * @param string|null $widget_id
-   *   The plugin ID of the widget.
+   *   The widget ID.
    * @param array $widget_settings
-   *   An array of widget settings.
+   *   The settings for the widget.
    * @param string|null $formatter_id
-   *   The plugin ID of the formatter.
+   *   The formatter ID.
    * @param array $formatter_settings
-   *   An array of formatter settings.
+   *   The settings for the formatter.
    */
   public function setFieldDisplays(
-    string $schema_type,
-    string $schema_property,
-    array $field_storage_values,
-    array $field_values,
+    array $field,
     ?string $widget_id,
     array $widget_settings,
     ?string $formatter_id,
     array $formatter_settings,
   ): void;
-
-  /**
-   * Set entity display field weights for Schema.org properties.
-   *
-   * @param \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping
-   *   The Schema.org mapping.
-   * @param array $properties
-   *   The Schema.org properties to be weighted.
-   */
-  public function setFieldWeights(SchemaDotOrgMappingInterface $mapping, array $properties = []): void;
 
   /**
    * Set the default component weights for a Schema.org mapping entity.
@@ -85,6 +83,17 @@ interface SchemaDotOrgEntityDisplayBuilderInterface {
    *   The Schema.org mapping.
    */
   public function setComponentWeights(SchemaDotOrgMappingInterface $mapping): void;
+
+  /**
+   * Get display modes for a specific entity display.
+   *
+   * @param \Drupal\Core\Entity\Display\EntityDisplayInterface $display
+   *   The entity display.
+   *
+   * @return array
+   *   An array of display modes.
+   */
+  public function getModes(EntityDisplayInterface $display): array;
 
   /**
    * Get display form modes for a specific entity type.

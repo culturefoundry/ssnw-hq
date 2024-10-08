@@ -6,11 +6,14 @@ namespace Drupal\schemadotorg;
 
 use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
 use Drupal\Core\Config\Entity\ConfigEntityInterface;
+use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 
 /**
  * Provides an interface defining a Schema.org mapping entity.
+ *
+ * @property ?SchemaDotOrgMappingInterface $original
  *
  * @see \Drupal\Core\Entity\Display\EntityDisplayInterface
  */
@@ -110,12 +113,12 @@ interface SchemaDotOrgMappingInterface extends ConfigEntityInterface {
   /**
    * Sets the Schema.org type to be mapped.
    *
-   * @param string $type
+   * @param string $schema_type
    *   The Schema.org type to be mapped.
    *
    * @return $this
    */
-  public function setSchemaType(string $type): SchemaDotOrgMappingInterface;
+  public function setSchemaType(string $schema_type): SchemaDotOrgMappingInterface;
 
   /**
    * Gets the mappings for Schema.org properties.
@@ -124,22 +127,6 @@ interface SchemaDotOrgMappingInterface extends ConfigEntityInterface {
    *   The array of Schema.org property mappings, keyed by field name.
    */
   public function getSchemaProperties(): array;
-
-  /**
-   * Gets the original mappings for Schema.org properties.
-   *
-   * @return array
-   *   The array of original Schema.org property mappings, keyed by field name.
-   */
-  public function getOriginalSchemaProperties(): array;
-
-  /**
-   * Sets the original mappings for Schema.org properties.
-   *
-   * @param array $properties
-   *   The array of original Schema.org property mappings, keyed by field name.
-   */
-  public function setOriginalSchemaProperties(array $properties): void;
 
   /**
    * Gets the new mappings for Schema.org properties.
@@ -161,58 +148,64 @@ interface SchemaDotOrgMappingInterface extends ConfigEntityInterface {
   /**
    * Gets the field name mapping for a Schema.org property.
    *
-   * @param string $name
+   * @param string $field_name
    *   The field name of the property.
+   * @param bool $check_additional_mappings
+   *   Check additional Schema.org mappings.
    *
    * @return string|null
    *   The mapping for the Schema.org property, or NULL if the
    *   Schema.org property is not mapped.
    */
-  public function getSchemaPropertyMapping(string $name): ?string;
+  public function getSchemaPropertyMapping(string $field_name, bool $check_additional_mappings = FALSE): ?string;
 
   /**
    * Sets the field name mapping for a Schema.org property.
    *
-   * @param string $name
+   * @param string $field_name
    *   The field name.
-   * @param string $property
+   * @param string $schema_property
    *   The Schema.org property.
    *
    * @return $this
    */
-  public function setSchemaPropertyMapping(string $name, string $property): SchemaDotOrgMappingInterface;
+  public function setSchemaPropertyMapping(string $field_name, string $schema_property): SchemaDotOrgMappingInterface;
 
   /**
    * Removes the Schema.org property mapping.
    *
-   * @param string $name
+   * @param string $field_name
    *   The field name of the Schema.org property mapping.
    *
    * @return $this
    */
-  public function removeSchemaProperty(string $name): SchemaDotOrgMappingInterface;
+  public function removeSchemaProperty(string $field_name): SchemaDotOrgMappingInterface;
 
   /**
    * Gets the field name for a Schema.org property.
    *
-   * @param string $property
+   * @param string $schema_property
    *   The Schema.org property.
+   * @param bool $check_additional_mappings
+   *   Check additional Schema.org mappings.
    *
    * @return string|null
    *   The field name for a Schema.org property.
    */
-  public function getSchemaPropertyFieldName(string $property): ?string;
+  public function getSchemaPropertyFieldName(string $schema_property, bool $check_additional_mappings = FALSE): ?string;
 
   /**
    * Determine if a Schema.org property is mapped to a Drupal field.
    *
-   * @param string $property
+   * @param string $schema_property
    *   The Schema.org property.
+   * @param bool $check_additional_mappings
+   *   Check additional Schema.org mappings.
    *
    * @return bool
    *   TRUE if a Schema.org property is mapped to a Drupal field.
    */
-  public function hasSchemaPropertyMapping(string $property): bool;
+  public function hasSchemaPropertyMapping(string $schema_property, bool $check_additional_mappings = FALSE): bool;
 
   /**
    * Get additional Schema.org mappings.
@@ -293,5 +286,18 @@ interface SchemaDotOrgMappingInterface extends ConfigEntityInterface {
    *   The Schema.org mapping entity.
    */
   public static function loadByEntity(EntityInterface $entity): ?SchemaDotOrgMappingInterface;
+
+  /**
+   * Get the additional type value for a mapped content entity.
+   *
+   * @param \Drupal\Core\Entity\ContentEntityInterface $entity
+   *   A content entity.
+   *
+   * @return string|null
+   *   The additional type value for a mapped content entity or NULL if
+   *   the entity does not have a Schema.org mapping or
+   *   an additionalType property.
+   */
+  public static function getAdditionalType(ContentEntityInterface $entity): ?string;
 
 }

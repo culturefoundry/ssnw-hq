@@ -31,7 +31,7 @@ content:
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 13
+    weight: 18
     region: content
   links:
     settings: {  }
@@ -63,7 +63,7 @@ content:
       image_loading:
         attribute: lazy
     third_party_settings: {  }
-    weight: 5
+    weight: 8
     region: content
   schema_is_family_friendly:
     type: boolean

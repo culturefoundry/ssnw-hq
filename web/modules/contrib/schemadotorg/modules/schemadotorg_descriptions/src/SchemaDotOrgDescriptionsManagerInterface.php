@@ -13,7 +13,7 @@ use Drupal\Core\Form\FormStateInterface;
 interface SchemaDotOrgDescriptionsManagerInterface {
 
   /**
-   * Add description to entities loaded on their collection page..
+   * Add description to entities loaded on their collection page.
    *
    * @param \Drupal\Core\Entity\EntityInterface[] $entities
    *   The entities keyed by entity ID.
@@ -23,7 +23,7 @@ interface SchemaDotOrgDescriptionsManagerInterface {
   public function entityLoad(array $entities, string $entity_type_id): void;
 
   /**
-   * Alter node form and a description.
+   * Alter node form and adds a description.
    *
    * @param array $form
    *   Nested array of form elements that comprise the form.

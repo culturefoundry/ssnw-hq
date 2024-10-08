@@ -8,7 +8,6 @@
 declare(strict_types=1);
 
 use Drupal\Component\Serialization\Yaml;
-use Drupal\paragraphs\Entity\ParagraphsType;
 
 /**
  * Implements hook_install().
@@ -18,52 +17,9 @@ function schemadotorg_layout_paragraphs_install(bool $is_syncing): void {
     return;
   }
 
-  _schemadotorg_layout_paragraphs_create_layout_paragraph_type();
-
   // Setting weight to 1 so that the Schema.org Layout Paragraphs
   // hooks are triggered after the Schema.org Paragraphs module.
   module_set_weight('schemadotorg_layout_paragraphs', 1);
-}
-
-/**
- * Create the 'Layout' paragraph type.
- */
-function _schemadotorg_layout_paragraphs_create_layout_paragraph_type(): void {
-  // Make sure the layout paragraph does not exist.
-  if (ParagraphsType::load('layout')) {
-    return;
-  }
-
-  /** @var \Drupal\schemadotorg\SchemaDotOrgMappingManagerInterface $mapping_manager */
-  $mapping_manager = \Drupal::service('schemadotorg.mapping_manager');
-
-  $defaults = [
-    'entity' => [
-      'id' => 'layout',
-      'label' => 'Layout',
-      'description' => 'A multi-column layout with a title and description',
-    ],
-    'properties' => [
-      'image' => FALSE,
-    ],
-  ];
-  $mapping_manager->createType('paragraph', 'WebContent', $defaults);
-
-  // Set field weights to ensure that the name and description come
-  // before the layout.
-  /** @var \Drupal\Core\Entity\EntityDisplayRepositoryInterface $entity_display_repository */
-  $entity_display_repository = \Drupal::service('entity_display.repository');
-  $display = $entity_display_repository->getViewDisplay('paragraph', 'layout');
-  $field_weights = [
-    'schema_name' => -100,
-    'schema_text' => -99,
-  ];
-  foreach ($field_weights as $field_name => $field_weight) {
-    $component = $display->getComponent($field_name);
-    $component['weight'] = $field_weight;
-    $display->setComponent($field_name, $component);
-  }
-  $display->save();
 }
 
 /**
@@ -87,6 +43,14 @@ function schemadotorg_layout_paragraphs_update_10001(): void {
   $config = \Drupal::configFactory()->getEditable('schemadotorg_layout_paragraphs.settings');
   $config->set('default_paragraph_layouts', $config_data['default_paragraph_layouts']);
   $config->save();
+}
 
-  _schemadotorg_layout_paragraphs_create_layout_paragraph_type();
+/**
+ * Issue #3468527: Improve Mercury Editor support. Add default view_display components configuration.
+ */
+function schemadotorg_layout_paragraphs_update_10002(): void {
+  \Drupal::configFactory()
+    ->getEditable('schemadotorg_layout_paragraphs.settings')
+    ->set('default_view_display_components', ['mainEntity', 'links'])
+    ->save();
 }

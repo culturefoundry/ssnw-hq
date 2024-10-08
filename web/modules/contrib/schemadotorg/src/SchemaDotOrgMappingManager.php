@@ -76,7 +76,7 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
    * {@inheritdoc}
    */
   public function getMappingDefaults(string $entity_type_id = '', ?string $bundle = NULL, string $schema_type = '', array $defaults = []): array {
-    // Validate entity type id..
+    // Validate entity type id.
     if (!$this->getMappingTypeStorage()->load($entity_type_id)) {
       throw new \Exception(sprintf("A mapping type for '%s' does not exist and is required to create a Schema.org '%s'.", $entity_type_id, $schema_type));
     }
@@ -98,9 +98,48 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
       $mapping_defaults['entity'] = $defaults['entity'] + $mapping_defaults['entity'];
     }
 
-    // Apply custom properties defaults.
-    if (isset($defaults['properties'])) {
-      foreach ($defaults['properties'] as $property_name => $property) {
+    // Apply properties (or schema_properties) defaults.
+    $properties = $defaults['properties'] ?? $defaults['schema_properties'] ?? NULL;
+    if ($properties) {
+      foreach ($properties as $property_name => &$property) {
+        // Check custom properties/fields and set defaults values.
+        if (!$this->schemaTypeManager->hasProperty($schema_type, $property_name)) {
+
+          // Make sure that a Schema.org property is not being applied to
+          // the wrong Schema.org type.
+          if ($this->schemaTypeManager->isProperty($property_name)) {
+            throw new \Exception(sprintf("Schema.org property '%s' is not supported by the Schema.org type '%s'.", $property_name, $schema_type));
+          }
+
+          // If the custom field is set to TRUE look up the
+          // existing field's defaults.
+          if ($property === TRUE) {
+            $field_defaults = $this->getMappingExistingFieldDefaults($entity_type_id, $property_name);
+            if ($field_defaults) {
+              $property = $field_defaults;
+            }
+          }
+
+          // Make sure the property definition is a field definition/array.
+          if (!is_array($property)) {
+            throw new \Exception(sprintf("Custom '%s' property/field is not defined or does not exist.", $property_name));
+          }
+          $property += [
+            'type' => 'string',
+            'name' => strtolower($property_name),
+            'label' => $property_name,
+            'description' => '',
+            'unlimited' => FALSE,
+            'required' => FALSE,
+          ];
+        }
+
+        // Make sure an ignored property is not being defined.
+        $ignored_properties = $this->getIgnoredProperties();
+        if (isset($ignored_properties[$property_name])) {
+          throw new \Exception(sprintf("Schema.org property '%s' for Schema.org type '%s' is ignored. Please update your Schema.org settings. (/admin/config/schemadotorg/settings)", $property_name, $schema_type));
+        }
+
         if ($property === FALSE) {
           // Unset the name to not have the property added.
           $mapping_defaults['properties'][$property_name]['name'] = '';
@@ -201,6 +240,63 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
   }
 
   /**
+   * Get Schema.org mapping field defaults.
+   *
+   * @param string $entity_type_id
+   *   The entity type id.
+   * @param string $field_name
+   *   The field name.
+   *
+   * @return array|null
+   *   Schema.org mapping field defaults.
+   */
+  protected function getMappingExistingFieldDefaults(string $entity_type_id, string $field_name): ?array {
+    /** @var \Drupal\field\FieldStorageConfigInterface|null $field_storage_config */
+    $field_storage_config = $this->entityTypeManager
+      ->getStorage('field_storage_config')
+      ->load("$entity_type_id.$field_name");
+    if (!$field_storage_config) {
+      return NULL;
+    }
+
+    // Set defaults based on field storage.
+    $defaults = [
+      'type' => $field_storage_config->getType(),
+      'name' => $field_storage_config->getName(),
+      'unlimited' => ($field_storage_config->getCardinality() === -1),
+    ];
+
+    /** @var \Drupal\field\Entity\FieldConfig[] $existing_field_configs */
+    $existing_field_configs = $this->entityTypeManager
+      ->getStorage('field_config')
+      ->loadByProperties([
+        'entity_type' => $entity_type_id,
+        'field_name' => $field_name,
+      ]);
+
+    if ($existing_field_configs) {
+      $existing_field_config = reset($existing_field_configs);
+      // Set defaults based on field instance.
+      $defaults += [
+        'label' => $existing_field_config->getLabel(),
+        'description' => $existing_field_config->getDescription(),
+        'required' => $existing_field_config->isRequired(),
+      ];
+    }
+    else {
+      // Set reasonable defaults.
+      $defaults += [
+        'label' => $this->schemaNames->snakeCaseToSentenceCase(str_replace('field_', '', $field_name)),
+        'description' => '',
+        'unlimited' => FALSE,
+        'required' => FALSE,
+      ];
+    }
+
+    return $defaults;
+  }
+
+  /**
    * Get Schema.org mapping properties field default values.
    *
    * @param string $entity_type_id
@@ -214,6 +310,11 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
    *   Schema.org mapping properties field default values.
    */
   protected function getMappingPropertiesFieldDefaults(string $entity_type_id, ?string $bundle, string $schema_type): array {
+    $mapping_type = $this->loadMappingType($entity_type_id);
+    if (!$mapping_type) {
+      return [];
+    }
+
     $mapping = $this->loadMapping($entity_type_id, $bundle);
 
     $fields = ['label', 'comment', 'range_includes', 'superseded_by'];
@@ -229,10 +330,64 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
         continue;
       }
 
-      $defaults[$property] = $this->getMappingPropertyFieldDefaults($entity_type_id, $bundle, $schema_type, $property_definition);
+      $defaults[$property] = $this->getMappingPropertyFieldDefaults($entity_type_id, $schema_type, $property_definition);
     }
 
+    $this->getMappingPropertiesFieldDefaultsNames($entity_type_id, $bundle, $schema_type, $defaults);
+
     return $defaults;
+  }
+
+  /**
+   * Get the default field names for Schema.org mapping properties.
+   *
+   * @param string $entity_type_id
+   *   The entity type ID.
+   * @param string|null $bundle
+   *   The bundle name.
+   * @param string $schema_type
+   *   The Schema.org type.
+   * @param array $defaults
+   *   Array of Schema.org property defaults.
+   */
+  protected function getMappingPropertiesFieldDefaultsNames(string $entity_type_id, ?string $bundle, string $schema_type, array &$defaults): void {
+    $mapping_type = $this->loadMappingType($entity_type_id);
+    $mapping = $this->loadMapping($entity_type_id, $bundle);
+
+    // Set Schema.org property default field names for existing
+    // and new Schema.org mappings.
+    if ($mapping) {
+      $property_mappings = array_flip($mapping->getSchemaProperties());
+      foreach ($defaults as $schema_property => &$property_defaults) {
+        $property_defaults['name'] = $property_mappings[$schema_property] ?? NULL;
+      }
+    }
+    else {
+      $default_schema_type_properties = $mapping_type->getDefaultSchemaTypeProperties($schema_type);
+      $base_field_mappings = $mapping_type->getBaseFieldMappings();
+      foreach ($defaults as $schema_property => &$property_defaults) {
+        if (!isset($default_schema_type_properties[$schema_property])) {
+          continue;
+        }
+
+        // Set new mappings to add the the field.
+        $property_defaults['name'] = SchemaDotOrgEntityFieldManagerInterface::ADD_FIELD;
+
+        // Check for existing base field name and Schema.org property field storage.
+        $field_names = $base_field_mappings[$schema_property] ?? [];
+        $field_names[] = $this->schemaNames->getFieldPrefix() . $property_defaults['machine_name'];
+        foreach ($field_names as $field_name) {
+          $field_storage_exists = $this->schemaEntityFieldManager->fieldStorageExists(
+            $entity_type_id,
+            $field_name
+          );
+          if ($field_storage_exists) {
+            $property_defaults['name'] = $field_name;
+            break;
+          }
+        }
+      }
+    }
   }
 
   /**
@@ -260,8 +415,6 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
    *
    * @param string $entity_type_id
    *   The entity type ID.
-   * @param string|null $bundle
-   *   The bundle.
    * @param string $schema_type
    *   The Schema.org type.
    * @param array $property_definition
@@ -270,64 +423,21 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
    * @return array
    *   Schema.org mapping property default values.
    */
-  protected function getMappingPropertyFieldDefaults(string $entity_type_id, ?string $bundle, string $schema_type, array $property_definition): array {
+  protected function getMappingPropertyFieldDefaults(string $entity_type_id, string $schema_type, array $property_definition): array {
     $schema_property = $property_definition['label'];
-
-    $mapping_type = $this->loadMappingType($entity_type_id);
-
-    // Exit if no mapping type is defined for the entity type.
-    if (!$mapping_type) {
-      return [];
-    }
-
-    $mapping = $this->loadMapping($entity_type_id, $bundle);
-
-    $is_new_mapping = empty($mapping);
-
-    $base_field_mappings = $mapping_type->getBaseFieldMappings();
-    $property_defaults = $mapping_type->getDefaultSchemaTypeProperties($schema_type);
-    $property_mappings = $mapping ? array_flip($mapping->getSchemaProperties()) : [];
-
-    $default_field = $this->schemaEntityFieldManager->getPropertyDefaultField($schema_type, $schema_property);
-
-    // Get field name default value.
-    $field_name = $property_mappings[$schema_property] ?? NULL;
-    if (!$field_name && $is_new_mapping && isset($property_defaults[$schema_property])) {
-      // Try getting the base field mapping.
-      if (isset($base_field_mappings[$schema_property])) {
-        foreach ($base_field_mappings[$schema_property] as $base_field_name) {
-          $field_storage_exists = $this->schemaEntityFieldManager->fieldStorageExists(
-            $entity_type_id,
-            $base_field_name
-          );
-          if ($field_storage_exists) {
-            $field_name = $base_field_name;
-            break;
-          }
-        }
-      }
-
-      if (!$field_name) {
-        $field_name = $this->schemaNames->getFieldPrefix() . $default_field['name'];
-        $field_storage_exists = $this->schemaEntityFieldManager->fieldStorageExists(
-          $entity_type_id,
-          $field_name
-        );
-        if (!$field_storage_exists) {
-          $field_name = SchemaDotOrgEntityFieldManagerInterface::ADD_FIELD;
-        }
-      }
-    }
+    $default_field = $this->schemaEntityFieldManager
+      ->getPropertyDefaultField($entity_type_id, $schema_type, $schema_property);
 
     // Get field type default value from field type options.
-    $field_type_options = $this->schemaEntityFieldManager->getPropertyFieldTypeOptions($schema_type, $schema_property);
+    $field_type_options = $this->schemaEntityFieldManager
+      ->getPropertyFieldTypeOptions($entity_type_id, $schema_type, $schema_property);
     $recommended_category = (string) $this->t('Recommended');
     $field_type = (isset($field_type_options[$recommended_category]))
       ? array_key_first($field_type_options[$recommended_category])
       : NULL;
 
     $defaults = [];
-    $defaults['name'] = $field_name;
+    $defaults['name'] = NULL;
     $defaults['type'] = $field_type;
     $defaults['label'] = $default_field['label'];
     $defaults['machine_name'] = $default_field['name'];
@@ -346,17 +456,19 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
   /**
    * {@inheritdoc}
    */
-  public function saveMapping(string $entity_type_id, string $schema_type, array $values): SchemaDotOrgMappingInterface {
+  public function saveMapping(string $entity_type_id, string $schema_type, array $values, ?SchemaDotOrgMappingInterface $mapping = NULL): SchemaDotOrgMappingInterface {
     $bundle = $values['entity']['id'] ?? $entity_type_id;
 
     // Get mapping entity.
-    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface|null $mapping */
-    $mapping = $this->loadMapping($entity_type_id, $bundle)
-      ?: $this->getMappingStorage()->create([
-        'target_entity_type_id' => $entity_type_id,
-        'target_bundle' => $bundle,
-        'schema_type' => $schema_type,
-      ]);
+    if (!$mapping instanceof SchemaDotOrgMappingInterface) {
+      /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface|null $mapping */
+      $mapping = $this->loadMapping($entity_type_id, $bundle)
+        ?: $this->getMappingStorage()->create([
+          'target_entity_type_id' => $entity_type_id,
+          'target_bundle' => $bundle,
+          'schema_type' => $schema_type,
+        ]);
+    }
 
     // Create target bundle entity.
     if ($mapping->isNewTargetEntityTypeBundle()) {
@@ -374,6 +486,9 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
       if (!$field_name) {
         continue;
       }
+
+      // Append additional default field properties.
+      $field += $this->schemaEntityFieldManager->getPropertyDefaultField($entity_type_id, $schema_type, $property_name);
 
       // Add Schema.org type and property to property values.
       $field['schema_type'] = $schema_type;
@@ -401,7 +516,7 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
         if ($field_name === SchemaDotOrgEntityFieldManagerInterface::ADD_FIELD) {
           $field_name = $this->schemaNames->getFieldPrefix() . $field['machine_name'];
         }
-        $field['machine_name'] = $field_name;
+        $field['field_name'] = $field_name;
         $this->schemaEntityTypeBuilder->addFieldToEntity($entity_type_id, $bundle, $field);
       }
 
@@ -412,9 +527,6 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
         $mapping->setSchemaPropertyMapping($field_name, $property_name);
       }
     }
-
-    // Set field weights for new properties.
-    $this->schemaEntityDisplayBuilder->setFieldWeights($mapping);
 
     // Set additional mappings.
     if (isset($values['additional_mappings'])) {
@@ -431,8 +543,18 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
     // @see \Drupal\schemadotorg_field_group\SchemaDotOrgFieldGroupEntityDisplayBuilder::setFieldGroups
     $mapping->setMappingDefaults($values);
 
+    // Track if this is a new Schema.org mapping.
+    $is_new = $mapping->isNew();
+
     // Save the mapping entity.
     $mapping->save();
+
+    // After the mapping has been saved initialize the field displays.
+    // This allows modules to alter a new mappings entire entity display.
+    // @see \Drupal\schemadotorg_layout_paragraphs\SchemaDotOrgLayoutParagraphsManager::entityDisplayPreSave
+    if ($is_new) {
+      $this->schemaEntityDisplayBuilder->initializeDisplays($mapping);
+    }
 
     return $mapping;
   }

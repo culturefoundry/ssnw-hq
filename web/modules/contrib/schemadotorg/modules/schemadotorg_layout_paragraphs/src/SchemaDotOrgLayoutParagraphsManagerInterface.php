@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Drupal\schemadotorg_layout_paragraphs;
 
+use Drupal\Core\Entity\Display\EntityDisplayInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\paragraphs\ParagraphsTypeInterface;
 
@@ -91,11 +92,38 @@ interface SchemaDotOrgLayoutParagraphsManagerInterface {
   ): void;
 
   /**
-   * Act on a paragraphs type  before it is created or updated.
+   * Act on a paragraphs type before it is created.
    *
    * @param \Drupal\paragraphs\ParagraphsTypeInterface $paragraphs_type
    *   The paragraphs type.
    */
-  public function paragraphsTypePresave(ParagraphsTypeInterface $paragraphs_type): void;
+  public function paragraphsTypeCreate(ParagraphsTypeInterface $paragraphs_type): void;
+
+  /**
+   * Pre-save function to limit components in Layout Paragraphs default view display.
+   *
+   * @param \Drupal\Core\Entity\Display\EntityDisplayInterface $display
+   *   The entity form or view display.
+   *
+   * @see schemadotorg_field_group_entity_view_display_presave())
+   */
+  public function entityDisplayPreSave(EntityDisplayInterface $display): void;
+
+  /**
+   * Determine if the entity type and Schema.org type support layout paragraphs.
+   *
+   * Currently, layout paragraphs are only applicable to nodes and Schema.org
+   * types without a mainEntity property. This only applies to
+   * FAQPage and QAPAge.
+   *
+   * @param string $entity_type_id
+   *   The entity type.
+   * @param string $schema_type
+   *   The Schema.org type.
+   *
+   * @return bool
+   *   TRUE if the entity type support layout paragraphs.
+   */
+  public function isLayoutParagraphsEnabled(string $entity_type_id, string $schema_type): bool;
 
 }

@@ -16,7 +16,7 @@ custom_descriptions:
   ItemList: 'A list of items of any sort.'
   Language: 'Natural languages such as Spanish, Tamil, Hindi, English, etc.'
   LibrarySystem: 'A collaborative system amongst several libraries.'
-  LocationFeatureSpecification:	'Specifies a feature of an accommodation.'
+  LocationFeatureSpecification: 'Specifies a feature of an accommodation.'
   LodgingReservation: 'A reservation for lodging at a hotel, motel, inn, etc.'
   MediaGallery: 'A mixed-media page that can contain media such as images, videos, and other multimedia.'
   MenuItem--offers: 'The offer price of a product, or of a price component when attached to PriceSpecification and its subtypes.'

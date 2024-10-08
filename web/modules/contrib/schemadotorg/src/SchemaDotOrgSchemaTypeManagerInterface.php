@@ -4,10 +4,18 @@ declare(strict_types=1);
 
 namespace Drupal\schemadotorg;
 
-use Drupal\Core\StringTranslation\TranslatableMarkup;
-
 /**
- * Schema.org schema data type manager interface.
+ * Gets Schema.org type or property items.
+ *
+ * @param string $table
+ *   The Schema.org table.
+ * @param array $ids
+ *   An array of Schema.org type or property IDs.
+ * @param array $fields
+ *   Optional. The fields to be returned.
+ *
+ * @return array
+ *   An associative array containing Schema.org type or property items.
  */
 interface SchemaDotOrgSchemaTypeManagerInterface {
 
@@ -212,7 +220,7 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
    *   An associative array containing Schema.org type or property item.
    *   or FALSE if there is no type found.
    */
-  public function getItem(string $table, string $id, array $fields = []): array|FALSE;
+  public function getItem(string $table, string $id, array $fields = []): array|false;
 
   /**
    * Gets Schema.org type.
@@ -226,7 +234,7 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
    *   An associative array containing Schema.org type definition,
    *   or FALSE if there is no type found.
    */
-  public function getType(string $type, array $fields = []): array|FALSE;
+  public function getType(string $type, array $fields = []): array|false;
 
   /**
    * Gets Schema.org property.
@@ -240,7 +248,7 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
    *   An associative array containing Schema.org property definition,
    *   or FALSE if there is no property found.
    */
-  public function getProperty(string $property, array $fields = []): array|FALSE;
+  public function getProperty(string $property, array $fields = []): array|false;
 
   /**
    * Get a Schema.org property's range includes.
@@ -251,7 +259,7 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
    * @return array|false
    *   The Schema.org property's range includes.
    */
-  public function getPropertyRangeIncludes(string $property): array|FALSE;
+  public function getPropertyRangeIncludes(string $property): array|false;
 
   /**
    * Get a Schema.org property's default Schema.org type from range_includes.
@@ -263,19 +271,6 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
    *   The Schema.org property's default Schema.org type from range_includes.
    */
   public function getPropertyDefaultType(string $property): ?string;
-
-  /**
-   * Gets Schema.org property's unit.
-   *
-   * @param string $property
-   *   The Schema.org property.
-   * @param int|string|null $value
-   *   A numeric value.
-   *
-   * @return string|\Drupal\Core\StringTranslation\TranslatableMarkup|null
-   *   The Schema.org property's unit.
-   */
-  public function getPropertyUnit(string $property, int|string|null $value = 0): string|TranslatableMarkup|NULL;
 
   /**
    * Gets Schema.org type or property items.
@@ -495,13 +490,19 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
    *   - bundle: The entity bundle.
    *   - schema_property: The Schema.org property.
    *   - field_name: The field name.
-   * @param bool $multiple
-   *   Return multiple matches.
-   *   Defaults to FALSE and returns the first match.
+   * @param array $options
+   *   (optional) Options for getting settings:
+   *   - multiple (bool)
+   *     Return multiple matches. Defaults to FALSE and returns the first match.
+   *   - parents (bool)
+   *     Checks parent Schema.org types. Defaults to TRUE.
+   * @param array|null $patterns
+   *   Optional. The patterns to match against the settings array.
+   *   Defaults to NULL.
    *
    * @return mixed
    *   A setting from an associative array of settings.
    */
-  public function getSetting(array $settings, SchemaDotOrgMappingInterface|array $parts, bool $multiple = FALSE): mixed;
+  public function getSetting(array $settings, SchemaDotOrgMappingInterface|array $parts, array $options = [], ?array $patterns = NULL): mixed;
 
 }

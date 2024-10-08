@@ -1,3 +1,8 @@
+diagram_excluded_schema_properties:
+  - about
+  - subjectOf
+  - relatedLink
+  - significantLink
 about:
   - title: 'Schema.org Documentation'
     uri: 'https://schema.org/docs/documents.html'
@@ -53,7 +58,7 @@ types:
       uri: 'https://developers.google.com/search/docs/advanced/structured-data/dataset'
     - title: 'How to Add isPartOf Property to Dataset Schema'
       uri: 'https://rankmath.com/kb/ispartof-property-dataset-schema/'
-  EducationOrganization:
+  EducationalOrganization:
     - title: 'How to Use Schema Markup for Colleges and Universities'
       uri: 'https://thesearchguru.com/blog/how-to-use-schema-markup-for-colleges-and-universities/'
   EducationalOccupationalProgram:
@@ -203,6 +208,9 @@ types:
   Quiz:
     - title: 'Practice Problems Structured Data'
       uri: 'https://developers.google.com/search/docs/advanced/structured-data/practice-problems'
+  QuantitativeValue:
+    - title: 'Using UN CEFACT Codes'
+      uri: 'https://github.com/schemaorg/schemaorg/wiki/Using-UN-CEFACT-Codes'
   Recipe:
     - title: 'Recipe Schema Markup'
       uri: 'https://developers.google.com/search/docs/advanced/structured-data/recipe'

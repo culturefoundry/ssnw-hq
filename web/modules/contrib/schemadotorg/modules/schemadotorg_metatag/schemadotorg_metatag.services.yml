@@ -1,0 +1,4 @@
+services:
+  schemadotorg_metatag.manager:
+    class: Drupal\schemadotorg_metatag\SchemaDotOrgMetatagManager
+    arguments: ['@config.factory', '@entity_type.manager', '@entity_display.repository', '@token', '@plugin.manager.metatag.tag', '@schemadotorg.schema_type_manager']

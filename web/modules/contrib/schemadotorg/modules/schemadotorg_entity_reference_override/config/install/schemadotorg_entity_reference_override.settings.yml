@@ -1,0 +1,24 @@
+schema_properties:
+  actor:
+    override_label: 'Enter role'
+  employee:
+    override_label: 'Enter role'
+  member:
+    override_label: 'Enter role'
+  performer:
+    override_label: 'Enter role'
+  provider:
+    override_label: 'Enter role'
+  organizer:
+    override_label: 'Enter role'
+  sponsor:
+    override_label: 'Enter role'
+  MedicalStudy--member:
+    type: select
+    placeholder: null
+    size: null
+    required: true
+    options:
+      '': '- None -'
+      'Principle Investigator': 'Principle Investigator'
+      'Co-Investigator': 'Co-Investigator'

@@ -25,20 +25,6 @@ schema_types:
     IndividualPhysician:
       name: physician
       label: Physician
-  main_properties:
-    AudioObject: null
-    Clip: null
-    Comment: text
-    Duration: null
-    Energy: null
-    ImageObject: null
-    Mass: null
-    Offer: price
-    ProgramMembership: programName
-    QuantitativeValue: value
-    Rating: ratingValue
-    Role: roleName
-    VideoObject: null
   default_properties:
     CreativeWork:
       - inLanguage
@@ -148,6 +134,7 @@ schema_types:
       - text
     LearningResource:
       - assesses
+      - educationalAlignment
       - educationalLevel
       - educationalUse
       - learningResourceType
@@ -158,7 +145,10 @@ schema_types:
       - courseCode
       - coursePrerequisites
       - educationalCredentialAwarded
+      - hasCourseInstance
       - numberOfCredits
+    Quiz:
+      - hasPart
     MediaObject:
       - name
     AudioObject:
@@ -255,6 +245,7 @@ schema_types:
       - text
     Thesis:
       - name
+      - associatedMedia
     VisualArtwork:
       - artMedium
       - artform
@@ -262,9 +253,9 @@ schema_types:
       - artworkSurface
       - name
     WebContent:
-      - text
       - image
       - name
+      - text
     HealthTopicContent:
       - hasHealthAspect
     WebPage:
@@ -298,6 +289,7 @@ schema_types:
       - startDate
     CourseInstance:
       - courseMode
+      - courseSchedule
       - courseWorkload
       - instructor
     PublicationEvent:
@@ -336,6 +328,7 @@ schema_types:
       - name
     JobPosting:
       - applicationContact
+      - baseSalary
       - benefits
       - datePosted
       - description
@@ -343,7 +336,6 @@ schema_types:
       - eligibilityToWorkRequirement
       - employerOverview
       - employmentType
-      - estimatedSalary
       - experienceRequirements
       - jobBenefits
       - jobLocation
@@ -373,6 +365,12 @@ schema_types:
       - author
       - ratingExplanation
       - ratingValue
+    Schedule:
+      - duration
+      - repeatFrequency
+      - repeatCount
+      - startDate
+      - endDate
     Service:
       - availableChannel
       - description
@@ -410,6 +408,19 @@ schema_types:
     MonetaryAmount:
       - currency
       - value
+    NutritionInformation:
+      - calories
+      - carbohydrateContent
+      - cholesterolContent
+      - fatContent
+      - fiberContent
+      - proteinContent
+      - saturatedFatContent
+      - servingSize
+      - sodiumContent
+      - sugarContent
+      - transFatContent
+      - unsaturatedFatContent
     OpeningHoursSpecification:
       - closes
       - dayOfWeek
@@ -538,10 +549,8 @@ schema_types:
       - description
       - image
       - name
-      - sameAs
     EducationalOrganization:
       - alumni
-      - nonprofitStatus
     LocalBusiness:
       - address
       - email
@@ -562,11 +571,11 @@ schema_types:
     LodgingBusiness:
       - amenityFeature
       - availableLanguage
-      - contactPoint
       - checkinTime
       - checkoutTime
-      - hasMap
+      - contactPoint
       - faxNumber
+      - hasMap
       - numberOfRooms
       - petsAllowed
       - priceRange
@@ -631,9 +640,9 @@ schema_types:
       - amenityFeature
     Room:
       - '-address'
+      - '-geo'
       - '-latitude'
       - '-longitude'
-      - '-geo'
     HotelRoom:
       - amenityFeature
       - bed
@@ -659,25 +668,33 @@ schema_types:
     Vehicle:
       - accelerationTime
       - bodyType
+      - brand
       - cargoVolume
+      - color
       - driveWheelConfiguration
       - fuelCapacity
       - fuelConsumption
       - fuelEfficiency
       - fuelType
+      - itemCondition
+      - model
       - numberOfDoors
       - productionDate
-      - seatingCapacity
       - speed
       - vehicleConfiguration
       - vehicleEngine
+      - vehicleIdentificationNumber
+      - vehicleInteriorColor
+      - vehicleInteriorType
       - vehicleModelDate
       - vehicleSeatingCapacity
-  default_property_values:
-    MonetaryAmount:
-      currency: USD
-    Offer:
-      priceCurrency: USD
+      - vehicleSeatingCapacity
+      - vehicleTransmission
+    PronounceableText:
+      - inLanguage
+      - phoneticText
+      - speechToTextMarkup
+      - textValue
   default_field_types:
     DefinedTerm:
       - string
@@ -714,6 +731,13 @@ schema_types:
       - decimal
       - float
       - integer
+    QuantitativeValue:
+      - integer
+      - decimal
+      - float
+      - range_integer
+      - range_decimal
+      - range_float
     URL:
       - link
       - string
@@ -746,6 +770,81 @@ schema_types:
       - text
       - text_long
       - text_with_summary
+  categories:
+    people:
+      label: People
+      color: '#eddcd2'
+      types:
+        - Person
+        - IndividualPhysician
+    page:
+      label: Page
+      color: '#fff1e6'
+      types:
+        - WebPage
+        - WebSite
+        - FAQPage
+        - CollectionPage
+    content:
+      label: Content
+      color: '#fde2e4'
+      types:
+        - Article
+        - Event
+        - HowTo
+        - SpecialAnnouncement
+        - ItemList
+    organization:
+      label: Organization
+      color: '#fad2e1'
+      types:
+        - Organization
+        - Service
+        - JobPosting
+    education:
+      label: Education
+      color: '#dbe7e4'
+      types:
+        - EducationalOrganization
+        - CourseInstance
+        - Course
+    hospitality:
+      label: Hospitality
+      color: '#c5dedd'
+      types:
+        - LodgingBusiness
+        - Accommodation
+    food:
+      label: Food
+      color: '#f0efeb'
+      types:
+        - FoodEstablishment
+        - Menu
+        - Recipe
+        - Diet
+    media:
+      label: Media
+      color: '#d6e2e9'
+      types:
+        - PodcastSeries
+        - PodcastSeason
+        - PodcastEpisode
+        - TVSeries
+        - TVSeason
+        - TVEpisode
+    medical_organization:
+      label: 'Medical organization'
+      color: '#bcd4e6'
+      types:
+        - MedicalOrganization
+        - MedicalBusiness
+    medical_information:
+      label: 'Medical information'
+      color: '#99c1de'
+      types:
+        - HealthTopicContent
+        - MedicalWebPage
+        - MedicalEntity
 schema_properties:
   range_includes:
     CollectionPage--hasPart:
@@ -794,17 +893,29 @@ schema_properties:
       - Accommodation
     Accommodation--containedInPlace:
       - LodgingBusiness
+    bodyType:
+      - Text
     employee:
       - Person
+    fuelType:
+      - Text
     itemListElement:
       - CreativeWork
+    knowsAbout:
+      - Text
+    meetsEmissionStandard:
+      - Text
     member:
       - Person
+    recipeYield:
+      - Text
     studyLocation:
       - Place
     value:
       - Text
       - StructuredValue
+    vehicleTransmission:
+      - Text
     worksFor:
       - LocalBusiness
   ignored_properties:
@@ -817,7 +928,6 @@ schema_properties:
     - accessibilitySummary
     - acquireLicensePage
     - actionableFeedbackPolicy
-    - additionalProperty
     - answerCount
     - assesses
     - branchCode
@@ -834,7 +944,6 @@ schema_properties:
     - editEIDR
     - encoding
     - encodingFormat
-    - funder
     - funding
     - geoContains
     - geoCoveredBy
@@ -899,6 +1008,18 @@ schema_properties:
       type: decimal
       name: offers_price
       label: Price
+    Event--name:
+      label: Title
+    CreativeWork--name:
+      label: Title
+    Project--name:
+      label: Title
+    WebPage--name:
+      label: Title
+    HealthTopicContent--name:
+      label: Title
+    Thesis--name:
+      label: Title
     Person--additionalName:
       label: 'Middle name'
     Person--familyName:
@@ -929,6 +1050,9 @@ schema_properties:
       unlimited: true
     actor:
       label: Actors
+      unlimited: true
+    additionalProperty:
+      label: 'Additional properties'
       unlimited: true
     additionalType:
       type: string
@@ -970,7 +1094,10 @@ schema_properties:
       label: Attendees
       unlimited: true
     audience:
-      label: Audiences
+      label: Audience
+      unlimited: true
+    author:
+      label: Authors
       unlimited: true
     availableService:
       label: 'Available services'
@@ -993,8 +1120,18 @@ schema_properties:
       unlimited: true
     bodyLocation:
       type: text_long
+    calories:
+      suffix: calories
+      scale: 0
+      min: 0
+      max: 1000
     carbohydrateContent:
-      label: Carbohydrates
+      suffix: 'gram|grams'
+      scale: 0
+      min: 0
+      max: 1000
+    cargoVolume:
+      suffix: 'cubic foot|cubic feet'
     category:
       label: Categories
       unlimited: true
@@ -1007,6 +1144,10 @@ schema_properties:
       unlimited: true
     cholesterolContent:
       label: Cholesterol
+      suffix: milligrams
+      scale: 0
+      min: 0
+      max: 1000
     citation:
       type: text_long
       label: Citations
@@ -1032,7 +1173,10 @@ schema_properties:
       unlimited: true
     cookingMethod:
       unlimited: true
+    cookTime:
+      granularity: 'h:i'
     courseMode:
+      label: 'Course modes'
       type: string
       unlimited: true
     coursePrerequisites:
@@ -1053,22 +1197,28 @@ schema_properties:
       unlimited: true
     doseSchedule:
       unlimited: true
+    duration:
+      granularity: 'h:i'
     educationRequirements:
-      unlimited: true
-    educationalLevel:
-      label: Difficulty
-    educationalUse:
-      label: 'Educational uses'
       unlimited: true
     educationalCredentialAwarded:
       type: string
+    educationalUse:
+      label: 'Educational uses'
+      unlimited: true
     eligibilityToWorkRequirement:
       label: 'Eligibility to work requirements'
       unlimited: true
+    engineDisplacement:
+      suffix: 'cubic inch|cubic inches'
+    enginePower:
+      suffix: 'horsepower'
     email:
       type: email
     employee:
       label: Employees
+      unlimited: true
+    employmentType:
       unlimited: true
     employerOverview:
       type: text_long
@@ -1077,6 +1227,8 @@ schema_properties:
     episode:
       label: Episodes
       unlimited: true
+    estimatedFlightDuration:
+      granularity: 'h:i'
     eventSchedule:
       type: daterange
       unlimited: true
@@ -1087,18 +1239,34 @@ schema_properties:
       unlimited: true
     experienceRequirements:
       unlimited: true
+    expertConsiderations:
+      unlimited: true
     fatContent:
       label: Fat
+      suffix: 'gram|grams'
+      scale: 0
+      min: 0
+      max: 1000
     faxNumber:
       type: telephone
     fiberContent:
       label: Fiber
+      suffix: 'gram|grams'
+      scale: 0
+      min: 0
+      max: 1000
     followup:
       type: text_long
     foodWarning:
       type: text_long
     founder:
       unlimited: true
+    fuelCapacity:
+      suffix: 'gallon|gallons'
+    fuelConsumption:
+      suffix: 'miles per gallon'
+    fuelEfficiency:
+      suffix: 'miles per gallon'
     gamePlatform:
       label: 'Game platforms'
       unlimited: true
@@ -1107,6 +1275,8 @@ schema_properties:
     globalLocationNumber:
       label: 'Global Location Number (GLN)'
       max_length: 13
+    gracePeriod:
+      granularity: 'y:m:d:h:i'
     gtin12:
       max_length: 12
     gtin13:
@@ -1115,8 +1285,14 @@ schema_properties:
       max_length: 14
     gtin8:
       max_length: 8
+    hasCertification:
+      label: 'Certifications'
+      unlimited: true
     hasCourseInstance:
       label: 'Course instances'
+      unlimited: true
+    hasCredential:
+      label: 'Credentials'
       unlimited: true
     hasHealthAspect:
       label: 'Health aspects'
@@ -1133,8 +1309,12 @@ schema_properties:
     hasMenuSection:
       label: 'Menu sections'
       unlimited: true
+    hasOccupation:
+      label: Occupations
+      unlimited: true
     hasPart:
       unlimited: true
+      ignore_additional_mappings: true
     healthCondition:
       label: 'Health conditions'
       unlimited: true
@@ -1154,6 +1334,8 @@ schema_properties:
       unlimited: true
     isFamilyFriendly:
       default_value: true
+    isPartOf:
+      ignore_additional_mappings: true
     itemListElement:
       type: text_long
       label: Items
@@ -1161,6 +1343,9 @@ schema_properties:
     jobBenefits:
       unlimited: true
     keywords:
+      unlimited: true
+    knowsAbout:
+      label: 'Knows about'
       unlimited: true
     knowsLanguage:
       label: 'Knows languages'
@@ -1170,6 +1355,8 @@ schema_properties:
     learningResourceType:
       label: 'Learning resource types'
       unlimited: true
+    leaseLength:
+      granularity: 'y:m:d:h:i'
     longitude:
       type: decimal
     manufacturer:
@@ -1196,6 +1383,8 @@ schema_properties:
     menuAddOn:
       label: 'Menu add-ons'
       unlimited: true
+    mileageFromOdometer:
+      suffix: 'mile|miles'
     musicBy:
       unlimited: true
     naturalProgression:
@@ -1227,10 +1416,12 @@ schema_properties:
     partOfSeries:
       required: true
     pathophysiology:
-      type: text_long
+      unlimited: true
     performer:
       label: Performers
       unlimited: true
+    phoneticText:
+      label: Pronunciation
     photo:
       label: Photos
       unlimited: true
@@ -1244,11 +1435,18 @@ schema_properties:
       unlimited: true
     preparation:
       type: text_long
+    performTime:
+      granularity: 'h:i'
+    prepTime:
+      granularity: 'h:i'
     primaryImageOfPage:
+      label: Image
       name: image
     primaryPrevention:
       label: 'Primary preventions'
       unlimited: true
+    processingTime:
+      granularity: 'h:i'
     productionCompany:
       label: 'Production companies'
       unlimited: true
@@ -1257,11 +1455,17 @@ schema_properties:
       unlimited: true
     proteinContent:
       label: Protein
+      suffix: 'gram|grams'
+      scale: 0
+      min: 0
+      max: 1000
     publication:
       label: Publications
       unlimited: true
     qualifications:
       unlimited: true
+    repeatFrequency:
+      granularity: 'y:m:d:h:i'
     recipeCategory:
       label: 'Recipe categories'
       unlimited: true
@@ -1301,6 +1505,10 @@ schema_properties:
       unlimited: true
     saturatedFatContent:
       label: 'Saturated Fat'
+      suffix: 'gram|grams'
+      scale: 0
+      min: 0
+      max: 1000
     secondaryPrevention:
       label: 'Secondary preventions'
       unlimited: true
@@ -1314,6 +1522,12 @@ schema_properties:
       unlimited: true
     sodiumContent:
       label: Sodium
+      suffix: milligrams
+      scale: 0
+      min: 0
+      max: 1000
+    speed:
+      suffix: 'miles per hour'
     spoken_by_character:
       label: 'Spoken by'
     sponsor:
@@ -1334,26 +1548,52 @@ schema_properties:
       unlimited: true
     sugarContent:
       label: Sugar
+      suffix: 'gram|grams'
+      scale: 0
+      min: 0
+      max: 1000
     suitableForDiet:
       label: 'Suitable for diets'
       unlimited: true
     supply:
       label: Supplies
       unlimited: true
+    syllabusSections:
+      unlimited: true
     telephone:
       type: telephone
     teaches:
       unlimited: true
+    termDuration:
+      granularity: 'y:m'
     text:
       type: text_long
+    tongueWeight:
+      suffix: 'pound|pounds'
     tool:
       label: Tools
       unlimited: true
     trailer:
       label: Trailers
       unlimited: true
+    trailerWeight:
+      suffix: 'pound|pounds'
     transFatContent:
       label: 'Trans fat'
+      suffix: 'gram|grams'
+      scale: 0
+      min: 0
+      max: 1000
+    timeRequired:
+      granularity: 'h:i'
+    timeToComplete:
+      granularity: 'h:i'
+    totalTime:
+      granularity: 'h:i'
+    torque:
+      suffix: 'pound-feet'
+    transcript:
+      type: text_long
     typicalTest:
       label: 'Typical tests'
       unlimited: true
@@ -1362,10 +1602,20 @@ schema_properties:
       max_length: 10
     unsaturatedFatContent:
       label: 'Unsaturated fat'
+      suffix: 'gram|grams'
+      scale: 0
+      min: 0
+      max: 1000
     usedToDiagnose:
       type: text_long
     usesDevice:
       type: text_long
+    validFor:
+      granularity: 'y:m:d:h:i'
+    weightTotal:
+      suffix: 'pound|pounds'
+    wheelbase:
+      suffix: 'foot|feet'
     width:
       type: string
     worksFor:
@@ -1387,16 +1637,22 @@ schema_properties:
     - additionalType
     - name
     - title
+    - phoneticText
     - alternateName
+    - headline
+    - alternativeHeadline
     - image
     - logo
     - primaryImageOfPage
+    - video
+    - contentUrl
     - eventSchedule
     - startDate
     - endDate
     - slogan
     - description
     - text
+    - transcript
     - acceptedAnswer
     - author
     - creator

@@ -63,6 +63,8 @@ class SchemaDotOrgAdditionalMappingsJsonApiKernelTest extends SchemaDotOrgJsonAp
       'schema_recipe_ingredient' => 'recipe_ingredient',
       'schema_recipe_instructions' => 'recipe_instructions',
       'schema_recipe_yield' => 'recipe_yield',
+      'schema_related_link' => 'related_link',
+      'schema_significant_link' => 'significant_link',
       'schema_suitable_for_diet' => 'suitable_for_diet',
       'schema_total_time' => 'total_time',
       'status' => 'status',

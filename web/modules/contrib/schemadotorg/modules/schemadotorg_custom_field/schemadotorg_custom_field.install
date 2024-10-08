@@ -1,0 +1,32 @@
+<?php
+
+/**
+ * @file
+ * Installation hooks for the Schema.org Blueprints Custom Field module.
+ */
+
+declare(strict_types=1);
+
+/**
+ * Issue #3450998: Custom field improvements.
+ */
+function schemadotorg_custom_field_update_10000(): void {
+  $config = \Drupal::configFactory()
+    ->getEditable('schemadotorg_custom_field.settings');
+  $default_schema_properties = $config->get('default_schema_properties');
+
+  $updated_schema_properties = [];
+  foreach ($default_schema_properties as $schema_property => $default_schema_property) {
+    $schema_properties = [];
+    foreach ($default_schema_property['properties'] as $key => $value) {
+      $schema_properties[$key] = ['data_type' => $value];
+    }
+    $updated_schema_properties[$schema_property] = [
+      'schema_type' => $default_schema_property['type'],
+      'schema_properties' => $schema_properties,
+    ];
+  }
+
+  $config->set('default_schema_properties', $updated_schema_properties);
+  $config->save();
+}

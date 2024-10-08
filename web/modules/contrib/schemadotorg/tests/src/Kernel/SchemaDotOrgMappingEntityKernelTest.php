@@ -136,9 +136,13 @@ class SchemaDotOrgMappingEntityKernelTest extends SchemaDotOrgEntityKernelTestBa
 
     // Check getting the Schema.org types to be mapped.
     $this->assertEquals(['Thing' => 'Thing'], $node_mapping->getAllSchemaTypes());
+
+    // Add an additional mapping to WebPage, which will be used for additional
+    // test below.
     $node_mapping->setAdditionalMapping('WebPage', ['schema_related_link' => 'relatedLink']);
+
+    // Check that the Schema.org types includes the additional mapping.
     $this->assertEquals(['Thing' => 'Thing', 'WebPage' => 'WebPage'], $node_mapping->getAllSchemaTypes());
-    $node_mapping->set('additional_mappings', []);
 
     // Check getting the mappings for Schema.org properties.
     $expected_schema_properties = [
@@ -147,21 +151,19 @@ class SchemaDotOrgMappingEntityKernelTest extends SchemaDotOrgEntityKernelTestBa
     ];
     $this->assertEquals($expected_schema_properties, $node_mapping->getSchemaProperties());
 
-    // Check getting the original mappings for Schema.org properties.
-    $this->assertEquals($node_mapping->getOriginalSchemaProperties(), $node_mapping->getSchemaProperties());
-
-    // Check setting the original mappings for Schema.org properties.
-    $node_mapping->setOriginalSchemaProperties([]);
-    $this->assertEquals([], $node_mapping->getOriginalSchemaProperties());
-
     // Check getting the new mappings for Schema.org properties.
     $this->assertEquals($node_mapping->getSchemaProperties(), $node_mapping->getNewSchemaProperties());
     $node_mapping->save();
+    // Manually set the original mapping's Schema.org properties.
+    $node_mapping->original = clone $node_mapping;
+    $node_mapping->original->set('schema_properties', [
+      'title' => 'name',
+      'schema_alternate_name' => 'alternateName',
+    ]);
     $node_mapping->setSchemaPropertyMapping('body', 'description');
     $this->assertEquals(['body' => 'description'], $node_mapping->getNewSchemaProperties());
 
     // Check getting the Schema.org properties for the main and additional mappings.
-    $node_mapping->setAdditionalMapping('WebPage', ['schema_related_link' => 'relatedLink']);
     $expected_schema_properties = [
       'title' => 'name',
       'schema_alternate_name' => 'alternateName',
@@ -169,10 +171,11 @@ class SchemaDotOrgMappingEntityKernelTest extends SchemaDotOrgEntityKernelTestBa
       'schema_related_link' => 'relatedLink',
     ];
     $this->assertEquals($expected_schema_properties, $node_mapping->getAllSchemaProperties());
-    $node_mapping->set('additional_mappings', []);
 
     // Check getting the mapping set for a property.
     $this->assertEquals('name', $node_mapping->getSchemaPropertyMapping('title'));
+    $this->assertNull($node_mapping->getSchemaPropertyMapping('schema_related_link'));
+    $this->assertEquals('relatedLink', $node_mapping->getSchemaPropertyMapping('schema_related_link', TRUE));
 
     // Check setting the mapping for a Schema.org property.
     $node_mapping->setSchemaPropertyMapping('field_thing_type', 'additionalType');
@@ -192,6 +195,8 @@ class SchemaDotOrgMappingEntityKernelTest extends SchemaDotOrgEntityKernelTestBa
     $this->assertNull($node_mapping->getSchemaPropertyFieldName('notAProperty'));
     $this->assertEquals('title', $node_mapping->getSchemaPropertyFieldName('name'));
     $this->assertEquals('schema_alternate_name', $node_mapping->getSchemaPropertyFieldName('alternateName'));
+    $this->assertNull($node_mapping->getSchemaPropertyFieldName('relatedLink'));
+    $this->assertEquals('schema_related_link', $node_mapping->getSchemaPropertyFieldName('relatedLink', TRUE));
 
     // Check getting the field name for an additional mapping's property.
     // Check setting an additional Schema.org mapping.
@@ -202,6 +207,8 @@ class SchemaDotOrgMappingEntityKernelTest extends SchemaDotOrgEntityKernelTestBa
     // Check determining if a Schema.org property is mapped to a Drupal field.
     $this->assertTrue($node_mapping->hasSchemaPropertyMapping('name'));
     $this->assertFalse($node_mapping->hasSchemaPropertyMapping('not_name'));
+    $this->assertFalse($node_mapping->hasSchemaPropertyMapping('relatedLink'));
+    $this->assertTrue($node_mapping->hasSchemaPropertyMapping('relatedLink', TRUE));
 
     // Check getting additional Schema.org mappings.
     $this->assertEquals([], $node_mapping->getAdditionalMappings());

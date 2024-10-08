@@ -13,7 +13,7 @@ Introduction
 The **Schema.org Blueprints Mapping Sets module** provides the ability to create
 a set of related Schema.org types via Drush.
 
-Use cases include...
+Use cases include..
 
 - **Common** (People, events, places, and organizations)
 - **Blocks** (Teasers, quotes, and components)

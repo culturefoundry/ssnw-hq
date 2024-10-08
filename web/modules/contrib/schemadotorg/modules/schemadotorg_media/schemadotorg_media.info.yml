@@ -1,7 +1,7 @@
 name: 'Schema.org Blueprints Media'
 type: module
 description: 'Integrates the Media and Media Library module with the Schema.org Blueprints module.'
-package: 'Schema.org Blueprints Core'
+package: 'Schema.org Blueprints Entities'
 core_version_requirement: ^10.2
 configure: schemadotorg.settings.types
 schemadotorg_production: false
@@ -9,7 +9,7 @@ dependencies:
   - 'drupal:media'
   - 'schemadotorg:schemadotorg'
 
-# Information added by Drupal.org packaging script on 2024-05-20
-version: '1.0.0-alpha24'
+# Information added by Drupal.org packaging script on 2024-09-17
+version: '1.0.0-alpha26'
 project: 'schemadotorg'
-datestamp: 1716237079
+datestamp: 1726607459

@@ -1,110 +1,346 @@
 schema_property_allowed_values:
+  contactType:
+    home: Home
+    work: Work
+    cell: Cell
+  courseMode:
+    online: Online
+    onsite: Onsite
+    blended: Blended
+    synchronous: Synchronous
+    asynchronous: Asynchronous
+    full_time: Full-time
+    part_time: Part-time
   difficulty:
     easy: Easy
     medium: Medium
     hard: Hard
   dosageForm:
-    Aerosol: Aerosol
-    Bead: Bead
-    Capsule: Capsule
-    'Chewable Gel': 'Chewable Gel'
-    Cloth: Cloth
-    Concentrate: Concentrate
-    Cream: Cream
-    Crystal: Crystal
-    Disc: Disc
-    Douche: Douche
-    Dressing: Dressing
-    Elixir: Elixir
-    Emulsion: Emulsion
-    Enema: Enema
-    Extract: Extract
-    Film: Film
-    Gas: Gas
-    Gel: Gel
-    Globule: Globule
-    Granule: Granule
-    'Gum, Chewing': 'Gum, Chewing'
-    Implant: Implant
-    Inhalant: Inhalant
-    Injection: Injection
-    Jelly: Jelly
-    Kit: Kit
-    Liniment: Liniment
-    Lipstick: Lipstick
-    Liquid: Liquid
-    Lotion: Lotion
-    Lozenge: Lozenge
-    Mouthwash: Mouthwash
-    Oil: Oil
-    Ointment: Ointment
-    Paste: Paste
-    Pastille: Pastille
-    Patch: Patch
-    Pellet: Pellet
-    Pill: Pill
-    Plaster: Plaster
-    Poultice: Poultice
-    Powder: Powder
-    Ring: Ring
-    Rinse: Rinse
-    Salve: Salve
-    Shampoo: Shampoo
-    Soap: Soap
-    Solution: Solution
-    Sponge: Sponge
-    Spray: Spray
-    Stick: Stick
-    Strip: Strip
-    Suppository: Suppository
-    Suspension: Suspension
-    Swab: Swab
-    Syrup: Syrup
-    System: System
-    Tablet: Tablet
-    Tampon: Tampon
-    Tape: Tape
-    Tincture: Tincture
-    Troche: Troche
-    Wafer: Wafer
+    aerosol: Aerosol
+    bead: Bead
+    capsule: Capsule
+    chewable_gel: 'Chewable Gel'
+    cloth: Cloth
+    concentrate: Concentrate
+    cream: Cream
+    crystal: Crystal
+    disc: Disc
+    douche: Douche
+    dressing: Dressing
+    elixir: Elixir
+    emulsion: Emulsion
+    enema: Enema
+    extract: Extract
+    film: Film
+    gas: Gas
+    gel: Gel
+    globule: Globule
+    granule: Granule
+    gum_chewing: 'Gum, Chewing'
+    implant: Implant
+    inhalant: Inhalant
+    injection: Injection
+    jelly: Jelly
+    kit: Kit
+    liniment: Liniment
+    lipstick: Lipstick
+    liquid: Liquid
+    lotion: Lotion
+    lozenge: Lozenge
+    mouthwash: Mouthwash
+    oil: Oil
+    ointment: Ointment
+    paste: Paste
+    pastille: Pastille
+    patch: Patch
+    pellet: Pellet
+    pill: Pill
+    plaster: Plaster
+    poultice: Poultice
+    powder: Powder
+    ring: Ring
+    rinse: Rinse
+    salve: Salve
+    shampoo: Shampoo
+    soap: Soap
+    solution: Solution
+    sponge: Sponge
+    spray: Spray
+    stick: Stick
+    strip: Strip
+    suppository: Suppository
+    suspension: Suspension
+    swab: Swab
+    syrup: Syrup
+    system: System
+    tablet: Tablet
+    tampon: Tampon
+    tape: Tape
+    tincture: Tincture
+    troche: Troche
+    wafer: Wafer
   doseUnit:
     gram: gram
     milligram: milligram
-  contactType:
-    Home: Home
-    Work: Work
-    Cell: Cell
+  educationalLevel:
+    beginner: Beginner
+    intermediate: Intermediate
+    advanced: Advanced
+  employmentType:
+    full_time: Full-time
+    part_time: Part-time
+    contractor: Contractor
+    temporary: Temporary
+    intern: Internship
+    volunteer: Volunteer
+    per_diem: 'Per diem'
+    other: Other
   frequency:
-    Daily: Daily
-    '2 times a day': '2 times a day'
-    '3 times a day': '3 times a day'
-    '4 times a day': '4 times a day'
-    '5 times a day': '5 times a day'
-    'Every 3 hours': 'Every 3 hours'
-    'Every 6 hours': 'Every 6 hours'
-    'Every 8 hours': 'Every 8 hours'
-    'Every 12 hours': 'Every 12 hours'
-    'Every 24 hours': 'Every 24 hours'
-    'Bedtime': 'Bedtime'
+    daily: Daily
+    2_times_a_day: '2 times a day'
+    3_times_a_day: '3 times a day'
+    4_times_a_day: '4 times a day'
+    5_times_a_day: '5 times a day'
+    every_3_hours: 'Every 3 hours'
+    every_6_hours: 'Every 6 hours'
+    every_8_hours: 'Every 8 hours'
+    every_12_hours: 'Every 12 hours'
+    every_24_hours: 'Every 24 hours'
+    bedtime: Bedtime
   gender:
-    Male: Male
-    Female: Female
-    Unspecified: Unspecified
+    male: Male
+    female: Female
+    unspecified: Unspecified
   honorificPrefix:
-    Dr: Dr
-    Mrs: Mrs
-    Miss: Miss
-    Mr: Mr
-    Mx: Mx
+    dr: Dr
+    mrs: Mrs
+    miss: Miss
+    mr: Mr
+    mx: Mx
   honorificSuffix:
-    MD: M.D.
-    PHD: PhD
-    MSCSW: MSCSW
+    md: M.D.
+    phd: PhD
+    mscsw: MSCSW
+  jobLocationType:
+    onsite: On-site
+    hybrid: Hybrid
+    remote: Remote
+  learningResourceType:
+    books: Books
+    classroom: Classroom
+    digital: Digital
+    discussion: Discussion
+    film: Film
+    lectures: Lectures
+    lesson: Lesson
+    performances: Performances
+    plays: Plays
+    podcasts: Podcasts
+    social_media: 'Social media'
+    software: Software
+    textbook: Textbook
+  nationality:
+    afghan: Afghan
+    albanian: Albanian
+    algerian: Algerian
+    american: American
+    andorran: Andorran
+    angolan: Angolan
+    antiguans: Antiguans
+    argentinean: Argentinean
+    armenian: Armenian
+    australian: Australian
+    austrian: Austrian
+    azerbaijani: Azerbaijani
+    bahamian: Bahamian
+    bahraini: Bahraini
+    bangladeshi: Bangladeshi
+    barbadian: Barbadian
+    barbudans: Barbudans
+    batswana: Batswana
+    belarusian: Belarusian
+    belgian: Belgian
+    belizean: Belizean
+    beninese: Beninese
+    bhutanese: Bhutanese
+    bolivian: Bolivian
+    bosnian: Bosnian
+    brazilian: Brazilian
+    british: British
+    bruneian: Bruneian
+    bulgarian: Bulgarian
+    burkinabe: Burkinabe
+    burmese: Burmese
+    burundian: Burundian
+    cambodian: Cambodian
+    cameroonian: Cameroonian
+    canadian: Canadian
+    cape_verdean: 'Cape Verdean'
+    central_african: 'Central African'
+    chadian: Chadian
+    chilean: Chilean
+    chinese: Chinese
+    colombian: Colombian
+    comoran: Comoran
+    congolese: Congolese
+    costa_rican: 'Costa Rican'
+    croatian: Croatian
+    cuban: Cuban
+    cypriot: Cypriot
+    czech: Czech
+    danish: Danish
+    djibouti: Djibouti
+    dominican: Dominican
+    dutch: Dutch
+    east timorese: 'East Timorese'
+    ecuadorean: Ecuadorean
+    egyptian: Egyptian
+    emirian: Emirian
+    equatorial_guinean: 'Equatorial Guinean'
+    eritrean: Eritrean
+    estonian: Estonian
+    ethiopian: Ethiopian
+    fijian: Fijian
+    filipino: Filipino
+    finnish: Finnish
+    french: French
+    gabonese: Gabonese
+    gambian: Gambian
+    georgian: Georgian
+    german: German
+    ghanaian: Ghanaian
+    greek: Greek
+    grenadian: Grenadian
+    guatemalan: Guatemalan
+    guinea-bissauan: Guinea-Bissauan
+    guinean: Guinean
+    guyanese: Guyanese
+    haitian: Haitian
+    herzegovinian: Herzegovinian
+    honduran: Honduran
+    hungarian: Hungarian
+    icelander: Icelander
+    indian: Indian
+    indonesian: Indonesian
+    iranian: Iranian
+    iraqi: Iraqi
+    irish: Irish
+    israeli: Israeli
+    italian: Italian
+    ivorian: Ivorian
+    jamaican: Jamaican
+    japanese: Japanese
+    jordanian: Jordanian
+    kazakhstani: Kazakhstani
+    kenyan: Kenyan
+    kittian_and_nevisian: 'Kittian and Nevisian'
+    kuwaiti: Kuwaiti
+    kyrgyz: Kyrgyz
+    laotian: Laotian
+    latvian: Latvian
+    lebanese: Lebanese
+    liberian: Liberian
+    libyan: Libyan
+    liechtensteiner: Liechtensteiner
+    lithuanian: Lithuanian
+    luxembourger: Luxembourger
+    macedonian: Macedonian
+    malagasy: Malagasy
+    malawian: Malawian
+    malaysian: Malaysian
+    maldivan: Maldivan
+    malian: Malian
+    maltese: Maltese
+    marshallese: Marshallese
+    mauritanian: Mauritanian
+    mauritian: Mauritian
+    mexican: Mexican
+    micronesian: Micronesian
+    moldovan: Moldovan
+    monacan: Monacan
+    mongolian: Mongolian
+    moroccan: Moroccan
+    mosotho: Mosotho
+    motswana: Motswana
+    mozambican: Mozambican
+    namibian: Namibian
+    nauruan: Nauruan
+    nepalese: Nepalese
+    new_zealander: 'New Zealander'
+    ni_vanuatu: Ni-Vanuatu
+    nicaraguan: Nicaraguan
+    nigerien: Nigerien
+    north_korean: 'North Korean'
+    northern_irish: 'Northern Irish'
+    norwegian: Norwegian
+    omani: Omani
+    pakistani: Pakistani
+    palauan: Palauan
+    panamanian: Panamanian
+    papua_new_guinean: 'Papua New Guinean'
+    paraguayan: Paraguayan
+    peruvian: Peruvian
+    polish: Polish
+    portuguese: Portuguese
+    qatari: Qatari
+    romanian: Romanian
+    russian: Russian
+    rwandan: Rwandan
+    saint lucian: 'Saint Lucian'
+    salvadoran: Salvadoran
+    samoan: Samoan
+    san_marinese: 'San Marinese'
+    sao_tomean: 'Sao Tomean'
+    saudi: Saudi
+    scottish: Scottish
+    senegalese: Senegalese
+    serbian: Serbian
+    seychellois: Seychellois
+    sierra_leonean: 'Sierra Leonean'
+    singaporean: Singaporean
+    slovakian: Slovakian
+    slovenian: Slovenian
+    solomon islander: 'Solomon Islander'
+    somali: Somali
+    south african: 'South African'
+    south korean: 'South Korean'
+    spanish: Spanish
+    sri_lankan: 'Sri Lankan'
+    sudanese: Sudanese
+    surinamer: Surinamer
+    swazi: Swazi
+    swedish: Swedish
+    swiss: Swiss
+    syrian: Syrian
+    taiwanese: Taiwanese
+    tajik: Tajik
+    tanzanian: Tanzanian
+    thai: Thai
+    togolese: Togolese
+    tongan: Tongan
+    trinidadian_or_tobagonian: 'Trinidadian or Tobagonian'
+    tunisian: Tunisian
+    turkish: Turkish
+    tuvaluan: Tuvaluan
+    ugandan: Ugandan
+    ukrainian: Ukrainian
+    uruguayan: Uruguayan
+    uzbekistani: Uzbekistani
+    venezuelan: Venezuelan
+    vietnamese: Vietnamese
+    welsh: Welsh
+    yemenite: Yemenite
+    zambian: Zambian
+    zimbabwean: Zimbabwean
   priceRange:
-    '$': $
-    '$$': $$
-    '$$$': $$$
-    '$$$$': $$$$
+    $: $
+    $$: $$
+    $$$: $$$
+    $$$$: $$$$
+  speechToTextMarkup:
+    gaep: 'General American English Pronunciation (GAEP)'
+    ipa: 'International Phonetic Alphabet (IPA)'
+    ssml: 'Speech Synthesis Markup Language (SSML)'
   starRating:
     1: ★
     2: ★★
@@ -119,15 +355,36 @@ schema_property_allowed_values:
     double: Double
     semi_double: 'Semi double'
     single: Single
+  Car--bodyType:
+    convertible: Convertible
+    coupe: Coupe
+    crossover: Crossover
+    full_size_van: 'Full size van'
+    hatchback: Hatchback
+    minivan: Minivan
+    sedan: Sedan
+    suv: SYV
+    truck: Truck
   SpecialAnnouncement--category:
     information: Information
     condition: Condition
     warning: Warning
     emergency: Emergency
     error: Error
-schema_property_allowed_values_suffixes:
-  suitableForDiet: Diet
+schema_property_allowed_values_remove:
+  driveWheelConfiguration: Configuration
+  eventAttendanceMode: 'Event Attendance Mode'
+  eventStatus: Event
+  itemCondition: Condition
   hasHealthAspect: 'Health Aspect'
+  suitableForDiet: Diet
+allowed_value_text:
+  - bodyType
+  - courseMode
+  - dosageForm
+  - employmentType
+  - frequency
+  - typeOfBed
 allowed_value_uris:
   condition: 'https://www.wikidata.org/wiki/Q813912'
   emergency: 'https://www.wikidata.org/wiki/Q5070802'

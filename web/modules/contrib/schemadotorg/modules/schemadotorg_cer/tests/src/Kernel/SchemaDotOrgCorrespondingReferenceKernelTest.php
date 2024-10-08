@@ -78,7 +78,7 @@ class SchemaDotOrgCorrespondingReferenceKernelTest extends SchemaDotOrgEntityKer
     // Reload the updated corresponding person node.
     $person_node = Node::load($person_node->id());
 
-    // Check that there is no a corresponding entity reference..
+    // Check that there is no a corresponding entity reference.
     $this->assertEquals($page_node->id(), $person_node->schema_subject_of->target_id);
     $this->assertEquals($person_node->id(), $page_node->schema_about->target_id);
 

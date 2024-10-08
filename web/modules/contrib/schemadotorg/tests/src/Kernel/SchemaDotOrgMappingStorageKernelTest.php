@@ -116,7 +116,8 @@ class SchemaDotOrgMappingStorageKernelTest extends SchemaDotOrgEntityKernelTestB
     $this->assertEquals([], $this->mappingStorage->getRangeIncludesTargetBundles('node', ['Thing' => 'Thing']));
     $this->assertEquals(['image_object' => 'image_object'], $this->mappingStorage->getRangeIncludesTargetBundles('node', ['MediaObject' => 'MediaObject']));
     $this->assertEquals(['image_object' => 'image_object'], $this->mappingStorage->getRangeIncludesTargetBundles('node', ['ImageObject' => 'ImageObject']));
-    $this->assertEquals(['thing' => 'thing'], $this->mappingStorage->getRangeIncludesTargetBundles('node', ['WebPage' => 'WebPage'], FALSE));
+    $this->assertEquals(['thing' => 'thing'], $this->mappingStorage->getRangeIncludesTargetBundles('node', ['WebPage' => 'WebPage'], ['ignore_thing' => FALSE]));
+    $this->assertEquals([], $this->mappingStorage->getRangeIncludesTargetBundles('node', ['WebPage' => 'WebPage'], ['ignore_additional_mappings' => TRUE]));
 
     // Check parsing a type.
     $this->assertEquals(

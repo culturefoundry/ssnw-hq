@@ -1,7 +1,25 @@
 types:
-  node:Person: { }
-  node:Event: { }
+  node:Person:
+    additional_mappings:
+      WebPage: false
+  node:Event:
+    additional_mappings:
+      WebPage:
+        schema_properties:
+          hasPart:
+            label: 'hasPart (Custom label)'
+          primaryImageOfPage: false
+          relatedLink: false
+          significantLink: false
   node:Thing: { }
+  node:Organization:
+    properties:
+      member:
+        type: 'field_ui:entity_reference:node'
+        schema_types:
+          Patient: Patient
+        excluded_schema_types:
+          Organization: Organization
   # Define custom mapping defaults.
   node:custom_thing:Thing:
     entity:
@@ -17,6 +35,5 @@ types:
         label: Custom
         group: general
         group_field_weight: -100
-        field_values:
-          default_value:
-            - value: 'Custom value'
+        default_value:
+          - value: 'Custom value'

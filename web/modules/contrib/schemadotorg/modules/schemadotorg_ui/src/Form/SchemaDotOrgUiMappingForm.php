@@ -245,7 +245,13 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
         foreach ($required_element_names as $required_element_name) {
           if (empty($property_values['field'][static::ADD_FIELD][$required_element_name])) {
             $element = NestedArray::getValue($form, ['mapping', 'properties', $property_name, 'field', static::ADD_FIELD, $required_element_name]);
-            $form_state->setError($element, $this->t('@name field is required for the @property property mapping.', ['@name' => $element['#title'], '@property' => $property_name]));
+            $message = $this->t('@name field is required for the @property property mapping.', ['@name' => $element['#title'], '@property' => $property_name]);
+            if ($element) {
+              $form_state->setError($element, $message);
+            }
+            else {
+              $form_state->setErrorByName('', $message);
+            }
           }
         }
 
@@ -256,7 +262,12 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
             $element = NestedArray::getValue($form, ['mapping', 'properties', $property_name, 'field', static::ADD_FIELD, 'machine_name']);
             $t_args = ['%name' => $field_name];
             $message = $this->t('A %name field already exists. Please enter a different name or select the existing field.', $t_args);
-            $form_state->setError($element, $message);
+            if ($element) {
+              $form_state->setError($element, $message);
+            }
+            else {
+              $form_state->setErrorByName('', $message);
+            }
           }
         }
       }
@@ -737,7 +748,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     }
 
     // Get Schema.org property field type options with optgroups.
-    $field_type_options = $this->schemaEntityFieldManager->getPropertyFieldTypeOptions($schema_type, $property);
+    $field_type_options = $this->schemaEntityFieldManager->getPropertyFieldTypeOptions($this->getTargetEntityTypeId(), $schema_type, $property);
 
     // NOTE:
     // Setting .form-required via #label_attributes instead of using

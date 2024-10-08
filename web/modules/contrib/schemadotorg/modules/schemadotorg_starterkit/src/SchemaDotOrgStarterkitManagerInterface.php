@@ -55,6 +55,17 @@ interface SchemaDotOrgStarterkitManagerInterface {
   public function getStarterkitSettings(string $module): FALSE|array;
 
   /**
+   * Get Schema.org starter kit settings from module's YAML file.
+   *
+   * @param string $module
+   *   The module.
+   *
+   * @return false|array
+   *   Schema.org starter kit settings for a module.
+   */
+  public function getStarterkitSettingsData(string $module): FALSE|array;
+
+  /**
    * Install a Schema.org starter kit.
    *
    * @param string $module

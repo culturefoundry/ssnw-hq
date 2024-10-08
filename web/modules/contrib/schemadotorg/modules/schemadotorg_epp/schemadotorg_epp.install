@@ -7,6 +7,8 @@
 
 declare(strict_types=1);
 
+use Drupal\Component\Serialization\Yaml;
+
 /**
  * Implements hook_install().
  */
@@ -25,4 +27,16 @@ function schemadotorg_epp_install(bool $is_syncing): void {
     'default_component_weights',
     ['links' => -100] + $mapping_type->get('default_component_weights')
   )->save();
+}
+
+/**
+ * Issue #3454315: Improve Schema.org Blueprints Entity Prepopulate module node links support.
+ */
+function schemadotorg_epp_update_10000(): void {
+  $module_path = \Drupal::service('extension.list.module')->getPath('schemadotorg_epp');
+  $data = Yaml::decode(file_get_contents($module_path . '/config/install/schemadotorg_epp.settings.yml'));
+  \Drupal::configFactory()
+    ->getEditable('schemadotorg_epp.settings')
+    ->set('node_links', $data['node_links'])
+    ->save();
 }

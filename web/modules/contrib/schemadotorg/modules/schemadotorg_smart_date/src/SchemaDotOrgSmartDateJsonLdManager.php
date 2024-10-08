@@ -264,7 +264,7 @@ class SchemaDotOrgSmartDateJsonLdManager implements SchemaDotOrgSmartDateJsonLdM
     // Get the rule's parent entity first field item.
     $field_name = $rule->field_name->value;
     $entity = $rule->getParentEntity();
-    $item = $entity->{$field_name}->first();
+    $item = $entity->get($field_name)->first();
 
     // Use the first field item to build the Schedule object.
     $value = $this->getScheduleFromFieldItem($item);

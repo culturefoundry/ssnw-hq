@@ -22,32 +22,20 @@ function schemadotorg_auto_entitylabel_schemadotorg_mapping_insert(SchemaDotOrgM
   /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager */
   $schema_type_manager = \Drupal::service('schemadotorg.schema_type_manager');
 
-  // Get the Schema.org type's auto entity label settings.
-  $schema_types = $mapping->getAllSchemaTypes();
-  $default_types = \Drupal::config('schemadotorg_auto_entitylabel.settings')
-    ->get('default_types');
-  $settings = NULL;
-  foreach ($schema_types as $schema_type) {
-    foreach ($default_types as $default_type => $default_type_settings) {
-      if ($schema_type_manager->isSubTypeOf($schema_type, $default_type)) {
-        $settings = $default_type_settings;
-        break;
-      }
-    }
-  }
-  if (empty($settings)) {
-    return;
-  }
-
-  // Get entity type and bundle.
-  $entity_type_id = $mapping->getTargetEntityTypeId();
-  $bundle = $mapping->getTargetBundle();
-
   // Make sure the target entity type support bundling.
   // Comparing the entity type id and bundle is the easiest way to make this
   // determination. For example, for users the entity type and bundle are
   // the same.
-  if ($entity_type_id === $bundle) {
+  if ($mapping->getTargetEntityTypeId() === $mapping->getTargetBundle()) {
+    return;
+  }
+
+  // Get the Schema.org mapping's auto entity label settings.
+  $default_types = \Drupal::config('schemadotorg_auto_entitylabel.settings')
+    ->get('default_types');
+  $settings = $schema_type_manager->getSetting($default_types, $mapping);
+  ;
+  if (empty($settings)) {
     return;
   }
 
@@ -58,6 +46,10 @@ function schemadotorg_auto_entitylabel_schemadotorg_mapping_insert(SchemaDotOrgM
     'escape' => FALSE,
     'preserve_titles' => FALSE,
   ];
+
+  // Get entity type and bundle.
+  $entity_type_id = $mapping->getTargetEntityTypeId();
+  $bundle = $mapping->getTargetBundle();
 
   // Replace pattern Schema.org properties with tokens.
   $pattern = $values['pattern'];
@@ -80,7 +72,8 @@ function schemadotorg_auto_entitylabel_schemadotorg_mapping_insert(SchemaDotOrgM
     ->getEntityType()
     ->getBundleEntityType();
   /** @var \Drupal\Core\Config\Entity\ConfigEntityTypeInterface $bundle_entity_type */
-  $bundle_entity_type = \Drupal::entityTypeManager()->getStorage($bundle_entity_type_id)
+  $bundle_entity_type = \Drupal::entityTypeManager()
+    ->getStorage($bundle_entity_type_id)
     ->getEntityType();
   $config_prefix = $bundle_entity_type->getConfigPrefix();
   $config->set('dependencies', ['config' => [$config_prefix . '.' . $bundle]]);
@@ -134,11 +127,26 @@ function schemadotorg_auto_entitylabel_form_schemadotorg_types_settings_form_alt
   ];
   $form['schemadotorg_auto_entitylabel']['default_types'] = [
     '#type' => 'schemadotorg_settings',
-    '#title' => t('Default Schema.org type auto entity labels'),
-    '#description' => t('Enter default Schema.org type auto entity label settings.'),
+    '#title' => t('Default types auto entity labels'),
+    '#description' => t('Enter default types auto entity label settings.'),
     '#description_link' => 'types',
     '#example' => implode(PHP_EOL, $example) . "
 SchemaType:
+  status: 1
+  pattern: '[propertyName01] [propertyName02]'
+bundle:
+  status: 1
+  pattern: '[propertyName01] [propertyName02]'
+SchemaType--bundle:
+  status: 1
+  pattern: '[propertyName01] [propertyName02]'
+entity_type_id--SchemaType:
+  status: 1
+  pattern: '[propertyName01] [propertyName02]'
+entity_type_id--bundle:
+  status: 1
+  pattern: '[propertyName01] [propertyName02]'
+entity_type_id--SchemaType--bundle:
   status: 1
   pattern: '[propertyName01] [propertyName02]'
 ",

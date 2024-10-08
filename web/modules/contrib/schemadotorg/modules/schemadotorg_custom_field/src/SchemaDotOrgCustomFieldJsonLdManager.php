@@ -7,6 +7,7 @@ namespace Drupal\schemadotorg_custom_field;
 use Drupal\Core\Field\FieldItemInterface;
 use Drupal\schemadotorg\SchemaDotOrgNamesInterface;
 use Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface;
+use Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdManagerInterface;
 
 /**
  * Schema.org Custom Field JSON-LD manager.
@@ -22,11 +23,14 @@ class SchemaDotOrgCustomFieldJsonLdManager implements SchemaDotOrgCustomFieldJso
    *   The Schema.org names service.
    * @param \Drupal\schemadotorg_custom_field\SchemaDotOrgCustomFieldManagerInterface $schemaCustomFieldManager
    *   The Schema.org Custom Field manager.
+   * @param \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdManagerInterface|null $schemaJsonLdManager
+   *   The Schema.org JSON-LD manager service.
    */
   public function __construct(
     protected SchemaDotOrgSchemaTypeManagerInterface $schemaTypeManager,
     protected SchemaDotOrgNamesInterface $schemaNames,
     protected SchemaDotOrgCustomFieldManagerInterface $schemaCustomFieldManager,
+    protected ?SchemaDotOrgJsonLdManagerInterface $schemaJsonLdManager = NULL,
   ) {}
 
   /**
@@ -40,17 +44,25 @@ class SchemaDotOrgCustomFieldJsonLdManager implements SchemaDotOrgCustomFieldJso
 
     $field_name = $item->getFieldDefinition()->getName();
     $mapping_schema_type = $mapping->getSchemaType();
-    $schema_property = $mapping->getSchemaPropertyMapping($field_name);
+    $schema_property = $mapping->getSchemaPropertyMapping($field_name, TRUE);
 
     // Check to see if the property has custom field settings.
-    $default_schema_properties = $this->schemaCustomFieldManager->getDefaultProperties($mapping_schema_type, $schema_property);
-    if (!$default_schema_properties) {
+    $custom_field_settings = $this->schemaCustomFieldManager->getDefaultProperties(
+      entity_type_id: $mapping->getTargetEntityTypeId(),
+      bundle: $mapping->getTargetBundle(),
+      schema_type: $mapping_schema_type,
+      schema_property: $schema_property,
+    );
+    if (!$custom_field_settings) {
       return;
     }
 
+    $custom_field_schema_type = $custom_field_settings['schema_type'];
     $data = [
-      '@type' => $default_schema_properties['type'],
+      '@type' => $custom_field_schema_type,
     ];
+
+    // Append custom field properties to the Schema.org data.
     $values = $item->getValue();
     foreach ($values as $item_key => $item_value) {
       $item_property = $this->schemaNames->snakeCaseToCamelCase($item_key);
@@ -60,13 +72,23 @@ class SchemaDotOrgCustomFieldJsonLdManager implements SchemaDotOrgCustomFieldJso
         continue;
       }
 
-      $unit = $this->schemaTypeManager->getPropertyUnit($item_property, $item_value);
-      if ($unit) {
-        $item_value .= ' ' . $unit;
+      $prefix = $custom_field_settings['schema_properties'][$item_property]['prefix'] ?? NULL;
+      if ($prefix) {
+        $item_value = $prefix . $item_value;
       }
 
-      $data[$item_property] = $item_value;
+      $suffix = $custom_field_settings['schema_properties'][$item_property]['suffix'] ?? NULL;
+      if ($suffix) {
+        $item_value .= $suffix;
+      }
+
+      $data[$item_property] = $this->schemaJsonLdManager->getSchemaPropertyValueDefaultSchemaType(
+        $custom_field_schema_type,
+        $item_property,
+        $item_value
+      );
     }
+
     $value = $data;
   }
 

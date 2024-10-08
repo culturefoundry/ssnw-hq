@@ -7,6 +7,7 @@
 
 declare(strict_types=1);
 
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\paragraphs\ParagraphsTypeInterface;
 
@@ -58,12 +59,21 @@ function schemadotorg_layout_paragraphs_schemadotorg_property_field_alter(
 }
 
 /**
- * Implements hook_ENTITY_TYPE_presave().
+ * Implements hook_ENTITY_TYPE_create().
  */
-function schemadotorg_layout_paragraphs_paragraphs_type_presave(ParagraphsTypeInterface $paragraphs_type): void {
+function schemadotorg_layout_paragraphs_paragraphs_type_create(ParagraphsTypeInterface $paragraphs_type): void {
   /** @var \Drupal\schemadotorg_layout_paragraphs\SchemaDotOrgLayoutParagraphsManagerInterface $layout_paragraphs_manager */
   $layout_paragraphs_manager = \Drupal::service('schemadotorg_layout_paragraphs.manager');
-  $layout_paragraphs_manager->paragraphsTypePresave($paragraphs_type);
+  $layout_paragraphs_manager->paragraphsTypeCreate($paragraphs_type);
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_presave().
+ */
+function schemadotorg_layout_paragraphs_entity_view_display_presave(EntityViewDisplayInterface $view_display): void {
+  /** @var \Drupal\schemadotorg_layout_paragraphs\SchemaDotOrgLayoutParagraphsManagerInterface $layout_paragraphs_manager */
+  $layout_paragraphs_manager = \Drupal::service('schemadotorg_layout_paragraphs.manager');
+  $layout_paragraphs_manager->entityDisplayPreSave($view_display);
 }
 
 /* ************************************************************************** */
@@ -101,6 +111,17 @@ function schemadotorg_layout_paragraphs_form_schemadotorg_types_settings_form_al
 - paragraph_type01
 - paragraph_type02
 - paragraph_type03
+',
+  ];
+  $form['schemadotorg_layout_paragraphs']['default_view_display_components'] = [
+    '#type' => 'schemadotorg_settings',
+    '#title' => t('Default view_display components'),
+    '#description' => t('Enter the components that should be included in the default view display when layout paragraphs is enabled.')
+    . ' '
+    . t('Leave blank to include a components in the default view display.'),
+    '#example' => '
+- schemaProperty
+- component_name
 ',
   ];
 }

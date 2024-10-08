@@ -5,7 +5,6 @@ dependencies:
     - core.entity_view_mode.node.teaser
     - field.field.node.organization.body
     - field.field.node.organization.schema_image
-    - field.field.node.organization.schema_same_as
     - node.type.organization
   module:
     - text
@@ -21,7 +20,7 @@ content:
     settings:
       trim_length: 600
     third_party_settings: {  }
-    weight: 12
+    weight: 17
     region: content
   links:
     settings: {  }
@@ -30,4 +29,3 @@ content:
     region: content
 hidden:
   schema_image: true
-  schema_same_as: true

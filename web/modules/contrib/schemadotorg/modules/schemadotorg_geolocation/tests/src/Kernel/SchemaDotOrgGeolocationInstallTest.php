@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\schemadotorg_geolocation\Kernel;
 
-use Drupal\Tests\token\Kernel\KernelTestBase;
+use Drupal\Tests\token\Kernel\TokenKernelTestBase;
 
 require_once __DIR__ . '/../../../schemadotorg_geolocation.install';
 
@@ -15,7 +15,7 @@ require_once __DIR__ . '/../../../schemadotorg_geolocation.install';
  * @covers schemadotorg_geolocation_uninstall()
  * @group schemadotorg
  */
-class SchemaDotOrgGeolocationInstallTest extends KernelTestBase {
+class SchemaDotOrgGeolocationInstallTest extends TokenKernelTestBase {
 
   /**
    * {@inheritdoc}

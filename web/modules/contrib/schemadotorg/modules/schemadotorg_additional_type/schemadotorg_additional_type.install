@@ -1,0 +1,28 @@
+<?php
+
+/**
+ * @file
+ * Installation hooks for the Schema.org Blueprints Additional Type module.
+ */
+
+declare(strict_types=1);
+
+/**
+ * Issue #3460229: Add the ability to require additional type before displaying the node edit form.
+ */
+function schemadotorg_additional_type_update_10000(): void {
+  \Drupal::configFactory()
+    ->getEditable('schemadotorg_additional_type.settings')
+    ->set('required_types', ['Event'])
+    ->save();
+}
+
+/**
+ * Issue #3461525: Use snake case for additional type values.
+ */
+function schemadotorg_additional_type_update_10001(): void {
+  \Drupal::configFactory()
+    ->getEditable('schemadotorg_additional_type.settings')
+    ->set('use_snake_case', TRUE)
+    ->save();
+}

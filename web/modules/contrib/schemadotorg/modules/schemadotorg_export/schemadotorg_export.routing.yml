@@ -42,9 +42,26 @@ schemadotorg_report.type.export:
   requirements:
     _permission: 'administer schemadotorg'
 
-schemadotorg_report.relationships.export:
-  path: '/admin/reports/schemadotorg/relationships/export'
+schemadotorg_report.relationships.overview.export:
+  path: '/admin/reports/schemadotorg/relationships/overview/export'
   defaults:
     _controller: '\Drupal\schemadotorg_export\Controller\SchemaDotOrgExportReportRelationshipsController::index'
+    format: 'overview'
+  requirements:
+    _permission: 'administer schemadotorg'
+
+schemadotorg_report.relationships.targets.export:
+  path: '/admin/reports/schemadotorg/relationships/targets/export'
+  defaults:
+    _controller: '\Drupal\schemadotorg_export\Controller\SchemaDotOrgExportReportRelationshipsController::index'
+    format: 'targets'
+  requirements:
+    _permission: 'administer schemadotorg'
+
+schemadotorg_pathauto.report.export:
+  path: '/admin/reports/schemadotorg/docs/paths/export'
+  defaults:
+    _controller: '\Drupal\schemadotorg_export\Controller\SchemaDotOrgExportReportPathsController::index'
+    format: 'targets'
   requirements:
     _permission: 'administer schemadotorg'

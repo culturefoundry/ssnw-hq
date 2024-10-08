@@ -33,7 +33,7 @@ content:
     settings:
       trim_length: 600
     third_party_settings: {  }
-    weight: 13
+    weight: 18
     region: content
   links:
     settings: {  }
@@ -57,7 +57,7 @@ content:
       image_loading:
         attribute: lazy
     third_party_settings: {  }
-    weight: 5
+    weight: 8
     region: content
 hidden:
   schema_cooking_method: true

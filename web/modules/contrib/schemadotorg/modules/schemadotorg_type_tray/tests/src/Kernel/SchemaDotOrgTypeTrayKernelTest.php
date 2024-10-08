@@ -46,15 +46,14 @@ class SchemaDotOrgTypeTrayKernelTest extends SchemaDotOrgEntityKernelTestBase {
     \Drupal::moduleHandler()->loadInclude('schemadotorg_type_tray', 'install');
     schemadotorg_type_tray_install(FALSE);
     $expected_categories = [
-      'common' => 'Common',
-      'web' => 'Web',
+      'people' => 'People',
+      'page' => 'Page',
       'content' => 'Content',
       'organization' => 'Organization',
-      'hospitality' => 'Hospitality',
       'education' => 'Education',
+      'hospitality' => 'Hospitality',
       'food' => 'Food',
-      'podcast' => 'Podcast',
-      'tv' => 'TV',
+      'media' => 'Media',
       'medical_organization' => 'Medical organization',
       'medical_information' => 'Medical information',
     ];
@@ -63,11 +62,11 @@ class SchemaDotOrgTypeTrayKernelTest extends SchemaDotOrgEntityKernelTestBase {
     // Check that type tray settings are added to the person node type.
     $mapping = $this->createSchemaEntity('node', 'Person');
     $expected_settings = [
-      'type_category' => 'common',
+      'type_category' => 'people',
       'type_thumbnail' => '',
       'type_icon' => "$icon_path/person.png",
       'existing_nodes_link_text' => 'View existing <em class="placeholder">Person</em> content',
-      'type_weight' => -19,
+      'type_weight' => -20,
     ];
     $node_type = $mapping->getTargetEntityBundleEntity();
     $this->assertEquals($expected_settings, $node_type->getThirdPartySettings('type_tray'));
@@ -79,11 +78,11 @@ class SchemaDotOrgTypeTrayKernelTest extends SchemaDotOrgEntityKernelTestBase {
       ->save();
     $mapping = $this->createSchemaEntity('node', 'Event');
     $expected_settings = [
-      'type_category' => 'common',
+      'type_category' => 'content',
       'type_thumbnail' => '',
       'type_icon' => "$icon_path/event.png",
       'existing_nodes_link_text' => '',
-      'type_weight' => -18,
+      'type_weight' => -19,
     ];
     $node_type = $mapping->getTargetEntityBundleEntity();
     $this->assertEquals($expected_settings, $node_type->getThirdPartySettings('type_tray'));

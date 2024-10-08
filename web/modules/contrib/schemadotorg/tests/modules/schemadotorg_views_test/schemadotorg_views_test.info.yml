@@ -8,7 +8,7 @@ dependencies:
   - 'drupal:node'
   - 'schemadotorg:schemadotorg'
 
-# Information added by Drupal.org packaging script on 2024-05-20
-version: '1.0.0-alpha24'
+# Information added by Drupal.org packaging script on 2024-09-17
+version: '1.0.0-alpha26'
 project: 'schemadotorg'
-datestamp: 1716237078
+datestamp: 1726607459

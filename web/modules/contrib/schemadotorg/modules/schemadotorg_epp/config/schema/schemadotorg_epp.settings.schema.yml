@@ -10,7 +10,7 @@ schemadotorg_epp.settings:
         label: 'Schema.org types'
         sequence:
           type: string
-          label: 'Schema.org property/type.'
+          label: 'Schema.org type node link'
     node_links_dropdown:
       type: boolean
       label: 'Display node links as a dropdown'

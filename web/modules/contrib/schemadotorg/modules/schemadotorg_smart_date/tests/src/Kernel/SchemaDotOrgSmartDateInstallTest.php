@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\schemadotorg_smart_date\Kernel;
 
-use Drupal\Tests\token\Kernel\KernelTestBase;
+use Drupal\Tests\token\Kernel\TokenKernelTestBase;
 
 require_once __DIR__ . '/../../../schemadotorg_smart_date.install';
 
@@ -13,7 +13,7 @@ require_once __DIR__ . '/../../../schemadotorg_smart_date.install';
  *
  * @group schemadotorg
  */
-class SchemaDotOrgSmartDateInstallTest extends KernelTestBase {
+class SchemaDotOrgSmartDateInstallTest extends TokenKernelTestBase {
 
   /**
    * {@inheritdoc}

@@ -26,7 +26,7 @@ class SchemaDotOrgDiagramBlockTest extends SchemaDotOrgBrowserTestBase {
   protected static $modules = ['schemadotorg_cer', 'schemadotorg_diagram'];
 
   /**
-   * Test Schema.org diagram organization..
+   * Test Schema.org diagram organization.
    */
   public function testOrganizationDiagram(): void {
     $assert = $this->assertSession();

@@ -1,5 +1,5 @@
 patterns:
-  node--Thing: '[node:schemadotorg:base-path]/[node:title]'
+  node--Thing: '[node:schemadotorg:base-path]/[node:schemadotorg:alternate-name]'
 base_paths:
   Recipe: recipes
   Restaurants: restaurants
@@ -12,7 +12,7 @@ base_paths:
   PodcastSeries: podcasts
   HealthTopicContent: topics
   ResearchOrganization: research
-  EducationOrganization: education
+  EducationalOrganization: education
   LocalBusiness: businesses
   MedicalOrganization: medical/organization
   MedicalBusiness: medical/business
