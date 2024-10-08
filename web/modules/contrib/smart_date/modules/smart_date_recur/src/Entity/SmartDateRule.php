@@ -945,8 +945,8 @@ class SmartDateRule extends ContentEntityBase {
     if ($element['repeat']['#value'] != 'DAILY' || empty($element['repeat-advanced']['byday']['#value'])) {
       return;
     }
-    $start_time = $element['value']['#value']['object'];
-    $end_time = $element['end_value']['#value']['object'];
+    $start_time = $element['value']['#value']['object'] ?? NULL;
+    $end_time = $element['end_value']['#value']['object'] ?? NULL;
     if (!($start_time instanceof DrupalDateTime) || !($end_time instanceof DrupalDateTime)) {
       // Unable to process if an invalid start or end.
       return;

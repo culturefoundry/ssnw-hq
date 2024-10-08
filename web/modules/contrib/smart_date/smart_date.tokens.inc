@@ -129,6 +129,19 @@ function smart_date_tokens($type, $tokens, array $data, array $options, Bubbleab
         $format_value = 'default';
       }
       $format = SmartDateFormat::load($format_value);
+      if (!$format) {
+        \Drupal::messenger()->addError(t('Unable to load specified Smart Date format: @format', ['@format' => $format_value]));
+        if ($format_value === 'default') {
+          return $replacements;
+        }
+        else {
+          $format = SmartDateFormat::load('default');
+          if (!$format) {
+            \Drupal::messenger()->addError(t('Unable to load default Smart Date format'));
+            return $replacements;
+          }
+        }
+      }
       $settings = $format->getOptions();
       // Apply the specified smart date format.
       // If a property was specified, only use that.

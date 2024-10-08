@@ -4,13 +4,14 @@ namespace Drupal\smart_date;
 
 use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\Core\Field\FieldItemListInterface;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
 
 /**
  * Provides friendly methods for smart date range.
  */
 trait SmartDatePluginTrait {
 
-  use SmartDateTrait;
+  use SmartDateTrait, StringTranslationTrait;
 
   /**
    * The parent entity on which the dates exist.
