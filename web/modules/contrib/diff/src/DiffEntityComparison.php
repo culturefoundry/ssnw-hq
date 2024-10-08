@@ -5,10 +5,10 @@ namespace Drupal\diff;
 use Drupal\Component\Diff\Diff;
 use Drupal\Component\Plugin\PluginManagerInterface;
 use Drupal\Component\Utility\Xss;
-use Drupal\content_moderation\ModerationInformationInterface;
 use Drupal\Core\Config\ConfigFactory;
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\RevisionLogInterface;
+use Drupal\content_moderation\ModerationInformationInterface;
 
 /**
  * Entity comparison service that prepares a diff of a pair of entities.
@@ -214,7 +214,7 @@ class DiffEntityComparison {
    *   Array of rows usable with #type => 'table' returned by the core diff
    *   formatter when format a diff.
    */
-  public function getRows($a, $b, $show_header = FALSE, array &$line_stats = NULL) {
+  public function getRows($a, $b, $show_header = FALSE, ?array &$line_stats = NULL) {
     if (!isset($line_stats)) {
       $line_stats = [
         'counter' => ['x' => 0, 'y' => 0],
@@ -270,7 +270,7 @@ class DiffEntityComparison {
    * @return string
    *   The revision log message.
    */
-  public function getRevisionDescription(ContentEntityInterface $revision, ContentEntityInterface $previous_revision = NULL) {
+  public function getRevisionDescription(ContentEntityInterface $revision, ?ContentEntityInterface $previous_revision = NULL) {
     $revision_summary = '';
     // Check if the revision has a revision log message.
     if ($revision instanceof RevisionLogInterface) {

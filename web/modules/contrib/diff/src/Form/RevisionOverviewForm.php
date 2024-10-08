@@ -364,7 +364,7 @@ class RevisionOverviewForm extends FormBase {
    * @return array
    *   Configuration for revision.
    */
-  protected function buildRevision(Link $link, $username, ContentEntityInterface $revision, ContentEntityInterface $previous_revision = NULL) {
+  protected function buildRevision(Link $link, $username, ContentEntityInterface $revision, ?ContentEntityInterface $previous_revision = NULL) {
     return [
       '#type' => 'inline_template',
       '#template' => '{% trans %}{{ date }} by {{ username }}{% endtrans %}{% if message %}<p class="revision-log">{{ message }}</p>{% endif %}',
@@ -388,7 +388,8 @@ class RevisionOverviewForm extends FormBase {
   public function validateForm(array &$form, FormStateInterface $form_state) {
     $input = $form_state->getUserInput();
 
-    if (count($form_state->getValue('node_revisions_table')) <= 1) {
+    $revisions = $form_state->getValue('node_revisions_table');
+    if (!is_countable($revisions) || count($revisions) <= 1) {
       $form_state->setErrorByName('node_revisions_table', $this->t('Multiple revisions are needed for comparison.'));
     }
     elseif (!isset($input['radios_left']) || !isset($input['radios_right'])) {

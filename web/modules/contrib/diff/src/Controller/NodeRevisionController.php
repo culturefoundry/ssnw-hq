@@ -3,6 +3,8 @@
 namespace Drupal\diff\Controller;
 
 use Drupal\node\NodeInterface;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Returns responses for Node Revision routes.
@@ -22,6 +24,9 @@ class NodeRevisionController extends PluginRevisionController {
    *   Render array containing the revisions table for $node.
    */
   public function revisionOverview(NodeInterface $node) {
+    if (!$node->access('view')) {
+      throw new AccessDeniedHttpException();
+    }
     return $this->formBuilder()->getForm('Drupal\diff\Form\RevisionOverviewForm', $node);
   }
 
@@ -43,6 +48,9 @@ class NodeRevisionController extends PluginRevisionController {
    *   Table showing the diff between the two node revisions.
    */
   public function compareNodeRevisions(NodeInterface $node, $left_revision, $right_revision, $filter) {
+    if (!$node->access('view')) {
+      throw new AccessDeniedHttpException();
+    }
     $storage = $this->entityTypeManager()->getStorage('node');
     $route_match = \Drupal::routeMatch();
     $left_revision = $storage->loadRevision($left_revision);

@@ -3,8 +3,8 @@
 namespace Drupal\Tests\diff\Functional;
 
 use Drupal\Core\Url;
-use Drupal\entity_test\Entity\EntityTestRev;
 use Drupal\Tests\BrowserTestBase;
+use Drupal\entity_test\Entity\EntityTestRev;
 
 /**
  * Tests the diff controller.

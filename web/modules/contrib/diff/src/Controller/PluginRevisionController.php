@@ -13,6 +13,8 @@ use Drupal\diff\DiffEntityComparison;
 use Drupal\diff\DiffLayoutManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Base class for controllers that return responses on entity revision routes.
@@ -141,6 +143,12 @@ class PluginRevisionController extends ControllerBase {
       if ($revision->hasTranslation($langcode) && $revision->getTranslation($langcode)->isRevisionTranslationAffected()) {
         $revisions_ids[] = $revision_id;
       }
+    }
+    if ($entity->id() !== $left_revision->id() || $entity->id() !== $right_revision->id()) {
+      throw new NotFoundHttpException();
+    }
+    if (!$right_revision->access('view') || !$left_revision->access('view')) {
+      throw new AccessDeniedHttpException();
     }
 
     $build = [
@@ -304,7 +312,7 @@ class PluginRevisionController extends ControllerBase {
    * @return \Drupal\Core\Url
    *   The URL object.
    */
-  public static function diffRoute(ContentEntityInterface $entity, $left_revision_id, $right_revision_id, $layout = NULL, array $layout_options = NULL) {
+  public static function diffRoute(ContentEntityInterface $entity, $left_revision_id, $right_revision_id, $layout = NULL, ?array $layout_options = NULL) {
     $entity_type_id = $entity->getEntityTypeId();
     // @todo Remove the diff.revisions_diff route so we avoid adding extra cases.
     if ($entity->getEntityTypeId() == 'node') {

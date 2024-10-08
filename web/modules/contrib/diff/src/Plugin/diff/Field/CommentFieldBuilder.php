@@ -2,9 +2,9 @@
 
 namespace Drupal\diff\Plugin\diff\Field;
 
-use Drupal\comment\Plugin\Field\FieldType\CommentItemInterface;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\comment\Plugin\Field\FieldType\CommentItemInterface;
 use Drupal\diff\FieldDiffBuilderBase;
 
 /**

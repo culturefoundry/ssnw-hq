@@ -23,7 +23,7 @@ function diff_test_entity_type_alter(array &$entity_types): void {
 /**
  * Implements hook_entity_field_access().
  */
-function diff_test_entity_field_access($operation, FieldDefinitionInterface $field_definition, AccountInterface $account, FieldItemListInterface $items = NULL): AccessResult {
+function diff_test_entity_field_access($operation, FieldDefinitionInterface $field_definition, AccountInterface $account, ?FieldItemListInterface $items = NULL): AccessResult {
   if ($field_definition->getName() == 'field_diff_deny_access') {
     return AccessResult::forbidden();
   }

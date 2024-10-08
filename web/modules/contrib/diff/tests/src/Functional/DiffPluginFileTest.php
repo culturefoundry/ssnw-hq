@@ -2,9 +2,9 @@
 
 namespace Drupal\Tests\diff\Functional;
 
+use Drupal\Tests\field_ui\Traits\FieldUiTestTrait;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
-use Drupal\Tests\field_ui\Traits\FieldUiTestTrait;
 
 /**
  * Tests the Diff module entity plugins.

@@ -10,7 +10,7 @@ name: Diff tests
 package: Testing
 type: module
 
-# Information added by Drupal.org packaging script on 2024-06-11
-version: '8.x-1.7'
+# Information added by Drupal.org packaging script on 2024-10-02
+version: '8.x-1.8'
 project: 'diff'
-datestamp: 1718073573
+datestamp: 1727849726

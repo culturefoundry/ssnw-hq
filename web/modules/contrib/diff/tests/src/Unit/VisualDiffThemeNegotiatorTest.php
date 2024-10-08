@@ -5,8 +5,8 @@ namespace Drupal\Tests\diff\Unit;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Config\ImmutableConfig;
 use Drupal\Core\Routing\RouteMatchInterface;
-use Drupal\diff\VisualDiffThemeNegotiator;
 use Drupal\Tests\UnitTestCase;
+use Drupal\diff\VisualDiffThemeNegotiator;
 
 /**
  * Tests theme negotiator.

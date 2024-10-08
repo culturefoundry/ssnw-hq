@@ -684,11 +684,6 @@ parameters:
 			path: src/Plugin/views/field/DiffPluginBase.php
 
 		-
-			message: "#^Method Drupal\\\\diff\\\\Plugin\\\\views\\\\field\\\\DiffPluginBase\\:\\:getValue\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/Plugin/views/field/DiffPluginBase.php
-
-		-
 			message: "#^Method Drupal\\\\diff\\\\Plugin\\\\views\\\\field\\\\DiffPluginBase\\:\\:query\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/Plugin/views/field/DiffPluginBase.php

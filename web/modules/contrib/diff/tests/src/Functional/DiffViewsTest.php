@@ -3,9 +3,9 @@
 namespace Drupal\Tests\diff\Functional;
 
 use Drupal\Core\Url;
+use Drupal\Tests\views\Functional\ViewTestBase;
 use Drupal\node\Entity\Node;
 use Drupal\node\Entity\NodeType;
-use Drupal\Tests\views\Functional\ViewTestBase;
 
 /**
  * Tests the diff views integration.

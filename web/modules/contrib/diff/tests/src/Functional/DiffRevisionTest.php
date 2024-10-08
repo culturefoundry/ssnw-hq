@@ -2,8 +2,8 @@
 
 namespace Drupal\Tests\diff\Functional;
 
-use Drupal\language\Entity\ConfigurableLanguage;
 use Drupal\Tests\system\Functional\Menu\AssertBreadcrumbTrait;
+use Drupal\language\Entity\ConfigurableLanguage;
 
 /**
  * Tests the diff revisions overview.
