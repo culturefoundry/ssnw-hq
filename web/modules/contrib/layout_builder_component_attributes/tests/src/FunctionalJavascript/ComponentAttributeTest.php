@@ -45,6 +45,20 @@ class ComponentAttributeTest extends WebDriverTestBase {
   ];
 
   /**
+   * The test administrative user.
+   *
+   * @var \Drupal\user\UserInterface
+   */
+  protected $adminUser;
+
+  /**
+   * The test non-administrative user.
+   *
+   * @var \Drupal\user\UserInterface
+   */
+  protected $authUser;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp() : void {
@@ -53,7 +67,7 @@ class ComponentAttributeTest extends WebDriverTestBase {
     $this->createContentType(['type' => 'bundle_with_section_field']);
 
     // Create an authenticated user.
-    $this->auth_user = $this
+    $this->authUser = $this
       ->drupalCreateUser([
         'access administration pages',
         'access contextual links',
@@ -63,7 +77,7 @@ class ComponentAttributeTest extends WebDriverTestBase {
       ]);
 
     // Create an admin user.
-    $this->admin_user = $this
+    $this->adminUser = $this
       ->drupalCreateUser([
         'access administration pages',
         'access contextual links',
@@ -73,7 +87,7 @@ class ComponentAttributeTest extends WebDriverTestBase {
         'configure any layout',
         'manage layout builder component attributes',
       ]);
-    $this->drupalLogin($this->admin_user);
+    $this->drupalLogin($this->adminUser);
 
     // Enable layout builder.
     $this->drupalGet(static::FIELD_UI_PREFIX . '/display/default');
@@ -93,7 +107,7 @@ class ComponentAttributeTest extends WebDriverTestBase {
     $assert_session = $this->assertSession();
     $page = $this->getSession()->getPage();
 
-    $this->drupalLogin($this->auth_user);
+    $this->drupalLogin($this->authUser);
 
     $this->drupalGet(static::FIELD_UI_PREFIX . '/display/default/layout');
     $this->resetLayoutBuilderLayout();
@@ -101,7 +115,7 @@ class ComponentAttributeTest extends WebDriverTestBase {
     $this->assertNotEmpty($page->findAll('xpath', '//*[contains(@class, "layout-builder-block")]//ul[contains(@class, "contextual-links")]', 'Contextual links are rendered.'));
     $this->assertEmpty($page->findAll('xpath', '//*[contains(@class, "layout-builder-block")]//ul[contains(@class, "contextual-links")]//a[contains(text(), "Manage attributes")]', 'Manage attributes link is not rendered.'));
 
-    $this->drupalLogin($this->admin_user);
+    $this->drupalLogin($this->adminUser);
 
     $this->drupalGet(static::FIELD_UI_PREFIX . '/display/default/layout');
     // Wait for contextual links to load.

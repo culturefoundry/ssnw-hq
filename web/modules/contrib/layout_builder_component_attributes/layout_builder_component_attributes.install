@@ -73,6 +73,7 @@ function layout_builder_component_attributes_uninstall() {
       ->execute();
 
     // Load entities.
+    /** @var \Drupal\Core\Entity\RevisionableStorageInterface $entity_storage */
     $entity_storage = \Drupal::entityTypeManager()->getStorage($entity_type_id);
     $entities = $entity_storage->loadMultiple($entity_ids);
 
@@ -109,10 +110,9 @@ function layout_builder_component_attributes_uninstall() {
 function _layout_builder_component_attributes_uninstall_process_entity_or_revision(FieldableEntityInterface $entity) {
   // Loop through each section and component.
   if ($entity->hasField(OverridesSectionStorage::FIELD_NAME)) {
-    /** @var \Drupal\layout_builder\Field\LayoutSectionItemList $layout_field */
+    /** @var \Drupal\layout_builder\Field\LayoutSectionItemList|false $layout_field */
     $layout_field = $entity->get(OverridesSectionStorage::FIELD_NAME);
-    if (!empty($layout_field)) {
-      $sections = $layout_field->getSections();
+    if ($sections = $layout_field->getSections()) {
       foreach ($sections as $section) {
         $components = $section->getComponents();
         foreach ($components as $component) {
