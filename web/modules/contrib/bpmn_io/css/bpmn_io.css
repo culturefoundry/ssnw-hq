@@ -1,10 +1,14 @@
 #bpmn-io {
   position: relative;
+  color-scheme: normal;
 }
 #bpmn-io .canvas {
   position: fixed;
   bottom: 0;
   overflow: scroll;
+}
+#bpmn-io .canvas .bjs-container {
+  background-color: var(--color-white);
 }
 #bpmn-io .property-panel.in-canvas {
   position: absolute;
@@ -43,7 +47,9 @@ div[data-drupal-messages=""],
   cursor: pointer;
 }
 div[data-drupal-messages=""] .messages__wrapper,
-.messages-list .messages__wrapper {
+.messages-list .messages__wrapper,
+div[data-drupal-messages=""] .messages-list__wrapper,
+.messages-list .messages-list__wrapper {
   position: relative;
   z-index: 9;
   width: 50%;
@@ -91,7 +97,8 @@ div[data-drupal-messages=""] .messages__wrapper,
 }
 #bpmn-io-modeller #edit-actions {
   position: absolute;
-  top: -30px;
+  top: -110px;
+  right: 0;
 }
 
 /* Fix container width for Gin */

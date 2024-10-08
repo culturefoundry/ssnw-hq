@@ -18,6 +18,20 @@
         }, false);
         window.dispatchEvent(new Event('resize'));
 
+        let sidebar = document.getElementById('gin_sidebar');
+        if (sidebar !== null) {
+          new MutationObserver(function (mutations) {
+            mutations.forEach(function(mutation) {
+              window.dispatchEvent(new Event('resize'));
+            });
+          }).observe($('body')[0], {
+            attributes: true
+          });
+          new ResizeObserver(function () {
+            window.dispatchEvent(new Event('resize'));
+          }).observe(sidebar);
+        }
+
         Drupal.bpmn_io.modeller = window.modeller;
         Drupal.bpmn_io.loader = Drupal.bpmn_io.modeller.get('elementTemplatesLoader');
         Drupal.bpmn_io.loader.setTemplates(settings.bpmn_io.templates);

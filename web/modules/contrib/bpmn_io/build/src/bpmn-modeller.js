@@ -12,6 +12,9 @@ import ElementTemplateChooserModule from '@bpmn-io/element-template-chooser';
 
 window.modeller = new BpmnModeler({
     container: '#bpmn-io .canvas',
+    keyboard: {
+        bindTo: window
+    },
     propertiesPanel: {
         parent: '#bpmn-io .property-panel'
     },
