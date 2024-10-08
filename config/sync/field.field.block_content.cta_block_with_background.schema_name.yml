@@ -1,0 +1,19 @@
+uuid: d6708cd6-a53d-4f87-a14e-841472859b7e
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.cta_block_with_background
+    - field.storage.block_content.schema_name
+id: block_content.cta_block_with_background.schema_name
+field_name: schema_name
+entity_type: block_content
+bundle: cta_block_with_background
+label: Title
+description: 'The name of the item.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

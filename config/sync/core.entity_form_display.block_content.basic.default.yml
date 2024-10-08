@@ -18,7 +18,7 @@ mode: default
 content:
   body:
     type: text_textarea_with_summary
-    weight: 13
+    weight: 2
     region: content
     settings:
       rows: 9
@@ -28,7 +28,7 @@ content:
     third_party_settings: {  }
   info:
     type: string_textfield
-    weight: 2
+    weight: 0
     region: content
     settings:
       size: 60
@@ -36,7 +36,7 @@ content:
     third_party_settings: {  }
   schema_image:
     type: media_library_widget
-    weight: 5
+    weight: 1
     region: content
     settings:
       media_types: {  }

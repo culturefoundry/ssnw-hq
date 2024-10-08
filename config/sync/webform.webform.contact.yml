@@ -50,12 +50,11 @@ elements: |-
     '#title': '- Select Services Interested In -'
     '#title_display': none
     '#options':
-      'Digital Security': 'Digital Security'
-      'On-Site Security': 'On-Site Security'
-      'Maritime Services': 'Maritime Services'
-      'Remote Monitoring': 'Remote Monitoring'
+      'Security Officers & Patrol': 'Security Officers & Patrol'
       'Alarm Systems': 'Alarm Systems'
+      'Remote Monitoring': 'Remote Monitoring'
       'Robots & Drones': 'Robots & Drones'
+      'Maritime Security': 'Maritime Security'
       'Answering Services': 'Answering Services'
     '#empty_option': '- Select Services Interested In -'
   message:
