@@ -56,8 +56,8 @@
   grid-template-columns: inherit;
 }
 
-.full-width > .content-grid:has(> div, > header, > article, > form),
-.content-grid > .content-grid:has( > div, > header, > article, > form ){
+.full-width > .content-grid:has(> div, > header, > article, > form, >nav),
+.content-grid > .content-grid:has( > div, > header, > article, > form,>nav ){
   grid-template-columns: inherit;
   grid-column: full-width;
   display: grid;

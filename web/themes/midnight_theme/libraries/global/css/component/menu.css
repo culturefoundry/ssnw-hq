@@ -40,6 +40,7 @@ footer .menu-item-no-footer{
 }
 
 .menu--main>ul>li, .menu--internal>ul>li {
+  position:relative;
   border-bottom:1px solid #8A8C8E;
   padding-bottom: 12px;
   margin-bottom: 12px;
