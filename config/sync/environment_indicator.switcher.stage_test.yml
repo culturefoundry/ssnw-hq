@@ -1,0 +1,11 @@
+uuid: dcd5b402-0491-49cd-8504-a42a3721e9b1
+langcode: en
+status: true
+dependencies: {  }
+machine: stage_test
+description: null
+name: Stage/Test
+weight: null
+url: 'https://test-ssnw-hq.pantheonsite.io'
+fg_color: '#ffffff'
+bg_color: '#f66151'

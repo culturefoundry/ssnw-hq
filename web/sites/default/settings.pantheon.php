@@ -183,6 +183,9 @@ if (isset($_ENV['PANTHEON_ENVIRONMENT'])) {
  */
 if (isset($_ENV['PANTHEON_ENVIRONMENT'])) {
   $settings['trusted_host_patterns'][] = '.*';
+  if ($_ENV['PANTHEON_ENVIRONMENT'] == 'live') {
+    $config['reroute_email']['settings']['enable'] = FALSE;
+  }
 }
 
 /**

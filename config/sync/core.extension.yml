@@ -84,6 +84,7 @@ module:
   metatag: 0
   metatag_open_graph: 0
   mysql: 0
+  navigation: 0
   node: 0
   nomarkup: 0
   options: 0
@@ -133,6 +134,7 @@ module:
   simple_sitemap: 0
   simple_styleguide: 0
   smart_date: 0
+  symfony_mailer: 0
   system: 0
   taxonomy: 0
   telephone: 0

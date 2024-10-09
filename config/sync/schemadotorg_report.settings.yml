@@ -1,5 +1,10 @@
 _core:
   default_config_hash: qTS1DM9GEMkai0MaCXJI36cmyrT0nSQ6tzwu4AnPvyQ
+diagram_excluded_schema_properties:
+  - about
+  - subjectOf
+  - relatedLink
+  - significantLink
 about:
   -
     title: 'Schema.org Documentation'

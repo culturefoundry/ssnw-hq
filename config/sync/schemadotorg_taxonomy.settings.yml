@@ -1,7 +1,5 @@
 _core:
   default_config_hash: kGVRJtnfTLO9qQfarhBFg_V_GoaDn7e1D4ePtQAAh2c
-default_field_groups:
-  taxonomy: 'Categories and Services'
 default_vocabularies:
   tags:
     id: tags
@@ -42,3 +40,5 @@ schema_property_vocabularies:
   targetPopulation:
     id: target_population
     label: 'Target population'
+default_field_groups:
+  taxonomy: 'Categories and Services'

@@ -1,0 +1,11 @@
+uuid: 52e1e8c3-d155-421d-bbe8-65bedb36ee08
+langcode: en
+status: true
+dependencies: {  }
+machine: pantheon_dev
+description: null
+name: 'Pantheon Dev'
+weight: null
+url: 'https://dev-ssnw-hq.pantheonsite.io'
+fg_color: '#ffffff'
+bg_color: '#26a269'

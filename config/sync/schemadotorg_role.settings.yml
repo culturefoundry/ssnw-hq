@@ -39,6 +39,3 @@ field_instances:
     actor:
       - host
       - guest
-entity_reference_overrides:
-  - member
-  - employee
