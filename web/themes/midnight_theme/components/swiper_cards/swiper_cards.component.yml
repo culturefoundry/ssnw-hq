@@ -4,7 +4,7 @@ props:
   type: object
   properties:
     navigation:
-        type: string
+        type: boolean
         title: Navigation
         description: Whether or not there is navigation
         examples:

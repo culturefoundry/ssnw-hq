@@ -2,10 +2,10 @@ $schema: https://git.drupalcode.org/project/drupal/-/raw/10.1.x/core/modules/sdc
 name: Header Nav
 props:
   type: object
-  properties: 
+  properties:
     search:
       title: Search Block
-      type: string
+      type: ['string', 'null']
     content:
       title: Content
       type: string
