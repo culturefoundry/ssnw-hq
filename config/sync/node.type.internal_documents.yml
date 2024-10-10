@@ -1,4 +1,4 @@
-uuid: 26d5dcf8-39b9-406f-8b91-8c261bd2fd1e
+uuid: 36601e60-57ff-41c6-be67-859ac49da873
 langcode: en
 status: true
 dependencies:
@@ -9,32 +9,32 @@ dependencies:
 third_party_settings:
   menu_ui:
     available_menus:
-      - internal
-    parent: 'internal:'
+      - main
+    parent: 'main:'
   scheduler:
     expand_fieldset: when_required
     fields_display_mode: vertical_tab
-    publish_enable: true
-    publish_past_date: publish
+    publish_enable: false
+    publish_past_date: error
     publish_past_date_created: false
     publish_required: false
     publish_revision: false
-    publish_touch: true
+    publish_touch: false
     show_message_after_update: true
-    unpublish_enable: true
+    unpublish_enable: false
     unpublish_required: false
     unpublish_revision: false
   type_tray:
     type_category: organization
     type_thumbnail: ''
     type_icon: ''
-    type_description: 'Internal content is visible to employees only.'
+    type_description: ''
     existing_nodes_link_text: ''
     type_weight: 0
-name: 'Internal Page'
-type: internal
-description: 'Pages visible only to logged on users (employees).'
+name: 'Internal Documents'
+type: internal_documents
+description: 'Internal company documents for employees (ie: Employee Handbook, HR Forms)'
 help: null
 new_revision: true
 preview_mode: 1
-display_submitted: false
+display_submitted: true

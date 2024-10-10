@@ -1,0 +1,18 @@
+uuid: a0f7e51e-ddf3-44ca-95ac-0b4f3de58cdc
+langcode: en
+status: true
+dependencies: {  }
+id: smtp
+label: 'Web @ SSNW'
+plugin: smtp
+configuration:
+  user: web@ssnwhq.com
+  pass: SSNWmidnight1977
+  host: smtp.office365.com
+  port: 587
+  query:
+    verify_peer: true
+    local_domain: ''
+    restart_threshold: null
+    restart_threshold_sleep: null
+    ping_threshold: null
