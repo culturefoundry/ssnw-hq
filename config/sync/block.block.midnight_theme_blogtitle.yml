@@ -16,7 +16,7 @@ third_party_settings:
 id: midnight_theme_blogtitle
 theme: midnight_theme
 region: content
-weight: -11
+weight: -12
 provider: null
 plugin: 'block_content:a644a9ec-7efb-4128-9951-6a8b754f541a'
 settings:

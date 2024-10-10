@@ -1,0 +1,29 @@
+uuid: 0145bf20-0b04-421d-8606-1b483edc3d23
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.internal
+  module:
+    - system
+  theme:
+    - midnight_theme
+id: midnight_theme_internal
+theme: midnight_theme
+region: content
+weight: -9
+provider: null
+plugin: 'system_menu_block:internal'
+settings:
+  id: 'system_menu_block:internal'
+  label: 'Internal Pages'
+  label_display: visible
+  provider: system
+  level: 1
+  depth: 0
+  expand_all_items: false
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /internal/post-orders

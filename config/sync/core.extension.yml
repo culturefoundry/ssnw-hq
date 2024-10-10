@@ -41,6 +41,7 @@ module:
   eca_modeller_bpmn: 0
   eca_queue: 0
   eca_render: 0
+  eca_tamper: 0
   eca_ui: 0
   eca_user: 0
   eca_views: 0
@@ -48,6 +49,8 @@ module:
   editor: 0
   email_registration: 0
   environment_indicator: 0
+  feeds: 0
+  feeds_tamper: 0
   field: 0
   field_group: 0
   field_ui: 0
@@ -58,6 +61,7 @@ module:
   geolocation_address: 0
   geolocation_leaflet: 0
   gin_toolbar: 0
+  google_tag: 0
   help: 0
   history: 0
   image: 0
@@ -133,9 +137,11 @@ module:
   shortcut: 0
   simple_sitemap: 0
   simple_styleguide: 0
+  sitemap: 0
   smart_date: 0
   symfony_mailer: 0
   system: 0
+  tamper: 0
   taxonomy: 0
   telephone: 0
   text: 0

@@ -1,0 +1,54 @@
+_core:
+  default_config_hash: GUKBlXIBQ2d0H8Q7M_Rqn1Q93tRxLPfs9cG-VeQC9NI
+page_title: Sitemap
+path: /sitemap
+message:
+  value: ''
+  format: plain_text
+plugins:
+  frontpage:
+    base_plugin: frontpage
+    enabled: true
+    weight: -50
+    settings:
+      title: 'Front page'
+      rss: /rss.xml
+    id: frontpage
+    provider: sitemap
+  'menu:main':
+    base_plugin: menu
+    enabled: true
+    weight: -49
+    settings:
+      title: 'Main navigation'
+      show_disabled: false
+    id: 'menu:main'
+    provider: sitemap
+  'menu:how-we-serve':
+    base_plugin: menu
+    enabled: true
+    weight: -48
+    settings:
+      title: 'How We Serve'
+      show_disabled: false
+    id: 'menu:how-we-serve'
+    provider: sitemap
+  'menu:footer':
+    base_plugin: menu
+    enabled: true
+    weight: -46
+    settings:
+      title: Footer
+      show_disabled: false
+    id: 'menu:footer'
+    provider: sitemap
+  'menu:internal':
+    base_plugin: menu
+    enabled: true
+    weight: -47
+    settings:
+      title: Internal
+      show_disabled: false
+    id: 'menu:internal'
+    provider: sitemap
+include_css: true

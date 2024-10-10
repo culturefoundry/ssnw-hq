@@ -1,15 +1,17 @@
 uuid: 513ec252-4109-4ba3-994a-f035b1996510
 langcode: en
 status: true
-dependencies: {  }
+dependencies:
+  module:
+    - focal_point
 name: full
 label: 'Full content width'
 effects:
-  5fefecda-25ef-45d0-b8f7-7f9056a02833:
-    uuid: 5fefecda-25ef-45d0-b8f7-7f9056a02833
-    id: image_scale
-    weight: 1
+  4a938840-fa3a-4c7d-ab17-18514e14f8f3:
+    uuid: 4a938840-fa3a-4c7d-ab17-18514e14f8f3
+    id: focal_point_crop_by_width
+    weight: 2
     data:
-      width: 1200
-      height: null
-      upscale: false
+      width: '1200'
+      height: ''
+      crop_type: focal_point

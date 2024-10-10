@@ -3,14 +3,13 @@ langcode: en
 status: true
 dependencies:
   module:
-    - block_class
     - webform
   theme:
     - midnight_theme
 id: midnight_theme_pagetitle_2
 theme: midnight_theme
 region: content
-weight: -12
+weight: -13
 provider: null
 plugin: page_title_block
 settings:

@@ -1,15 +1,25 @@
 uuid: 4d3d87bf-f832-4e06-941d-813e376f604e
 langcode: en
 status: true
-dependencies: {  }
+dependencies:
+  module:
+    - focal_point
 name: breakout
 label: Breakout
 effects:
   81d9996f-9d40-4165-93fb-24ef82fbe8b8:
     uuid: 81d9996f-9d40-4165-93fb-24ef82fbe8b8
     id: image_scale
-    weight: 1
+    weight: -9
     data:
       width: 1400
       height: null
       upscale: false
+  e684277d-ef02-424e-87c7-3c9339cd735a:
+    uuid: e684277d-ef02-424e-87c7-3c9339cd735a
+    id: focal_point_crop_by_width
+    weight: -10
+    data:
+      width: '1400'
+      height: ''
+      crop_type: focal_point

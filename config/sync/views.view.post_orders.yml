@@ -8,6 +8,7 @@ dependencies:
     - field.storage.node.field_location
     - field.storage.node.field_qualifications
     - node.type.post_order
+    - system.menu.content
     - system.menu.internal
     - taxonomy.vocabulary.customer
     - taxonomy.vocabulary.employee_role
@@ -1687,16 +1688,27 @@ display:
           empty: false
           content: "<a href=\"/node/add/post_order\" class=\"button button--action button--primary\" data-drupal-link-system-path=\"node/add/post_order\">Create Post Order</a>\r\n"
           tokenize: false
-      display_extenders: {  }
+      display_extenders:
+        matomo:
+          enabled: false
+          keyword_gets: ''
+          keyword_behavior: first
+          keyword_concat_separator: ' '
+          category_behavior: none
+          category_gets: ''
+          category_concat_separator: ' '
+          category_fallback: ''
+          category_facets: {  }
+          category_facets_concat_separator: ', '
       path: admin/content/post-orders
       menu:
-        type: 'default tab'
+        type: normal
         title: 'Post Orders'
         description: ''
         weight: 5
         expanded: false
-        menu_name: admin
-        parent: system.admin_content
+        menu_name: content
+        parent: ''
         context: '0'
       tab_options:
         type: none
@@ -1725,6 +1737,7 @@ display:
     display_options:
       defaults:
         header: false
+        footer: false
       display_description: ''
       header:
         area_text_custom:
@@ -1738,6 +1751,7 @@ display:
           empty: false
           content: '<h1> Post Orders </h1>'
           tokenize: false
+      footer: {  }
       display_extenders: {  }
       path: internal/post-orders
       menu:

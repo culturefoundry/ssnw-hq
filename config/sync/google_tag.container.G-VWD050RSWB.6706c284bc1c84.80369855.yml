@@ -1,0 +1,30 @@
+uuid: 86b08fdf-73c5-42f9-ba9b-04592a547441
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+id: G-VWD050RSWB.6706c284bc1c84.80369855
+label: G-VWD050RSWB
+weight: 0
+tag_container_ids:
+  - G-VWD050RSWB
+advanced_settings:
+  consent_mode: false
+dimensions_metrics: {  }
+conditions:
+  request_path:
+    id: request_path
+    negate: true
+    pages: "/admin/*\r\n/user/*"
+events:
+  custom: {  }
+  generate_lead:
+    value: ''
+    currency: ''
+  login:
+    method: CMS
+  search: {  }
+  sign_up:
+    method: CMS
+  webform_purchase: {  }
