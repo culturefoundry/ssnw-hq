@@ -1,0 +1,38 @@
+uuid: 4c45f26c-a238-424b-bcba-f8d9007d47ac
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.internal_documents.body
+    - field.field.node.internal_documents.field_document
+    - node.type.internal_documents
+  module:
+    - file
+    - text
+    - user
+id: node.internal_documents.default
+targetEntityType: node
+bundle: internal_documents
+mode: default
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_document:
+    type: file_default
+    label: above
+    settings:
+      use_description_as_link_text: true
+    third_party_settings: {  }
+    weight: 107
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden: {  }

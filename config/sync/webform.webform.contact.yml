@@ -25,7 +25,7 @@ categories: {  }
 elements: |-
   form_header:
     '#type': processed_text
-    '#text': '<div class="grid md:grid-cols-2 gap-8&gt; &lt;div class="><p class="text-lg"><strong>Security Services Northwest, Inc.</strong><br><strong>250 Center Park Way</strong><br><strong>Sequim, WA 98382</strong><!--?</div--></p><div class="phone-email"><p class="text-lg"><a href="tel:800-859-3463"><strong>800-859-3463</strong></a><strong> (24-hours)</strong><br><strong>info@ssnwHQ.com</strong></p></div></div>'
+    '#text': '<div class="grid md:grid-cols-2 gap-8&gt; &lt;div class="><p class="text-lg"><strong>Security Services Northwest, Inc.</strong><br><strong>250 Center Park Way</strong><br><strong>Sequim, WA 98382</strong><!--?</div--></p><div class="phone-email"><p class="text-lg"><a href="tel:800-859-3463"><strong>800-859-3463</strong></a><strong> (24-hours)</strong><br><a href="mailto:info@ssnwhq.com"><strong>info@ssnwHQ.com</strong></a></p></div></div>'
     '#format': full_html
   name:
     '#title': 'Your Name'

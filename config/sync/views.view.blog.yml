@@ -29,7 +29,7 @@ display:
     display_plugin: default
     position: 0
     display_options:
-      title: News
+      title: 'The Messenger - All Posts'
       fields:
         title:
           id: title
@@ -1057,7 +1057,18 @@ display:
         row: false
         sorts: false
       display_description: ''
-      display_extenders: {  }
+      display_extenders:
+        matomo:
+          enabled: false
+          keyword_gets: ''
+          keyword_behavior: first
+          keyword_concat_separator: ' '
+          category_behavior: none
+          category_gets: ''
+          category_concat_separator: ' '
+          category_fallback: ''
+          category_facets: {  }
+          category_facets_concat_separator: ', '
       path: blog/all
     cache_metadata:
       max-age: -1

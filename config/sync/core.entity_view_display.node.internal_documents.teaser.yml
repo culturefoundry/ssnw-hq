@@ -1,0 +1,32 @@
+uuid: 7f235042-f050-42ca-afe7-31cf667fb42a
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.internal_documents.body
+    - field.field.node.internal_documents.field_document
+    - node.type.internal_documents
+  module:
+    - text
+    - user
+id: node.internal_documents.teaser
+targetEntityType: node
+bundle: internal_documents
+mode: teaser
+content:
+  body:
+    type: text_summary_or_trimmed
+    label: hidden
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_document: true
