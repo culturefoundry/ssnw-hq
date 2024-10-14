@@ -1,0 +1,186 @@
+uuid: f12b743f-f5c1-4a4d-98c0-958fb6a006a8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.user.user.field_employee_designation
+    - field.field.user.user.field_employee_location
+    - field.field.user.user.field_first_name
+    - field.field.user.user.field_last_name
+    - field.field.user.user.field_phone_number
+  module:
+    - feeds_tamper
+    - user
+third_party_settings:
+  feeds_tamper:
+    tampers:
+      74bc948d-4a6a-4bc2-808b-e14349e67e8f:
+        separator: ','
+        limit: null
+        uuid: 74bc948d-4a6a-4bc2-808b-e14349e67e8f
+        plugin: explode
+        source: role
+        weight: 0
+        label: Explode
+      88b1aada-9d58-4bd1-9354-b4ea91e28d2c:
+        separator: ','
+        limit: null
+        uuid: 88b1aada-9d58-4bd1-9354-b4ea91e28d2c
+        plugin: explode
+        source: state
+        weight: 0
+        label: Explode
+      92f245e3-82c0-475e-9ca0-d0930e7ebb6f:
+        separator: ','
+        limit: null
+        uuid: 92f245e3-82c0-475e-9ca0-d0930e7ebb6f
+        plugin: explode
+        source: qualifications
+        weight: 0
+        label: Explode
+label: 'User Feed'
+id: user_feed
+description: 'This is going to be a one time feed to upload user data. After this should be deleted'
+help: ''
+import_period: -1
+fetcher: upload
+fetcher_configuration:
+  allowed_extensions: 'txt csv tsv xml opml'
+  directory: 'private://feeds'
+parser: csv
+parser_configuration:
+  delimiter: ','
+  no_headers: false
+  line_limit: 100
+processor: 'entity:user'
+processor_configuration:
+  values: {  }
+  langcode: en
+  insert_new: 1
+  update_existing: 0
+  update_non_existent: 'entity:save_action:user'
+  skip_hash_check: false
+  skip_validation: false
+  skip_validation_types: {  }
+  authorize: false
+  revision: false
+  expire: -1
+  owner_feed_author: false
+  owner_id: 0
+custom_sources:
+  id:
+    value: ID
+    label: ID
+    machine_name: id
+    type: csv
+  email:
+    value: Email
+    label: Email
+    machine_name: email
+    type: csv
+  state:
+    value: State
+    label: State
+    machine_name: state
+    type: csv
+  first:
+    value: First
+    label: First
+    machine_name: first
+    type: csv
+  last:
+    value: Last
+    label: Last
+    machine_name: last
+    type: csv
+  role:
+    value: Role
+    label: Role
+    machine_name: role
+    type: csv
+  phone:
+    value: Phone
+    label: Phone
+    machine_name: phone
+    type: csv
+  qualifications:
+    value: Qualifications
+    label: Qualifications
+    machine_name: qualifications
+    type: csv
+  parent_field_active:
+    value: "parent:field_active\t"
+    label: "parent:field_active\t"
+    machine_name: parent_field_active
+    type: blank
+mappings:
+  -
+    target: name
+    map:
+      value: id
+    settings: {  }
+    unique:
+      value: 1
+  -
+    target: mail
+    map:
+      value: email
+    settings:
+      defuse: false
+    unique: {  }
+  -
+    target: field_employee_location
+    map:
+      target_id: state
+    settings:
+      language: ''
+      reference_by: name
+      autocreate: 1
+      autocreate_bundle: location
+  -
+    target: field_first_name
+    map:
+      value: first
+    settings:
+      language: null
+    unique: {  }
+  -
+    target: field_last_name
+    map:
+      value: last
+    settings:
+      language: null
+    unique: {  }
+  -
+    target: roles
+    map:
+      target_id: role
+    settings:
+      reference_by: label
+      allowed_roles:
+        hr: hr
+        content_editor: content_editor
+        manager: manager
+        administrator: administrator
+      autocreate: 0
+      revoke_roles: 0
+  -
+    target: field_phone_number
+    map:
+      value: phone
+    settings:
+      language: null
+  -
+    target: field_employee_designation
+    map:
+      target_id: qualifications
+    settings:
+      language: ''
+      reference_by: name
+      autocreate: 1
+      autocreate_bundle: employee_role
+  -
+    target: status
+    map:
+      value: parent_field_active
+    settings: {  }

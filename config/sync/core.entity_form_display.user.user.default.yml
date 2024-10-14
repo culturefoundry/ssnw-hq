@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.user.user.feeds_item
     - field.field.user.user.field_employee_designation
     - field.field.user.user.field_employee_location
     - field.field.user.user.field_first_name
@@ -70,6 +71,11 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  matomo:
+    weight: 3
+    region: content
+    settings: {  }
+    third_party_settings: {  }
   path:
     type: path
     weight: 9
@@ -89,4 +95,5 @@ content:
       progress_indicator: throbber
       preview_image_style: thumbnail
     third_party_settings: {  }
-hidden: {  }
+hidden:
+  feeds_item: true

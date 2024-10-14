@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.user.user.feeds_item
     - field.field.user.user.field_employee_designation
     - field.field.user.user.field_employee_location
     - field.field.user.user.field_first_name
@@ -310,4 +311,5 @@ content:
     third_party_settings: {  }
     weight: 0
     region: content
-hidden: {  }
+hidden:
+  feeds_item: true

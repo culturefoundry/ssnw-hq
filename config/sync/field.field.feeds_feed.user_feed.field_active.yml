@@ -1,0 +1,23 @@
+uuid: 1d673ae7-b651-4a2d-a05f-1f02d244e1e0
+langcode: en
+status: true
+dependencies:
+  config:
+    - feeds.feed_type.user_feed
+    - field.storage.feeds_feed.field_active
+id: feeds_feed.user_feed.field_active
+field_name: field_active
+entity_type: feeds_feed
+bundle: user_feed
+label: Active
+description: ''
+required: true
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean
