@@ -14,11 +14,15 @@ dependencies:
     - workflows.workflow.editorial
   module:
     - content_moderation
+    - file
     - layout_builder
     - media
+    - navigation
     - node
     - quick_node_clone
+    - shortcut
     - system
+    - toolbar
 id: hr
 label: HR
 weight: -8
@@ -26,14 +30,20 @@ is_admin: null
 permissions:
   - 'access administration pages'
   - 'access content overview'
+  - 'access files overview'
+  - 'access media overview'
+  - 'access navigation'
+  - 'access shortcuts'
   - 'access site in maintenance mode'
   - 'access site reports'
+  - 'access toolbar'
   - 'administer users'
   - 'clone internal content'
   - 'clone internal_documents content'
   - 'configure editable internal node layout overrides'
   - 'create and edit custom blocks'
   - 'create audio media'
+  - 'create document media'
   - 'create image media'
   - 'create internal content'
   - 'create internal_documents content'
@@ -51,11 +61,13 @@ permissions:
   - 'revert internal revisions'
   - 'revert internal_documents revisions'
   - 'select account cancellation method'
+  - 'update media'
   - 'use editorial transition archive'
   - 'use editorial transition archived_draft'
   - 'use editorial transition archived_published'
   - 'use editorial transition create_new_draft'
   - 'use editorial transition publish'
+  - 'view all media revisions'
   - 'view any unpublished content'
   - 'view internal revisions'
   - 'view internal_documents revisions'

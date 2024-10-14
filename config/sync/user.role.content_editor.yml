@@ -28,6 +28,7 @@ dependencies:
     - node.type.internal_documents
     - node.type.page
     - node.type.service
+    - node.type.team_bios
     - node.type.testimonial
     - taxonomy.vocabulary.employee_role
     - taxonomy.vocabulary.tags
@@ -41,13 +42,18 @@ dependencies:
     - contextual
     - file
     - filter
+    - help
     - layout_builder
+    - layout_builder_component_attributes
     - media
+    - navigation
     - node
     - path
     - quick_node_clone
     - redirect
     - scheduler
+    - shortcut
+    - simple_styleguide
     - system
     - taxonomy
     - toolbar
@@ -58,15 +64,21 @@ label: Editor
 weight: -7
 is_admin: false
 permissions:
-  - 'Administer Quick Node Clone Settings'
   - 'access administration pages'
   - 'access block library'
   - 'access coffee'
   - 'access content overview'
   - 'access contextual links'
+  - 'access files overview'
+  - 'access help pages'
   - 'access media overview'
+  - 'access navigation'
+  - 'access shortcuts'
   - 'access site in maintenance mode'
+  - 'access style guide'
+  - 'access taxonomy overview'
   - 'access toolbar'
+  - 'administer redirect settings'
   - 'administer redirects'
   - 'administer url aliases'
   - 'clone blog content'
@@ -88,6 +100,7 @@ permissions:
   - 'create card_slider block content'
   - 'create card_with_icon block content'
   - 'create cta_block_with_background block content'
+  - 'create document media'
   - 'create featured_picture_body_logo block content'
   - 'create icons_text_matching_sliders block content'
   - 'create image media'
@@ -98,12 +111,12 @@ permissions:
   - 'create reference_block block content'
   - 'create remote_video media'
   - 'create service content'
+  - 'create team_bios content'
   - 'create terms in tags'
   - 'create testimonial content'
   - 'create url aliases'
   - 'create video media'
   - 'delete any action block content'
-  - 'delete any basic block content'
   - 'delete blog revisions'
   - 'delete internal_documents revisions'
   - 'delete own files'
@@ -137,7 +150,19 @@ permissions:
   - 'edit own video media'
   - 'edit terms in employee_role'
   - 'edit terms in tags'
+  - 'link to any page'
+  - 'manage layout builder component attributes'
   - 'revert all revisions'
+  - 'revert any action block content revisions'
+  - 'revert any banner_block block content revisions'
+  - 'revert any basic block content revisions'
+  - 'revert any card_grid block content revisions'
+  - 'revert any card_slider block content revisions'
+  - 'revert any card_with_icon block content revisions'
+  - 'revert any cta_block_with_background block content revisions'
+  - 'revert any featured_picture_body_logo block content revisions'
+  - 'revert any icons_text_matching_sliders block content revisions'
+  - 'revert any reference_block block content revisions'
   - 'revert blog revisions'
   - 'revert internal revisions'
   - 'revert internal_documents revisions'
@@ -145,6 +170,7 @@ permissions:
   - 'revert service revisions'
   - 'revert testimonial revisions'
   - 'schedule publishing of nodes'
+  - 'update any media'
   - 'update media'
   - 'use editorial transition archive'
   - 'use editorial transition archived_draft'

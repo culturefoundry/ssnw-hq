@@ -1,0 +1,11 @@
+uuid: a4080a78-76bb-4d16-b9d2-1b5bf724fb06
+langcode: en
+status: true
+dependencies: {  }
+id: button
+label: Button
+description:
+  value: '<p>This is the button style. This is anything with a class of button, and in the editor will be able to be selected on a link.</p>'
+  format: full_html
+pattern: '<a class="button">Read More</a>'
+weight: -9

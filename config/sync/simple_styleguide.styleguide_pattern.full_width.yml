@@ -1,0 +1,11 @@
+uuid: 9cb5c515-a8b0-423c-b8ff-61c65b676bed
+langcode: en
+status: true
+dependencies: {  }
+id: full_width
+label: 'Full Width'
+description:
+  value: '<p>This is used to set the width of the content to the whole width of the screen. Most notably used in CTA Block with Background. Sometimes this is set in a template by default, but can be added in layout builder.<br><br>This will only work in top level items in layout builder, not inner html of blocks.</p><p><img src="/sites/default/files/inline-images/Screenshot%202024-10-14%20102844.png" data-entity-uuid="b4f7b5c9-af94-44f8-87d9-5934d8432428" data-entity-type="file" width="1536" height="770"></p>'
+  format: full_html
+pattern: "<div class=\"layout layout--onecol content-grid\">\r\n    <div class=\"layout__region layout__region--content content-grid\">\r\n       <div class=\"block block-content full-width bg-primary\">\r\n            Dummy content\r\n       </div>\r\n   </div>\r\n</div>"
+weight: -4

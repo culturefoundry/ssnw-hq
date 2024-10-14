@@ -1,0 +1,11 @@
+uuid: 3d95e537-abb2-456c-9909-d957d855043e
+langcode: en
+status: true
+dependencies: {  }
+id: card_with_icon
+label: 'Card With Icon'
+description:
+  value: '<p>This is a block created in the <a href="/admin/content/block">blocks tab</a>.</p><p>This is a block with a Title, Body, Icon, and Link to content.</p><p>This is used in the Card Slider block type and should not be placed by itself. The icons themselves should be white, as they are used on dark backgrounds.</p>'
+  format: full_html
+pattern: ''
+weight: 1

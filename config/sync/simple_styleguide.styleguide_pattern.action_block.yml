@@ -1,0 +1,11 @@
+uuid: 3edb6de3-3d3d-4b11-bd4d-e3403d0d69fb
+langcode: en
+status: true
+dependencies: {  }
+id: action_block
+label: 'Action Block'
+description:
+  value: '<p>This is a block with with the intention of a basic call to action with multiple columns. The primary version of this is the "Get In Touch" &nbsp;block, which can be seen on the <a href="/node/3" data-entity-type="node" data-entity-uuid="91168e7b-a25a-492e-9520-d87ea149f78a" data-entity-substitution="canonical">home page</a> above the footer. This can be created from the Blocks screen at /admin/content/blocks.</p><p>This block has the following fields:&nbsp;</p><ul><li>Title Text</li><li>Call to Action</li><li>Body</li><li>Image</li><li>Layout.</li></ul><p>The most unique part of this the Layout field, which has the following options:</p><p>-None- : (everything is stacked vertically)</p><p>Content - CTA : Everything will be in the left side of the screen, and the call to action will be on the right hand side. Collapsing to mobile CTA is after Content.</p><p>CTA - Content : Everything will be in the rightside of the screen, and the call to action will be on the lefthand side. Collapsing to mobile CTA is before Content.</p>'
+  format: full_html
+pattern: ''
+weight: -3

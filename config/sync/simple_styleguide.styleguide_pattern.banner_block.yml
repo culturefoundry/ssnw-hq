@@ -1,0 +1,11 @@
+uuid: a7c61369-396f-4ef8-a9ea-55176883da73
+langcode: en
+status: true
+dependencies: {  }
+id: banner_block
+label: 'Banner Block'
+description:
+  value: '<p>This is unlikely to be used again, but is used for the homepage hero image, seen on the <a href="/node/3" data-entity-type="node" data-entity-uuid="91168e7b-a25a-492e-9520-d87ea149f78a" data-entity-substitution="canonical">homepage</a>. It has a minimum and maximum height so that it doesnt take up too much screen space. It uses 2 image fields and a body field.</p><img src="/sites/default/files/inline-images/Screenshot%202024-10-14%20111515.png" data-entity-uuid="3afcbc3a-5fab-43b2-88d8-465b0cc74d4c" data-entity-type="file" alt="Homepage Hero" width="1510" height="699"><p>This takes 2 images, one for background image, and the second for background overlay. The background overlay will go in front of the background image, and is currently the dog in this example. In the future, this will be used to fade in the dog on on the page load. The images should be of the same size or at least the same dimensions.</p><p>The text is supplied by the body field, and in this example uses the "Larger H2" style to make the text the correct size.&nbsp;</p>'
+  format: full_html
+pattern: ''
+weight: -2

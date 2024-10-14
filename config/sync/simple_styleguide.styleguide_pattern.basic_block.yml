@@ -1,0 +1,11 @@
+uuid: 7b1d20dd-bc78-4120-b175-e991179bee7a
+langcode: en
+status: true
+dependencies: {  }
+id: basic_block
+label: 'Basic Block'
+description:
+  value: '<p>This is a block created in the <a href="/admin/content/block">blocks tab</a>.</p><p>This block has a Image, and a text field. Notably, this is used for the footer logo, security now in the header, and the mission statement in the footer</p><p>&nbsp;The image will go before the text if both exist.&nbsp;</p>'
+  format: full_html
+pattern: ''
+weight: -1

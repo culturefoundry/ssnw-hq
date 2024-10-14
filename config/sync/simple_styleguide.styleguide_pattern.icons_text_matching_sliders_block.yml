@@ -1,0 +1,11 @@
+uuid: 2b7968b4-4bb0-4c9b-ae0d-31104cd378a7
+langcode: en
+status: true
+dependencies: {  }
+id: icons_text_matching_sliders_block
+label: 'Icons & Text Matching Sliders Block'
+description:
+  value: '<p>This block can be seen on the <a href="/node/3" data-entity-type="node" data-entity-uuid="91168e7b-a25a-492e-9520-d87ea149f78a" data-entity-substitution="canonical">homepage</a> as the "Who We Serve" block</p><p>This block is by default full width, and its contents span to the breakout width.</p><p>There block has the following fields:</p><ul><li>title</li><li>icons<ul><li>these are displayed as a grid, and are set to fit within a maximum height and width</li><li>these do not play nicely as SVGs, please use a different image format</li><li>there are not a limit on how many can be put</li></ul></li><li>Links<ul><li>this is displayed as a marquee</li><li>the text will flow from left to right showing the separate links</li></ul></li></ul><p>When implemented, it will look like this&nbsp;</p><img data-entity-uuid="59c6f71f-7c81-4903-8529-647b39ac603d" data-entity-type="file" src="/sites/default/files/inline-images/image_2.png" width="1412" height="652"><p>&nbsp;</p>'
+  format: full_html
+pattern: ''
+weight: 5

@@ -3,9 +3,9 @@ langcode: en
 status: true
 dependencies: {  }
 id: arrow_button
-label: 'Arrow Button'
+label: Links
 description:
-  value: '<p>This style is used to make a call to action with an arrow. This must be put on a link</p>'
+  value: '<p>There are a few styles for links that we have built into the editor. All of these are styles that can only be put on a link</p><p>First example is an arrow This style is used to make a call to action with an arrow. This is a secondary for Call To Actions that are not as important.</p><p>&lt;a href="/" class="arrow-link"&gt;Arrow Link&lt;/a&gt; &nbsp;</p><p><a class="arrow-link" href="https://Home">Arrow Link</a></p><p>There are styles in the editor to make Mobile Only, or Mobile hidden/</p><p>&lt;a href="/" class="arrow-link"&gt;Arrow Link&lt;/a&gt;&nbsp;</p><p><a class="mobile-hidden" href="https://Home">Mobile Only</a> &nbsp;<a class="mobile-hidden" href="https://Home">Mobile Hidden</a></p><p>&nbsp;</p><p>&nbsp;</p>'
   format: full_html
-pattern: '<a href="/alarm-systems" class="arrow-link">Learn More</a>'
-weight: null
+pattern: ''
+weight: -10

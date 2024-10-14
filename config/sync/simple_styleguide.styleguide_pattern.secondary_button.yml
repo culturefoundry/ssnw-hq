@@ -1,0 +1,11 @@
+uuid: eb7ee289-24b3-4bea-a7de-21245c0df34b
+langcode: en
+status: true
+dependencies: {  }
+id: secondary_button
+label: 'Secondary Button'
+description:
+  value: '<p>This is in order to put a button of a secondary color. Currently on the site, this is used primarily for the login. This should be used sparingly.</p>'
+  format: full_html
+pattern: '<a class="button-secondary">Read More</a>'
+weight: -8

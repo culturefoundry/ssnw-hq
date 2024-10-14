@@ -33,6 +33,7 @@ settings:
       - '|'
       - blockQuote
       - drupalMedia
+      - drupalInsertImage
       - insertTable
       - horizontalLine
       - '|'
@@ -53,6 +54,8 @@ settings:
         - heading4
         - heading5
         - heading6
+    ckeditor5_imageResize:
+      allow_resize: true
     ckeditor5_list:
       properties:
         reversed: true

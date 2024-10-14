@@ -1,0 +1,11 @@
+uuid: ed4f6557-73f0-4de7-a147-167b0d086e61
+langcode: en
+status: true
+dependencies: {  }
+id: card_grid
+label: 'Card Grid'
+description:
+  value: '<p>This is a block created in the <a href="/admin/content/block">blocks tab</a>.</p><p>This is a block has a title, and a reference to Card Blocks.&nbsp;</p><p>It will create a grid similar to the slideshow.</p><p>It will look like this and can be found on the <a href="/node/20" data-entity-type="node" data-entity-uuid="5c1d9f9c-fc47-445e-9208-87c2072765bd" data-entity-substitution="canonical">How We Serve</a> page:</p><img data-entity-uuid="40471929-3285-4041-8093-7a66fff7987a" data-entity-type="file" src="/sites/default/files/inline-images/Screenshot%202024-10-14%20114352.png" width="1504" height="907">'
+  format: full_html
+pattern: ''
+weight: 3

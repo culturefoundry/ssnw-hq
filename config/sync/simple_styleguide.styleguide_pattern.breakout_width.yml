@@ -1,0 +1,11 @@
+uuid: efd5d08a-4895-45cf-b87d-4837e62fc65b
+langcode: en
+status: true
+dependencies: {  }
+id: breakout_width
+label: 'Breakout Width'
+description:
+  value: '<p>This is used to set the width of the content to the whole width of the screen. Most notably used in How we Serve block with carousel. Sometimes this is set in a template by default, but can be added in layout builder.<br><br>This will only work in top level items in layout builder, not inner html of blocks.</p><p><img src="/sites/default/files/inline-images/Screenshot%202024-10-14%20102829.png" data-entity-uuid="e82e9d92-afda-431c-9d02-fdad0fddd66e" data-entity-type="file" width="1527" height="605"></p>'
+  format: full_html
+pattern: "<div class=\"layout layout--onecol content-grid\">\r\n    <div class=\"layout__region layout__region--content content-grid\">\r\n       <div class=\"block block-content breakout bg-primary\">\r\n            Dummy content\r\n       </div>\r\n   </div>\r\n</div>"
+weight: -5

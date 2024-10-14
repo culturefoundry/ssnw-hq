@@ -3,6 +3,6 @@ langcode: en
 status: true
 dependencies: {  }
 id: cta_block_with_background
-label: 'CTA Block with Background'
+label: 'Block with Background'
 revision: false
 description: null

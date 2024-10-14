@@ -8,8 +8,8 @@ dependencies:
     - comment
     - filter
     - media
-    - media_entity_download
     - search
+    - sitemap
     - system
 _core:
   default_config_hash: j5zLMOdJBqC0bMvSdth5UebkprJB8g_2FXHqhfpJzow
@@ -20,7 +20,7 @@ is_admin: false
 permissions:
   - 'access comments'
   - 'access content'
-  - 'download media'
+  - 'access sitemap'
   - 'search content'
   - 'use advanced search'
   - 'use text format restricted_html'

@@ -5,18 +5,25 @@ dependencies:
   config:
     - filter.format.basic_html
     - filter.format.webform_default
+    - node.type.blog
+    - node.type.internal
+    - node.type.internal_documents
+    - node.type.page
+    - node.type.post_order
+    - node.type.service
+    - node.type.team_bios
+    - node.type.testimonial
   module:
     - antibot
+    - captcha
     - comment
     - file
     - filter
-    - help
-    - matomo
     - media
     - media_entity_download
     - node
     - search
-    - shortcut
+    - sitemap
     - system
 _core:
   default_config_hash: dJ0L2DNSj5q6XVZAGsuVDpJTh5UeYkIPwKrUOOpr8YI
@@ -27,14 +34,21 @@ is_admin: false
 permissions:
   - 'access comments'
   - 'access content'
-  - 'access help pages'
-  - 'access shortcuts'
+  - 'access sitemap'
   - 'access user profiles'
   - 'delete own files'
   - 'download media'
-  - 'opt-in or out of matomo tracking'
+  - 'edit own blog content'
+  - 'edit own internal content'
+  - 'edit own internal_documents content'
+  - 'edit own page content'
+  - 'edit own post_order content'
+  - 'edit own service content'
+  - 'edit own team_bios content'
+  - 'edit own testimonial content'
   - 'post comments'
   - 'search content'
+  - 'skip CAPTCHA'
   - 'skip antibot'
   - 'skip comment approval'
   - 'use advanced search'
@@ -42,3 +56,4 @@ permissions:
   - 'use text format webform_default'
   - 'view media'
   - 'view own unpublished content'
+  - 'view own unpublished media'

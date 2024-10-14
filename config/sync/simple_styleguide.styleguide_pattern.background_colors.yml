@@ -1,0 +1,11 @@
+uuid: fd669293-7f14-427e-a927-f64b64de2df9
+langcode: en
+status: true
+dependencies: {  }
+id: background_colors
+label: 'Background Colors'
+description:
+  value: '<p>There are a number of styles we can use for Applying backgrounds.</p><p>The ones that are usable in Layout Builder, that can be added to a block are as follows:</p><ul><li>bg-black</li><li>bg-secondary</li></ul><p>It should be noted that these will usually be accompanied with the ''full-width'' class and the ''py-4'' in order to achieve a edge to edge background color with some vertical padding..</p><p>There are many other tailwind classes that can be applied here, but these are the ones that editors are likely to use.</p><p>In order to apply this in layout builder, go to the layout of the page, click the pencil button that appears when you hover the desired block to access "manage attributes", as seen in the first screen shot. You can add classes or an ID to said block using the block attributes as seen in the second screenshot. After using this a few times, options that you have used in the past can be seen and reused. Until you get to that point, you may look at an example that you like, or ask a developer.</p><p>Manage Attributes Link:</p><img src="/sites/default/files/inline-images/image_3.png" data-entity-uuid="0cdb41e8-4d55-4d6f-996e-0b609270b24e" data-entity-type="file" alt="Layout builder Screenshot" width="912" height="216"><p>Where to add Classes:</p><p><img src="/sites/default/files/inline-images/image_4.png" data-entity-uuid="2b7a5245-b4c7-40ac-859c-a99131dd7154" data-entity-type="file" width="1300" height="700"></p>'
+  format: full_html
+pattern: ''
+weight: -6

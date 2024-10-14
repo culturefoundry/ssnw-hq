@@ -1,0 +1,11 @@
+uuid: c87df8e7-0d85-465e-ba87-7f7f545b2a90
+langcode: en
+status: true
+dependencies: {  }
+id: featured_picture_body_logo
+label: 'Featured Picture/Body/Logo'
+description:
+  value: '<p>This is a block type that is used on the <a href="/node/3" data-entity-type="node" data-entity-uuid="91168e7b-a25a-492e-9520-d87ea149f78a" data-entity-substitution="canonical">home page</a>.</p><p>This block is by default full screen.</p><p>This block has the following fields:</p><ul><li>Title</li><li>logo<ul><li>seen below as the white stars and red stripes.</li><li>starts in upper right hand corner in mobile</li><li>moves to lower left as screen gets larger</li></ul></li><li>image<ul><li>this image is shown on the left side of the layout, and will collapse to be above the body text</li></ul></li><li>body<ul><li>in larger sizes takes the right hand of the screen</li><li>This collapses to be below the text</li></ul></li><li>background image<ul><li>will be scaled to cover the background of the block</li></ul></li></ul><p>&nbsp;</p><p>When all fields are given, it looks like the following:</p><img data-entity-uuid="e3bdcf4c-1302-4f93-960e-79e8b4cba77c" data-entity-type="file" src="/sites/default/files/inline-images/image_1.png" width="1509" height="522">'
+  format: full_html
+pattern: ''
+weight: 4
