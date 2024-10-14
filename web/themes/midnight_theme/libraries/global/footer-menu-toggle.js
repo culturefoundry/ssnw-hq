@@ -15,12 +15,24 @@
     }
   }
 
+  Drupal.behaviors.js_check = {
+    attach(context) {
+      console.log('hello world')
+      once('js-check', '.js-disabled').forEach(
+        el => {
+          if(el.classList.contains('js-disabled')){
+            el.classList.remove('js-disabled')
+          }
+        }
+      )
+    }
+  }
+
   Drupal.behaviors.footer_main_menu = {
 
     attach(context) {
       once('footer-nav', '.menu--main', context)
         .forEach(el => {
-          // console.log('hello world')
           let toggleMenus = el.querySelectorAll('.primary-nav__menu-item--level-1.primary-nav__menu-item--has-children');
           toggleMenus.forEach( (menu, idx) => {
             if(menu.querySelector('.is-active')){
@@ -35,7 +47,6 @@
             // todo abstract toggle function
             toggle.addEventListener('click', function(e) {
               e.preventDefault()
-              console.log(child)
               if(!child.getAttribute('aria-expanded')=='true'){
                 el.querySelectorAll('.primary-nav__menu--level-2').forEach(childMenu => {
                   if(childMenu.classList.contains('aria-expanded')){

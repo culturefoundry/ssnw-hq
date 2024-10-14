@@ -67,7 +67,7 @@
     }
 }
 
-.menu--main>ul>li ul a{
+.menu--main>ul>li ul a:not(button){
     color: #B8B9BA;
     font-size: 1.2em;
     @apply font-medium;

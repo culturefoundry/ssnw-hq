@@ -62,3 +62,6 @@ footer .menu-item-no-footer{
 .region-footer .menu--main>ul>li ul[aria-expanded=true]{
   @apply flex;
 }
+.js-disabled .region-footer .menu--main>ul>li ul{
+  display:flex !important;
+}
