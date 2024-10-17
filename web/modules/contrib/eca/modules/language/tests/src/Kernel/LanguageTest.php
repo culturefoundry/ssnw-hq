@@ -6,12 +6,12 @@ namespace Drupal\Tests\eca_language\Kernel;
 
 use Drupal\Core\Language\LanguageInterface;
 use Drupal\Core\Messenger\MessengerInterface;
+use Drupal\KernelTests\KernelTestBase;
 use Drupal\eca\Entity\Eca;
 use Drupal\eca\Token\TokenInterface;
 use Drupal\eca_base\BaseEvents;
 use Drupal\eca_base\Event\CustomEvent;
 use Drupal\eca_language\Plugin\LanguageNegotiation\EcaLanguageNegotiation;
-use Drupal\KernelTests\KernelTestBase;
 use Drupal\language\ConfigurableLanguageManagerInterface;
 use Drupal\language\Entity\ConfigurableLanguage;
 use Drupal\locale\StringStorageInterface;

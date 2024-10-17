@@ -2,12 +2,12 @@
 
 namespace Drupal\Tests\eca_access\Kernel;
 
+use Drupal\KernelTests\KernelTestBase;
 use Drupal\eca\EcaEvents;
 use Drupal\eca\Entity\Eca;
 use Drupal\eca\Event\BeforeInitialExecutionEvent;
 use Drupal\eca_access\Event\EntityAccess;
 use Drupal\eca_access\Event\FieldAccess;
-use Drupal\KernelTests\KernelTestBase;
 use Drupal\node\Entity\Node;
 use Drupal\node\Entity\NodeType;
 use Drupal\user\Entity\Role;

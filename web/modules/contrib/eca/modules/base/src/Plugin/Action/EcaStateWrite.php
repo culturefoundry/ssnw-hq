@@ -41,7 +41,7 @@ class EcaStateWrite extends ConfigurableActionBase {
   /**
    * {@inheritdoc}
    */
-  public function access($object, AccountInterface $account = NULL, $return_as_object = FALSE) {
+  public function access($object, ?AccountInterface $account = NULL, $return_as_object = FALSE) {
     $key = $this->tokenService->replace($this->configuration['key']);
     $result = AccessResult::allowedIf(is_string($key) && $key !== '');
     if (!$result->isAllowed()) {

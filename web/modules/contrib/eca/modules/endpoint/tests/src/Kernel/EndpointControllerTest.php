@@ -2,9 +2,9 @@
 
 namespace Drupal\Tests\eca_endpoint\Kernel;
 
+use Drupal\KernelTests\KernelTestBase;
 use Drupal\eca\Entity\Eca;
 use Drupal\eca_endpoint\Controller\EndpointController;
-use Drupal\KernelTests\KernelTestBase;
 use Drupal\node\Entity\NodeType;
 use Drupal\user\Entity\User;
 use Symfony\Component\HttpFoundation\Request;

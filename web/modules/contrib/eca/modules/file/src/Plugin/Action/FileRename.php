@@ -94,7 +94,7 @@ class FileRename extends ConfigurableActionBase {
   /**
    * {@inheritdoc}
    */
-  public function access($object, AccountInterface $account = NULL, $return_as_object = FALSE) {
+  public function access($object, ?AccountInterface $account = NULL, $return_as_object = FALSE) {
     $new_filename = $this->tokenService->replace($this->configuration['new_filename']);
     $result = AccessResult::allowedIf(is_string($new_filename) && $new_filename !== '');
     if (!$result->isAllowed()) {

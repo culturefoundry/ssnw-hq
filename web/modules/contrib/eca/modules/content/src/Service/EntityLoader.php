@@ -275,7 +275,7 @@ class EntityLoader {
    * @return \Drupal\Core\Entity\EntityInterface|null
    *   The loaded entity, or NULL if not found.
    */
-  public function loadEntity(EntityInterface $entity = NULL, array $plugin_configuration = [], string $pluginId = 'eca_token_load_entity'): ?EntityInterface {
+  public function loadEntity(?EntityInterface $entity = NULL, array $plugin_configuration = [], string $pluginId = 'eca_token_load_entity'): ?EntityInterface {
     $this->pluginId = $pluginId;
     $config = $plugin_configuration + $this->defaultConfiguration();
     $token = $this->tokenService;

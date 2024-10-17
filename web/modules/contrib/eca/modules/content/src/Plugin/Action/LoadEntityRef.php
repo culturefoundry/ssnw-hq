@@ -26,7 +26,7 @@ class LoadEntityRef extends LoadEntity {
   /**
    * {@inheritdoc}
    */
-  protected function doLoadEntity(EntityInterface $entity = NULL): ?EntityInterface {
+  protected function doLoadEntity(?EntityInterface $entity = NULL): ?EntityInterface {
     $entity = parent::doLoadEntity($entity);
     $this->entity = NULL;
     if (is_null($entity)) {

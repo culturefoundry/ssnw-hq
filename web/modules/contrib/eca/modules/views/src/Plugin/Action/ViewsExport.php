@@ -80,7 +80,7 @@ class ViewsExport extends ViewsQuery {
   /**
    * {@inheritdoc}
    */
-  public function access($object, AccountInterface $account = NULL, $return_as_object = FALSE) {
+  public function access($object, ?AccountInterface $account = NULL, $return_as_object = FALSE) {
     $result = parent::access($object, $account, TRUE);
     if ($result->isAllowed() && $display = $this->getDisplay()) {
       if (empty($display->getPluginDefinition()['returns_response'])) {

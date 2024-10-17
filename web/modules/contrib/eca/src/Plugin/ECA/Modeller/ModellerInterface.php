@@ -53,7 +53,7 @@ interface ModellerInterface extends PluginInspectionInterface {
    * @throws \Drupal\Core\Entity\EntityStorageException
    * @throws \LogicException
    */
-  public function createNewModel(string $id, string $model_data, string $filename = NULL, bool $save = FALSE): Eca;
+  public function createNewModel(string $id, string $model_data, ?string $filename = NULL, bool $save = FALSE): Eca;
 
   /**
    * Saves an ECA config entity and its associated ECA model entity.
@@ -86,7 +86,7 @@ interface ModellerInterface extends PluginInspectionInterface {
    * @throws \Drupal\Core\Entity\EntityStorageException
    * @throws \LogicException
    */
-  public function save(string $data, string $filename = NULL, bool $status = NULL): bool;
+  public function save(string $data, ?string $filename = NULL, ?bool $status = NULL): bool;
 
   /**
    * Updates and ECA config entity from the given ECA model entity.

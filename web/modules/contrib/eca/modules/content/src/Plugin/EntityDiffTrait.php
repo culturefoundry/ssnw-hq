@@ -109,7 +109,7 @@ trait EntityDiffTrait {
    *   returned, i.e. TRUE means access is explicitly allowed, FALSE means
    *   access is either explicitly forbidden or "no opinion".
    */
-  public function access($object, AccountInterface $account = NULL, $return_as_object = FALSE) {
+  public function access($object, ?AccountInterface $account = NULL, $return_as_object = FALSE) {
     $result = AccessResult::forbidden();
     if ($object instanceof ContentEntityInterface &&
       $this->tokenService->hasTokenData($this->configuration['compare_token_name']) &&

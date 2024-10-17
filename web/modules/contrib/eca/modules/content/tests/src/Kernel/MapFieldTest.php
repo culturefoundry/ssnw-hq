@@ -2,8 +2,8 @@
 
 namespace Drupal\Tests\eca_content\Kernel;
 
-use Drupal\entity_test\Entity\EntityTestMapField;
 use Drupal\KernelTests\KernelTestBase;
+use Drupal\entity_test\Entity\EntityTestMapField;
 use Drupal\user\Entity\User;
 
 /**

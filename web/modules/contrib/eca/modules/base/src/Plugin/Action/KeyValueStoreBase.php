@@ -128,7 +128,7 @@ abstract class KeyValueStoreBase extends ConfigurableActionBase {
   /**
    * {@inheritdoc}
    */
-  public function access($object, AccountInterface $account = NULL, $return_as_object = FALSE) {
+  public function access($object, ?AccountInterface $account = NULL, $return_as_object = FALSE) {
     $collection = $this->tokenService->replaceClear($this->configuration['collection']);
     $key = $this->tokenService->replaceClear($this->configuration['key']);
     $result = AccessResult::allowedIf(is_string($collection) && $collection !== '' && is_string($key) && $key !== '');

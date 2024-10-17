@@ -60,7 +60,7 @@ class TriggerContentEntityCustomEvent extends ConfigurableActionBase {
   /**
    * {@inheritdoc}
    */
-  public function access($object, AccountInterface $account = NULL, $return_as_object = FALSE) {
+  public function access($object, ?AccountInterface $account = NULL, $return_as_object = FALSE) {
     if (!($object instanceof ContentEntityInterface)) {
       $result = AccessResult::forbidden();
       return $return_as_object ? $result : $result->isAllowed();

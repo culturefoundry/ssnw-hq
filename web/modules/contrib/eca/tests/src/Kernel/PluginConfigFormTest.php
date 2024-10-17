@@ -5,8 +5,8 @@ namespace Drupal\Tests\eca\Kernel;
 use Drupal\Core\DependencyInjection\ContainerBuilder;
 use Drupal\Core\Form\FormState;
 use Drupal\Core\Plugin\PluginFormInterface;
-use Drupal\eca\Plugin\Action\ActionInterface;
 use Drupal\KernelTests\KernelTestBase;
+use Drupal\eca\Plugin\Action\ActionInterface;
 use Symfony\Component\ErrorHandler\BufferingLogger;
 
 /**

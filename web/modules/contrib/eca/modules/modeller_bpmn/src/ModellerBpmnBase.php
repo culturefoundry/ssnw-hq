@@ -139,7 +139,7 @@ abstract class ModellerBpmnBase extends ModellerBase {
   /**
    * {@inheritdoc}
    */
-  public function createNewModel(string $id, string $model_data, string $filename = NULL, bool $save = FALSE): Eca {
+  public function createNewModel(string $id, string $model_data, ?string $filename = NULL, bool $save = FALSE): Eca {
     $eca = Eca::create(['id' => mb_strtolower($id)]);
     $eca->getModel()->setModeldata($model_data);
     $this->setConfigEntity($eca);
@@ -153,7 +153,7 @@ abstract class ModellerBpmnBase extends ModellerBase {
   /**
    * {@inheritdoc}
    */
-  public function save(string $data, string $filename = NULL, bool $status = NULL): bool {
+  public function save(string $data, ?string $filename = NULL, ?bool $status = NULL): bool {
     $this->prepareForUpdate($data);
     $this->filename = $filename ?? '';
     if ($status !== NULL) {

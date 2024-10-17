@@ -3,8 +3,8 @@
 namespace Drupal\Tests\eca_cache\Kernel;
 
 use Drupal\Core\Cache\Cache;
-use Drupal\eca\Plugin\DataType\DataTransferObject;
 use Drupal\KernelTests\KernelTestBase;
+use Drupal\eca\Plugin\DataType\DataTransferObject;
 
 /**
  * Kernel tests for the eca_cache module.

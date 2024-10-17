@@ -3,10 +3,10 @@
 namespace Drupal\Tests\eca_endpoint\Kernel;
 
 use Drupal\Core\Action\ActionManager;
+use Drupal\KernelTests\KernelTestBase;
 use Drupal\eca\Token\TokenInterface;
 use Drupal\eca_endpoint\EndpointEvents;
 use Drupal\eca_endpoint\Event\EndpointResponseEvent;
-use Drupal\KernelTests\KernelTestBase;
 use Drupal\user\Entity\User;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;

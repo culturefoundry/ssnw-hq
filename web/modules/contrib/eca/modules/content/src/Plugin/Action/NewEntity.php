@@ -92,6 +92,7 @@ class NewEntity extends ConfigurableActionBase {
       '#default_value' => $this->configuration['type'],
       '#description' => $this->t('The type of the new entity.<br/>Note: to create a new user entity, enable the eca_user module and use the "User: create new" action from there.'),
       '#weight' => -50,
+      '#eca_token_select_option' => TRUE,
     ];
     $langcodes = [];
     foreach ($this->languageManager->getLanguages() as $langcode => $language) {
@@ -150,9 +151,18 @@ class NewEntity extends ConfigurableActionBase {
   public function access($object, ?AccountInterface $account = NULL, $return_as_object = FALSE) {
     /** @var \Drupal\Core\Access\AccessResultInterface $access_result */
     $access_result = parent::access($object, $account, TRUE);
-    if ($access_result->isAllowed() && !empty($this->configuration['type'])) {
+    if ($this->configuration['type'] === '_eca_token') {
+      $type = $this->getTokenValue('type', '');
+    }
+    else {
+      $type = $this->configuration['type'];
+    }
+    if (empty($type)) {
+      $access_result = AccessResult::forbidden('No entity type provided.');
+    }
+    elseif ($access_result->isAllowed()) {
       $account = $account ?? $this->currentUser;
-      [$entity_type_id, $bundle] = array_pad(explode(' ', $this->configuration['type'], 2), 2, NULL);
+      [$entity_type_id, $bundle] = array_pad(explode(' ', $type, 2), 2, NULL);
       if ($bundle === NULL || $bundle === '' || $bundle === ContentEntityTypes::ALL) {
         $access_result = AccessResult::forbidden('Cannot determine access without a specified bundle.');
       }
@@ -179,7 +189,13 @@ class NewEntity extends ConfigurableActionBase {
    */
   public function execute(): void {
     $config = &$this->configuration;
-    [$entity_type_id, $bundle] = explode(' ', $config['type']);
+    if ($config['type'] === '_eca_token') {
+      $type = $this->getTokenValue('type', '');
+    }
+    else {
+      $type = $config['type'];
+    }
+    [$entity_type_id, $bundle] = explode(' ', $type);
     $values = [];
     $definition = $this->entityTypeManager->getDefinition($entity_type_id);
     $entity_keys = $definition->get('entity_keys');

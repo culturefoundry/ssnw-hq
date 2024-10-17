@@ -2,12 +2,12 @@
 
 namespace Drupal\eca_misc\Plugin\ECA\Event;
 
-use Drupal\block_content\BlockContentEvents;
-use Drupal\block_content\Event\BlockContentGetDependencyEvent;
 use Drupal\Core\File\Event\FileUploadSanitizeNameEvent;
 use Drupal\Core\Render\PageDisplayVariantSelectionEvent;
 use Drupal\Core\Render\RenderEvents;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\block_content\BlockContentEvents;
+use Drupal\block_content\Event\BlockContentGetDependencyEvent;
 use Drupal\eca\Plugin\ECA\Event\EventBase;
 use Drupal\jsonapi\ResourceType\ResourceTypeBuildEvent;
 use Drupal\jsonapi\ResourceType\ResourceTypeBuildEvents;

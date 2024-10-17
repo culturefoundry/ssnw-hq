@@ -4,11 +4,11 @@ namespace Drupal\Tests\eca_misc\Kernel;
 
 use Drupal\Core\Action\ActionManager;
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\KernelTests\KernelTestBase;
 use Drupal\eca\Plugin\ECA\Condition\StringComparisonBase;
 use Drupal\eca\PluginManager\Condition;
 use Drupal\eca\Token\TokenInterface;
 use Drupal\eca_misc\Plugin\RouteInterface;
-use Drupal\KernelTests\KernelTestBase;
 use Drupal\node\Entity\Node;
 use Drupal\node\NodeInterface;
 use Drupal\user\Entity\User;

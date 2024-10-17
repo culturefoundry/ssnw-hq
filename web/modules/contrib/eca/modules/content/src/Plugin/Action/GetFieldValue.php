@@ -2,8 +2,8 @@
 
 namespace Drupal\eca_content\Plugin\Action;
 
-use Drupal\Core\Access\AccessibleInterface;
 use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Access\AccessibleInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\FieldableEntityInterface;
 use Drupal\Core\Field\EntityReferenceFieldItemListInterface;
@@ -82,7 +82,7 @@ class GetFieldValue extends ConfigurableActionBase {
   /**
    * {@inheritdoc}
    */
-  public function access($object, AccountInterface $account = NULL, $return_as_object = FALSE) {
+  public function access($object, ?AccountInterface $account = NULL, $return_as_object = FALSE) {
     $result = AccessResult::forbidden();
     if (!($object instanceof AccessibleInterface) || !($object instanceof EntityInterface)) {
       return $return_as_object ? $result : $result->isAllowed();

@@ -2,8 +2,8 @@
 
 namespace Drupal\eca_workflow;
 
-use Drupal\content_moderation\ModerationInformationInterface;
 use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\content_moderation\ModerationInformationInterface;
 use Drupal\eca\Event\BaseHookHandler;
 use Drupal\eca\Service\ContentEntityTypes;
 

@@ -48,7 +48,7 @@ class ExportRecipe extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state, Eca $eca = NULL): array {
+  public function buildForm(array $form, FormStateInterface $form_state, ?Eca $eca = NULL): array {
     if ($eca === NULL) {
       return $form;
     }

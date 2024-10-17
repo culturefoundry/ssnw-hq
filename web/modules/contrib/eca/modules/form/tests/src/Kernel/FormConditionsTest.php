@@ -3,6 +3,7 @@
 namespace Drupal\Tests\eca_form\Kernel;
 
 use Drupal\Core\Form\FormState;
+use Drupal\KernelTests\KernelTestBase;
 use Drupal\eca\Plugin\ECA\Condition\StringComparisonBase;
 use Drupal\eca\PluginManager\Condition;
 use Drupal\eca_form\Event\FormBuild;
@@ -12,7 +13,6 @@ use Drupal\eca_form\Event\FormSubmit;
 use Drupal\eca_form\Event\FormValidate;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
-use Drupal\KernelTests\KernelTestBase;
 use Drupal\node\Entity\Node;
 use Drupal\node\Entity\NodeType;
 use Drupal\user\Entity\User;

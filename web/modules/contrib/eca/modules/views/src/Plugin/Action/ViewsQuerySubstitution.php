@@ -35,7 +35,7 @@ class ViewsQuerySubstitution extends ConfigurableActionBase {
   /**
    * {@inheritdoc}
    */
-  public function access($object, AccountInterface $account = NULL, $return_as_object = FALSE) {
+  public function access($object, ?AccountInterface $account = NULL, $return_as_object = FALSE) {
     $result = AccessResult::forbidden();
     $event = $this->getEvent();
     if ($event instanceof QuerySubstitutions) {

@@ -3,8 +3,8 @@
 namespace Drupal\Tests\eca_base\Kernel;
 
 use Drupal\Component\Serialization\Yaml;
-use Drupal\eca\Plugin\DataType\DataTransferObject;
 use Drupal\KernelTests\KernelTestBase;
+use Drupal\eca\Plugin\DataType\DataTransferObject;
 use Drupal\user\Entity\User;
 
 /**

@@ -2,8 +2,8 @@
 
 namespace Drupal\eca_content\Plugin\Action;
 
-use Drupal\Core\Access\AccessibleInterface;
 use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Access\AccessibleInterface;
 use Drupal\Core\Entity\RevisionableInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Session\AccountInterface;
@@ -55,7 +55,7 @@ class SetNewRevision extends ConfigurableActionBase {
   /**
    * {@inheritdoc}
    */
-  public function access($object, AccountInterface $account = NULL, $return_as_object = FALSE) {
+  public function access($object, ?AccountInterface $account = NULL, $return_as_object = FALSE) {
     if (!($object instanceof AccessibleInterface)) {
       $result = AccessResult::forbidden();
       return $return_as_object ? $result : $result->isAllowed();

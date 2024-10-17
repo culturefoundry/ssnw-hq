@@ -2,10 +2,10 @@
 
 namespace Drupal\Tests\eca_base\Kernel;
 
+use Drupal\KernelTests\KernelTestBase;
 use Drupal\eca\Plugin\ECA\Condition\StringComparisonBase;
 use Drupal\eca\PluginManager\Condition;
 use Drupal\eca\Token\TokenInterface;
-use Drupal\KernelTests\KernelTestBase;
 
 /**
  * Kernel tests for the "eca_count" condition plugin.

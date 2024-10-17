@@ -3,11 +3,11 @@
 namespace Drupal\Tests\eca_base\Unit;
 
 use Drupal\Core\Datetime\DateFormatter;
+use Drupal\Tests\UnitTestCase;
 use Drupal\eca\ConfigurableLoggerChannel;
 use Drupal\eca\EcaState;
 use Drupal\eca_base\Event\CronEvent;
 use Drupal\eca_base\Plugin\ECA\Event\BaseEvent;
-use Drupal\Tests\UnitTestCase;
 
 /**
  * Tests calculation of cron job due dates.

@@ -31,7 +31,7 @@ final class DataTransferObjectDefinition extends ComplexDataDefinitionBase {
    * @return static
    *   The data definition for the given dto.
    */
-  public static function create($type, DataTransferObject $dto = NULL): DataTransferObjectDefinition {
+  public static function create($type, ?DataTransferObject $dto = NULL): DataTransferObjectDefinition {
     $instance = new self(['type' => $type]);
     $instance->dto = $dto;
     return $instance;

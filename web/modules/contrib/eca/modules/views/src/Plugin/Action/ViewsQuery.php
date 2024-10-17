@@ -73,7 +73,7 @@ class ViewsQuery extends ConfigurableActionBase {
   /**
    * {@inheritdoc}
    */
-  public function access($object, AccountInterface $account = NULL, $return_as_object = FALSE) {
+  public function access($object, ?AccountInterface $account = NULL, $return_as_object = FALSE) {
     $result = AccessResult::forbidden();
     if (($display = $this->getDisplay()) && $display->access($account)) {
       $result = AccessResult::allowed();

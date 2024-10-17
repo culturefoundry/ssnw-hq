@@ -238,7 +238,10 @@ function eca_render_entity_extra_field_info(): array {
       }
       $config = $event['configuration'] ?? [];
 
-      foreach (explode(',', ($config['entity_type_id'] ?? '')) as $entity_type_id) {
+      $entity_type_ids = $config['entity_type_id'] === '' ?
+        array_keys($etm->getDefinitions()) :
+        explode(',', $config['entity_type_id']);
+      foreach ($entity_type_ids as $entity_type_id) {
         $name = trim((string) ($config['extra_field_name'] ?? ''));
         $label = trim((string) ($config['extra_field_label'] ?? $name));
         $description = trim((string) ($config['extra_field_description'] ?? ''));

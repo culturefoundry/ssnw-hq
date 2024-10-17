@@ -44,7 +44,7 @@ class SaveEntity extends ConfigurableActionBase {
   /**
    * {@inheritdoc}
    */
-  public function access($object, AccountInterface $account = NULL, $return_as_object = FALSE) {
+  public function access($object, ?AccountInterface $account = NULL, $return_as_object = FALSE) {
     $account = $account ?? $this->currentUser;
     if (!($object instanceof ContentEntityInterface)) {
       $access_result = AccessResult::forbidden();

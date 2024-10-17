@@ -4,8 +4,8 @@ namespace Drupal\Tests\eca_views\Kernel;
 
 use Drupal\Core\Action\ActionManager;
 use Drupal\Core\Session\AccountInterface;
-use Drupal\eca\Token\TokenInterface;
 use Drupal\KernelTests\KernelTestBase;
+use Drupal\eca\Token\TokenInterface;
 use Drupal\language\Entity\ConfigurableLanguage;
 use Drupal\node\Entity\Node;
 use Drupal\node\Entity\NodeType;

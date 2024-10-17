@@ -2,8 +2,8 @@
 
 namespace Drupal\Tests\eca\Kernel;
 
-use Drupal\eca\Plugin\ECA\Condition\StringComparisonBase;
 use Drupal\KernelTests\KernelTestBase;
+use Drupal\eca\Plugin\ECA\Condition\StringComparisonBase;
 use Drupal\node\Entity\Node;
 use Drupal\node\Entity\NodeType;
 

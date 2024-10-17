@@ -54,7 +54,7 @@ class SetViewMode extends ConfigurableActionBase {
   /**
    * {@inheritdoc}
    */
-  public function access($object, AccountInterface $account = NULL, $return_as_object = FALSE) {
+  public function access($object, ?AccountInterface $account = NULL, $return_as_object = FALSE) {
     if ($this->getEvent() instanceof ContentEntityViewModeAlter) {
       $result = AccessResult::allowed();
       $viewMode = $this->tokenService->replaceClear($this->configuration['new_view_mode']);

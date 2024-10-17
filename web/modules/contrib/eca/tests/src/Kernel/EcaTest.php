@@ -2,8 +2,8 @@
 
 namespace Drupal\Tests\eca\Kernel;
 
-use Drupal\eca\Entity\Eca;
 use Drupal\KernelTests\KernelTestBase;
+use Drupal\eca\Entity\Eca;
 
 /**
  * Tests for ECA-extended Token replacement behavior.

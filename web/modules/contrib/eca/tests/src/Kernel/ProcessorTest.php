@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\eca\Kernel;
 
+use Drupal\KernelTests\KernelTestBase;
 use Drupal\eca\EcaEvents;
 use Drupal\eca\Entity\Eca;
 use Drupal\eca\Event\AfterActionExecutionEvent;
@@ -10,7 +11,6 @@ use Drupal\eca\Event\BeforeActionExecutionEvent;
 use Drupal\eca\Event\BeforeInitialExecutionEvent;
 use Drupal\eca_test_array\Event\ArrayWriteEvent;
 use Drupal\eca_test_array\Plugin\Action\ArrayWrite;
-use Drupal\KernelTests\KernelTestBase;
 use Drupal\user\Entity\User;
 
 /**

@@ -2,13 +2,13 @@
 
 namespace Drupal\Tests\eca_workflow\Kernel;
 
-use Drupal\eca\Entity\Eca;
-use Drupal\eca_test_array\Plugin\Action\ArrayIncrement;
 use Drupal\KernelTests\KernelTestBase;
-use Drupal\node\Entity\Node;
-use Drupal\node\Entity\NodeType;
 use Drupal\Tests\ConfigTestTrait;
 use Drupal\Tests\content_moderation\Traits\ContentModerationTestTrait;
+use Drupal\eca\Entity\Eca;
+use Drupal\eca_test_array\Plugin\Action\ArrayIncrement;
+use Drupal\node\Entity\Node;
+use Drupal\node\Entity\NodeType;
 
 /**
  * Kernel tests for the events provided by the ECA Workflow module.

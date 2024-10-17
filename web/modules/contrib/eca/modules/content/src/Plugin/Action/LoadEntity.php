@@ -139,7 +139,7 @@ class LoadEntity extends ConfigurableActionBase {
    * @throws \InvalidArgumentException
    *   When the provided argument is not NULL and not an entity object.
    */
-  protected function doLoadEntity(EntityInterface $entity = NULL): ?EntityInterface {
+  protected function doLoadEntity(?EntityInterface $entity = NULL): ?EntityInterface {
     $this->entity = $this->entityLoader()->loadEntity($entity, $this->configuration);
     return $this->entity ?? NULL;
   }

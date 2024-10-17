@@ -156,14 +156,14 @@ class ConfigurableLoggerChannel extends LoggerChannel {
   /**
    * {@inheritdoc}
    */
-  public function setRequestStack(RequestStack $requestStack = NULL): void {
+  public function setRequestStack(?RequestStack $requestStack = NULL): void {
     $this->loggerChannel->setRequestStack($requestStack);
   }
 
   /**
    * {@inheritdoc}
    */
-  public function setCurrentUser(AccountInterface $current_user = NULL): void {
+  public function setCurrentUser(?AccountInterface $current_user = NULL): void {
     $this->loggerChannel->setCurrentUser($current_user);
   }
 

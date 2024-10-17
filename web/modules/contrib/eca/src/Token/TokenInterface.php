@@ -220,7 +220,7 @@ interface TokenInterface {
    *
    * @see \Drupal\Core\Utility\Token
    */
-  public function replace($text, array $data = [], array $options = [], BubbleableMetadata $bubbleable_metadata = NULL);
+  public function replace($text, array $data = [], array $options = [], ?BubbleableMetadata $bubbleable_metadata = NULL);
 
   /**
    * Same as ::replace() but automatically enables the clear option.
@@ -242,7 +242,7 @@ interface TokenInterface {
    *
    * @see ::replace()
    */
-  public function replaceClear($text, array $data = [], array $options = [], BubbleableMetadata $bubbleable_metadata = NULL);
+  public function replaceClear($text, array $data = [], array $options = [], ?BubbleableMetadata $bubbleable_metadata = NULL);
 
   /**
    * Replaces all tokens in a given plain text string with appropriate values.
@@ -259,7 +259,7 @@ interface TokenInterface {
    * @return string
    *   The entered plain text with tokens replaced.
    */
-  public function replacePlain(string $plain, array $data = [], array $options = [], BubbleableMetadata $bubbleable_metadata = NULL): string;
+  public function replacePlain(string $plain, array $data = [], array $options = [], ?BubbleableMetadata $bubbleable_metadata = NULL): string;
 
   /**
    * Returns data when text matches with a data key or runs string replacement.
@@ -288,7 +288,7 @@ interface TokenInterface {
    * @see ::getTokenData()
    * @see ::replace()
    */
-  public function getOrReplace($text, array $data = [], ?array $options = NULL, BubbleableMetadata $bubbleable_metadata = NULL);
+  public function getOrReplace($text, array $data = [], ?array $options = NULL, ?BubbleableMetadata $bubbleable_metadata = NULL);
 
   /**
    * Builds a list of all token-like patterns that appear in the text.

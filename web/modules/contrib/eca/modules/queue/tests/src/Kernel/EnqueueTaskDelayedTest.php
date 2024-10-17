@@ -2,10 +2,10 @@
 
 namespace Drupal\Tests\eca_queue\Kernel;
 
+use Drupal\KernelTests\KernelTestBase;
 use Drupal\eca\Entity\Eca;
 use Drupal\eca_queue\Plugin\Action\EnqueueTaskDelayed;
 use Drupal\eca_queue\Task;
-use Drupal\KernelTests\KernelTestBase;
 use Drupal\user\Entity\User;
 use Drupal\user\UserInterface;
 

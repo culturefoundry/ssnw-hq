@@ -6,11 +6,11 @@ use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Action\ActionManager;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\KernelTests\KernelTestBase;
+use Drupal\Tests\ConfigTestTrait;
+use Drupal\Tests\content_moderation\Traits\ContentModerationTestTrait;
 use Drupal\node\Entity\Node;
 use Drupal\node\Entity\NodeType;
 use Drupal\node\NodeInterface;
-use Drupal\Tests\ConfigTestTrait;
-use Drupal\Tests\content_moderation\Traits\ContentModerationTestTrait;
 
 /**
  * Kernel tests for the "eca_workflow" action plugin.

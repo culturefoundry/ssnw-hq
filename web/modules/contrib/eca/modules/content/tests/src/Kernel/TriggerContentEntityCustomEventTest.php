@@ -2,10 +2,10 @@
 
 namespace Drupal\Tests\eca_content\Kernel;
 
+use Drupal\KernelTests\KernelTestBase;
 use Drupal\eca_content\Event\ContentEntityCustomEvent;
 use Drupal\eca_content\Event\ContentEntityEvents;
 use Drupal\eca_content\Event\ContentEntityPreSave;
-use Drupal\KernelTests\KernelTestBase;
 use Drupal\node\Entity\Node;
 use Drupal\node\Entity\NodeType;
 use Drupal\node\NodeInterface;

@@ -27,7 +27,7 @@ class Link extends RenderElementActionBase {
   /**
    * {@inheritdoc}
    */
-  public function access($object, AccountInterface $account = NULL, $return_as_object = FALSE) {
+  public function access($object, ?AccountInterface $account = NULL, $return_as_object = FALSE) {
     $url = $this->tokenService->replace($this->configuration['url']);
     $result = AccessResult::allowedIf(is_string($url) && $url !== '');
     if (!$result->isAllowed()) {

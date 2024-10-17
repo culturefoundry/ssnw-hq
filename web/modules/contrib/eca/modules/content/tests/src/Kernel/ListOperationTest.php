@@ -2,8 +2,8 @@
 
 namespace Drupal\Tests\eca_content\Kernel;
 
-use Drupal\eca\Plugin\DataType\DataTransferObject;
 use Drupal\KernelTests\KernelTestBase;
+use Drupal\eca\Plugin\DataType\DataTransferObject;
 use Drupal\user\Entity\User;
 
 /**

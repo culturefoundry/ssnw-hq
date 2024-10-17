@@ -6,6 +6,7 @@ use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\eca\Plugin\Action\ConfigurableActionBase;
+use Drupal\eca\Plugin\DataType\DataTransferObject;
 use Drupal\eca\Service\YamlParser;
 use Drupal\eca_views\Event\ViewsBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -60,14 +61,18 @@ class ViewsSetFilter extends ConfigurableActionBase {
       }
     }
     else {
-      $event->getView()->filter[$id]->value['value'] = $this->tokenService->getOrReplace($value);
+      $value = $this->tokenService->getOrReplace($value);
+      if ($value instanceof DataTransferObject) {
+        $value = $value->getValue();
+      }
+      $event->getView()->filter[$id]->value['value'] = $value;
     }
   }
 
   /**
    * {@inheritdoc}
    */
-  public function access($object, AccountInterface $account = NULL, $return_as_object = FALSE) {
+  public function access($object, ?AccountInterface $account = NULL, $return_as_object = FALSE) {
     $result = AccessResult::forbidden();
     $event = $this->getEvent();
     if ($event instanceof ViewsBase) {

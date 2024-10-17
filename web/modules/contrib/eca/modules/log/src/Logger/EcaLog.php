@@ -3,12 +3,12 @@
 namespace Drupal\eca_log\Logger;
 
 use Drupal\Core\DependencyInjection\DependencySerializationTrait;
-use Drupal\Core\Logger\RfcLoggerTrait;
 use Drupal\Core\Logger\RfcLogLevel;
+use Drupal\Core\Logger\RfcLoggerTrait;
 use Drupal\eca_log\Event\LogMessageEvent;
 use Drupal\eca_log\LogEvents;
-use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**

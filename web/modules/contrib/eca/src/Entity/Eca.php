@@ -793,7 +793,7 @@ class Eca extends ConfigEntityBase implements EntityWithPluginCollectionInterfac
    * @return \Drupal\eca\Entity\Objects\EcaObject|null
    *   The ECA object if available, NULL otherwise.
    */
-  private function getEcaObject(string $type, string $plugin_id, string $id, string $label, array $fields, array $successors, EcaEvent $event = NULL): ?EcaObject {
+  private function getEcaObject(string $type, string $plugin_id, string $id, string $label, array $fields, array $successors, ?EcaEvent $event = NULL): ?EcaObject {
     $ecaObject = NULL;
     switch ($type) {
       case 'event':

@@ -227,7 +227,7 @@ class EcaLanguageManager extends ConfigurableLanguageManager {
   /**
    * {@inheritdoc}
    */
-  public function setConfigOverrideLanguage(LanguageInterface $language = NULL) {
+  public function setConfigOverrideLanguage(?LanguageInterface $language = NULL) {
     parent::setConfigOverrideLanguage($language);
     $this->decoratedManager->setConfigOverrideLanguage($language);
     return $this;

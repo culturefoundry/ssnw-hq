@@ -58,7 +58,7 @@ function eca_access_entity_access(EntityInterface $entity, string $operation, Ac
 /**
  * Implements hook_entity_field_access().
  */
-function eca_access_entity_field_access(string $operation, FieldDefinitionInterface $field_definition, AccountInterface $account, FieldItemListInterface $items = NULL): AccessResultInterface {
+function eca_access_entity_field_access(string $operation, FieldDefinitionInterface $field_definition, AccountInterface $account, ?FieldItemListInterface $items = NULL): AccessResultInterface {
   // Need the field item list to retrieve the according entity.
   if ($items) {
     /** @var \Drupal\Core\Render\RendererInterface $renderer */
@@ -91,7 +91,7 @@ function eca_access_entity_field_access(string $operation, FieldDefinitionInterf
 /**
  * Implements hook_entity_create_access().
  */
-function eca_access_entity_create_access(AccountInterface $account, array $context, string $entity_bundle = NULL): AccessResultInterface {
+function eca_access_entity_create_access(AccountInterface $account, array $context, ?string $entity_bundle = NULL): AccessResultInterface {
   if (!isset($entity_bundle)) {
     // Entities without bundles usually use the entity type ID, e.g. users.
     $entity_bundle = $context['entity_type_id'];

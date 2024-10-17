@@ -172,7 +172,7 @@ class DataTransferObject extends Map {
   /**
    * {@inheritdoc}
    */
-  public function __construct(DataDefinitionInterface $definition, $name = NULL, TypedDataInterface $parent = NULL) {
+  public function __construct(DataDefinitionInterface $definition, $name = NULL, ?TypedDataInterface $parent = NULL) {
     parent::__construct($definition, $name, $parent);
     // Make sure that the data definition reflects dynamically added properties.
     $this->definition = DataTransferObjectDefinition::create($definition->getDataType(), $this);

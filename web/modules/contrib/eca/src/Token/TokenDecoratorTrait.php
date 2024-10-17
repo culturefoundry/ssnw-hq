@@ -397,7 +397,7 @@ trait TokenDecoratorTrait {
   /**
    * {@inheritdoc}
    */
-  public function replace($text, array $data = [], array $options = [], BubbleableMetadata $bubbleable_metadata = NULL) {
+  public function replace($text, array $data = [], array $options = [], ?BubbleableMetadata $bubbleable_metadata = NULL) {
     // Replacement of aliased tokens can only work within the scope of this
     // decorator. Thus we call it on its own.
     $text = parent::replace($text, $data, $options, $bubbleable_metadata);
@@ -418,7 +418,7 @@ trait TokenDecoratorTrait {
   /**
    * {@inheritdoc}
    */
-  public function replaceClear($text, array $data = [], array $options = [], BubbleableMetadata $bubbleable_metadata = NULL) {
+  public function replaceClear($text, array $data = [], array $options = [], ?BubbleableMetadata $bubbleable_metadata = NULL) {
     $options['clear'] = TRUE;
     return $this->replace($text, $data, $options, $bubbleable_metadata);
   }
@@ -428,7 +428,7 @@ trait TokenDecoratorTrait {
    *
    * Logical-wise, this behaves the same as ::replace(). See the comments there.
    */
-  public function replacePlain(string $plain, array $data = [], array $options = [], BubbleableMetadata $bubbleable_metadata = NULL): string {
+  public function replacePlain(string $plain, array $data = [], array $options = [], ?BubbleableMetadata $bubbleable_metadata = NULL): string {
     $plain = parent::replacePlain($plain, $data, $options, $bubbleable_metadata);
 
     if (!in_array(get_class($this->token), [
@@ -443,7 +443,7 @@ trait TokenDecoratorTrait {
   /**
    * {@inheritdoc}
    */
-  public function getOrReplace($text, array $data = [], ?array $options = NULL, BubbleableMetadata $bubbleable_metadata = NULL) {
+  public function getOrReplace($text, array $data = [], ?array $options = NULL, ?BubbleableMetadata $bubbleable_metadata = NULL) {
     $string = (string) $text;
     if ((mb_substr($string, 0, 1) === '[') && (mb_substr($string, -1, 1) === ']') && (mb_strlen($string) <= 255)) {
       $string = mb_substr($string, 1, -1);
