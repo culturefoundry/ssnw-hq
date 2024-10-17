@@ -10,6 +10,7 @@ use Drupal\Core\TypedData\ListInterface;
 use Drupal\tamper\Exception\SkipTamperDataException;
 use Drupal\tamper\Exception\SkipTamperItemException;
 use Drupal\tamper\Exception\TamperException;
+use Drupal\tamper\Plugin\Tamper\Encode;
 use Drupal\tamper\Plugin\Tamper\FindReplaceRegex;
 use Drupal\tamper\SourceDefinition;
 use Drupal\tamper\TamperInterface;
@@ -133,7 +134,14 @@ trait TamperTrait {
         $this->tokenService->replaceClear($this->configuration[$key]);
     }
     $tamperPlugin->setConfiguration($config);
-    if (empty($tamperPlugin->getPluginDefinition()['handle_multiples'])) {
+    if (empty($tamperPlugin->getPluginDefinition()['handle_multiples']) ||
+      ($tamperPlugin instanceof Encode && in_array($config[Encode::SETTING_MODE], [
+        'unserialize',
+        'json_decode',
+        'base64_decode',
+        'yaml_decode',
+      ]))
+    ) {
       $data = $this->tokenService->replaceClear($this->configuration[$dataKey]);
     }
     else {
