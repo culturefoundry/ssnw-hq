@@ -263,7 +263,7 @@ handlers:
     settings:
       states:
         - completed
-      to_mail: '[current-user:mail]'
+      to_mail: '[webform_submission:values:email:raw]'
       to_options: {  }
       bcc_mail: ''
       bcc_options: {  }
@@ -302,14 +302,14 @@ handlers:
         - completed
       to_mail: _default
       to_options: {  }
-      bcc_mail: ''
+      bcc_mail: trish@ssnwhq.com
       bcc_options: {  }
-      cc_mail: ''
+      cc_mail: marketing@ssnwhq.com
       cc_options: {  }
       from_mail: '[webform_submission:values:email:raw]'
       from_options: {  }
       from_name: '[webform_submission:values:name:raw]'
-      reply_to: ''
+      reply_to: '[webform_submission:values:email:raw]'
       return_path: ''
       sender_mail: ''
       sender_name: ''

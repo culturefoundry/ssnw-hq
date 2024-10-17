@@ -13,8 +13,6 @@ dependencies:
     - taxonomy.vocabulary.employee_role
     - taxonomy.vocabulary.location
     - user.role.authenticated
-  content:
-    - 'taxonomy_term:location:fba61b62-afd7-4aaa-a00b-793bcb7305aa'
   module:
     - file
     - node
@@ -650,7 +648,7 @@ display:
           reduce_duplicates: false
           vid: location
           type: select
-          hierarchy: false
+          hierarchy: true
           limit: true
           error_message: true
         field_qualifications_target_id:
@@ -715,15 +713,21 @@ display:
           default_row_class: true
           columns:
             title: title
+            field_customer: field_customer
             field_location: field_location
             field_qualifications: field_qualifications
-            operations: operations
-            status: status
-            uid: uid
             created: created
+            field_document: field_document
           default: created
           info:
             title:
+              sortable: true
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            field_customer:
               sortable: true
               default_sort_order: asc
               align: ''
@@ -738,27 +742,6 @@ display:
               empty_column: false
               responsive: ''
             field_qualifications:
-              sortable: false
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            operations:
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            status:
-              sortable: false
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            uid:
-              sortable: true
-              default_sort_order: asc
               align: ''
               separator: ''
               empty_column: false
@@ -766,6 +749,11 @@ display:
             created:
               sortable: true
               default_sort_order: desc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            field_document:
               align: ''
               separator: ''
               empty_column: false
@@ -818,7 +806,18 @@ display:
     position: 2
     display_options:
       display_description: ''
-      display_extenders: {  }
+      display_extenders:
+        matomo:
+          enabled: false
+          keyword_gets: ''
+          keyword_behavior: first
+          keyword_concat_separator: ' '
+          category_behavior: none
+          category_gets: ''
+          category_concat_separator: ' '
+          category_fallback: ''
+          category_facets: {  }
+          category_facets_concat_separator: ', '
     cache_metadata:
       max-age: -1
       contexts:
@@ -1519,7 +1518,7 @@ display:
           reduce_duplicates: false
           vid: location
           type: select
-          hierarchy: false
+          hierarchy: true
           limit: true
           error_message: true
         field_qualifications_target_id:
@@ -1792,7 +1791,7 @@ display:
         type: normal
         title: 'Post Orders'
         description: ''
-        weight: 0
+        weight: -49
         expanded: false
         menu_name: internal
         parent: ''
