@@ -25,7 +25,6 @@ class Linkit extends Plugin {
     const editor = this.editor;
     const options = editor.config.get('linkit');
     const linkFormView = editor.plugins.get('LinkUI').formView;
-    const linkitInput = linkFormView.urlInputView.fieldView.element;
     let wasAutocompleteAdded = false;
 
     linkFormView.extendTemplate({
@@ -49,7 +48,7 @@ class Linkit extends Plugin {
       let selected;
 
       initializeAutocomplete(
-        linkitInput,
+        linkFormView.urlInputView.fieldView.element,
         {
           ...options,
           selectHandler: (event, { item }) => {
@@ -80,17 +79,6 @@ class Linkit extends Plugin {
             selected = false;
           },
           closeHandler: (event) => {
-            var autocompleteWidget = jQuery(linkitInput).autocomplete('instance');
-            var autocompleteMenuLinks = autocompleteWidget.menu.element.find('li.linkit-result-line');
-            // Automatically select item if it's the only one.
-            if (autocompleteMenuLinks.length === 1) {
-              var referencedItem = autocompleteMenuLinks.first().data('ui-autocomplete-item');
-              event.target.value = referencedItem.path;
-              this.set('entityType', referencedItem.entity_type_id);
-              this.set('entityUuid', referencedItem.entity_uuid);
-              this.set('entitySubstitution', referencedItem.substitution_id);
-              selected = true;
-            }
             selected = false;
           },
         },
@@ -143,6 +131,7 @@ class Linkit extends Plugin {
   _handleDataLoadingIntoExtraFormField() {
     const editor = this.editor;
     const linkCommand = editor.commands.get('link');
+
     this.bind('entityType').to(linkCommand, 'linkDataEntityType');
     this.bind('entityUuid').to(linkCommand, 'linkDataEntityUuid');
     this.bind('entitySubstitution').to(linkCommand, 'linkDataEntitySubstitution');
