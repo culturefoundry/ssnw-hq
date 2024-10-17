@@ -1,0 +1,36 @@
+midnight_theme.mobile:
+  label: mobile
+  mediaQuery: ''
+  weight: 0
+  multipliers:
+    - 1x
+midnight_theme.tablet:
+  label: tablet
+  mediaQuery: 'all and (min-width: 768px) and (max-width: 1023x)'
+  weight: 1
+  multipliers:
+    - 1x
+midnight_theme.large:
+  label: large
+  mediaQuery: 'all and (min-width: 1024px and max-width: 1199px)'
+  weight: 2
+  multipliers:
+    - 1x
+midnight_theme.desktop:
+  label: desktop
+  mediaQuery: 'all and (min-width: 1199px and max-width:1279px)'
+  weight: 3
+  multipliers:
+    - 1x
+midnight_theme.xl:
+  label: Extra Large
+  mediaQuery: 'all and (min-width: 1280px and max-width: 1535px)'
+  weight: 4
+  multipliers:
+    - 1x
+midnight_theme.2xl:
+  label: 2 Extra Large
+  mediaQuery: 'all and (min-width: 1536px)'
+  weight: 5
+  multipliers:
+    - 1x

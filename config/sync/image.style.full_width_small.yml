@@ -1,0 +1,7 @@
+uuid: 5ca27fa8-68eb-4017-b3c3-e3c143863117
+langcode: en
+status: true
+dependencies: {  }
+name: full_width_small
+label: 'Full width Small'
+effects: {  }

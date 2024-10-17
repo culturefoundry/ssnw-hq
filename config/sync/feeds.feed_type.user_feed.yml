@@ -1,4 +1,4 @@
-uuid: f12b743f-f5c1-4a4d-98c0-958fb6a006a8
+uuid: 864bec20-3c5e-49cb-9d4b-a88b559f8dba
 langcode: en
 status: true
 dependencies:
@@ -7,40 +7,92 @@ dependencies:
     - field.field.user.user.field_employee_location
     - field.field.user.user.field_first_name
     - field.field.user.user.field_last_name
-    - field.field.user.user.field_phone_number
   module:
     - feeds_tamper
     - user
 third_party_settings:
   feeds_tamper:
     tampers:
-      74bc948d-4a6a-4bc2-808b-e14349e67e8f:
-        separator: ','
-        limit: null
-        uuid: 74bc948d-4a6a-4bc2-808b-e14349e67e8f
-        plugin: explode
+      78b297bd-fdc1-4817-8133-bf782ab92882:
+        find: Admin
+        replace: Administrator
+        case_sensitive: false
+        word_boundaries: false
+        whole: false
+        uuid: 78b297bd-fdc1-4817-8133-bf782ab92882
+        plugin: find_replace
         source: role
         weight: 0
-        label: Explode
-      88b1aada-9d58-4bd1-9354-b4ea91e28d2c:
-        separator: ','
-        limit: null
-        uuid: 88b1aada-9d58-4bd1-9354-b4ea91e28d2c
-        plugin: explode
+        label: 'Find replace'
+      95269e1a-1350-41a9-af0d-e8987d75ba13:
+        find: WA
+        replace: Washington
+        case_sensitive: false
+        word_boundaries: false
+        whole: false
+        uuid: 95269e1a-1350-41a9-af0d-e8987d75ba13
+        plugin: find_replace
         source: state
         weight: 0
-        label: Explode
-      92f245e3-82c0-475e-9ca0-d0930e7ebb6f:
-        separator: ','
-        limit: null
-        uuid: 92f245e3-82c0-475e-9ca0-d0930e7ebb6f
-        plugin: explode
-        source: qualifications
+        label: 'Find replace'
+      4e21d096-5923-4e35-b8ee-e448bdad852d:
+        find: OR
+        replace: Oregon
+        case_sensitive: false
+        word_boundaries: false
+        whole: false
+        uuid: 4e21d096-5923-4e35-b8ee-e448bdad852d
+        plugin: find_replace
+        source: state
         weight: 0
-        label: Explode
+        label: 'Find replace'
+      853368ee-2062-426e-827e-fb940bddfac2:
+        find: NV
+        replace: Nevada
+        case_sensitive: false
+        word_boundaries: false
+        whole: false
+        uuid: 853368ee-2062-426e-827e-fb940bddfac2
+        plugin: find_replace
+        source: state
+        weight: 0
+        label: 'Find replace'
+      c8304b48-5754-4240-b45d-61793c87c1f3:
+        find: AK
+        replace: Alaska
+        case_sensitive: false
+        word_boundaries: false
+        whole: false
+        uuid: c8304b48-5754-4240-b45d-61793c87c1f3
+        plugin: find_replace
+        source: state
+        weight: 0
+        label: 'Find replace'
+      51119787-2f72-4401-84b9-1b9a55ef69c9:
+        find: CA
+        replace: California
+        case_sensitive: false
+        word_boundaries: false
+        whole: false
+        uuid: 51119787-2f72-4401-84b9-1b9a55ef69c9
+        plugin: find_replace
+        source: state
+        weight: 0
+        label: 'Find replace'
+      2ce93d51-5f87-4014-973a-6696bdb4fabe:
+        find: ID
+        replace: Idaho
+        case_sensitive: false
+        word_boundaries: false
+        whole: false
+        uuid: 2ce93d51-5f87-4014-973a-6696bdb4fabe
+        plugin: find_replace
+        source: state
+        weight: 0
+        label: 'Find replace'
 label: 'User Feed'
 id: user_feed
-description: 'This is going to be a one time feed to upload user data. After this should be deleted'
+description: 'This is a one time feed to upload user data. '
 help: ''
 import_period: -1
 fetcher: upload
@@ -57,8 +109,8 @@ processor_configuration:
   values: {  }
   langcode: en
   insert_new: 1
-  update_existing: 0
-  update_non_existent: 'entity:save_action:user'
+  update_existing: 2
+  update_non_existent: _keep
   skip_hash_check: false
   skip_validation: false
   skip_validation_types: {  }
@@ -68,65 +120,62 @@ processor_configuration:
   owner_feed_author: false
   owner_id: 0
 custom_sources:
-  id:
-    value: ID
-    label: ID
-    machine_name: id
+  last_name:
+    value: 'LAST NAME'
+    label: 'LAST NAME'
+    machine_name: last_name
     type: csv
-  email:
-    value: Email
-    label: Email
-    machine_name: email
+  employee_id:
+    value: 'EMPLOYEE ID'
+    label: 'EMPLOYEE ID'
+    machine_name: employee_id
     type: csv
+  first_name:
+    value: 'FIRST NAME'
+    label: 'FIRST NAME'
+    machine_name: first_name
+    type: blank
   state:
-    value: State
-    label: State
+    value: STATE
+    label: STATE
     machine_name: state
     type: csv
-  first:
-    value: First
-    label: First
-    machine_name: first
-    type: csv
-  last:
-    value: Last
-    label: Last
-    machine_name: last
+  email:
+    value: EMAIL
+    label: EMAIL
+    machine_name: email
     type: csv
   role:
-    value: Role
-    label: Role
+    value: ROLE
+    label: ROLE
     machine_name: role
     type: csv
-  phone:
-    value: Phone
-    label: Phone
-    machine_name: phone
-    type: csv
   qualifications:
-    value: Qualifications
-    label: Qualifications
+    value: QUALIFICATIONS
+    label: QUALIFICATIONS
     machine_name: qualifications
     type: csv
-  parent_field_active:
-    value: "parent:field_active\t"
-    label: "parent:field_active\t"
-    machine_name: parent_field_active
-    type: blank
 mappings:
+  -
+    target: field_last_name
+    map:
+      value: last_name
+    settings:
+      language: null
+    unique: {  }
   -
     target: name
     map:
-      value: id
+      value: employee_id
     settings: {  }
     unique:
       value: 1
   -
-    target: mail
+    target: field_first_name
     map:
-      value: email
+      value: first_name
     settings:
-      defuse: false
+      language: null
     unique: {  }
   -
     target: field_employee_location
@@ -138,18 +187,11 @@ mappings:
       autocreate: 1
       autocreate_bundle: location
   -
-    target: field_first_name
+    target: mail
     map:
-      value: first
+      value: email
     settings:
-      language: null
-    unique: {  }
-  -
-    target: field_last_name
-    map:
-      value: last
-    settings:
-      language: null
+      defuse: false
     unique: {  }
   -
     target: roles
@@ -165,12 +207,6 @@ mappings:
       autocreate: 0
       revoke_roles: 0
   -
-    target: field_phone_number
-    map:
-      value: phone
-    settings:
-      language: null
-  -
     target: field_employee_designation
     map:
       target_id: qualifications
@@ -179,8 +215,3 @@ mappings:
       reference_by: name
       autocreate: 1
       autocreate_bundle: employee_role
-  -
-    target: status
-    map:
-      value: parent_field_active
-    settings: {  }
