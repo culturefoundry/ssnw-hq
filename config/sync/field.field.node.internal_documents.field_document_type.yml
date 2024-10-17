@@ -1,18 +1,18 @@
-uuid: da1e3d6b-3e47-4819-ad76-ccc42eb07f64
+uuid: 9ff6464a-56f1-4033-bb13-cd576733dbe7
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_qualifications
-    - node.type.post_order
-    - taxonomy.vocabulary.employee_role
-id: node.post_order.field_qualifications
-field_name: field_qualifications
+    - field.storage.node.field_document_type
+    - node.type.internal_documents
+    - taxonomy.vocabulary.document_type
+id: node.internal_documents.field_document_type
+field_name: field_document_type
 entity_type: node
-bundle: post_order
-label: Qualifications
+bundle: internal_documents
+label: 'Document Type'
 description: ''
-required: true
+required: false
 translatable: false
 default_value: {  }
 default_value_callback: ''
@@ -20,7 +20,7 @@ settings:
   handler: 'default:taxonomy_term'
   handler_settings:
     target_bundles:
-      employee_role: employee_role
+      document_type: document_type
     sort:
       field: name
       direction: asc
