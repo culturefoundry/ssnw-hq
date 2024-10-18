@@ -13,83 +13,43 @@ dependencies:
 third_party_settings:
   feeds_tamper:
     tampers:
-      78b297bd-fdc1-4817-8133-bf782ab92882:
+      ea13fe00-9282-481d-a218-cdcaea10376d:
         find: Admin
         replace: Administrator
-        case_sensitive: false
-        word_boundaries: false
+        case_sensitive: true
+        word_boundaries: true
         whole: false
-        uuid: 78b297bd-fdc1-4817-8133-bf782ab92882
+        uuid: ea13fe00-9282-481d-a218-cdcaea10376d
         plugin: find_replace
-        source: role
+        source: user_role
         weight: 0
         label: 'Find replace'
-      95269e1a-1350-41a9-af0d-e8987d75ba13:
-        find: WA
-        replace: Washington
+      038969ed-d479-4ba2-9a62-df9c6c5e2e4a:
+        default_value: '1'
+        only_if_empty: false
+        uuid: 038969ed-d479-4ba2-9a62-df9c6c5e2e4a
+        plugin: default_value
+        source: active
+        weight: 0
+        label: 'Set value or default value'
+      a5b397ec-1330-4917-b197-6974a72c77a4:
+        find_replace:
+          - "WA|Washington\r"
+          - "OR|Oregon\r"
+          - "CA|California\r"
+          - "HI|Hawaii\r"
+          - "AK|Alaska\r"
+          - "ID|Idaho\r"
+          - NV|Nevada
+        separator: '|'
         case_sensitive: false
-        word_boundaries: false
+        word_boundaries: true
         whole: false
-        uuid: 95269e1a-1350-41a9-af0d-e8987d75ba13
-        plugin: find_replace
+        uuid: a5b397ec-1330-4917-b197-6974a72c77a4
+        plugin: find_replace_multiline
         source: state
         weight: 0
-        label: 'Find replace'
-      4e21d096-5923-4e35-b8ee-e448bdad852d:
-        find: OR
-        replace: Oregon
-        case_sensitive: false
-        word_boundaries: false
-        whole: false
-        uuid: 4e21d096-5923-4e35-b8ee-e448bdad852d
-        plugin: find_replace
-        source: state
-        weight: 0
-        label: 'Find replace'
-      853368ee-2062-426e-827e-fb940bddfac2:
-        find: NV
-        replace: Nevada
-        case_sensitive: false
-        word_boundaries: false
-        whole: false
-        uuid: 853368ee-2062-426e-827e-fb940bddfac2
-        plugin: find_replace
-        source: state
-        weight: 0
-        label: 'Find replace'
-      c8304b48-5754-4240-b45d-61793c87c1f3:
-        find: AK
-        replace: Alaska
-        case_sensitive: false
-        word_boundaries: false
-        whole: false
-        uuid: c8304b48-5754-4240-b45d-61793c87c1f3
-        plugin: find_replace
-        source: state
-        weight: 0
-        label: 'Find replace'
-      51119787-2f72-4401-84b9-1b9a55ef69c9:
-        find: CA
-        replace: California
-        case_sensitive: false
-        word_boundaries: false
-        whole: false
-        uuid: 51119787-2f72-4401-84b9-1b9a55ef69c9
-        plugin: find_replace
-        source: state
-        weight: 0
-        label: 'Find replace'
-      2ce93d51-5f87-4014-973a-6696bdb4fabe:
-        find: ID
-        replace: Idaho
-        case_sensitive: false
-        word_boundaries: false
-        whole: false
-        uuid: 2ce93d51-5f87-4014-973a-6696bdb4fabe
-        plugin: find_replace
-        source: state
-        weight: 0
-        label: 'Find replace'
+        label: 'Find replace (multiline)'
 label: 'User Feed'
 id: user_feed
 description: 'This is a one time feed to upload user data. '
@@ -130,11 +90,6 @@ custom_sources:
     label: 'EMPLOYEE ID'
     machine_name: employee_id
     type: csv
-  first_name:
-    value: 'FIRST NAME'
-    label: 'FIRST NAME'
-    machine_name: first_name
-    type: blank
   state:
     value: STATE
     label: STATE
@@ -155,6 +110,21 @@ custom_sources:
     label: QUALIFICATIONS
     machine_name: qualifications
     type: csv
+  user_role:
+    value: ROLE
+    label: ROLE
+    machine_name: user_role
+    type: csv
+  '':
+    value: ''
+    label: ''
+    machine_name: ''
+    type: blank
+  active:
+    value: '1'
+    label: active
+    machine_name: active
+    type: blank
 mappings:
   -
     target: field_last_name
@@ -173,19 +143,10 @@ mappings:
   -
     target: field_first_name
     map:
-      value: first_name
+      value: ''
     settings:
       language: null
     unique: {  }
-  -
-    target: field_employee_location
-    map:
-      target_id: state
-    settings:
-      language: ''
-      reference_by: name
-      autocreate: 1
-      autocreate_bundle: location
   -
     target: mail
     map:
@@ -194,9 +155,18 @@ mappings:
       defuse: false
     unique: {  }
   -
+    target: field_employee_designation
+    map:
+      target_id: qualifications
+    settings:
+      language: ''
+      reference_by: name
+      autocreate: 1
+      autocreate_bundle: employee_role
+  -
     target: roles
     map:
-      target_id: role
+      target_id: user_role
     settings:
       reference_by: label
       allowed_roles:
@@ -207,11 +177,16 @@ mappings:
       autocreate: 0
       revoke_roles: 0
   -
-    target: field_employee_designation
+    target: field_employee_location
     map:
-      target_id: qualifications
+      target_id: state
     settings:
       language: ''
       reference_by: name
       autocreate: 1
-      autocreate_bundle: employee_role
+      autocreate_bundle: location
+  -
+    target: status
+    map:
+      value: active
+    settings: {  }
