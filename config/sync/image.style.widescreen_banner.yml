@@ -1,0 +1,17 @@
+uuid: 388b4ca9-0028-47cc-95b3-a5da51714aad
+langcode: en
+status: true
+dependencies:
+  module:
+    - focal_point
+name: widescreen_banner
+label: 'Widescreen Banner'
+effects:
+  8cd30f6e-f8fb-4868-9820-027d0d7a42d3:
+    uuid: 8cd30f6e-f8fb-4868-9820-027d0d7a42d3
+    id: focal_point_scale_and_crop
+    weight: 1
+    data:
+      width: 1600
+      height: 500
+      crop_type: focal_point

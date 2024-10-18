@@ -3,9 +3,44 @@ langcode: en
 status: true
 dependencies:
   config:
-    - image.style.full
+    - image.style.desktop_banner
+    - image.style.mobile_banner
+    - image.style.tablet_banner
+    - image.style.widescreen_banner
+  theme:
+    - midnight_theme
 id: basic_page_hero
 label: 'Basic Page Hero'
-image_style_mappings: {  }
-breakpoint_group: responsive_image
-fallback_image_style: full
+image_style_mappings:
+  -
+    image_mapping_type: image_style
+    image_mapping: widescreen_banner
+    breakpoint_id: midnight_theme.2xl
+    multiplier: 1x
+  -
+    image_mapping_type: image_style
+    image_mapping: desktop_banner
+    breakpoint_id: midnight_theme.xl
+    multiplier: 1x
+  -
+    image_mapping_type: image_style
+    image_mapping: desktop_banner
+    breakpoint_id: midnight_theme.desktop
+    multiplier: 1x
+  -
+    image_mapping_type: image_style
+    image_mapping: tablet_banner
+    breakpoint_id: midnight_theme.large
+    multiplier: 1x
+  -
+    image_mapping_type: image_style
+    image_mapping: tablet_banner
+    breakpoint_id: midnight_theme.tablet
+    multiplier: 1x
+  -
+    image_mapping_type: image_style
+    image_mapping: mobile_banner
+    breakpoint_id: midnight_theme.mobile
+    multiplier: 1x
+breakpoint_group: midnight_theme
+fallback_image_style: mobile_banner
