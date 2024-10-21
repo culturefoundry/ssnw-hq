@@ -40,7 +40,9 @@ third_party_settings:
           - "HI|Hawaii\r"
           - "AK|Alaska\r"
           - "ID|Idaho\r"
-          - NV|Nevada
+          - "NV|Nevada\r"
+          - "MT|Montana\r"
+          - 'NC|North Carolina'
         separator: '|'
         case_sensitive: false
         word_boundaries: true
@@ -50,6 +52,14 @@ third_party_settings:
         source: state
         weight: 0
         label: 'Find replace (multiline)'
+      743b6f82-695c-4346-b46a-d0b523885607:
+        separator: ',%s'
+        limit: null
+        uuid: 743b6f82-695c-4346-b46a-d0b523885607
+        plugin: explode
+        source: qualifications
+        weight: 0
+        label: Explode
 label: 'User Feed'
 id: user_feed
 description: 'This is a one time feed to upload user data. '
