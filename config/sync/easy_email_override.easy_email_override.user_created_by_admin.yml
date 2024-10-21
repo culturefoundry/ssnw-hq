@@ -1,0 +1,13 @@
+uuid: c5bd9843-c617-4178-8e71-24173e11e4be
+langcode: en
+status: true
+dependencies: {  }
+id: user_created_by_admin
+label: 'User Created by Admin'
+module: user
+key: register_admin_created
+easy_email_type: user_created
+param_map:
+  -
+    source: account
+    destination: field_new_account

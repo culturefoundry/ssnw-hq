@@ -1,0 +1,29 @@
+uuid: 0fcbdf4b-2380-4eea-a74d-8f3685ab5b0d
+langcode: en
+status: true
+dependencies:
+  config:
+    - easy_email.easy_email_type.user_created
+    - field.storage.easy_email.field_new_account
+id: easy_email.user_created.field_new_account
+field_name: field_new_account
+entity_type: easy_email
+bundle: user_created
+label: 'New Account'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:user'
+  handler_settings:
+    target_bundles: null
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    filter:
+      type: _none
+    include_anonymous: true
+field_type: entity_reference

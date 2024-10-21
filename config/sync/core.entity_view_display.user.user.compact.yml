@@ -7,6 +7,7 @@ dependencies:
     - field.field.user.user.feeds_item
     - field.field.user.user.field_employee_designation
     - field.field.user.user.field_employee_location
+    - field.field.user.user.field_feeds
     - field.field.user.user.field_first_name
     - field.field.user.user.field_last_name
     - field.field.user.user.field_phone_number
@@ -42,6 +43,7 @@ hidden:
   feeds_item: true
   field_employee_designation: true
   field_employee_location: true
+  field_feeds: true
   field_first_name: true
   field_last_name: true
   field_phone_number: true

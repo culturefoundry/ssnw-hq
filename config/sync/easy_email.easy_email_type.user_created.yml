@@ -1,0 +1,30 @@
+uuid: 43df3aa5-0522-4f92-9bef-8b717c6815fd
+langcode: en
+status: true
+dependencies: {  }
+id: user_created
+label: 'User Created'
+key: ''
+recipient:
+  - '[easy_email:field_new_account:entity:mail]'
+cc: {  }
+bcc: {  }
+fromName: 'Security Services Northwest'
+fromAddress: '[site:mail]'
+replyToAddress: ''
+subject: 'Your account at SSNW has been created'
+inboxPreview: ''
+bodyHtml:
+  value: '<p>[user:field_first_name] [user:field_first_name],</p><p>A site administrator at [site:name] has created an account for you. You may now log in by clicking this link or copying and pasting it into your browser:</p><p>[user:one-time-login-url]</p><p>This link can only be used once to log in and will lead you to a page where you can set your password.</p><p>After setting your password, you will be able to log in at [site:login-url] in the future using:</p><p>username: [user:name]<br>password: Your password</p><p>-- &nbsp;[site:name] team</p>'
+  format: basic_html
+bodyPlain: ''
+generateBodyPlain: false
+attachment: {  }
+saveAttachment: false
+attachmentScheme: private
+attachmentDirectory: ''
+saveEmail: true
+allowSavingEmail: true
+purgeEmails: false
+purgeInterval: null
+purgePeriod: null

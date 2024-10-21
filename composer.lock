@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f366879a9e3fb35d2011532b197ec0d9",
+    "content-hash": "714a3f7909715d42b0c43d2afa3c45c2",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2811,6 +2811,68 @@
             }
         },
         {
+            "name": "drupal/easy_email",
+            "version": "3.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/easy_email.git",
+                "reference": "3.0.1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/easy_email-3.0.1.zip",
+                "reference": "3.0.1",
+                "shasum": "921e94e42eda51bb34f495ea8c4e410f25bba800"
+            },
+            "require": {
+                "drupal/core": "^10.1 || ^11",
+                "drupal/jquery_ui_resizable": "^2.0",
+                "drupal/token": "^1.0"
+            },
+            "require-dev": {
+                "drupal/commerce": "^2.0",
+                "drupal/commerce_order": "*",
+                "drupal/commerce_price": "*",
+                "drupal/mailsystem": "^4.0",
+                "drupal/symfony_mailer_lite": "^1.0"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "3.0.1",
+                    "datestamp": "1720806266",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                },
+                "drush": {
+                    "services": {
+                        "drush.services.yml": "^10"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "mandclu",
+                    "homepage": "https://www.drupal.org/user/52136"
+                },
+                {
+                    "name": "zengenuity",
+                    "homepage": "https://www.drupal.org/user/326925"
+                }
+            ],
+            "description": "Easy Email is an HTML email system for Drupal, designed to be as simple as possible to configure, with a robust set of features.",
+            "homepage": "https://www.drupal.org/project/easy_email",
+            "support": {
+                "source": "https://git.drupalcode.org/project/easy_email"
+            }
+        },
+        {
             "name": "drupal/eca",
             "version": "2.0.6",
             "source": {
@@ -4098,6 +4160,67 @@
             "homepage": "https://www.drupal.org/project/jquery_ui_menu",
             "support": {
                 "source": "https://git.drupalcode.org/project/jquery_ui_menu"
+            }
+        },
+        {
+            "name": "drupal/jquery_ui_resizable",
+            "version": "2.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/jquery_ui_resizable.git",
+                "reference": "2.1.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/jquery_ui_resizable-2.1.0.zip",
+                "reference": "2.1.0",
+                "shasum": "f1f15c5fe01f11e5348d502e2df836d0c492f507"
+            },
+            "require": {
+                "drupal/core": "^9.2 || ^10 || ^11",
+                "drupal/jquery_ui": "^1.7"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "2.1.0",
+                    "datestamp": "1717031358",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "bnjmnm",
+                    "homepage": "https://www.drupal.org/user/2369194"
+                },
+                {
+                    "name": "lauriii",
+                    "homepage": "https://www.drupal.org/user/1078742"
+                },
+                {
+                    "name": "nod_",
+                    "homepage": "https://www.drupal.org/user/598310"
+                },
+                {
+                    "name": "phenaproxima",
+                    "homepage": "https://www.drupal.org/user/205645"
+                },
+                {
+                    "name": "zrpnr",
+                    "homepage": "https://www.drupal.org/user/1448368"
+                }
+            ],
+            "description": "Provides jQuery UI Resizable library.",
+            "homepage": "https://www.drupal.org/project/jquery_ui_resizable",
+            "support": {
+                "source": "https://git.drupalcode.org/project/jquery_ui_resizable"
             }
         },
         {

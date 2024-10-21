@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.field.user.user.field_employee_designation
     - field.field.user.user.field_employee_location
+    - field.field.user.user.field_feeds
     - field.field.user.user.field_first_name
     - field.field.user.user.field_last_name
   module:
@@ -60,6 +61,14 @@ third_party_settings:
         source: qualifications
         weight: 0
         label: Explode
+      4b2eba14-e26c-4505-863a-a8ef8951de72:
+        default_value: '1'
+        only_if_empty: false
+        uuid: 4b2eba14-e26c-4505-863a-a8ef8951de72
+        plugin: default_value
+        source: 'true'
+        weight: 0
+        label: 'Set value or default value'
 label: 'User Feed'
 id: user_feed
 description: 'This is a one time feed to upload user data. '
@@ -135,6 +144,11 @@ custom_sources:
     label: active
     machine_name: active
     type: blank
+  'true':
+    value: 'true'
+    label: 'true'
+    machine_name: 'true'
+    type: blank
 mappings:
   -
     target: field_last_name
@@ -200,3 +214,9 @@ mappings:
     map:
       value: active
     settings: {  }
+  -
+    target: field_feeds
+    map:
+      value: 'true'
+    settings:
+      language: null

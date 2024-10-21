@@ -1,0 +1,6 @@
+_core:
+  default_config_hash: QXw1YAXGDLiWA01GXzRHdgy41d7seoUG-pJQoNa5Q3s
+purge_on_cron: true
+purge_cron_limit: 50
+allowed_attachment_paths:
+  - 'public://*'

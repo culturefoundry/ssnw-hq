@@ -6,6 +6,7 @@ dependencies:
     - field.field.user.user.feeds_item
     - field.field.user.user.field_employee_designation
     - field.field.user.user.field_employee_location
+    - field.field.user.user.field_feeds
     - field.field.user.user.field_first_name
     - field.field.user.user.field_last_name
     - field.field.user.user.field_phone_number
@@ -267,6 +268,16 @@ content:
     third_party_settings: {  }
     weight: 52
     region: content
+  field_feeds:
+    type: boolean
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 58
+    region: first
   field_first_name:
     type: string
     label: above

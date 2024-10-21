@@ -28,6 +28,8 @@ module:
   dblog: 0
   diff: 0
   dynamic_page_cache: 0
+  easy_email: 0
+  easy_email_override: 0
   eca: 0
   eca_access: 0
   eca_base: 0
@@ -69,6 +71,7 @@ module:
   jquery_ui: 0
   jquery_ui_autocomplete: 0
   jquery_ui_menu: 0
+  jquery_ui_resizable: 0
   layout_builder: 0
   layout_builder_component_attributes: 0
   layout_discovery: 0

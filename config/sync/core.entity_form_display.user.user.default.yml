@@ -6,6 +6,7 @@ dependencies:
     - field.field.user.user.feeds_item
     - field.field.user.user.field_employee_designation
     - field.field.user.user.field_employee_location
+    - field.field.user.user.field_feeds
     - field.field.user.user.field_first_name
     - field.field.user.user.field_last_name
     - field.field.user.user.field_phone_number
@@ -33,13 +34,13 @@ content:
     region: content
   field_employee_designation:
     type: options_buttons
-    weight: 6
+    weight: 7
     region: content
     settings: {  }
     third_party_settings: {  }
   field_employee_location:
     type: options_buttons
-    weight: 5
+    weight: 6
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -61,29 +62,29 @@ content:
     third_party_settings: {  }
   field_phone_number:
     type: telephone_default
-    weight: 4
+    weight: 5
     region: content
     settings:
       placeholder: ''
     third_party_settings: {  }
   language:
-    weight: 7
+    weight: 8
     region: content
     settings: {  }
     third_party_settings: {  }
   matomo:
-    weight: 3
+    weight: 4
     region: content
     settings: {  }
     third_party_settings: {  }
   path:
     type: path
-    weight: 9
+    weight: 10
     region: content
     settings: {  }
     third_party_settings: {  }
   timezone:
-    weight: 8
+    weight: 9
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -97,3 +98,4 @@ content:
     third_party_settings: {  }
 hidden:
   feeds_item: true
+  field_feeds: true

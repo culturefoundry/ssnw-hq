@@ -1,0 +1,117 @@
+uuid: f1cc9a83-8cbf-49da-9e66-f4ec60a5a59a
+langcode: en
+status: true
+dependencies:
+  config:
+    - easy_email.easy_email_type.user_created
+    - field.field.easy_email.user_created.field_new_account
+    - field.storage.easy_email.field_new_account
+  module:
+    - easy_email
+    - eca_base
+    - eca_content
+    - eca_log
+id: user_creation
+modeller: bpmn_io
+label: 'Send Email on user Creation'
+version: ''
+weight: 0
+events:
+  insert_user:
+    plugin: 'content_entity:insert'
+    label: 'Insert User'
+    configuration:
+      type: 'user _all'
+    successors:
+      -
+        id: Activity_0a63x61
+        condition: Flow_0qvi9xf
+conditions:
+  Flow_0qvi9xf:
+    plugin: eca_entity_field_value_empty
+    configuration:
+      field_name: mail
+      negate: true
+      entity: entity
+  Flow_05ly01h:
+    plugin: eca_entity_field_value_empty
+    configuration:
+      field_name: feeds_item
+      negate: true
+      entity: entity
+gateways: {  }
+actions:
+  Activity_0a63x61:
+    plugin: eca_void_and_condition
+    label: AND
+    configuration: {  }
+    successors:
+      -
+        id: Activity_1jn8gsl
+        condition: ''
+      -
+        id: Activity_03cewrn
+        condition: Flow_05ly01h
+  Activity_03cewrn:
+    plugin: eca_new_entity
+    label: 'Create Email'
+    configuration:
+      token_name: email
+      type: 'easy_email user_created'
+      langcode: ''
+      label: ''
+      published: false
+      owner: ''
+    successors:
+      -
+        id: Activity_0hryycr
+        condition: ''
+      -
+        id: Activity_0jy50nq
+        condition: ''
+  Activity_0hryycr:
+    plugin: eca_set_field_value
+    label: 'Attach User'
+    configuration:
+      field_name: field_new_account.target_id
+      field_value: '[entity:uid]'
+      method: 'set:clear'
+      strip_tags: false
+      trim: false
+      save_entity: true
+      object: email
+    successors:
+      -
+        id: Activity_1y76612
+        condition: ''
+  Activity_1y76612:
+    plugin: easy_email_send
+    label: 'Send Email'
+    configuration:
+      object: email
+    successors:
+      -
+        id: Activity_0yldn99
+        condition: ''
+  Activity_0yldn99:
+    plugin: eca_save_entity
+    label: 'Save Email'
+    configuration:
+      object: email
+    successors: {  }
+  Activity_1jn8gsl:
+    plugin: eca_write_log_message
+    label: 'Log email field'
+    configuration:
+      channel: 'User Has Email'
+      severity: ''
+      message: 'Has Email!'
+    successors: {  }
+  Activity_0jy50nq:
+    plugin: eca_write_log_message
+    label: 'Log feed & create'
+    configuration:
+      channel: 'Email Created'
+      severity: ''
+      message: 'user is from feed. creating email'
+    successors: {  }
