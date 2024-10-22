@@ -1,4 +1,4 @@
-uuid: 374c3516-9f56-4e0b-843d-a9785915d478
+uuid: 6fe63b5d-b7ac-4b17-883d-66cb731ff12f
 langcode: en
 status: true
 dependencies:
@@ -7,31 +7,28 @@ dependencies:
   module:
     - block_class
     - block_content
-    - node
+    - system
   theme:
     - midnight_theme
 third_party_settings:
   block_class:
     classes: 'full-width child-full-width'
-id: midnight_theme_blogtitle
+id: midnight_theme_blogtitle_2
 theme: midnight_theme
 region: content
-weight: -15
+weight: -14
 provider: null
 plugin: 'block_content:2fb5d2b0-fce4-4a5a-a58a-8823015e15aa'
 settings:
   id: 'block_content:2fb5d2b0-fce4-4a5a-a58a-8823015e15aa'
-  label: 'Blog Title'
+  label: 'Blog Title (All Blog Page)'
   label_display: '0'
   provider: block_content
   status: true
   info: ''
   view_mode: full
 visibility:
-  'entity_bundle:node':
-    id: 'entity_bundle:node'
+  request_path:
+    id: request_path
     negate: false
-    context_mapping:
-      node: '@node.node_route_context:node'
-    bundles:
-      blog: blog
+    pages: /blog/all

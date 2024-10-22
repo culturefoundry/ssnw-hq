@@ -3,18 +3,19 @@ langcode: en
 status: true
 dependencies:
   module:
+    - block_class
     - taxonomy
   theme:
     - midnight_theme
 id: midnight_theme_pagetitle
 theme: midnight_theme
 region: content
-weight: -13
+weight: -12
 provider: null
 plugin: page_title_block
 settings:
   id: page_title_block
-  label: 'Page title'
+  label: 'Page title (Taxonomy)'
   label_display: '0'
   provider: core
 visibility:

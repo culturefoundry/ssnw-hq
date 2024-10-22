@@ -10,12 +10,12 @@ dependencies:
 id: midnight_theme_pagetitle_2
 theme: midnight_theme
 region: content
-weight: -12
+weight: -11
 provider: null
 plugin: page_title_block
 settings:
   id: page_title_block
-  label: 'Page title'
+  label: 'Page title (webform)'
   label_display: '0'
   provider: core
 visibility:

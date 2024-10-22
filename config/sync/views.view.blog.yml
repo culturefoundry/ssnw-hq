@@ -248,7 +248,7 @@ display:
             trim_whitespace: false
             alt: ''
             rel: ''
-            link_class: 'button button-white'
+            link_class: arrow-link
             prefix: ''
             suffix: ''
             target: ''
@@ -801,7 +801,7 @@ display:
             trim_whitespace: false
             alt: ''
             rel: ''
-            link_class: 'button button-white'
+            link_class: arrow-link
             prefix: ''
             suffix: ''
             target: ''
