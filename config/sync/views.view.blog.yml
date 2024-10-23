@@ -918,7 +918,7 @@ display:
           admin_label: ''
           plugin_id: text_custom
           empty: false
-          content: '<div class="blog-footer"> <a href="/blog/recent" class="button" > View Blog</a> </div>'
+          content: '<div class="blog-footer"> <a href="/blog/all" class="button" > View Blog</a> </div> '
           tokenize: false
       display_extenders: {  }
     cache_metadata:
