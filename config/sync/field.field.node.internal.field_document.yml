@@ -1,16 +1,16 @@
-uuid: 5a4b96c4-d4e9-48e6-80a8-b65f9a928418
+uuid: 28f08023-1f48-482e-b60d-334bdde93f3b
 langcode: en
 status: true
 dependencies:
   config:
     - field.storage.node.field_document
-    - node.type.internal_documents
+    - node.type.internal
   module:
     - file
-id: node.internal_documents.field_document
+id: node.internal.field_document
 field_name: field_document
 entity_type: node
-bundle: internal_documents
+bundle: internal
 label: Document
 description: ''
 required: false
