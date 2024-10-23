@@ -1480,14 +1480,13 @@ display:
           group_type: group
           admin_label: ''
           plugin_id: taxonomy_index_tid
-          operator: not
-          value:
-            56: 56
+          operator: or
+          value: {  }
           group: 1
           exposed: true
           expose:
             operator_id: field_location_target_id_op
-            label: Location
+            label: 'Location (field_location)'
             description: ''
             use_operator: false
             operator: field_location_target_id_op
@@ -1520,7 +1519,7 @@ display:
           reduce_duplicates: false
           vid: location
           type: select
-          hierarchy: true
+          hierarchy: false
           limit: true
           error_message: true
         field_qualifications_target_id:
