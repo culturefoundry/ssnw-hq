@@ -76,8 +76,10 @@
             {% if label %}
                 {% if content.field_background_image and bg_style == "bg_image" %}
                     <h2{{ title_attributes }} class="md:col-span-2 text-white row-start-1">{{ label }}</h2>
+                {% elseif bg_style == "bg-black"%}
+                    <h2{{ title_attributes }} class="row-start-1 text-white">{{ label }}</h2>
                 {% else %}
-                    <h2{{ title_attributes }} class="md:col-span-2 row-start-1 ">{{ label }}</h2>
+                    <h2{{ title_attributes }} class="row-start-1 ">{{ label }}</h2>
                 {% endif %}
             {% endif %}
 
