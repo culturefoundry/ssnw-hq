@@ -9,6 +9,7 @@ dependencies:
     - media.type.audio
     - media.type.document
     - media.type.image
+    - media.type.internal_document
     - media.type.remote_video
     - media.type.video
     - node.type.internal
@@ -26,6 +27,7 @@ dependencies:
     - navigation
     - node
     - quick_node_clone
+    - scheduler
     - shortcut
     - system
     - taxonomy
@@ -55,6 +57,7 @@ permissions:
   - 'create document media'
   - 'create image media'
   - 'create internal content'
+  - 'create internal_document media'
   - 'create media'
   - 'create post_order content'
   - 'create remote_video media'
@@ -63,12 +66,15 @@ permissions:
   - 'create terms in location'
   - 'create video media'
   - 'delete any document media'
+  - 'delete any internal_document media'
   - 'delete post_order revisions'
   - 'edit any document media'
   - 'edit any internal content'
+  - 'edit any internal_document media'
   - 'edit any post_order content'
   - 'edit own document media'
   - 'edit own image media'
+  - 'edit own internal_document media'
   - 'edit own remote_video media'
   - 'edit own video media'
   - 'edit terms in customer'
@@ -76,6 +82,7 @@ permissions:
   - 'revert internal revisions'
   - 'revert post_order revisions'
   - 'revert term revisions in customer'
+  - 'schedule publishing of nodes'
   - 'select account cancellation method'
   - 'update media'
   - 'use editorial transition archive'

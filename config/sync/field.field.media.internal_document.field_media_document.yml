@@ -1,4 +1,4 @@
-uuid: f796a29a-4527-462c-baa5-08dee2212ba8
+uuid: 6587bc3a-0584-4b3d-9b2d-fcac76250468
 langcode: en
 status: true
 dependencies:
@@ -21,7 +21,7 @@ settings:
   handler: 'default:file'
   handler_settings: {  }
   file_directory: '[date:custom:Y]-[date:custom:m]'
-  file_extensions: 'txt doc docx pdf'
+  file_extensions: 'txt rtf doc docx ppt pptx xls xlsx pdf odf odg odp ods odt fodt fods fodp fodg key numbers pages'
   max_filesize: ''
   description_field: false
 field_type: file
