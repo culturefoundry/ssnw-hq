@@ -21,6 +21,7 @@ dependencies:
     - media.type.audio
     - media.type.document
     - media.type.image
+    - media.type.internal_document
     - media.type.remote_video
     - media.type.video
     - node.type.blog
@@ -105,6 +106,7 @@ permissions:
   - 'create icons_text_matching_sliders block content'
   - 'create image media'
   - 'create internal content'
+  - 'create internal_document media'
   - 'create internal_documents content'
   - 'create media'
   - 'create page content'
@@ -146,6 +148,7 @@ permissions:
   - 'edit own comments'
   - 'edit own document media'
   - 'edit own image media'
+  - 'edit own internal_document media'
   - 'edit own remote_video media'
   - 'edit own video media'
   - 'edit terms in employee_role'
