@@ -156,7 +156,7 @@ function eca_content_entity_prepare_view(string $entity_type_id, array $entities
 /**
  * Implements hook_entity_prepare_form().
  */
-function eca_content_entity_prepare_form(EntityInterface $entity, string $operation, FormStateInterface $form_state): void {
+function eca_content_entity_prepare_form(EntityInterface $entity, ?string $operation, FormStateInterface $form_state): void {
   _eca_content_hook_handler()->prepareForm($entity, $operation, $form_state);
 }
 
