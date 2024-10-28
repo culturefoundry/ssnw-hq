@@ -6,7 +6,6 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'weitzman\\DrupalTestTraits\\' => array($vendorDir . '/weitzman/drupal-test-traits/src'),
     'phpowermove\\docblock\\' => array($vendorDir . '/phpowermove/docblock/src'),
     'phootwork\\lang\\' => array($vendorDir . '/phootwork/lang'),
     'phootwork\\collection\\' => array($vendorDir . '/phootwork/collection'),

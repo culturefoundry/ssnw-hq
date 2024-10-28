@@ -34,10 +34,6 @@ class ComposerStaticInitfbb7d02f5c688e4445e1231cd1318d30
     );
 
     public static $prefixLengthsPsr4 = array (
-        'w' => 
-        array (
-            'weitzman\\DrupalTestTraits\\' => 26,
-        ),
         'p' => 
         array (
             'phpowermove\\docblock\\' => 21,
@@ -189,10 +185,6 @@ class ComposerStaticInitfbb7d02f5c688e4445e1231cd1318d30
     );
 
     public static $prefixDirsPsr4 = array (
-        'weitzman\\DrupalTestTraits\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/weitzman/drupal-test-traits/src',
-        ),
         'phpowermove\\docblock\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpowermove/docblock/src',
@@ -6777,26 +6769,6 @@ class ComposerStaticInitfbb7d02f5c688e4445e1231cd1318d30
         'phpowermove\\docblock\\tags\\UnknownTag' => __DIR__ . '/..' . '/phpowermove/docblock/src/tags/UnknownTag.php',
         'phpowermove\\docblock\\tags\\VarTag' => __DIR__ . '/..' . '/phpowermove/docblock/src/tags/VarTag.php',
         'phpowermove\\docblock\\tags\\VersionTag' => __DIR__ . '/..' . '/phpowermove/docblock/src/tags/VersionTag.php',
-        'weitzman\\DrupalTestTraits\\AddPsr4' => __DIR__ . '/..' . '/weitzman/drupal-test-traits/src/AddPsr4.php',
-        'weitzman\\DrupalTestTraits\\BrowserKitTrait' => __DIR__ . '/..' . '/weitzman/drupal-test-traits/src/BrowserKitTrait.php',
-        'weitzman\\DrupalTestTraits\\DrupalTrait' => __DIR__ . '/..' . '/weitzman/drupal-test-traits/src/DrupalTrait.php',
-        'weitzman\\DrupalTestTraits\\Drush\\Generators\\ExistingGenerator' => __DIR__ . '/..' . '/weitzman/drupal-test-traits/src/Drush/Generators/ExistingGenerator.php',
-        'weitzman\\DrupalTestTraits\\Drush\\Generators\\ExistingJsGenerator' => __DIR__ . '/..' . '/weitzman/drupal-test-traits/src/Drush/Generators/ExistingJsGenerator.php',
-        'weitzman\\DrupalTestTraits\\EntityCrawlerTrait' => __DIR__ . '/..' . '/weitzman/drupal-test-traits/src/EntityCrawlerTrait.php',
-        'weitzman\\DrupalTestTraits\\Entity\\MediaCreationTrait' => __DIR__ . '/..' . '/weitzman/drupal-test-traits/src/Entity/MediaCreationTrait.php',
-        'weitzman\\DrupalTestTraits\\Entity\\NodeCreationTrait' => __DIR__ . '/..' . '/weitzman/drupal-test-traits/src/Entity/NodeCreationTrait.php',
-        'weitzman\\DrupalTestTraits\\Entity\\TaxonomyCreationTrait' => __DIR__ . '/..' . '/weitzman/drupal-test-traits/src/Entity/TaxonomyCreationTrait.php',
-        'weitzman\\DrupalTestTraits\\Entity\\UserCreationTrait' => __DIR__ . '/..' . '/weitzman/drupal-test-traits/src/Entity/UserCreationTrait.php',
-        'weitzman\\DrupalTestTraits\\Exception\\LoggedMessageException' => __DIR__ . '/..' . '/weitzman/drupal-test-traits/src/Exception/LoggedMessageException.php',
-        'weitzman\\DrupalTestTraits\\Exception\\PhpWatchdogException' => __DIR__ . '/..' . '/weitzman/drupal-test-traits/src/Exception/PhpWatchdogException.php',
-        'weitzman\\DrupalTestTraits\\ExistingSiteBase' => __DIR__ . '/..' . '/weitzman/drupal-test-traits/src/ExistingSiteBase.php',
-        'weitzman\\DrupalTestTraits\\ExistingSiteSelenium2DriverTestBase' => __DIR__ . '/..' . '/weitzman/drupal-test-traits/src/ExistingSiteSelenium2DriverTestBase.php',
-        'weitzman\\DrupalTestTraits\\LoggerTrait' => __DIR__ . '/..' . '/weitzman/drupal-test-traits/src/LoggerTrait.php',
-        'weitzman\\DrupalTestTraits\\Mail\\MailCollectionAssertTrait' => __DIR__ . '/..' . '/weitzman/drupal-test-traits/src/Mail/MailCollectionAssertTrait.php',
-        'weitzman\\DrupalTestTraits\\Mail\\MailCollectionTrait' => __DIR__ . '/..' . '/weitzman/drupal-test-traits/src/Mail/MailCollectionTrait.php',
-        'weitzman\\DrupalTestTraits\\Mail\\TestMailCollection' => __DIR__ . '/..' . '/weitzman/drupal-test-traits/src/Mail/TestMailCollection.php',
-        'weitzman\\DrupalTestTraits\\ScreenShotTrait' => __DIR__ . '/..' . '/weitzman/drupal-test-traits/src/ScreenShotTrait.php',
-        'weitzman\\DrupalTestTraits\\Selenium2DriverTrait' => __DIR__ . '/..' . '/weitzman/drupal-test-traits/src/Selenium2DriverTrait.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
