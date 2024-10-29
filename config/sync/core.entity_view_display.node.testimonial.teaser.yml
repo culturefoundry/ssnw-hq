@@ -6,6 +6,7 @@ dependencies:
     - core.entity_view_mode.node.teaser
     - field.field.node.testimonial.body
     - field.field.node.testimonial.field_metatag
+    - field.field.node.testimonial.field_order
     - field.field.node.testimonial.field_tags
     - field.field.node.testimonial.layout_builder__layout
     - field.field.node.testimonial.schema_image
@@ -27,6 +28,7 @@ hidden:
   body: true
   content_moderation_control: true
   field_metatag: true
+  field_order: true
   field_tags: true
   layout_builder__layout: true
   schema_image: true

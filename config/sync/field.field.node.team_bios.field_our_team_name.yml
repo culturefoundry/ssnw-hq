@@ -12,8 +12,8 @@ id: node.team_bios.field_our_team_name
 field_name: field_our_team_name
 entity_type: node
 bundle: team_bios
-label: Name2
-description: 'enter employee name again'
+label: 'Name (Body)'
+description: 'enter employee name again so it appears in body of page - use <strong> tags so it appears in bold'
 required: false
 translatable: false
 default_value: {  }

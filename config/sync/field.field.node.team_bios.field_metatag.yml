@@ -1,21 +1,21 @@
-uuid: 90d22567-6722-4efa-8a3c-5041eacb1ba8
+uuid: e8cd6e07-148b-4ced-bb03-8f3e381ef7bb
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.layout_builder__layout
+    - field.storage.node.field_metatag
     - node.type.team_bios
   module:
-    - layout_builder
-id: node.team_bios.layout_builder__layout
-field_name: layout_builder__layout
+    - metatag
+id: node.team_bios.field_metatag
+field_name: field_metatag
 entity_type: node
 bundle: team_bios
-label: Layout
+label: 'Meta tags'
 description: ''
 required: false
 translatable: false
 default_value: {  }
 default_value_callback: ''
 settings: {  }
-field_type: layout_section
+field_type: metatag

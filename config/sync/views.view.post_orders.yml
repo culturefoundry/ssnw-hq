@@ -843,7 +843,6 @@ display:
           query_tags: {  }
       relationships: {  }
       css_class: view-scroll-sideways
-      use_ajax: true
       header: {  }
       footer: {  }
       display_extenders: {  }
@@ -1541,13 +1540,14 @@ display:
           group_type: group
           admin_label: ''
           plugin_id: taxonomy_index_tid
-          operator: or
-          value: {  }
+          operator: not
+          value:
+            56: 56
           group: 1
           exposed: true
           expose:
             operator_id: field_location_target_id_op
-            label: 'Location (field_location)'
+            label: Location
             description: ''
             use_operator: false
             operator: field_location_target_id_op
@@ -1580,7 +1580,7 @@ display:
           reduce_duplicates: false
           vid: location
           type: select
-          hierarchy: false
+          hierarchy: true
           limit: true
           error_message: true
         field_qualifications_target_id:

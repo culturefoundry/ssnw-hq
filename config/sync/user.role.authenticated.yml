@@ -7,6 +7,7 @@ dependencies:
     - filter.format.webform_default
     - node.type.blog
     - node.type.internal
+    - node.type.internal_documents
     - node.type.page
     - node.type.post_order
     - node.type.service
@@ -39,6 +40,7 @@ permissions:
   - 'download media'
   - 'edit own blog content'
   - 'edit own internal content'
+  - 'edit own internal_documents content'
   - 'edit own page content'
   - 'edit own post_order content'
   - 'edit own service content'

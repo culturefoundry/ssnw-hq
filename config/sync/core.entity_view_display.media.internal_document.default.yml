@@ -3,24 +3,10 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.media.internal_document.field_document_type
     - field.field.media.internal_document.field_media_document
     - media.type.internal_document
   module:
     - file
-    - sdc_display
-third_party_settings:
-  sdc_display:
-    enabled: false
-    component:
-      machine_name: ''
-    mappings:
-      static:
-        props: {  }
-        slots: {  }
-      dynamic:
-        props: {  }
-        slots: {  }
 id: media.internal_document.default
 targetEntityType: media
 bundle: internal_document
@@ -36,7 +22,6 @@ content:
     region: content
 hidden:
   created: true
-  field_document_type: true
   name: true
   thumbnail: true
   uid: true

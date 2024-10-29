@@ -13,7 +13,7 @@ field_name: field_our_team_job_title
 entity_type: node
 bundle: team_bios
 label: 'Job Title'
-description: ''
+description: 'Job title - use  <em> tags so it appears in italics'
 required: false
 translatable: false
 default_value: {  }

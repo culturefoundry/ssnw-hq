@@ -3,7 +3,6 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.media.internal_document.field_document_type
     - field.field.media.internal_document.field_media_document
     - media.type.internal_document
   module:
@@ -19,16 +18,6 @@ content:
     weight: 3
     region: content
     settings: {  }
-    third_party_settings: {  }
-  field_document_type:
-    type: entity_reference_autocomplete
-    weight: 26
-    region: content
-    settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
     third_party_settings: {  }
   field_media_document:
     type: file_generic

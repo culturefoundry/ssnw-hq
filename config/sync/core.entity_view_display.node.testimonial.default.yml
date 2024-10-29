@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.field.node.testimonial.body
     - field.field.node.testimonial.field_metatag
+    - field.field.node.testimonial.field_order
     - field.field.node.testimonial.field_tags
     - field.field.node.testimonial.layout_builder__layout
     - field.field.node.testimonial.schema_image
@@ -149,6 +150,23 @@ third_party_settings:
                 entity: layout_builder.entity
             weight: 6
             additional: {  }
+          203d5e97-408e-4073-b359-61175288de1b:
+            uuid: 203d5e97-408e-4073-b359-61175288de1b
+            region: content
+            configuration:
+              id: 'field_block:node:testimonial:field_order'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: number_integer
+                label: hidden
+                settings:
+                  thousand_separator: ''
+                  prefix_suffix: true
+                third_party_settings: {  }
+            weight: 7
+            additional: {  }
         third_party_settings: {  }
   sdc_display:
     enabled: false
@@ -172,6 +190,15 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 13
+    region: content
+  field_order:
+    type: number_integer
+    label: hidden
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 5
     region: content
   field_tags:
     type: entity_reference_label

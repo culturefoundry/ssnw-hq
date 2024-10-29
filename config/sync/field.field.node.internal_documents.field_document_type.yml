@@ -1,15 +1,15 @@
-uuid: f9a0aa0e-4724-4fdc-b54b-51cbfa343ce2
+uuid: 9ff6464a-56f1-4033-bb13-cd576733dbe7
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.media.field_document_type
-    - media.type.internal_document
+    - field.storage.node.field_document_type
+    - node.type.internal_documents
     - taxonomy.vocabulary.document_type
-id: media.internal_document.field_document_type
+id: node.internal_documents.field_document_type
 field_name: field_document_type
-entity_type: media
-bundle: internal_document
+entity_type: node
+bundle: internal_documents
 label: 'Document Type'
 description: ''
 required: false

@@ -12,14 +12,14 @@ dependencies:
     - field.field.user.user.field_phone_number
     - field.field.user.user.user_picture
     - image.style.thumbnail
-    - system.menu.internal
+    - views.view.post_orders
   module:
     - image
     - layout_builder
     - layout_discovery
     - sdc_display
-    - system
     - user
+    - views
 third_party_settings:
   layout_builder:
     enabled: true
@@ -220,18 +220,17 @@ third_party_settings:
         layout_settings:
           label: ''
         components:
-          8e1a2a1c-ddb0-4ff1-b32f-9adc8d0cc396:
-            uuid: 8e1a2a1c-ddb0-4ff1-b32f-9adc8d0cc396
+          e53d2572-0b87-4472-8e1b-0081d315c640:
+            uuid: e53d2572-0b87-4472-8e1b-0081d315c640
             region: content
             configuration:
-              id: 'system_menu_block:internal'
-              label: 'Internal Pages'
+              id: 'views_block:post_orders-block_1'
+              label: ''
               label_display: visible
-              provider: system
+              provider: views
               context_mapping: {  }
-              level: 1
-              depth: 0
-              expand_all_items: false
+              views_label: ''
+              items_per_page: none
             weight: 0
             additional: {  }
         third_party_settings: {  }

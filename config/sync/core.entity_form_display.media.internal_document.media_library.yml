@@ -4,7 +4,6 @@ status: true
 dependencies:
   config:
     - core.entity_form_mode.media.media_library
-    - field.field.media.internal_document.field_document_type
     - field.field.media.internal_document.field_media_document
     - media.type.internal_document
 id: media.internal_document.media_library
@@ -14,7 +13,6 @@ mode: media_library
 content: {  }
 hidden:
   created: true
-  field_document_type: true
   field_media_document: true
   name: true
   path: true
