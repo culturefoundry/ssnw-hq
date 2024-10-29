@@ -126,6 +126,119 @@ third_party_settings:
                 third_party_settings: {  }
             weight: 1
             additional: {  }
+          c0a090f6-550c-44f2-ad19-21d2840fa1f9:
+            uuid: c0a090f6-550c-44f2-ad19-21d2840fa1f9
+            region: content
+            configuration:
+              id: 'field_block:node:team_bios:field_image'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: entity_reference_entity_view
+                label: hidden
+                settings:
+                  view_mode: default
+                  link: false
+                third_party_settings:
+                  nomarkup:
+                    enabled: true
+                    separator: '|'
+                    referenced_entity: ''
+                  sdc_display:
+                    enabled: 0
+                    component:
+                      machine_name: null
+                      show_deprecated: 0
+            weight: 0
+            additional: {  }
+          66d90b22-99cb-4a8c-b794-697246d7721f:
+            uuid: 66d90b22-99cb-4a8c-b794-697246d7721f
+            region: content
+            configuration:
+              id: 'field_block:node:team_bios:field_our_team_name'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: text_default
+                label: hidden
+                settings: {  }
+                third_party_settings: {  }
+            weight: 1
+            additional: {  }
+          05708027-661b-4e56-9cc3-9251bd979268:
+            uuid: 05708027-661b-4e56-9cc3-9251bd979268
+            region: content
+            configuration:
+              id: 'field_block:node:team_bios:field_our_team_job_title'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: text_default
+                label: hidden
+                settings: {  }
+                third_party_settings: {  }
+            weight: 2
+            additional: {  }
+          c6211c28-48a1-45ee-a00d-7ce4cf17b56c:
+            uuid: c6211c28-48a1-45ee-a00d-7ce4cf17b56c
+            region: content
+            configuration:
+              id: 'field_block:node:team_bios:body'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: text_default
+                label: hidden
+                settings: {  }
+                third_party_settings: {  }
+            weight: 3
+            additional: {  }
+          a98fbf0f-02d8-433e-beed-acb52aa8ac66:
+            uuid: a98fbf0f-02d8-433e-beed-acb52aa8ac66
+            region: content
+            configuration:
+              id: 'field_block:node:team_bios:field_order'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: number_integer
+                label: hidden
+                settings:
+                  thousand_separator: ''
+                  prefix_suffix: true
+                third_party_settings: {  }
+            weight: 4
+            additional: {  }
+          1ea4897a-8d51-4bef-9f1b-872248a42499:
+            uuid: 1ea4897a-8d51-4bef-9f1b-872248a42499
+            region: content
+            configuration:
+              id: 'extra_field_block:node:team_bios:links'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+            weight: 5
+            additional: {  }
+          34c83465-4fac-4c5e-a53a-f299e54a2a08:
+            uuid: 34c83465-4fac-4c5e-a53a-f299e54a2a08
+            region: first
+            configuration:
+              id: 'field_block:node:team_bios:field_metatag'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: metatag_empty_formatter
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+            weight: 2
+            additional: {  }
         third_party_settings: {  }
 id: node.team_bios.default
 targetEntityType: node

@@ -3,7 +3,6 @@ _core:
 module:
   address: 0
   admin_toolbar: 0
-  admin_toolbar_tools: 0
   antibot: 0
   automated_cron: 0
   big_pipe: 0
@@ -92,6 +91,7 @@ module:
   metatag_open_graph: 0
   mysql: 0
   navigation: 0
+  navigation_extra_tools: 0
   node: 0
   nomarkup: 0
   options: 0
