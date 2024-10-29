@@ -149,6 +149,11 @@ custom_sources:
     label: 'true'
     machine_name: 'true'
     type: blank
+  first_name:
+    value: 'FIRST NAME'
+    label: 'FIRST NAME'
+    machine_name: first_name
+    type: blank
 mappings:
   -
     target: field_last_name
@@ -167,7 +172,7 @@ mappings:
   -
     target: field_first_name
     map:
-      value: ''
+      value: first_name
     settings:
       language: null
     unique: {  }

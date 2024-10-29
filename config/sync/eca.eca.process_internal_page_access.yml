@@ -24,26 +24,8 @@ events:
       -
         id: Activity_0zxta2k
         condition: Flow_1e1d4w5
-  Event_00ux11g:
-    plugin: 'access:entity'
-    label: 'Tax Access Customer Location'
-    configuration:
-      entity_type_id: taxonomy_term
-      bundle: 'customer, location'
-      operation: view
-      account_token_info: ''
-      event_token_info: ''
-    successors:
-      -
-        id: Activity_1qlljei
-        condition: Flow_1dtzjig
 conditions:
   Flow_1e1d4w5:
-    plugin: eca_current_user_role
-    configuration:
-      role: authenticated
-      negate: true
-  Flow_1dtzjig:
     plugin: eca_current_user_role
     configuration:
       role: authenticated
@@ -51,12 +33,6 @@ conditions:
 gateways: {  }
 actions:
   Activity_0zxta2k:
-    plugin: eca_access_set_result
-    label: Forbid
-    configuration:
-      access_result: forbidden
-    successors: {  }
-  Activity_1qlljei:
     plugin: eca_access_set_result
     label: Forbid
     configuration:

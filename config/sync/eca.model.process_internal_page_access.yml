@@ -61,53 +61,6 @@ modeldata: |
           </camunda:field>
         </bpmn2:extensionElements>
       </bpmn2:sequenceFlow>
-      <bpmn2:startEvent id="Event_00ux11g" name="Tax Access Customer Location" camunda:modelerTemplate="org.drupal.event.access:entity">
-        <bpmn2:extensionElements>
-          <camunda:properties>
-            <camunda:property name="pluginid" value="access:entity" />
-          </camunda:properties>
-          <camunda:field name="account_token_info">
-            <camunda:string></camunda:string>
-          </camunda:field>
-          <camunda:field name="event_token_info">
-            <camunda:string></camunda:string>
-          </camunda:field>
-          <camunda:field name="entity_type_id">
-            <camunda:string>taxonomy_term</camunda:string>
-          </camunda:field>
-          <camunda:field name="bundle">
-            <camunda:string>customer, location</camunda:string>
-          </camunda:field>
-          <camunda:field name="operation">
-            <camunda:string>view</camunda:string>
-          </camunda:field>
-        </bpmn2:extensionElements>
-        <bpmn2:outgoing>Flow_1dtzjig</bpmn2:outgoing>
-      </bpmn2:startEvent>
-      <bpmn2:task id="Activity_1qlljei" name="Forbid" camunda:modelerTemplate="org.drupal.action.eca_access_set_result">
-        <bpmn2:extensionElements>
-          <camunda:field name="access_result">
-            <camunda:string>forbidden</camunda:string>
-          </camunda:field>
-          <camunda:properties>
-            <camunda:property name="pluginid" value="eca_access_set_result" />
-          </camunda:properties>
-        </bpmn2:extensionElements>
-        <bpmn2:incoming>Flow_1dtzjig</bpmn2:incoming>
-      </bpmn2:task>
-      <bpmn2:sequenceFlow id="Flow_1dtzjig" name="not authenticated user" camunda:modelerTemplate="org.drupal.condition.eca_current_user_role" sourceRef="Event_00ux11g" targetRef="Activity_1qlljei">
-        <bpmn2:extensionElements>
-          <camunda:properties>
-            <camunda:property name="pluginid" value="eca_current_user_role" />
-          </camunda:properties>
-          <camunda:field name="role">
-            <camunda:string>authenticated</camunda:string>
-          </camunda:field>
-          <camunda:field name="negate">
-            <camunda:string>yes</camunda:string>
-          </camunda:field>
-        </bpmn2:extensionElements>
-      </bpmn2:sequenceFlow>
     </bpmn2:process>
     <bpmndi:BPMNDiagram id="sid-b62444c8-dd68-468d-a658-75bfc3a82eb9">
       <bpmndi:BPMNPlane id="sid-a8846f30-0d2a-4d4b-bb8e-5b3acdc1bb56" bpmnElement="Process_internal_page_access">
@@ -121,28 +74,11 @@ modeldata: |
           <dc:Bounds x="1190" y="290" width="100" height="80" />
           <bpmndi:BPMNLabel />
         </bpmndi:BPMNShape>
-        <bpmndi:BPMNShape id="Event_00ux11g_di" bpmnElement="Event_00ux11g">
-          <dc:Bounds x="942" y="572" width="36" height="36" />
-          <bpmndi:BPMNLabel>
-            <dc:Bounds x="936" y="615" width="55" height="40" />
-          </bpmndi:BPMNLabel>
-        </bpmndi:BPMNShape>
-        <bpmndi:BPMNShape id="Activity_1qlljei_di" bpmnElement="Activity_1qlljei">
-          <dc:Bounds x="1130" y="550" width="100" height="80" />
-          <bpmndi:BPMNLabel />
-        </bpmndi:BPMNShape>
         <bpmndi:BPMNEdge id="Flow_1e1d4w5_di" bpmnElement="Flow_1e1d4w5">
           <di:waypoint x="978" y="330" />
           <di:waypoint x="1190" y="330" />
           <bpmndi:BPMNLabel>
             <dc:Bounds x="1042" y="312" width="85" height="27" />
-          </bpmndi:BPMNLabel>
-        </bpmndi:BPMNEdge>
-        <bpmndi:BPMNEdge id="Flow_1dtzjig_di" bpmnElement="Flow_1dtzjig">
-          <di:waypoint x="978" y="590" />
-          <di:waypoint x="1130" y="590" />
-          <bpmndi:BPMNLabel>
-            <dc:Bounds x="1012" y="572" width="85" height="27" />
           </bpmndi:BPMNLabel>
         </bpmndi:BPMNEdge>
       </bpmndi:BPMNPlane>
