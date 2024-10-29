@@ -4,7 +4,6 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.media.media_library
-    - field.field.media.internal_document.field_document_type
     - field.field.media.internal_document.field_media_document
     - image.style.medium
     - media.type.internal_document
@@ -28,7 +27,6 @@ content:
     region: content
 hidden:
   created: true
-  field_document_type: true
   field_media_document: true
   name: true
   uid: true

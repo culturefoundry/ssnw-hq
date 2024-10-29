@@ -24,8 +24,26 @@ events:
       -
         id: Activity_0zxta2k
         condition: Flow_1e1d4w5
+  Event_0z82xa6:
+    plugin: 'access:entity'
+    label: 'Check access to documents (media)'
+    configuration:
+      entity_type_id: media
+      bundle: document
+      operation: view
+      account_token_info: ''
+      event_token_info: ''
+    successors:
+      -
+        id: Activity_0ir6by2
+        condition: Flow_04x6w5q
 conditions:
   Flow_1e1d4w5:
+    plugin: eca_current_user_role
+    configuration:
+      role: authenticated
+      negate: true
+  Flow_04x6w5q:
     plugin: eca_current_user_role
     configuration:
       role: authenticated
@@ -33,6 +51,12 @@ conditions:
 gateways: {  }
 actions:
   Activity_0zxta2k:
+    plugin: eca_access_set_result
+    label: Forbid
+    configuration:
+      access_result: forbidden
+    successors: {  }
+  Activity_0ir6by2:
     plugin: eca_access_set_result
     label: Forbid
     configuration:

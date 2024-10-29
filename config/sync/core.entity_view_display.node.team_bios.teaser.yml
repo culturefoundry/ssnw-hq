@@ -6,9 +6,10 @@ dependencies:
     - core.entity_view_mode.node.teaser
     - field.field.node.team_bios.body
     - field.field.node.team_bios.field_image
+    - field.field.node.team_bios.field_metatag
+    - field.field.node.team_bios.field_order
     - field.field.node.team_bios.field_our_team_job_title
     - field.field.node.team_bios.field_our_team_name
-    - field.field.node.team_bios.layout_builder__layout
     - node.type.team_bios
   module:
     - layout_builder
@@ -184,5 +185,6 @@ content:
     weight: 1
     region: content
 hidden:
-  layout_builder__layout: true
+  field_metatag: true
+  field_order: true
   links: true

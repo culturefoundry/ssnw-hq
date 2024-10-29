@@ -11,6 +11,7 @@ dependencies:
     - media.type.remote_video
     - media.type.video
     - node.type.internal
+    - node.type.internal_documents
     - workflows.workflow.editorial
   module:
     - content_moderation
@@ -51,13 +52,17 @@ permissions:
   - 'create media'
   - 'create remote_video media'
   - 'create video media'
+  - 'delete internal_documents revisions'
+  - 'delete own internal_documents content'
   - 'edit any internal content'
+  - 'edit any internal_documents content'
   - 'edit own document media'
   - 'edit own image media'
   - 'edit own internal_document media'
   - 'edit own remote_video media'
   - 'edit own video media'
   - 'revert internal revisions'
+  - 'revert internal_documents revisions'
   - 'select account cancellation method'
   - 'update media'
   - 'use editorial transition archive'
@@ -68,4 +73,5 @@ permissions:
   - 'view all media revisions'
   - 'view any unpublished content'
   - 'view internal revisions'
+  - 'view internal_documents revisions'
   - 'view the administration theme'

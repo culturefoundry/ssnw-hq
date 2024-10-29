@@ -26,6 +26,7 @@ dependencies:
     - media.type.video
     - node.type.blog
     - node.type.internal
+    - node.type.internal_documents
     - node.type.page
     - node.type.service
     - node.type.team_bios
@@ -119,7 +120,9 @@ permissions:
   - 'create video media'
   - 'delete any action block content'
   - 'delete blog revisions'
+  - 'delete internal_documents revisions'
   - 'delete own files'
+  - 'delete own internal_documents content'
   - 'delete page revisions'
   - 'edit any action block content'
   - 'edit any audio media'
@@ -135,6 +138,7 @@ permissions:
   - 'edit any icons_text_matching_sliders block content'
   - 'edit any image media'
   - 'edit any internal content'
+  - 'edit any internal_documents content'
   - 'edit any page content'
   - 'edit any reference_block block content'
   - 'edit any remote_video media'
@@ -164,6 +168,7 @@ permissions:
   - 'revert any reference_block block content revisions'
   - 'revert blog revisions'
   - 'revert internal revisions'
+  - 'revert internal_documents revisions'
   - 'revert page revisions'
   - 'revert service revisions'
   - 'revert testimonial revisions'
@@ -184,6 +189,7 @@ permissions:
   - 'view blog revisions'
   - 'view content model documentation'
   - 'view internal revisions'
+  - 'view internal_documents revisions'
   - 'view latest version'
   - 'view own unpublished media'
   - 'view page revisions'
