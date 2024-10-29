@@ -85,7 +85,7 @@ settings:
   form_open_message: ''
   form_close_message: ''
   form_exception_message: ''
-  form_previous_submissions: true
+  form_previous_submissions: false
   form_confidential: false
   form_confidential_message: ''
   form_disable_remote_addr: false
@@ -276,9 +276,10 @@ handlers:
       return_path: ''
       sender_mail: ''
       sender_name: ''
-      subject: '[webform_submission:values:subject:raw]'
-      body: '[webform_submission:values:message:value]'
-      excluded_elements: {  }
+      subject: 'Thank you for contacting Security Services Northwest'
+      body: _default
+      excluded_elements:
+        captcha: captcha
       ignore_access: false
       exclude_empty: true
       exclude_empty_checkbox: false
@@ -300,24 +301,25 @@ handlers:
     settings:
       states:
         - completed
-      to_mail: _default
+      to_mail: joe@ssnwhq.com
       to_options: {  }
-      bcc_mail: trish@ssnwhq.com
+      bcc_mail: marketing@ssnwhq.com
       bcc_options: {  }
-      cc_mail: marketing@ssnwhq.com
+      cc_mail: ''
       cc_options: {  }
-      from_mail: '[webform_submission:values:email:raw]'
+      from_mail: _default
       from_options: {  }
       from_name: '[webform_submission:values:name:raw]'
       reply_to: '[webform_submission:values:email:raw]'
       return_path: ''
       sender_mail: ''
       sender_name: ''
-      subject: '[webform_submission:values:subject:raw]'
-      body: '[webform_submission:values:message:value]'
-      excluded_elements: {  }
+      subject: 'New Contact from SSNW Website'
+      body: _default
+      excluded_elements:
+        captcha: captcha
       ignore_access: false
-      exclude_empty: true
+      exclude_empty: false
       exclude_empty_checkbox: false
       exclude_attachments: false
       html: true
