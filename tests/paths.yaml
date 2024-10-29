@@ -1,3 +1,6 @@
+auth:
+  username: ssnw
+  password: midnight
 paths:
   home: /
   about: /about-us
