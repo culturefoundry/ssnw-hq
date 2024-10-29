@@ -35,15 +35,15 @@ third_party_settings:
         label: 'Set value or default value'
       a5b397ec-1330-4917-b197-6974a72c77a4:
         find_replace:
-          - "WA|Washington\r"
-          - "OR|Oregon\r"
-          - "CA|California\r"
-          - "HI|Hawaii\r"
-          - "AK|Alaska\r"
-          - "ID|Idaho\r"
-          - "NV|Nevada\r"
-          - "MT|Montana\r"
-          - 'NC|North Carolina'
+          - "WA|6\r"
+          - "OR|8\r"
+          - "CA|20\r"
+          - "HI|325\r"
+          - "AK|53\r"
+          - "ID|55\r"
+          - "NV|54\r"
+          - "MT|326\r"
+          - NC|327
         separator: '|'
         case_sensitive: false
         word_boundaries: true
@@ -211,7 +211,7 @@ mappings:
       target_id: state
     settings:
       language: ''
-      reference_by: name
+      reference_by: tid
       autocreate: 1
       autocreate_bundle: location
   -
