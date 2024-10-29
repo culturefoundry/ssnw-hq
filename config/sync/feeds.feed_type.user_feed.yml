@@ -6,7 +6,6 @@ dependencies:
     - field.field.user.user.field_employee_designation
     - field.field.user.user.field_employee_location
     - field.field.user.user.field_feeds
-    - field.field.user.user.field_first_name
     - field.field.user.user.field_last_name
   module:
     - feeds_tamper
@@ -154,6 +153,11 @@ custom_sources:
     label: 'FIRST NAME'
     machine_name: first_name
     type: blank
+  given_name:
+    value: 'FIRST NAME'
+    label: 'FIRST NAME'
+    machine_name: given_name
+    type: csv
 mappings:
   -
     target: field_last_name
@@ -169,13 +173,6 @@ mappings:
     settings: {  }
     unique:
       value: 1
-  -
-    target: field_first_name
-    map:
-      value: first_name
-    settings:
-      language: null
-    unique: {  }
   -
     target: mail
     map:
@@ -225,3 +222,10 @@ mappings:
       value: 'true'
     settings:
       language: null
+  -
+    target: field_first_name
+    map:
+      value: given_name
+    settings:
+      language: null
+    unique: {  }

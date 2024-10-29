@@ -76,7 +76,7 @@ modeldata: |
             <camunda:string>media</camunda:string>
           </camunda:field>
           <camunda:field name="bundle">
-            <camunda:string>document</camunda:string>
+            <camunda:string>internal_document</camunda:string>
           </camunda:field>
           <camunda:field name="operation">
             <camunda:string>view</camunda:string>

@@ -48,7 +48,6 @@ modeldata: |
           </camunda:properties>
         </bpmn2:extensionElements>
         <bpmn2:incoming>Flow_0qvi9xf</bpmn2:incoming>
-        <bpmn2:outgoing>Flow_06e4f8j</bpmn2:outgoing>
         <bpmn2:outgoing>Flow_05ly01h</bpmn2:outgoing>
       </bpmn2:task>
       <bpmn2:task id="Activity_03cewrn" name="Create Email" camunda:modelerTemplate="org.drupal.action.eca_new_entity">
@@ -77,7 +76,6 @@ modeldata: |
         </bpmn2:extensionElements>
         <bpmn2:incoming>Flow_05ly01h</bpmn2:incoming>
         <bpmn2:outgoing>Flow_0jell3z</bpmn2:outgoing>
-        <bpmn2:outgoing>Flow_02fjk2m</bpmn2:outgoing>
       </bpmn2:task>
       <bpmn2:task id="Activity_0hryycr" name="Attach User" camunda:modelerTemplate="org.drupal.action.eca_set_field_value">
         <bpmn2:extensionElements>
@@ -119,10 +117,10 @@ modeldata: |
             <camunda:string>email</camunda:string>
           </camunda:field>
         </bpmn2:extensionElements>
-        <bpmn2:incoming>Flow_145p9lt</bpmn2:incoming>
+        <bpmn2:incoming>Flow_1x3jvwb</bpmn2:incoming>
         <bpmn2:outgoing>Flow_0tzthe3</bpmn2:outgoing>
       </bpmn2:task>
-      <bpmn2:sequenceFlow id="Flow_145p9lt" sourceRef="Activity_0hryycr" targetRef="Activity_1y76612" />
+      <bpmn2:sequenceFlow id="Flow_145p9lt" sourceRef="Activity_0hryycr" targetRef="Activity_1upgfxz" />
       <bpmn2:task id="Activity_0yldn99" name="Save Email" camunda:modelerTemplate="org.drupal.action.eca_save_entity">
         <bpmn2:extensionElements>
           <camunda:properties>
@@ -135,43 +133,7 @@ modeldata: |
         <bpmn2:incoming>Flow_0tzthe3</bpmn2:incoming>
       </bpmn2:task>
       <bpmn2:sequenceFlow id="Flow_0tzthe3" sourceRef="Activity_1y76612" targetRef="Activity_0yldn99" />
-      <bpmn2:task id="Activity_1jn8gsl" name="Log email field" camunda:modelerTemplate="org.drupal.action.eca_write_log_message">
-        <bpmn2:extensionElements>
-          <camunda:properties>
-            <camunda:property name="pluginid" value="eca_write_log_message" />
-          </camunda:properties>
-          <camunda:field name="channel">
-            <camunda:string>User Has Email</camunda:string>
-          </camunda:field>
-          <camunda:field name="severity">
-            <camunda:string></camunda:string>
-          </camunda:field>
-          <camunda:field name="message">
-            <camunda:string>Has Email!</camunda:string>
-          </camunda:field>
-        </bpmn2:extensionElements>
-        <bpmn2:incoming>Flow_06e4f8j</bpmn2:incoming>
-      </bpmn2:task>
-      <bpmn2:sequenceFlow id="Flow_06e4f8j" sourceRef="Activity_0a63x61" targetRef="Activity_1jn8gsl" />
-      <bpmn2:sequenceFlow id="Flow_02fjk2m" sourceRef="Activity_03cewrn" targetRef="Activity_0jy50nq" />
-      <bpmn2:task id="Activity_0jy50nq" name="Log feed &#38; create" camunda:modelerTemplate="org.drupal.action.eca_write_log_message">
-        <bpmn2:extensionElements>
-          <camunda:properties>
-            <camunda:property name="pluginid" value="eca_write_log_message" />
-          </camunda:properties>
-          <camunda:field name="channel">
-            <camunda:string>Email Created</camunda:string>
-          </camunda:field>
-          <camunda:field name="severity">
-            <camunda:string></camunda:string>
-          </camunda:field>
-          <camunda:field name="message">
-            <camunda:string>user is from feed. creating email</camunda:string>
-          </camunda:field>
-        </bpmn2:extensionElements>
-        <bpmn2:incoming>Flow_02fjk2m</bpmn2:incoming>
-      </bpmn2:task>
-      <bpmn2:sequenceFlow id="Flow_05ly01h" camunda:modelerTemplate="org.drupal.condition.eca_entity_field_value_empty" sourceRef="Activity_0a63x61" targetRef="Activity_03cewrn">
+      <bpmn2:sequenceFlow id="Flow_05ly01h" name="Feeds item" camunda:modelerTemplate="org.drupal.condition.eca_entity_field_value_empty" sourceRef="Activity_0a63x61" targetRef="Activity_03cewrn">
         <bpmn2:extensionElements>
           <camunda:properties>
             <camunda:property name="pluginid" value="eca_entity_field_value_empty" />
@@ -187,6 +149,19 @@ modeldata: |
           </camunda:field>
         </bpmn2:extensionElements>
       </bpmn2:sequenceFlow>
+      <bpmn2:task id="Activity_1upgfxz" name="Save User" camunda:modelerTemplate="org.drupal.action.eca_save_entity">
+        <bpmn2:extensionElements>
+          <camunda:properties>
+            <camunda:property name="pluginid" value="eca_save_entity" />
+          </camunda:properties>
+          <camunda:field name="object">
+            <camunda:string>entity</camunda:string>
+          </camunda:field>
+        </bpmn2:extensionElements>
+        <bpmn2:incoming>Flow_145p9lt</bpmn2:incoming>
+        <bpmn2:outgoing>Flow_1x3jvwb</bpmn2:outgoing>
+      </bpmn2:task>
+      <bpmn2:sequenceFlow id="Flow_1x3jvwb" sourceRef="Activity_1upgfxz" targetRef="Activity_1y76612" />
     </bpmn2:process>
     <bpmndi:BPMNDiagram id="sid-65f3eef3-1948-45c8-8de9-f9ea7baf36b3">
       <bpmndi:BPMNPlane id="sid-34b2c4f6-0f66-423c-acff-677df6c83110" bpmnElement="user_creation">
@@ -196,66 +171,59 @@ modeldata: |
             <dc:Bounds x="302" y="98" width="56" height="14" />
           </bpmndi:BPMNLabel>
         </bpmndi:BPMNShape>
-        <bpmndi:BPMNShape id="Activity_1g82btb_di" bpmnElement="Activity_0a63x61">
-          <dc:Bounds x="480" y="100" width="100" height="80" />
-          <bpmndi:BPMNLabel />
-        </bpmndi:BPMNShape>
-        <bpmndi:BPMNShape id="Activity_03cewrn_di" bpmnElement="Activity_03cewrn">
-          <dc:Bounds x="650" y="100" width="100" height="80" />
-          <bpmndi:BPMNLabel />
-        </bpmndi:BPMNShape>
-        <bpmndi:BPMNShape id="Activity_0hryycr_di" bpmnElement="Activity_0hryycr">
-          <dc:Bounds x="810" y="100" width="100" height="80" />
+        <bpmndi:BPMNShape id="Activity_0yldn99_di" bpmnElement="Activity_0yldn99">
+          <dc:Bounds x="1130" y="100" width="100" height="80" />
           <bpmndi:BPMNLabel />
         </bpmndi:BPMNShape>
         <bpmndi:BPMNShape id="Activity_1y76612_di" bpmnElement="Activity_1y76612">
-          <dc:Bounds x="960" y="100" width="100" height="80" />
+          <dc:Bounds x="1000" y="100" width="100" height="80" />
           <bpmndi:BPMNLabel />
         </bpmndi:BPMNShape>
-        <bpmndi:BPMNShape id="Activity_0yldn99_di" bpmnElement="Activity_0yldn99">
-          <dc:Bounds x="1110" y="100" width="100" height="80" />
+        <bpmndi:BPMNShape id="Activity_1g82btb_di" bpmnElement="Activity_0a63x61">
+          <dc:Bounds x="420" y="100" width="100" height="80" />
           <bpmndi:BPMNLabel />
         </bpmndi:BPMNShape>
-        <bpmndi:BPMNShape id="Activity_1jn8gsl_di" bpmnElement="Activity_1jn8gsl">
-          <dc:Bounds x="500" y="330" width="100" height="80" />
+        <bpmndi:BPMNShape id="Activity_03cewrn_di" bpmnElement="Activity_03cewrn">
+          <dc:Bounds x="590" y="100" width="100" height="80" />
           <bpmndi:BPMNLabel />
         </bpmndi:BPMNShape>
-        <bpmndi:BPMNShape id="Activity_0vggtkm_di" bpmnElement="Activity_0jy50nq">
-          <dc:Bounds x="690" y="370" width="100" height="80" />
+        <bpmndi:BPMNShape id="Activity_0hryycr_di" bpmnElement="Activity_0hryycr">
+          <dc:Bounds x="750" y="100" width="100" height="80" />
+          <bpmndi:BPMNLabel />
+        </bpmndi:BPMNShape>
+        <bpmndi:BPMNShape id="Activity_1upgfxz_di" bpmnElement="Activity_1upgfxz">
+          <dc:Bounds x="880" y="100" width="100" height="80" />
           <bpmndi:BPMNLabel />
         </bpmndi:BPMNShape>
         <bpmndi:BPMNEdge id="Flow_0qvi9xf_di" bpmnElement="Flow_0qvi9xf">
           <di:waypoint x="348" y="140" />
-          <di:waypoint x="480" y="140" />
+          <di:waypoint x="420" y="140" />
           <bpmndi:BPMNLabel>
-            <dc:Bounds x="389" y="122" width="51" height="27" />
+            <dc:Bounds x="359" y="122" width="51" height="27" />
           </bpmndi:BPMNLabel>
         </bpmndi:BPMNEdge>
         <bpmndi:BPMNEdge id="Flow_0jell3z_di" bpmnElement="Flow_0jell3z">
+          <di:waypoint x="690" y="140" />
           <di:waypoint x="750" y="140" />
-          <di:waypoint x="810" y="140" />
         </bpmndi:BPMNEdge>
         <bpmndi:BPMNEdge id="Flow_145p9lt_di" bpmnElement="Flow_145p9lt">
-          <di:waypoint x="910" y="140" />
-          <di:waypoint x="960" y="140" />
+          <di:waypoint x="850" y="140" />
+          <di:waypoint x="880" y="140" />
         </bpmndi:BPMNEdge>
         <bpmndi:BPMNEdge id="Flow_0tzthe3_di" bpmnElement="Flow_0tzthe3">
-          <di:waypoint x="1060" y="140" />
-          <di:waypoint x="1110" y="140" />
-        </bpmndi:BPMNEdge>
-        <bpmndi:BPMNEdge id="Flow_06e4f8j_di" bpmnElement="Flow_06e4f8j">
-          <di:waypoint x="530" y="180" />
-          <di:waypoint x="530" y="330" />
-        </bpmndi:BPMNEdge>
-        <bpmndi:BPMNEdge id="Flow_02fjk2m_di" bpmnElement="Flow_02fjk2m">
-          <di:waypoint x="700" y="180" />
-          <di:waypoint x="700" y="275" />
-          <di:waypoint x="740" y="275" />
-          <di:waypoint x="740" y="370" />
+          <di:waypoint x="1100" y="140" />
+          <di:waypoint x="1130" y="140" />
         </bpmndi:BPMNEdge>
         <bpmndi:BPMNEdge id="Flow_05ly01h_di" bpmnElement="Flow_05ly01h">
-          <di:waypoint x="580" y="140" />
-          <di:waypoint x="650" y="140" />
+          <di:waypoint x="520" y="140" />
+          <di:waypoint x="590" y="140" />
+          <bpmndi:BPMNLabel>
+            <dc:Bounds x="527" y="122" width="56" height="14" />
+          </bpmndi:BPMNLabel>
+        </bpmndi:BPMNEdge>
+        <bpmndi:BPMNEdge id="Flow_1x3jvwb_di" bpmnElement="Flow_1x3jvwb">
+          <di:waypoint x="980" y="140" />
+          <di:waypoint x="1000" y="140" />
         </bpmndi:BPMNEdge>
       </bpmndi:BPMNPlane>
     </bpmndi:BPMNDiagram>

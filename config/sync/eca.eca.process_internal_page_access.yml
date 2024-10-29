@@ -29,7 +29,7 @@ events:
     label: 'Check access to documents (media)'
     configuration:
       entity_type_id: media
-      bundle: document
+      bundle: internal_document
       operation: view
       account_token_info: ''
       event_token_info: ''
