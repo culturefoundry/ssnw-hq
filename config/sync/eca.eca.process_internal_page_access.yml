@@ -37,6 +37,19 @@ events:
       -
         id: Activity_0ir6by2
         condition: Flow_04x6w5q
+  Event_093jel6:
+    plugin: 'access:entity'
+    label: Event_093jel6
+    configuration:
+      entity_type_id: taxonomy_term
+      bundle: ''
+      operation: ''
+      account_token_info: ''
+      event_token_info: ''
+    successors:
+      -
+        id: Activity_0qs0awz
+        condition: Flow_0jf0bos
 conditions:
   Flow_1e1d4w5:
     plugin: eca_current_user_role
@@ -44,6 +57,11 @@ conditions:
       role: authenticated
       negate: true
   Flow_04x6w5q:
+    plugin: eca_current_user_role
+    configuration:
+      role: authenticated
+      negate: true
+  Flow_0jf0bos:
     plugin: eca_current_user_role
     configuration:
       role: authenticated
@@ -59,6 +77,12 @@ actions:
   Activity_0ir6by2:
     plugin: eca_access_set_result
     label: Forbid
+    configuration:
+      access_result: forbidden
+    successors: {  }
+  Activity_0qs0awz:
+    plugin: eca_access_set_result
+    label: Activity_0qs0awz
     configuration:
       access_result: forbidden
     successors: {  }

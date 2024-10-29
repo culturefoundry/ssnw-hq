@@ -6,6 +6,7 @@ dependencies:
     - field.field.user.user.field_employee_designation
     - field.field.user.user.field_employee_location
     - field.field.user.user.field_feeds
+    - field.field.user.user.field_first_name
     - field.field.user.user.field_last_name
   module:
     - feeds_tamper
@@ -36,7 +37,7 @@ third_party_settings:
         find_replace:
           - "WA|6\r"
           - "OR|8\r"
-          - "CA|20\r"
+          - "CA|10\r"
           - "HI|325\r"
           - "AK|53\r"
           - "ID|55\r"
