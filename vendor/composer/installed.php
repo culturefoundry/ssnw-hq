@@ -3,7 +3,7 @@
         'name' => 'drupal/starshot-project',
         'pretty_version' => 'dev-develop',
         'version' => 'dev-develop',
-        'reference' => '5f16eabce7a4cc94b350c1d143f80a814661e32d',
+        'reference' => '4258eb889261ca7fc5131c4f25078fcfc830088b',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -793,6 +793,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'drupal/navigation_extra_tools' => array(
+            'pretty_version' => '1.0.0-beta4',
+            'version' => '1.0.0.0-beta4',
+            'reference' => '1.0.0-beta4',
+            'type' => 'drupal-module',
+            'install_path' => __DIR__ . '/../../web/modules/contrib/navigation_extra_tools',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'drupal/nomarkup' => array(
             'pretty_version' => '1.0.6',
             'version' => '1.0.6.0',
@@ -940,7 +949,7 @@
         'drupal/starshot-project' => array(
             'pretty_version' => 'dev-develop',
             'version' => 'dev-develop',
-            'reference' => '5f16eabce7a4cc94b350c1d143f80a814661e32d',
+            'reference' => '4258eb889261ca7fc5131c4f25078fcfc830088b',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
