@@ -1,0 +1,13 @@
+<?php
+
+/**
+ * @file
+ * Primary module hooks for Navigation Extra Tools module.
+ */
+
+/**
+ * Implements hook_page_attachments().
+ */
+function navigation_extra_tools_page_attachments(&$variables) {
+  $variables['#attached']['library'][] = 'navigation_extra_tools/icon';
+}

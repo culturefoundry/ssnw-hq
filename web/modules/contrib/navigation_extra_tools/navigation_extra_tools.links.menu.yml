@@ -1,0 +1,76 @@
+navigation_extra_tools.help:
+  title: 'Tools'
+  route_name: <front>
+  menu_name: admin
+  parent: system.admin
+  weight: -100
+
+navigation_extra_tools.flush:
+  title: 'Flush all caches'
+  route_name: navigation_extra_tools.flush
+  menu_name: admin
+  parent: navigation_extra_tools.help
+  weight: -10
+
+navigation_extra_tools.flush.help:
+  title: 'Flush individual cache'
+  route_name: <front>
+  menu_name: admin
+  parent: navigation_extra_tools.help
+  weight: -9
+
+navigation_extra_tools.css_js:
+  title: 'Flush CSS and JavaScript'
+  route_name: navigation_extra_tools.css_js
+  menu_name: admin
+  parent: navigation_extra_tools.flush.help
+
+navigation_extra_tools.plugin:
+  title: 'Flush plugins cache'
+  route_name: navigation_extra_tools.plugin
+  parent: navigation_extra_tools.flush.help
+  menu_name: admin
+
+navigation_extra_tools.flush_static:
+  title: 'Flush static cache'
+  route_name: navigation_extra_tools.flush_static
+  parent: navigation_extra_tools.flush.help
+  menu_name: admin
+
+navigation_extra_tools.flush_menu:
+  title: 'Flush routing and links cache'
+  route_name: navigation_extra_tools.flush_menu
+  parent: navigation_extra_tools.flush.help
+  menu_name: admin
+
+navigation_extra_tools.flush_twig:
+  title: 'Flush twig cache'
+  route_name: navigation_extra_tools.flush_twig
+  parent: navigation_extra_tools.flush.help
+  menu_name: admin
+
+navigation_extra_tools.flush_render_cache:
+  title: 'Flush render cache'
+  route_name: navigation_extra_tools.flush_render_cache
+  parent: navigation_extra_tools.flush.help
+  menu_name: admin
+
+navigation_extra_tools.theme_rebuild:
+  title: 'Rebuild theme registry'
+  route_name: navigation_extra_tools.theme_rebuild
+  parent: navigation_extra_tools.flush.help
+  menu_name: admin
+
+navigation_extra_tools.run_cron:
+  title: 'Run cron'
+  route_name: navigation_extra_tools.run.cron
+  menu_name: admin
+  parent: navigation_extra_tools.help
+  weight: -8
+
+navigation_extra_tools.db_update:
+  title: 'Run updates'
+  route_name: system.db_update
+  menu_name: admin
+  parent: navigation_extra_tools.help
+  weight: -6
