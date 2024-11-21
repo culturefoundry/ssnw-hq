@@ -82,7 +82,7 @@ class EasyEmailTypeForm extends EntityForm {
     if ($easy_email->hasField('key')) {
       $form['key'] = [
         '#type' => 'textfield',
-        '#title' => $this->t('Unique Key Pattern'),
+        '#title' => $this->t('Unique key pattern'),
         '#maxlength' => 255,
         '#default_value' => $easy_email_type->getKey(),
         '#description' => $this->t("To prevent duplicate emails, use tokens to define a key that uniquely identifies a specific email. If duplicates are allowed, you can leave this blank."),
@@ -138,7 +138,7 @@ class EasyEmailTypeForm extends EntityForm {
       if ($easy_email->hasField('from_name')) {
         $form['sender']['fromName'] = [
           '#type' => 'textfield',
-          '#title' => $this->t('From Name'),
+          '#title' => $this->t('From name'),
           '#maxlength' => 255,
           '#default_value' => $easy_email_type->getFromName(),
           '#access' => ($formDisplay === NULL || $formDisplay->getComponent('from_name')),
@@ -148,7 +148,7 @@ class EasyEmailTypeForm extends EntityForm {
       if ($easy_email->hasField('from_address')) {
         $form['sender']['fromAddress'] = [
           '#type' => 'textfield',
-          '#title' => $this->t('From Address'),
+          '#title' => $this->t('From address'),
           '#maxlength' => 255,
           '#default_value' => $easy_email_type->getFromAddress(),
           '#access' => ($formDisplay === NULL || $formDisplay->getComponent('from_address')),
@@ -158,7 +158,7 @@ class EasyEmailTypeForm extends EntityForm {
       if ($easy_email->hasField('reply_to')) {
         $form['sender']['replyToAddress'] = [
           '#type' => 'textfield',
-          '#title' => $this->t('Reply To Address'),
+          '#title' => $this->t('Reply to address'),
           '#maxlength' => 255,
           '#default_value' => $easy_email_type->getReplyToAddress(),
           '#access' => ($formDisplay === NULL || $formDisplay->getComponent('reply_to')),
@@ -187,7 +187,7 @@ class EasyEmailTypeForm extends EntityForm {
     if ($easy_email->hasField('body_html')) {
       $form['body_html'] = [
         '#type' => 'details',
-        '#title' => $this->t('HTML Body'),
+        '#title' => $this->t('HTML body'),
         '#group' => 'body',
         '#access' => ($formDisplay === NULL || $formDisplay->getComponent('body_html')
           || $formDisplay->getComponent('inbox_preview'))
@@ -202,7 +202,7 @@ class EasyEmailTypeForm extends EntityForm {
       $form['body_html']['bodyHtml'] = [
         '#type' => 'text_format',
         '#rows' => 30,
-        '#title' => $this->t('HTML Body'),
+        '#title' => $this->t('HTML body'),
         '#default_value' => !empty($body_html) ? $body_html['value'] : NULL,
         '#format' => !empty($body_html) ? $body_html['format'] : NULL,
         '#access' => ($formDisplay === NULL || $formDisplay->getComponent('body_html')),
@@ -216,7 +216,7 @@ class EasyEmailTypeForm extends EntityForm {
         '#type' => 'textarea',
         '#description' => $this->t('The inbox preview text will be hidden in the body of the message. It will only be seen while viewing a message in the inbox of supported email clients.'),
         '#rows' => 5,
-        '#title' => $this->t('Inbox Preview'),
+        '#title' => $this->t('Inbox preview'),
         '#default_value' => $easy_email_type->getInboxPreview(),
         '#access' => ($formDisplay === NULL || $formDisplay->getComponent('inbox_preview')),
       ];
@@ -225,7 +225,7 @@ class EasyEmailTypeForm extends EntityForm {
     if ($easy_email->hasField('body_plain')) {
       $form['body_plain'] = [
         '#type' => 'details',
-        '#title' => $this->t('Plain Text Body'),
+        '#title' => $this->t('Plain text body'),
         '#group' => 'body',
         '#access' => ($formDisplay === NULL || $formDisplay->getComponent('body_plain')),
       ];
@@ -241,7 +241,7 @@ class EasyEmailTypeForm extends EntityForm {
       $form['body_plain']['bodyPlain'] = [
         '#type' => 'textarea',
         '#rows' => 30,
-        '#title' => $this->t('Plain Text Body'),
+        '#title' => $this->t('Plain text body'),
         '#default_value' => $easy_email_type->getBodyPlain(),
         '#states' => [
           'disabled' => [
@@ -286,7 +286,7 @@ class EasyEmailTypeForm extends EntityForm {
       $form['content']['attachmentScheme'] = [
         '#type' => 'radios',
         '#options' => $scheme_options,
-        '#title' => $this->t('Upload Destination'),
+        '#title' => $this->t('Upload destination'),
         '#default_value' => $default_scheme,
         '#required' => TRUE,
         '#states' => [
@@ -299,7 +299,7 @@ class EasyEmailTypeForm extends EntityForm {
 
       $form['content']['attachmentDirectory'] = [
         '#type' => 'textfield',
-        '#title' => $this->t('File Directory'),
+        '#title' => $this->t('File directory'),
         '#description' => $this->t('Optional subdirectory within the upload destination where files will be stored. Do not include preceding or trailing slashes. This field supports tokens.'),
         '#default_value' => $easy_email_type->getAttachmentDirectory(),
         '#states' => [
@@ -313,7 +313,7 @@ class EasyEmailTypeForm extends EntityForm {
 
     $form['tokens'] = [
       '#type' => 'fieldset',
-      '#title' => $this->t('Replacement Patterns'),
+      '#title' => $this->t('Replacement patterns'),
     ];
 
     $form['tokens']['tree_link'] = [
@@ -341,7 +341,7 @@ class EasyEmailTypeForm extends EntityForm {
 
     $form['email_storage'] = [
       '#type' => 'fieldset',
-      '#title' => $this->t('Email Storage'),
+      '#title' => $this->t('Email storage'),
     ];
 
     $form['email_storage']['saveEmail'] = [
@@ -359,7 +359,7 @@ class EasyEmailTypeForm extends EntityForm {
 
     $form['email_storage']['delete'] = [
       '#type' => 'fieldset',
-      '#title' => $this->t('Automatic Deletion Settings'),
+      '#title' => $this->t('Automatic deletion settings'),
     ];
 
     $form['email_storage']['delete']['purgeEmails'] = [

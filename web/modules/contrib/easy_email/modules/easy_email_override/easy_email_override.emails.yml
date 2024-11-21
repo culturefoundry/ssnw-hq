@@ -87,3 +87,8 @@ user.password_reset:
     account:
       type: 'entity:user'
       label: 'Account'
+
+easy_email_override.deriver:
+  id: 'easy_email_override.deriver'
+  label: 'Easy Email Override'
+  deriver: 'Drupal\easy_email_override\Plugin\Derivative\DeclaredEmailDeriver'

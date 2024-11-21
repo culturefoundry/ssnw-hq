@@ -139,6 +139,19 @@ class EmailOverrideForm extends EntityForm {
     return $possible_mappings;
   }
 
+  protected function getPossibleCopiedFields() {
+    $fields = [];
+    $definition = \Drupal::getContainer()->get('config.typed')->getDefinition('easy_email_override.easy_email_override.*');
+    if (!empty($definition)) {
+      $fields = array_map(static function ($field) {
+          return $field['label'];
+        },
+        $definition['mapping']['copied_fields']['mapping']
+      );
+    }
+    return $fields;
+  }
+
   /**
    * @param string $source_id
    *
@@ -176,7 +189,7 @@ class EmailOverrideForm extends EntityForm {
       '#title' => $this->t('Label'),
       '#maxlength' => 255,
       '#default_value' => $easy_email_override->label(),
-      '#description' => $this->t("Label for the Email Override."),
+      '#description' => $this->t("Label for the email override."),
       '#required' => TRUE,
     ];
 
@@ -192,35 +205,55 @@ class EmailOverrideForm extends EntityForm {
     $email_id = $this->getEmailDefaultValue();
     $form['email_id'] = [
       '#type' => 'select',
-      '#title' => $this->t('Email to Override'),
+      '#title' => $this->t('Email to override'),
       '#options' => $this->getEmailOptions(),
       '#default_value' => $email_id,
       '#disabled' => !is_null($email_id),
       '#required' => TRUE,
+      '#description' => $this->t('An individual email override will take precedence over a module-level or global override. A module-level override will take precedence over a global override.'),
     ];
 
     $easy_email_type = $easy_email_override->getEasyEmailType();
     $form['easy_email_type'] = [
       '#type' => 'select',
-      '#title' => $this->t('Easy Email Template'),
+      '#title' => $this->t('Email template'),
       '#options' => $this->getEasyEmailTemplateOptions(),
       '#default_value' => $easy_email_type,
       '#disabled' => !is_null($easy_email_type),
       '#required' => TRUE,
     ];
 
+
     if (!empty($email_id) && !empty($easy_email_type)) {
-      $form['mappings'] = [
-        '#type' => 'fieldset',
-        '#title' => $this->t('Parameter Mapping'),
-      ];
       $possible_mappings = $this->getPossibleMappings($email_id, $easy_email_type);
-      foreach ($possible_mappings as $source_id => $mapping_info) {
-        $form['mappings'][$source_id] = [
-          '#type' => 'select',
-          '#title' => $mapping_info['label'],
-          '#options' => array_merge(['' => ''], $mapping_info['options']),
-          '#default_value' => $this->getMappingDefaultValue($source_id),
+      if (count($possible_mappings) > 0) {
+        $form['mappings'] = [
+          '#type' => 'fieldset',
+          '#title' => $this->t('Parameter mapping'),
+        ];
+        foreach ($possible_mappings as $source_id => $mapping_info) {
+          $form['mappings'][$source_id] = [
+            '#type' => 'select',
+            '#title' => $mapping_info['label'],
+            '#options' => array_merge(['' => ''], $mapping_info['options']),
+            '#default_value' => $this->getMappingDefaultValue($source_id),
+          ];
+        }
+      }
+
+      $existing_copied_fields = $easy_email_override->getCopiedFields();
+      $form['copied_fields'] = [
+        '#type' => 'details',
+        '#title' => $this->t('Fields to copy directly from original email'),
+        '#description' => $this->t('Selected fields will be copied directly from the original email, overwriting any configuration in the Easy Email template.'),
+        '#open' => !empty($existing_copied_fields) && !empty(array_filter($existing_copied_fields)),
+      ];
+      $possible_copied_fields = $this->getPossibleCopiedFields();
+      foreach ($possible_copied_fields as $field_id => $field_label) {
+        $form['copied_fields'][$field_id] = [
+          '#type' => 'checkbox',
+          '#title' => $field_label,
+          '#default_value' => !empty($existing_copied_fields[$field_id]),
         ];
       }
     }
@@ -243,13 +276,21 @@ class EmailOverrideForm extends EntityForm {
 
     if (!$is_new) {
       $param_mapping = [];
-      foreach ($form_state->getValue('mappings') as $source_id => $dest_id) {
-        $param_mapping[] = [
-          'source' => $source_id,
-          'destination' => $dest_id,
-        ];
+      if (!empty($form_state->getValue('mappings'))) {
+        foreach ($form_state->getValue('mappings') as $source_id => $dest_id) {
+          $param_mapping[] = [
+            'source' => $source_id,
+            'destination' => $dest_id,
+          ];
+        }
       }
       $easy_email_override->setParamMap($param_mapping);
+
+      $copied_fields = [];
+      foreach ($form_state->getValue('copied_fields') as $field_id => $value) {
+        $copied_fields[$field_id] = (bool) $value;
+      }
+      $easy_email_override->setCopiedFields($copied_fields);
     }
 
     $status = $easy_email_override->save();

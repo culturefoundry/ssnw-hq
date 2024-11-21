@@ -30,6 +30,6 @@ easy_email.settings:
   path: '/admin/structure/email-templates/settings'
   defaults:
     _form: '\Drupal\easy_email\Form\EasyEmailSettingsForm'
-    _title: 'Email Settings'
+    _title: 'Email settings'
   requirements:
     _permission: 'access easy email settings'

@@ -244,4 +244,12 @@ class EasyEmailHtmlRouteProvider extends AdminHtmlRouteProvider {
     }
   }
 
+  protected function getCollectionRoute(EntityTypeInterface $entity_type) {
+    if ($collection_route = parent::getCollectionRoute($entity_type)) {
+      $collection_route->setDefault('_title', 'Email log');
+      $collection_route->setRequirement('_easy_email_collection_access', 'TRUE');
+    }
+    return $collection_route;
+  }
+
 }

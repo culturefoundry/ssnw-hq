@@ -30,6 +30,7 @@ class DeclaredEmailManager extends DefaultPluginManager implements DeclaredEmail
     'label' => '',
     'module' => '',
     'key' => '',
+    'weight' => 0,
     'params' => [],
   ];
 
@@ -64,7 +65,7 @@ class DeclaredEmailManager extends DefaultPluginManager implements DeclaredEmail
   public function getDefinitions() {
     $definitions =  parent::getDefinitions();
     $definitions = array_filter($definitions, function ($definition) {
-      return !empty($definition['module']) && $this->moduleHandler->moduleExists($definition['module']);
+      return !empty($definition['module']) && (($definition['module'] === '*') || $this->moduleHandler->moduleExists($definition['module']));
     });
     foreach ($definitions as $i => $definition) {
       if (!empty($definition['params'])) {
@@ -74,7 +75,13 @@ class DeclaredEmailManager extends DefaultPluginManager implements DeclaredEmail
           }
         }
       }
+      if (!isset($definitions[$i]['weight'])) {
+        $definitions[$i]['weight'] = 0;
+      }
     }
+    uasort($definitions, function ($a, $b) {
+      return $a['weight'] <=> $b['weight'] ?: strnatcasecmp($a['label'], $b['label']);
+    });
     return $definitions;
   }
 

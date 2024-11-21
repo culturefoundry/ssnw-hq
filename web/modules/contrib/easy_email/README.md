@@ -5,8 +5,8 @@ with a robust set of features.
 
 This module requires one of the following HTML mailer modules:
 
-* [Symfony Mailer Lite](https://www.drupal.org/project/symfony_mailer_lite)
-* [Symfony Mailer](https://www.drupal.org/project/symfony_mailer)
+* [Drupal Symfony Mailer Lite](https://www.drupal.org/project/symfony_mailer_lite)
+* [Drupal Symfony Mailer](https://www.drupal.org/project/symfony_mailer)
 
 Either of these modules can be used, and you only need one of them.
 

@@ -25,7 +25,7 @@
     </div>
     {% if is_sent and sent_time %}
       <div>
-        <label>{{ 'Sent Time' | t }}</label>: {{ sent_time | format_date('short') }}
+        <label>{{ 'Sent time' | t }}</label>: {{ sent_time | format_date('short') }}
       </div>
     {% endif %}
   </fieldset>
@@ -36,20 +36,20 @@
     {% endfor %}
   </fieldset>
   <fieldset data-drupal-selector="inbox-preview">
-    <legend>{{ 'Inbox Preview' | t }}</legend>
+    <legend>{{ 'Inbox preview' | t }}</legend>
     <div class="easy-email-resizable inbox-preview-resizable">
       {{ inbox_preview }}
     </div>
   </fieldset>
   {% if preview_html_url %}
     <fieldset data-drupal-selector="html-body" class="easy-email-resizable">
-      <legend>{{ 'HTML Body' | t }}</legend>
+      <legend>{{ 'HTML body' | t }}</legend>
       <iframe frameBorder="0" width="100%" height="100%" src="{{ preview_html_url }}"></iframe>
     </fieldset>
   {% endif %}
   {% if preview_plain_url %}
     <fieldset data-drupal-selector="plain-body" class="easy-email-resizable">
-      <legend>{{ 'Plain Text Body' | t }}</legend>
+      <legend>{{ 'Plain text body' | t }}</legend>
       <iframe frameBorder="0" width="100%" height="100%" src="{{ preview_plain_url }}"></iframe>
     </fieldset>
   {% endif %}

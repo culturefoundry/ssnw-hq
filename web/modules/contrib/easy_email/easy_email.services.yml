@@ -17,3 +17,8 @@ services:
   easy_email.purger:
     class: Drupal\easy_email\Service\EasyEmailPurger
     arguments: ['@entity_type.manager', '@datetime.time']
+  easy_email.email_collection_access_checker:
+    class: Drupal\easy_email\Access\EmailCollectionAccess
+    arguments: ['@config.factory']
+    tags:
+      - { name: access_check, applies_to: _easy_email_collection_access }

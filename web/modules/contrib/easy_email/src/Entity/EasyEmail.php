@@ -26,7 +26,7 @@ use Drupal\user\UserInterface;
  *     singular = "@count email",
  *     plural = "@count emails",
  *   ),
- *   bundle_label = @Translation("Email Template"),
+ *   bundle_label = @Translation("Email template"),
  *   handlers = {
  *     "event" = "Drupal\easy_email\Event\EasyEmailEvent",
  *     "storage" = "Drupal\easy_email\EasyEmailStorage",
@@ -922,7 +922,7 @@ class EasyEmail extends RevisionableContentEntityBase implements EasyEmailInterf
 
     $fields['key'] = BaseFieldDefinition::create('string')
       ->setTargetEntityTypeId('easy_email')
-      ->setLabel(t('Unique Key'))
+      ->setLabel(t('Unique key'))
       ->setDescription(t('A unique key for this message used to prevent duplicate emails.'))
       ->setRevisionable(TRUE)
       ->setSettings([
@@ -989,7 +989,7 @@ class EasyEmail extends RevisionableContentEntityBase implements EasyEmailInterf
       ->setDisplayConfigurable('view', TRUE);
 
     $fields['recipient_address'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('Recipient Addresses'))
+      ->setLabel(t('Recipient addresses'))
       ->setDescription(t('The recipient email addresses of the Email entity.'))
       ->setCardinality(BaseFieldDefinition::CARDINALITY_UNLIMITED)
       ->setRevisionable(TRUE)
@@ -1038,7 +1038,7 @@ class EasyEmail extends RevisionableContentEntityBase implements EasyEmailInterf
 
     $fields['cc_address'] =  BaseFieldDefinition::create('string')
       ->setTargetEntityTypeId('easy_email')
-      ->setLabel(t('CC Addresses'))
+      ->setLabel(t('CC addresses'))
       ->setDescription(t('The CC email addresses of the Email entity.'))
       ->setCardinality(BaseFieldDefinition::CARDINALITY_UNLIMITED)
       ->setRevisionable(TRUE)
@@ -1087,7 +1087,7 @@ class EasyEmail extends RevisionableContentEntityBase implements EasyEmailInterf
 
     $fields['bcc_address'] =  BaseFieldDefinition::create('string')
       ->setTargetEntityTypeId('easy_email')
-      ->setLabel(t('BCC Addresses'))
+      ->setLabel(t('BCC addresses'))
       ->setDescription(t('The BCC email addresses of the Email entity.'))
       ->setCardinality(BaseFieldDefinition::CARDINALITY_UNLIMITED)
       ->setRevisionable(TRUE)
@@ -1110,7 +1110,7 @@ class EasyEmail extends RevisionableContentEntityBase implements EasyEmailInterf
 
     $fields['from_name'] =  BaseFieldDefinition::create('string')
       ->setTargetEntityTypeId('easy_email')
-      ->setLabel(t('From Name'))
+      ->setLabel(t('From name'))
       ->setDescription(t('The From name of the Email entity.'))
       ->setRevisionable(TRUE)
       ->setSettings([
@@ -1132,7 +1132,7 @@ class EasyEmail extends RevisionableContentEntityBase implements EasyEmailInterf
 
     $fields['from_address'] =  BaseFieldDefinition::create('string')
       ->setTargetEntityTypeId('easy_email')
-      ->setLabel(t('From Address'))
+      ->setLabel(t('From address'))
       ->setDescription(t('The From address of the Email entity.'))
       ->setRevisionable(TRUE)
       ->setSettings([
@@ -1154,7 +1154,7 @@ class EasyEmail extends RevisionableContentEntityBase implements EasyEmailInterf
 
     $fields['reply_to'] = BaseFieldDefinition::create('string')
       ->setTargetEntityTypeId('easy_email')
-      ->setLabel(t('Reply To Address'))
+      ->setLabel(t('Reply to address'))
       ->setDescription(t('The reply to address of the Email entity.'))
       ->setRevisionable(TRUE)
       ->setSettings([
@@ -1197,7 +1197,7 @@ class EasyEmail extends RevisionableContentEntityBase implements EasyEmailInterf
 
     $fields['body_html'] = BaseFieldDefinition::create('text_long')
       ->setTargetEntityTypeId('easy_email')
-      ->setLabel(t('HTML Body'))
+      ->setLabel(t('HTML body'))
       ->setRevisionable(TRUE)
       ->setDisplayOptions('form', [
         'type' => 'text_textarea',
@@ -1213,7 +1213,7 @@ class EasyEmail extends RevisionableContentEntityBase implements EasyEmailInterf
 
     $fields['body_plain'] = BaseFieldDefinition::create('string_long')
       ->setTargetEntityTypeId('easy_email')
-      ->setLabel(t('Plain Text Body'))
+      ->setLabel(t('Plain text body'))
       ->setRevisionable(TRUE)
       ->setDisplayOptions('form', [
         'type' => 'string_textarea',
@@ -1229,7 +1229,7 @@ class EasyEmail extends RevisionableContentEntityBase implements EasyEmailInterf
 
     $fields['inbox_preview'] = BaseFieldDefinition::create('string_long')
       ->setTargetEntityTypeId('easy_email')
-      ->setLabel(t('Inbox Preview'))
+      ->setLabel(t('Inbox preview'))
       ->setRevisionable(TRUE)
       ->setDisplayOptions('form', [
         'type' => 'string_textarea',
@@ -1279,7 +1279,7 @@ class EasyEmail extends RevisionableContentEntityBase implements EasyEmailInterf
 
     $fields['attachment_path'] = BaseFieldDefinition::create('string')
       ->setTargetEntityTypeId('easy_email')
-      ->setLabel(t('Attachment Paths'))
+      ->setLabel(t('Attachment paths'))
       ->setRevisionable(TRUE)
       ->setCardinality(BaseFieldDefinition::CARDINALITY_UNLIMITED)
       ->setRequired(FALSE)

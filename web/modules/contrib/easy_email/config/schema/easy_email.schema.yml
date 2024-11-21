@@ -4,12 +4,15 @@ easy_email.settings:
   mapping:
     purge_on_cron:
       type: boolean
-      label: 'Purge on Cron'
+      label: 'Purge on cron'
     purge_cron_limit:
       type: integer
-      label: 'Purge on Cron Limit'
+      label: 'Purge on cron limit'
     allowed_attachment_paths:
       type: sequence
-      label: 'Allowed Attachment Paths'
+      label: 'Allowed attachment paths'
       sequence:
           type: string
+    email_collection_access:
+      type: boolean
+      label: 'Email report access'

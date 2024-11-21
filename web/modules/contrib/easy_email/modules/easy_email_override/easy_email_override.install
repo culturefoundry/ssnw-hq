@@ -16,3 +16,28 @@ function easy_email_override_update_9001(&$sandbox) {
     \Drupal::service('module_installer')->install(['easy_email_commerce']);
   }
 }
+
+/**
+ * Set default values for copied fields in override configuration entities.
+ */
+function easy_email_override_update_10001(&$sandbox) {
+  /** @var \Drupal\easy_email_override\Entity\EmailOverrideInterface[] $overrides */
+  $overrides = \Drupal::entityTypeManager()
+    ->getStorage('easy_email_override')
+    ->loadByProperties();
+  if (!empty($overrides)) {
+    $schema = \Drupal::getContainer()->get('config.typed')->getDefinition('easy_email_override.easy_email_override.*');
+    if (!empty($schema)) {
+      $fields = array_map(static function ($field) {
+        return FALSE;
+      },
+        $schema['mapping']['copied_fields']['mapping']
+      );
+      foreach ($overrides as $override) {
+        $override->setCopiedFields($fields)
+          ->save();
+      }
+    }
+  }
+
+}

@@ -7,7 +7,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
 
 /**
- * Builds the form to delete Email Override entities.
+ * Builds the form to delete Email override entities.
  */
 class EmailOverrideDeleteForm extends EntityConfirmFormBase {
 

@@ -26,7 +26,7 @@ easy_email.easy_email_type.*:
       orderby: key
       sequence:
         type: string
-        label: 'CC Recipient'
+        label: 'CC recipient'
         translatable: true
     bcc:
       type: sequence
@@ -34,41 +34,34 @@ easy_email.easy_email_type.*:
       orderby: key
       sequence:
         type: string
-        label: 'BCC Recipient'
+        label: 'BCC recipient'
         translatable: true
     fromName:
       type: text
-      label: 'From Name'
+      label: 'From name'
     fromAddress:
       type: string
-      label: 'From Address'
+      label: 'From address'
       translatable: true
     replyToAddress:
       type: string
-      label: 'Reply To Address'
+      label: 'Reply to address'
       translatable: true
     subject:
       type: text
       label: 'Subject'
     inboxPreview:
       type: text
-      label: 'Inbox Preview'
+      label: 'Inbox preview'
     bodyHtml:
-      type: mapping
-      label: 'HTML Body'
-      mapping:
-        value:
-          type: text
-          label: 'Text Value'
-        format:
-          type: string
-          label: 'Text Format'
+      type: text_format
+      label: 'HTML body'
     bodyPlain:
       type: text
-      label: 'Plain Text Body'
+      label: 'Plain text body'
     generateBodyPlain:
       type: boolean
-      label: 'Generate Plain Text Body from HTML Body'
+      label: 'Generate plain text body from HTML body'
     attachment:
       type: sequence
       label: 'Attachments'
@@ -78,25 +71,25 @@ easy_email.easy_email_type.*:
         label: 'Attachment'
     saveAttachment:
       type: boolean
-      label: 'Save Attachments'
+      label: 'Save attachments'
     attachmentScheme:
       type: string
-      label: 'Attachment URI Scheme'
+      label: 'Attachment URI scheme'
     attachmentDirectory:
       type: string
-      label: 'Attachment Directory'
+      label: 'Attachment directory'
     saveEmail:
       type: boolean
-      label: 'Save Emails by Default'
+      label: 'Save emails by default'
     allowSavingEmail:
       type: boolean
-      label: 'Allow Emails to be Saved'
+      label: 'Allow emails to be saved'
     purgeEmails:
       type: boolean
-      label: 'Purge Emails'
+      label: 'Purge emails'
     purgeInterval:
       type: integer
-      label: 'Purge Interval'
+      label: 'Purge interval'
     purgePeriod:
       type: string
-      label: 'Purge Period'
+      label: 'Purge period'

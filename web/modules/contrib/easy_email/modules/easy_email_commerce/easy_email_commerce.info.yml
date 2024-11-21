@@ -9,7 +9,7 @@ dependencies:
   - commerce:commerce_order
   - commerce:commerce_price
 
-# Information added by Drupal.org packaging script on 2024-07-12
-version: '3.0.1'
+# Information added by Drupal.org packaging script on 2024-11-20
+version: '3.0.2'
 project: 'easy_email'
-datestamp: 1720806268
+datestamp: 1732134107

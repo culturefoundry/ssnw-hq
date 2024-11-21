@@ -36,7 +36,7 @@ class EasyEmailTypeListBuilder extends ConfigEntityListBuilder {
   public function getDefaultOperations(EntityInterface $entity) {
     $operations = parent::getDefaultOperations($entity);
     if (!empty($operations['edit'])) {
-      $operations['edit']['title'] = $this->t('Edit Template');
+      $operations['edit']['title'] = $this->t('Edit template');
     }
 
     $previewUrl = Url::fromRoute('entity.easy_email_type.preview', [
@@ -45,7 +45,7 @@ class EasyEmailTypeListBuilder extends ConfigEntityListBuilder {
 
     if ($previewUrl->access()) {
       $operations['preview'] = [
-        'title' => $this->t('Preview Template'),
+        'title' => $this->t('Preview template'),
         'weight' => 15,
         'url' => $previewUrl,
       ];

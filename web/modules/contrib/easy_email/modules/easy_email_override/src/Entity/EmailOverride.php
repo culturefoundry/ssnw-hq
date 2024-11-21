@@ -9,7 +9,14 @@ use Drupal\Core\Config\Entity\ConfigEntityBase;
  *
  * @ConfigEntityType(
  *   id = "easy_email_override",
- *   label = @Translation("Email Override"),
+ *   label = @Translation("Email override"),
+ *   label_collection = @Translation("Email overrides"),
+ *   label_singular = @Translation("email override"),
+ *   label_plural = @Translation("email overrides"),
+ *   label_count = @PluralTranslation(
+ *     singular = "@count email override",
+ *     plural = "@count email overrides",
+ *   ),
  *   handlers = {
  *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
  *     "list_builder" = "Drupal\easy_email_override\EmailOverrideListBuilder",
@@ -33,6 +40,7 @@ use Drupal\Core\Config\Entity\ConfigEntityBase;
  *     "label",
  *     "id",
  *     "param_map",
+ *     "copied_fields",
  *     "module",
  *     "key",
  *     "easy_email_type"
@@ -83,6 +91,11 @@ class EmailOverride extends ConfigEntityBase implements EmailOverrideInterface {
   protected $param_map;
 
   /**
+   * @var array
+   */
+  protected $copied_fields;
+
+  /**
    * @return string
    */
   public function getId() {
@@ -130,6 +143,23 @@ class EmailOverride extends ConfigEntityBase implements EmailOverrideInterface {
    */
   public function setParamMap($param_map) {
     $this->param_map = $param_map;
+    return $this;
+  }
+
+  /**
+   * @return array
+   */
+  public function getCopiedFields() {
+    return $this->copied_fields;
+  }
+
+  /**
+   * @param array $copied_fields
+   *
+   * @return EmailOverride
+   */
+  public function setCopiedFields($copied_fields) {
+    $this->copied_fields = $copied_fields;
     return $this;
   }
 

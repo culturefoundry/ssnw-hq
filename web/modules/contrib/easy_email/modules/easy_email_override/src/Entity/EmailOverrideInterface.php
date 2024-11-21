@@ -5,7 +5,7 @@ namespace Drupal\easy_email_override\Entity;
 use Drupal\Core\Config\Entity\ConfigEntityInterface;
 
 /**
- * Provides an interface for defining Email Override entities.
+ * Provides an interface for defining Email override entities.
  */
 interface EmailOverrideInterface extends ConfigEntityInterface {
 
@@ -78,5 +78,17 @@ interface EmailOverrideInterface extends ConfigEntityInterface {
    * @param string $easy_email_type
    */
   public function setEasyEmailType($easy_email_type);
+
+  /**
+   * @return array
+   */
+  public function getCopiedFields();
+
+  /**
+   * @param array $copied_fields
+   *
+   * @return EmailOverride
+   */
+  public function setCopiedFields($copied_fields);
 
 }

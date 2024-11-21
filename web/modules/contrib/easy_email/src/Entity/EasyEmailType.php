@@ -10,7 +10,7 @@ use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
  * @ConfigEntityType(
  *   id = "easy_email_type",
  *   label = @Translation("Email template"),
- *   label_collection = @Translation("Email Templates"),
+ *   label_collection = @Translation("Email templates"),
  *   label_singular = @Translation("email template"),
  *   label_plural = @Translation("email templates"),
  *   label_count = @PluralTranslation(

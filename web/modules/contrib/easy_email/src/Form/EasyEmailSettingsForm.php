@@ -37,7 +37,7 @@ class EasyEmailSettingsForm extends ConfigFormBase {
 
     $form['purge'] = [
       '#type' => 'fieldset',
-      '#title' => $this->t('Automatic Email Deletion'),
+      '#title' => $this->t('Automatic email deletion'),
     ];
 
     $form['purge']['cron'] = [
@@ -70,9 +70,22 @@ class EasyEmailSettingsForm extends ConfigFormBase {
     }
     $form['attachments']['allowed_paths'] = [
       '#type' => 'textarea',
-      '#title' => $this->t('Allowed Attachment Paths'),
+      '#title' => $this->t('Allowed attachment paths'),
       '#description' => $this->t('Paths to files that are allowed to be attached to emails. One path per line. Use * as a wildcard. Example: public://*.txt'),
       '#default_value' => $allowed_paths,
+    ];
+
+    $form['reports'] = [
+      '#type' => 'fieldset',
+      '#title' => $this->t('Reports'),
+    ];
+    $form['reports']['email_collection_access'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Display a log of emails under Reports'),
+      '#default_value' => $config->get('email_collection_access'),
+      '#description' => $this->t('When this is checked, a log of emails sent from the website is available
+        to view under Reports. This log only includes saved emails. If you are not saving
+        all emails, you may wish to disable this report to avoid confusion.'),
     ];
 
     return $form;
@@ -87,6 +100,7 @@ class EasyEmailSettingsForm extends ConfigFormBase {
     $config->set('purge_cron_limit', $form_state->getValue(['purge', 'cron_limit']));
     $allowed_attachment_paths = preg_split('/\r\n|[\r\n]/', $form_state->getValue(['attachments', 'allowed_paths']));
     $config->set('allowed_attachment_paths', $allowed_attachment_paths);
+    $config->set('email_collection_access', (bool) $form_state->getValue(['reports', 'email_collection_access']));
     $config->save();
     parent::submitForm($form, $form_state);
   }

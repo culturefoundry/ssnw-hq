@@ -125,7 +125,7 @@ class EasyEmailForm extends ContentEntityForm {
       $form['authoring_information'] = [
         '#type' => 'details',
         '#group' => 'advanced',
-        '#title' => $this->t('Authoring Information'),
+        '#title' => $this->t('Authoring information'),
         '#weight' => 40,
       ];
 
@@ -139,7 +139,7 @@ class EasyEmailForm extends ContentEntityForm {
 
     $form['customize'] = [
       '#type' => 'details',
-      '#title' => $this->t('Customize Email'),
+      '#title' => $this->t('Customize email'),
       '#weight' => 75,
       '#open' => TRUE,
     ];
@@ -177,14 +177,14 @@ class EasyEmailForm extends ContentEntityForm {
 
     $form['customize']['sender']['fromName'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('From Name'),
+      '#title' => $this->t('From name'),
       '#maxlength' => 255,
       '#default_value' => $entity->getFromName(),
     ];
 
     $form['customize']['sender']['fromAddress'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('From Address'),
+      '#title' => $this->t('From address'),
       '#maxlength' => 255,
       '#default_value' => $entity->getFromAddress(),
     ];
@@ -215,7 +215,7 @@ class EasyEmailForm extends ContentEntityForm {
 
     $form['customize']['body_html'] = [
       '#type' => 'details',
-      '#title' => $this->t('HTML Body'),
+      '#title' => $this->t('HTML body'),
       '#group' => 'body',
       '#weight' => 0,
     ];
@@ -232,7 +232,7 @@ class EasyEmailForm extends ContentEntityForm {
 
     $form['customize']['body_plain'] = [
       '#type' => 'details',
-      '#title' => $this->t('Plain Text Body'),
+      '#title' => $this->t('Plain text body'),
       '#group' => 'body',
       '#weight' => 5,
     ];
@@ -240,13 +240,13 @@ class EasyEmailForm extends ContentEntityForm {
     $form['customize']['body_plain']['bodyPlain'] = [
       '#type' => 'textarea',
       '#rows' => 30,
-      '#title' => $this->t('Plain Text Body'),
+      '#title' => $this->t('Plain text body'),
       '#default_value' => $entity->getPlainBody(),
     ];
 
     $form['customize']['body_inbox'] = [
       '#type' => 'details',
-      '#title' => $this->t('Inbox Preview'),
+      '#title' => $this->t('Inbox preview'),
       '#group' => 'body',
       '#weight' => 10,
     ];
@@ -269,12 +269,12 @@ class EasyEmailForm extends ContentEntityForm {
     if (isset($form['attachment'])) {
       $form['customize']['email_content']['attachment'] = $form['attachment'];
       unset($form['attachment']);
-      $form['customize']['email_content']['attachment']['widget']['#title'] = $this->t('Upload Attachments');
+      $form['customize']['email_content']['attachment']['widget']['#title'] = $this->t('Upload attachments');
     }
 
     $form['customize']['tokens'] = [
       '#type' => 'fieldset',
-      '#title' => $this->t('Replacement Patterns'),
+      '#title' => $this->t('Replacement patterns'),
     ];
 
     $form['customize']['tokens']['tree_link'] = [
@@ -311,7 +311,7 @@ class EasyEmailForm extends ContentEntityForm {
         ];
         $form['send'] = [
           '#type' => 'checkbox',
-          '#title' => $this->t('Send Email'),
+          '#title' => $this->t('Send email'),
           '#default_value' => ($entity->isNew()) ? TRUE : FALSE,
           '#weight' => 95,
         ];
@@ -321,7 +321,7 @@ class EasyEmailForm extends ContentEntityForm {
       if ($entity->isNew()) {
         $form['save'] = [
           '#type' => 'checkbox',
-          '#title' => $this->t('Save Email'),
+          '#title' => $this->t('Save email'),
           '#default_value' => ($entity->isNew()) ? TRUE : FALSE,
           '#weight' => 95,
         ];
@@ -335,7 +335,7 @@ class EasyEmailForm extends ContentEntityForm {
       if (!$entity->isSent()) {
         $form['send'] = [
           '#type' => 'checkbox',
-          '#title' => $this->t('Send Email'),
+          '#title' => $this->t('Send email'),
           '#default_value' => ($entity->isNew()) ? TRUE : FALSE,
           '#weight' => 95,
         ];
@@ -351,7 +351,7 @@ class EasyEmailForm extends ContentEntityForm {
         '#type' => 'value',
         '#value' => TRUE,
       ];
-      $form['actions']['submit']['#value'] = $this->t('Send Email');
+      $form['actions']['submit']['#value'] = $this->t('Send email');
     }
 
 
