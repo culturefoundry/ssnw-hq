@@ -8,86 +8,86 @@ definitions:
     expanded: false
     enabled: true
   admin_toolbar_tools__help:
-    enabled: false
     menu_name: admin
     parent: system.admin
-    expanded: false
     weight: -100
-  system__admin_index:
+    expanded: false
     enabled: false
+  system__admin_index:
     menu_name: admin
     parent: admin_toolbar_tools.help
     weight: -100
     expanded: false
-  admin_toolbar_tools__flush:
     enabled: false
+  admin_toolbar_tools__flush:
     menu_name: admin
     parent: admin_toolbar_tools.help
     weight: -9
     expanded: false
+    enabled: false
   admin_toolbar_tools__cssjs:
-    enabled: false
     menu_name: admin
     parent: admin_toolbar_tools.flush
     weight: 0
     expanded: false
+    enabled: false
   admin_toolbar_tools__plugin:
-    enabled: false
     menu_name: admin
     parent: admin_toolbar_tools.flush
     weight: 0
     expanded: false
+    enabled: false
   admin_toolbar_tools__flush_rendercache:
-    enabled: false
     menu_name: admin
     parent: admin_toolbar_tools.flush
     weight: 0
     expanded: false
+    enabled: false
   admin_toolbar_tools__flush_menu:
-    enabled: false
     menu_name: admin
     parent: admin_toolbar_tools.flush
     weight: 0
     expanded: false
+    enabled: false
   admin_toolbar_tools__flush_static:
-    enabled: false
     menu_name: admin
     parent: admin_toolbar_tools.flush
     weight: 0
     expanded: false
+    enabled: false
   admin_toolbar_tools__flush_twig:
-    enabled: false
     menu_name: admin
     parent: admin_toolbar_tools.flush
     weight: 0
     expanded: false
+    enabled: false
   'admin_toolbar_tools__extra_links:flush_views':
-    enabled: false
     menu_name: admin
     parent: admin_toolbar_tools.flush
     weight: 0
     expanded: false
+    enabled: false
   admin_toolbar_tools__theme_rebuild:
-    enabled: false
     menu_name: admin
     parent: admin_toolbar_tools.flush
     weight: 0
     expanded: false
-  system__run_cron:
     enabled: false
+  system__run_cron:
     menu_name: admin
     parent: admin_toolbar_tools.help
     weight: -8
     expanded: false
-  system__db_update:
     enabled: false
+  system__db_update:
     menu_name: admin
     parent: admin_toolbar_tools.help
     weight: -6
     expanded: false
-  'admin_toolbar_tools__extra_links:user__logout':
     enabled: false
+  'admin_toolbar_tools__extra_links:user__logout':
     menu_name: admin
     parent: admin_toolbar_tools.help
     weight: 10
     expanded: false
+    enabled: false
