@@ -2380,6 +2380,7 @@ return array(
     'Drupal\\Core\\Security\\StaticTrustedCallbackHelper' => $baseDir . '/web/core/lib/Drupal/Core/Security/StaticTrustedCallbackHelper.php',
     'Drupal\\Core\\Security\\TrustedCallbackInterface' => $baseDir . '/web/core/lib/Drupal/Core/Security/TrustedCallbackInterface.php',
     'Drupal\\Core\\Security\\UntrustedCallbackException' => $baseDir . '/web/core/lib/Drupal/Core/Security/UntrustedCallbackException.php',
+    'Drupal\\Core\\Serialization\\Yaml' => $baseDir . '/web/core/lib/Drupal/Core/Serialization/Yaml.php',
     'Drupal\\Core\\Session\\AccessPolicyBase' => $baseDir . '/web/core/lib/Drupal/Core/Session/AccessPolicyBase.php',
     'Drupal\\Core\\Session\\AccessPolicyInterface' => $baseDir . '/web/core/lib/Drupal/Core/Session/AccessPolicyInterface.php',
     'Drupal\\Core\\Session\\AccessPolicyProcessor' => $baseDir . '/web/core/lib/Drupal/Core/Session/AccessPolicyProcessor.php',

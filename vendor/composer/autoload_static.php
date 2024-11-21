@@ -2979,6 +2979,7 @@ class ComposerStaticInitfbb7d02f5c688e4445e1231cd1318d30
         'Drupal\\Core\\Security\\StaticTrustedCallbackHelper' => __DIR__ . '/../..' . '/web/core/lib/Drupal/Core/Security/StaticTrustedCallbackHelper.php',
         'Drupal\\Core\\Security\\TrustedCallbackInterface' => __DIR__ . '/../..' . '/web/core/lib/Drupal/Core/Security/TrustedCallbackInterface.php',
         'Drupal\\Core\\Security\\UntrustedCallbackException' => __DIR__ . '/../..' . '/web/core/lib/Drupal/Core/Security/UntrustedCallbackException.php',
+        'Drupal\\Core\\Serialization\\Yaml' => __DIR__ . '/../..' . '/web/core/lib/Drupal/Core/Serialization/Yaml.php',
         'Drupal\\Core\\Session\\AccessPolicyBase' => __DIR__ . '/../..' . '/web/core/lib/Drupal/Core/Session/AccessPolicyBase.php',
         'Drupal\\Core\\Session\\AccessPolicyInterface' => __DIR__ . '/../..' . '/web/core/lib/Drupal/Core/Session/AccessPolicyInterface.php',
         'Drupal\\Core\\Session\\AccessPolicyProcessor' => __DIR__ . '/../..' . '/web/core/lib/Drupal/Core/Session/AccessPolicyProcessor.php',
