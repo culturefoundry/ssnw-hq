@@ -11,3 +11,13 @@ param_map:
   -
     source: account
     destination: field_new_account
+copied_fields:
+  from: false
+  reply_to: false
+  to: false
+  cc: false
+  bcc: false
+  subject: false
+  body_html: false
+  body_plain: false
+  attachments: false
