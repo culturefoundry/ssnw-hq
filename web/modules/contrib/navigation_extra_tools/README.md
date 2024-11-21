@@ -22,9 +22,15 @@ Install as you would normally install a contributed Drupal module.
 
 No configuration is required.
 
+## IMAGE CREDITS
+
+The module uses the _wrench_ icon from [Phosphor Icons](https://phosphoricons.com/) in keeping with the design of the Navigation Toolbar.
+
+Project logo designed by James Shields using [Inkscape](https://inkscape.org/), the open source drawing application, incorporating the Drupal logo and the wrench icon above.
+
 ## MAINTAINERS
 
 Current maintainers for Drupal 10 and 11:
 
-- James Shields (lostcarpark) - https://www.drupal.org/u/lostcarpark
+- [James Shields (lostcarpark)](https://www.drupal.org/u/lostcarpark)
 

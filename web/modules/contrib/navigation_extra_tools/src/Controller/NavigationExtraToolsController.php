@@ -90,7 +90,7 @@ final class NavigationExtraToolsController extends ControllerBase {
   /**
    * Reload the previous page.
    */
-  public function reloadPage() {
+  protected function reloadPage() {
     $request = $this->requestStack->getCurrentRequest();
     if ($request->server->get('HTTP_REFERER')) {
       return $request->server->get('HTTP_REFERER');
@@ -104,8 +104,8 @@ final class NavigationExtraToolsController extends ControllerBase {
    * Flushes all caches.
    */
   public function flushAll() {
-    $this->messenger()->addMessage($this->t('All caches cleared.'));
     drupal_flush_all_caches();
+    $this->messenger()->addMessage($this->t('All caches cleared.'));
     return new RedirectResponse($this->reloadPage());
   }
 

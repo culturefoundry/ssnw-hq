@@ -24,42 +24,49 @@ navigation_extra_tools.css_js:
   route_name: navigation_extra_tools.css_js
   menu_name: admin
   parent: navigation_extra_tools.flush.help
+  weight: -17
 
 navigation_extra_tools.plugin:
   title: 'Flush plugins cache'
   route_name: navigation_extra_tools.plugin
   parent: navigation_extra_tools.flush.help
   menu_name: admin
+  weight: -16
 
 navigation_extra_tools.flush_static:
   title: 'Flush static cache'
   route_name: navigation_extra_tools.flush_static
   parent: navigation_extra_tools.flush.help
   menu_name: admin
+  weight: -15
 
 navigation_extra_tools.flush_menu:
   title: 'Flush routing and links cache'
   route_name: navigation_extra_tools.flush_menu
   parent: navigation_extra_tools.flush.help
   menu_name: admin
+  weight: -14
 
 navigation_extra_tools.flush_twig:
   title: 'Flush twig cache'
   route_name: navigation_extra_tools.flush_twig
   parent: navigation_extra_tools.flush.help
   menu_name: admin
+  weight: -13
 
 navigation_extra_tools.flush_render_cache:
   title: 'Flush render cache'
   route_name: navigation_extra_tools.flush_render_cache
   parent: navigation_extra_tools.flush.help
   menu_name: admin
+  weight: -12
 
 navigation_extra_tools.theme_rebuild:
   title: 'Rebuild theme registry'
   route_name: navigation_extra_tools.theme_rebuild
   parent: navigation_extra_tools.flush.help
   menu_name: admin
+  weight: -11
 
 navigation_extra_tools.run_cron:
   title: 'Run cron'

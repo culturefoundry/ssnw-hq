@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Drupal\Tests\navigation_extra_tools\Functional;
 
 use Drupal\Tests\BrowserTestBase;
+use Drupal\user\UserInterface;
 
 /**
  * Test description.
@@ -31,7 +32,7 @@ final class NavigationExtraToolsMenuTest extends BrowserTestBase {
    *
    * @var \Drupal\user\UserInterface
    */
-  protected $adminUser;
+  protected UserInterface $adminUser;
 
   /**
    * {@inheritdoc}
