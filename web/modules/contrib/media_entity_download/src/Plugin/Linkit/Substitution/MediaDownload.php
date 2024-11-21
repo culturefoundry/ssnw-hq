@@ -63,29 +63,26 @@ class MediaDownload extends PluginBase implements SubstitutionInterface, Contain
    * @param \Drupal\Core\Entity\EntityInterface $entity
    *   The entity to get a URL for.
    *
-   * @return \Drupal\Core\GeneratedUrl
+   * @return \Drupal\Core\Url
    *   A url to replace.
    */
-  public function getUrl(EntityInterface $entity): GeneratedUrl {
-    $url = new GeneratedUrl();
+  public function getUrl(EntityInterface $entity): Url {
 
     /** @var \Drupal\media\Entity\MediaType $media_bundle */
     $media_bundle = $this->entityTypeManager->getStorage('media_type')->load($entity->bundle());
 
     // Default to the canonical URL if the bundle doesn't have a source field.
     if (empty($media_bundle->getSource()->getConfiguration()['source_field'])) {
-      return $entity->toUrl('canonical')->toString(TRUE);
+      return $entity->toUrl('canonical');
     }
 
     // @todo Discover if we can support file field deltas at some point via the suggestion matcher.
-    $url_object = Url::fromRoute(
+    $url = Url::fromRoute(
       'media_entity_download.download',
       ['media' => $entity->id()],
       ['query' => [$this->getContentDisposition() => NULL]]
     );
 
-    $url->setGeneratedUrl($url_object->toString());
-    $url->addCacheableDependency($entity);
     return $url;
   }
 

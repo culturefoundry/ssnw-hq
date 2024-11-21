@@ -11,5 +11,11 @@
   },
   "require": {
     "drupal/core": "^9 || ^10 || ^11"
+  },
+  "conflict": {
+    "drupal/linkit": "<6.0.1"
+  },
+  "require-dev": {
+      "drupal/linkit": "^6 || ^7"
   }
 }
