@@ -363,7 +363,7 @@ class Import extends FormBase {
           $this->moduleHandler,
           $this->moduleInstaller,
           $this->themeHandler,
-          $this->stringTranslation,
+          $this->getStringTranslation(),
           $this->moduleExtensionList,
           $this->themeExtensionList
         );
