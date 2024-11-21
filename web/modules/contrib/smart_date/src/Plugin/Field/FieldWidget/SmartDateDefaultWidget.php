@@ -15,7 +15,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @FieldWidget(
  *   id = "smartdate_default",
- *   label = @Translation("Smart Date and time range"),
+ *   label = @Translation("Smart Date | Classic"),
  *   field_types = {
  *     "smartdate",
  *     "daterange"

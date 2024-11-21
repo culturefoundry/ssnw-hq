@@ -83,6 +83,9 @@ field.widget.third_party.smart_date_recur:
     modal:
       type: boolean
       label: 'Use modal for managing instances'
+    show_single:
+      type: boolean
+      label: 'Show a value of 1 in the increment field'
     allowed_recur_freq_values:
       type: mapping
       mapping:

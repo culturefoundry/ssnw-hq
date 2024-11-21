@@ -11,7 +11,7 @@ use Drupal\datetime\Plugin\Field\FieldType\DateTimeItem;
  *
  * @FieldWidget(
  *   id = "smartdate_datelist",
- *   label = @Translation("Select list"),
+ *   label = @Translation("Smart Date | Select list"),
  *   field_types = {
  *     "smartdate"
  *   }

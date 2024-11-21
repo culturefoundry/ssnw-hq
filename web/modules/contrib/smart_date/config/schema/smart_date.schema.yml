@@ -186,6 +186,9 @@ field.widget.settings.smartdate_default:
     remove_seconds:
       type: boolean
       label: 'Remove any seconds, if present, from existing values'
+    duration_overlay:
+      type: boolean
+      label: 'Use an overlay to show duration options'
 
 field.widget.settings.smartdate_inline:
   type: field.widget.settings.smartdate_default
@@ -196,12 +199,9 @@ field.widget.settings.smartdate_inline:
       label: 'Separator string (separating start and end date)'
 
 field.widget.settings.smartdate_timezone:
-  type: mapping
+  type: field.widget.settings.smartdate_inline
   label: 'Smart date timezone display format settings'
   mapping:
-    modal:
-      type: boolean
-      label: 'Use modal for managing instances'
     default_tz:
       type: string
       label: 'Default timezone'
@@ -214,27 +214,6 @@ field.widget.settings.smartdate_timezone:
       sequence:
         type: string
         label: 'Timezone'
-    default_duration:
-      type: integer
-      label: 'Default duration'
-    default_duration_increments:
-      type: string
-      label: 'Duration options made available to the user'
-    show_extra:
-      type: boolean
-      label: 'Show extra'
-    hide_date:
-      type: boolean
-      label: 'Hide end date unless different'
-    allday:
-      type: boolean
-      label: 'Show an all day checkbox'
-    remove_seconds:
-      type: boolean
-      label: 'Remove any seconds, if present, from existing values'
-    separator:
-      type: string
-      label: 'Separator'
     add_abbreviations:
       type: string
       label: 'Add abbreviations'

@@ -16,7 +16,7 @@ use Drupal\smart_date\SmartDateTrait;
  *
  * @FieldFormatter(
  *   id = "smartdate_plain",
- *   label = @Translation("Plain"),
+ *   label = @Translation("Smart Date | Plain"),
  *   field_types = {
  *     "smartdate"
  *   }

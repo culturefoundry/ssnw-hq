@@ -14,7 +14,7 @@ use Drupal\smart_date\Entity\SmartDateFormat;
  *
  * @FieldFormatter(
  *   id = "smartdate_default",
- *   label = @Translation("Smart Date Formatter"),
+ *   label = @Translation("Smart Date | Default"),
  *   field_types = {
  *     "smartdate",
  *     "daterange",

@@ -2,8 +2,8 @@
 
 namespace Drupal\smart_date\FormElement;
 
-use Drupal\config_translation\FormElement\FormElementBase;
 use Drupal\Core\Language\LanguageInterface;
+use Drupal\config_translation\FormElement\FormElementBase;
 
 /**
  * Defines the boolean element for the configuration translation interface.

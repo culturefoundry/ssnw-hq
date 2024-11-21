@@ -270,6 +270,9 @@ function smart_date_recur_widget_extra_fields(&$element, $item, $context) {
     '#prefix' => '<div class="clearfix"></div>',
     '#attributes' => ['class' => ['repeat--label']],
   ];
+  if ($recur_manager->getThirdPartyFallback($context, 'show_single', 0) && empty($defaults['interval'])) {
+    $defaults['interval'] = 1;
+  }
   $element['interval'] = [
     '#type' => 'number',
     '#title' => t('every'),
@@ -873,6 +876,11 @@ function smart_date_recur_field_widget_third_party_settings_form($plugin, $field
         '#title' => t('Use modal for managing instances'),
         '#default_value' => $recur_manager->getThirdPartyFallback($plugin, 'modal', 1),
       ];
+      $element['show_single'] = [
+        '#type' => 'checkbox',
+        '#title' => t('Show a value of 1 in the increment field'),
+        '#default_value' => $recur_manager->getThirdPartyFallback($plugin, 'show_single', 0),
+      ];
       $element['allowed_recur_freq_values'] = [
         '#type' => 'checkboxes',
         '#title' => t('Allowed frequency values for recurring events'),
@@ -900,6 +908,9 @@ function smart_date_recur_field_widget_settings_summary_alter(&$summary, $contex
   if ($context['field_definition']->getType() == 'smartdate' && $recur_manager->getThirdPartyFallback($context['field_definition'], 'allow_recurring')) {
     if ($recur_manager->getThirdPartyFallback($context['widget'], 'modal', 1)) {
       $summary[] = t('Use modal for managing instances.');
+    }
+    if ($recur_manager->getThirdPartyFallback($context['widget'], 'show_single', 1)) {
+      $summary[] = t('Show a value of 1 in the increment field.');
     }
     if ($freq_values = $recur_manager->getThirdPartyFallback($context['widget'], 'allowed_recur_freq_values', _smart_date_recur_get_freq_defaults())) {
       $labels = _smart_date_recur_label_freq_defaults($freq_values);

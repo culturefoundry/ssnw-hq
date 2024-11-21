@@ -17,7 +17,7 @@ use Drupal\smart_date_recur\SmartDateRecurPluginTrait;
  *
  * @FieldFormatter(
  *   id = "smartdate_dailyrange",
- *   label = @Translation("Daily Range"),
+ *   label = @Translation("Smart Date | Daily Range"),
  *   field_types = {
  *     "smartdate"
  *   }

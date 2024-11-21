@@ -11,7 +11,7 @@ use Drupal\Core\Form\FormStateInterface;
  *
  * @FieldWidget(
  *   id = "smartdate_only",
- *   label = @Translation("Smart Date, date-only range"),
+ *   label = @Translation("Smart Date | Date-only range"),
  *   field_types = {
  *     "smartdate",
  *     "daterange"

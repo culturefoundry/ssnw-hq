@@ -6,6 +6,159 @@
         return str.length < max ? pad(`0${str}`, max) : str;
       }
 
+      function parentDisplay(element) {
+        element.parentElement.style.display = '';
+      }
+
+      function parentNoDisplay(element) {
+        element.parentElement.style.display = 'none';
+      }
+
+      function durationClick(element) {
+        const wrapper = element.closest('.smartdate--widget');
+        const durationSelect = wrapper.querySelector('select.field-duration');
+        const duration = element.dataset.value;
+        // Update the select to show the appropriate value.
+        if (
+          durationSelect.querySelectorAll(`option[value="${duration}"]`)
+            .length !== 0
+        ) {
+          durationSelect.value = duration;
+          const e = new Event('change');
+          durationSelect.dispatchEvent(e);
+        }
+        /* eslint-disable-next-line no-use-before-define */
+        convertDuration(wrapper);
+        const endDate = wrapper.querySelector('.time-end.form-time');
+        endDate.focus();
+      }
+
+      function removeDurationList(wrapper) {
+        const DurationList = wrapper.querySelectorAll(
+          '.smart-date--duration-list',
+        );
+        if (DurationList) {
+          DurationList.forEach((element) => {
+            element.remove();
+          });
+          const endDate = wrapper.querySelector('.time-end.form-time');
+          endDate.setAttribute('aria-expanded', 'false');
+        }
+      }
+
+      function convertDuration(wrapper) {
+        const durationId = `${wrapper.id}--duration-list`;
+        const durationSelect = wrapper.querySelector('select.field-duration');
+        const startTime = wrapper.querySelector('.time-start.form-time').value;
+        const startDate = wrapper.querySelector('.time-start.form-date').value;
+        const end = new Date(Date.parse(startDate));
+        const startArray = startTime.split(':');
+        const endDate = wrapper.querySelector('.time-end.form-time');
+        // Add accessibility attributes.
+        endDate.setAttribute('role', 'combobox');
+        endDate.setAttribute('aria-autocomplete', 'list');
+        endDate.setAttribute('aria-haspopup', 'true');
+        endDate.setAttribute('aria-expanded', 'true');
+        endDate.setAttribute('aria-controls', durationId);
+        endDate.setAttribute('aria-owns', durationId);
+        endDate.setAttribute('autocomplete', 'off');
+        const durationList = document.createElement('ul');
+        durationList.tabIndex = -1;
+        durationList.setAttribute('role', 'listbox');
+        durationList.id = durationId;
+        for (let i = 0; i < durationSelect.options.length; i++) {
+          if (durationSelect.options[i].value === 'custom') {
+            continue;
+          }
+          const durationOption = document.createElement('li');
+          durationOption.tabIndex = -1;
+          durationOption.setAttribute('role', 'option');
+          end.setHours(startArray[0]);
+          end.setMinutes(
+            parseInt(startArray[1], 10) +
+              parseInt(durationSelect.options[i].value, 10),
+          );
+
+          // Update End Time input.
+          const endVal = end.toLocaleTimeString([], { timeStyle: 'short' });
+          const timeNode = document.createTextNode(endVal);
+          const timeSpan = document.createElement('span');
+          timeSpan.appendChild(timeNode);
+          timeSpan.classList.add('smart-date--duration-list--time');
+          if (endVal.length > 5) {
+            timeSpan.classList.add('12h-format');
+          }
+          durationOption.appendChild(timeSpan);
+
+          const durNode = document.createTextNode(
+            durationSelect.options[i].text,
+          );
+          const durSpan = document.createElement('span');
+          durSpan.appendChild(durNode);
+          durSpan.classList.add('smart-date--duration-list--duration');
+          durationOption.appendChild(durSpan);
+
+          durationOption.dataset.value = durationSelect.options[i].value;
+          if (durationSelect.options[i].value === durationSelect.value) {
+            durationOption.classList.add('active');
+            durationOption.setAttribute('aria-selected', 'true');
+          }
+          durationOption.addEventListener(
+            'click',
+            function () {
+              durationClick(durationOption);
+            },
+            false,
+          );
+          durationList.appendChild(durationOption);
+        }
+        durationList.classList.add('smart-date--duration-list');
+        removeDurationList(wrapper);
+        endDate.parentElement.appendChild(durationList);
+      }
+
+      function durationKeys(event) {
+        const keyName = event.key;
+        if (keyName !== 'ArrowUp' && keyName !== 'ArrowDown') {
+          return;
+        }
+        const wrapper = event.srcElement.closest('.smartdate--widget');
+        const DurationList = wrapper.querySelectorAll(
+          '.smart-date--duration-list li',
+        );
+        if (!DurationList) {
+          return;
+        }
+        const values = [];
+        const links = [];
+        let active = null;
+        // Create arrays for the values and links, with matching keys.
+        DurationList.forEach((element) => {
+          if (active === null && element.classList.contains('active')) {
+            active = element.dataset.value;
+            element.classList.remove('active');
+          }
+          values.push(element.dataset.value);
+          links.push(element);
+        });
+        let activeIndex = values.findIndex((x) => x === active);
+        const max = values.length;
+        // Move the active duration.
+        if (keyName === 'ArrowUp') {
+          activeIndex--;
+          if (activeIndex < 0) {
+            activeIndex = max - 1;
+          }
+        } else {
+          activeIndex++;
+          if (activeIndex >= max) {
+            activeIndex = 0;
+          }
+        }
+        const e = new Event('click');
+        links[activeIndex].dispatchEvent(e);
+      }
+
       function checkEndDate(wrapper) {
         const startDate = wrapper.querySelector('.time-start.form-date');
         const endDate = wrapper.querySelector('.time-end.form-date');
@@ -126,29 +279,7 @@
       }
 
       function durationChanged(element) {
-        const currentVal = element.value;
         const wrapper = element.closest('.smartdate--widget');
-        const endTimeInput = wrapper.querySelector('.time-end.form-time');
-        const endDateInput = wrapper.querySelector('.time-end.form-date');
-        const separator = wrapper.querySelector('.smartdate--separator');
-        // A strict comparison is needed, but not sure which type we'll get.
-        if (currentVal === 0 || currentVal === '0') {
-          // Hide the end date and time.
-          endTimeInput.style.display = 'none';
-          endDateInput.style.display = 'none';
-          hideLabels(wrapper);
-          if (separator) {
-            separator.style.display = 'none';
-          }
-        } else {
-          // If they're hidden, show them.
-          endTimeInput.style.display = '';
-          endDateInput.style.display = '';
-          hideLabels(wrapper, false);
-          if (separator) {
-            separator.style.display = '';
-          }
-        }
         if (element.value === 'custom') {
           // Reset end time and add focus.
           const wrapper = element.closest('fieldset');
@@ -164,8 +295,8 @@
 
       function setInitialDuration(element) {
         let duration = element.value;
+        const wrapper = element.closest('.smartdate--widget');
         if (duration === 'custom') {
-          const wrapper = element.closest('.smartdate--widget');
           duration = calcDuration(wrapper);
         } else if (+duration === 0) {
           // Call this to hide the end date and time.
@@ -177,7 +308,17 @@
         if (element.options.length === 1 && duration !== 'custom') {
           if (+duration === 0) {
             // Hide the entire duration wrapper.
-            element.parentElement.style.display = 'none';
+            parentNoDisplay(element);
+            // Hide the end date and time.
+            const endTimeInput = wrapper.querySelector('.time-end.form-time');
+            const endDateInput = wrapper.querySelector('.time-end.form-date');
+            const separator = wrapper.querySelector('.smartdate--separator');
+            parentNoDisplay(endTimeInput);
+            parentNoDisplay(endDateInput);
+            hideLabels(wrapper);
+            if (separator) {
+              separator.style.display = 'none';
+            }
           } else {
             // Append option label to field label and hide the select.
             const durationText = element.options[0].text;
@@ -233,6 +374,9 @@
           return;
         }
         const durationSelect = wrapper.querySelector('select.field-duration');
+        if (+durationSelect.dataset.overlay === 1) {
+          convertDuration(wrapper);
+        }
         // Store the numeric value in a property so it can be used programmatically.
         durationSelect.dataset.duration = duration;
         // Update the select to show the appropriate value.
@@ -258,11 +402,10 @@
         if (startTime.value === '00:00:00' && endTime.value === '23:59:00') {
           checkbox.checked = true;
           checkbox.dataset.duration = duration.dataset.default;
-          startTime.style.display = 'none';
-          endTime.style.display = 'none';
+          parentNoDisplay(startTime);
+          parentNoDisplay(endTime);
           hideLabels(wrapper);
-          const durationWrapper = duration.parentElement;
-          durationWrapper.style.display = 'none';
+          parentNoDisplay(duration);
         } else {
           checkbox.dataset.duration = duration.value;
         }
@@ -272,7 +415,9 @@
           checkbox.checked === true
         ) {
           duration.parentElement.style.visibility = 'hidden';
-          duration.parentElement.style.display = '';
+          if (+duration.dataset.overlay !== 1) {
+            parentDisplay(duration);
+          }
         }
       }
 
@@ -287,7 +432,7 @@
         if (checkbox.checked === true) {
           if (+checkbox.dataset.duration === 0) {
             const endDate = wrapper.querySelector('input.time-end.form-date');
-            endDate.style.display = '';
+            parentDisplay(endDate);
             const endDateLabel = wrapper.querySelector('.time-start + .label');
             if (endDateLabel) {
               endDateLabel.style.display = '';
@@ -309,9 +454,9 @@
             duration.value = '1439';
           }
           // Set to all day $values and hide time elements.
-          startTime.style.display = 'none';
+          parentNoDisplay(startTime);
           startTime.value = '00:00';
-          endTime.style.display = 'none';
+          parentNoDisplay(endTime);
           endTime.value = '23:59';
           hideLabels(wrapper);
           // Force the end date visible.
@@ -331,14 +476,15 @@
           }
           if (checkbox.dataset.duration || +checkbox.dataset.duration === 0) {
             duration.value = checkbox.dataset.duration;
-            duration.dataset.duration = checkbox.dataset.duration;
-            if (!endTime.value) {
-              setEndDate(startTime);
-            }
+          } else {
+            duration.dataset.duration = checkbox.dataset.default;
+          }
+          if (!endTime.value) {
+            setEndDate(startTime);
           }
           // Make time inputs visible.
-          startTime.style.display = '';
-          endTime.style.display = '';
+          parentDisplay(startTime);
+          parentDisplay(endTime);
           durationWrapper.style.visibility = 'visible';
           hideLabels(wrapper, false);
           if (duration.value === 0) {
@@ -347,6 +493,43 @@
           }
           checkEndDate(wrapper);
         }
+      }
+
+      function implementDurationOverlay() {
+        once(
+          'smartDateDurationList',
+          '.smartdate--widget .time-end input[type="time"]',
+          context,
+        ).forEach(function (element) {
+          const wrapper = element.closest('.smartdate--widget');
+          wrapper.dataset.duration_wrapper = 1;
+          element.addEventListener(
+            'focus',
+            function () {
+              convertDuration(wrapper);
+              element.addEventListener('keydown', durationKeys, false);
+            },
+            false,
+          );
+          element.addEventListener(
+            'focusout',
+            function () {
+              const existingDurationList = wrapper.querySelectorAll(
+                '.smart-date--duration-list',
+              );
+              if (existingDurationList) {
+                existingDurationList.forEach((element) => {
+                  // Pause before hiding to preserve focus after list clicks.
+                  setTimeout(function () {
+                    element.style.display = 'none';
+                  }, 300);
+                });
+              }
+              element.removeEventListener('keydown', durationKeys, false);
+            },
+            false,
+          );
+        });
       }
 
       once(
@@ -363,6 +546,11 @@
           },
           false,
         );
+        // If overlay enabled, make appropriate changes.
+        if (element.dataset.overlay === 1 || element.dataset.overlay === '1') {
+          parentNoDisplay(element);
+          implementDurationOverlay();
+        }
       });
       once('smartDateAllDay', '.allday', context).forEach(function (element) {
         setAllDay(element);

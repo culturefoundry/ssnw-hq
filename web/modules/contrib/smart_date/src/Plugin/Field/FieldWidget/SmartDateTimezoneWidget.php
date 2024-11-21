@@ -13,7 +13,7 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
  *
  * @FieldWidget(
  *   id = "smartdate_timezone",
- *   label = @Translation("Date and time range with timezone"),
+ *   label = @Translation("Smart Date | Inline range with timezone"),
  *   field_types = {
  *     "smartdate"
  *   }
@@ -171,6 +171,7 @@ class SmartDateTimezoneWidget extends SmartDateInlineWidget implements Container
       static function () use ($grouped) {
         return $grouped ? TimeZoneFormHelper::getOptionsListByRegion() : TimeZoneFormHelper::getOptionsList();
       },
+      // @phpstan-ignore-next-line
       static fn () => system_time_zones(FALSE, $grouped)
     );
   }

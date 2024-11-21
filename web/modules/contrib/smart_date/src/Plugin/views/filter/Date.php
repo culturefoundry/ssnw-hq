@@ -106,6 +106,12 @@ class Date extends CoreDate implements ContainerFactoryPluginInterface {
         'short' => $this->t('contains'),
         'values' => 1,
       ],
+      'daterange_overlaps' => [
+        'title' => $this->t('Overlaps'),
+        'method' => 'opContains',
+        'short' => $this->t('overlaps'),
+        'values' => 1,
+      ],
       'daterange_not_contains' => [
         'title' => $this->t('Does not contain'),
         'method' => 'opContains',
@@ -243,6 +249,10 @@ class Date extends CoreDate implements ContainerFactoryPluginInterface {
     switch ($this->operator) {
       case 'daterange_contains':
         $this->query->addWhereExpression($this->options['group'], "$field <= $min_value AND $field_end >= $max_value");
+        break;
+
+      case 'daterange_overlaps':
+        $this->query->addWhereExpression($this->options['group'], "$field <= $max_value AND $field_end >= $min_value");
         break;
 
       case 'daterange_not_contains':

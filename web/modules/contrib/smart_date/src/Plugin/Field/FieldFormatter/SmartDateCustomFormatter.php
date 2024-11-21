@@ -14,7 +14,7 @@ use Drupal\smart_date\SmartDatePluginTrait;
  *
  * @FieldFormatter(
  *   id = "smartdate_custom",
- *   label = @Translation("Custom"),
+ *   label = @Translation("Smart Date | Custom"),
  *   field_types = {
  *     "smartdate"
  *   }

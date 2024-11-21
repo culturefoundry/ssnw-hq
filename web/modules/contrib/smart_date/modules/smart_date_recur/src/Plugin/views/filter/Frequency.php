@@ -16,7 +16,7 @@ class Frequency extends InOperator {
   /**
    * {@inheritdoc}
    */
-  public function init(ViewExecutable $view, DisplayPluginBase $display, array &$options = NULL) {
+  public function init(ViewExecutable $view, DisplayPluginBase $display, ?array &$options = NULL) {
     parent::init($view, $display, $options);
     $this->valueTitle = $this->t('Frequency');
     // @todo Switch to getFrequencyLabelsOrNull to allow filtering on

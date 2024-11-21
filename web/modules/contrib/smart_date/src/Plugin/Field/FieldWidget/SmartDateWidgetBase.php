@@ -35,6 +35,7 @@ class SmartDateWidgetBase extends DateTimeWidgetBase {
       'hide_date' => TRUE,
       'allday' => TRUE,
       'remove_seconds' => FALSE,
+      'duration_overlay' => TRUE,
     ] + parent::defaultSettings();
   }
 
@@ -71,6 +72,12 @@ class SmartDateWidgetBase extends DateTimeWidgetBase {
       '#type' => 'checkbox',
       '#title' => $this->t("Remove any seconds, if present, from existing values."),
       '#default_value' => $this->getSetting('remove_seconds'),
+    ];
+
+    $element['duration_overlay'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t("Use an overlay to display duration options."),
+      '#default_value' => $this->getSetting('duration_overlay'),
     ];
 
     return $element;
@@ -167,6 +174,7 @@ class SmartDateWidgetBase extends DateTimeWidgetBase {
     }
     $defaults['hide_date'] = $this->getSetting('hide_date');
     $defaults['allday'] = $this->getSetting('allday');
+    $defaults['duration_overlay'] = $this->getSetting('duration_overlay');
     // If configured to, remove seconds from the values.
     if ($this->getSetting('remove_seconds') && $values) {
       foreach (['start', 'end'] as $which) {
@@ -202,6 +210,7 @@ class SmartDateWidgetBase extends DateTimeWidgetBase {
         'default_duration' => 60,
         'allday' => TRUE,
         'remove_seconds' => FALSE,
+        'duration_overlay' => TRUE,
       ];
     }
     $limits_to_check = ['min', 'max'];
@@ -289,6 +298,9 @@ class SmartDateWidgetBase extends DateTimeWidgetBase {
 
     // Make the allday setting available to the form.
     $element['duration']['#attributes']['data-allday'] = (isset($defaults['allday']) && $defaults['allday']) ? 1 : 0;
+
+    // Make the duration overlay setting available to the form.
+    $element['duration']['#attributes']['data-overlay'] = (isset($defaults['duration_overlay']) && $defaults['duration_overlay']) ? 1 : 0;
 
     // No true input, so preserve an existing value otherwise use site default.
     $default_tz = (isset($values['timezone'])) ? $values['timezone'] : NULL;

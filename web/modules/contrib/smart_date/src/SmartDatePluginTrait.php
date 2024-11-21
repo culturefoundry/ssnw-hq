@@ -213,10 +213,10 @@ trait SmartDatePluginTrait {
         unset($item->_attributes);
       }
 
-      if ($augmenters) {
+      if (!empty($augmenters['instances'])) {
         // @todo examine why we aren't using the $start_ts and $end_ts that are
         // already normalized above.
-        $this->augmentOutput($elements[$delta], $augmenters, $item->value, $item->end_value, $timezone, $delta);
+        $this->augmentOutput($elements[$delta], $augmenters['instances'], $item->value, $item->end_value, $timezone, $delta);
       }
     }
 
@@ -231,12 +231,14 @@ trait SmartDatePluginTrait {
   /**
    * Explicitly declare support for the Date Augmenter API.
    *
-   * @return bool
-   *   Return TRUE to declare support.
+   * @return array
+   *   The keys and labels for the sets of configuration.
    */
   public function supportsDateAugmenter() {
-    // Could have conditional logic here.
-    return TRUE;
+    // Return an array of configuration sets to use.
+    return [
+      'instances' => $this->t('Individual Dates'),
+    ];
   }
 
   /**
@@ -248,13 +250,20 @@ trait SmartDatePluginTrait {
    * @return array
    *   An array of the available augmenters.
    */
-  protected function initializeAugmenters(array $keys = []) {
+  protected function initializeAugmenters(array $keys = ['instances']) {
     if (empty(\Drupal::hasService('plugin.manager.dateaugmenter'))) {
       return [];
     }
     $config = [];
     if (method_exists($this, 'getThirdPartySettings')) {
       $config = $this->getThirdPartySettings('date_augmenter');
+    }
+    // Retrieve legacy configuration not stored in 'instances' (#3399475).
+    if (is_array($config) && !isset($config['instances'])) {
+      $instances = $config;
+      $config = [
+        'instances' => $instances,
+      ];
     }
     $this->sharedSettings = $config;
     $dateAugmenterManager = \Drupal::service('plugin.manager.dateaugmenter');
@@ -267,7 +276,7 @@ trait SmartDatePluginTrait {
       }
     }
     else {
-      $augmenters = $dateAugmenterManager->getActivePlugins($config);
+      $augmenters['instances'] = $dateAugmenterManager->getActivePlugins($config);
     }
     return $augmenters;
   }
@@ -294,7 +303,7 @@ trait SmartDatePluginTrait {
    * @param string $ends
    *   An optional timestamp to specify the end of the last instance.
    */
-  protected function augmentOutput(array &$output, array $augmenters, $start_ts, $end_ts, $timezone, $delta, $type = '', $repeats = '', $ends = '') {
+  protected function augmentOutput(array &$output, array $augmenters, $start_ts, $end_ts, $timezone, $delta, $type = 'instances', $repeats = '', $ends = '') {
     if (!$augmenters) {
       return;
     }
@@ -308,6 +317,10 @@ trait SmartDatePluginTrait {
     }
 
     foreach ($augmenters as $augmenter_id => $augmenter) {
+      // Fallback for outdated schema.
+      if ($type === 'instances' && !isset($this->sharedSettings[$type])) {
+        $type = '';
+      }
       if (!empty($type)) {
         $settings = $this->sharedSettings[$type]['settings'][$augmenter_id] ?? [];
       }

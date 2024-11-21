@@ -15,7 +15,7 @@ use Drupal\Core\Form\FormStateInterface;
  *
  * @FieldFormatter(
  *   id = "smartdate_duration",
- *   label = @Translation("Smart Date Duration (deprecated)"),
+ *   label = @Translation("Smart Date | Duration (deprecated)"),
  *   field_types = {
  *     "smartdate",
  *     "daterange"

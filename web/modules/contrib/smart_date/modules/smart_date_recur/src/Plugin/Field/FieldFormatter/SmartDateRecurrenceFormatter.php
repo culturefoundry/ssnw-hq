@@ -4,6 +4,7 @@ namespace Drupal\smart_date_recur\Plugin\Field\FieldFormatter;
 
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Messenger\MessengerTrait;
 use Drupal\smart_date\Entity\SmartDateFormat;
 use Drupal\smart_date\Plugin\Field\FieldFormatter\SmartDateDefaultFormatter;
 use Drupal\smart_date_recur\Entity\SmartDateRule;
@@ -17,7 +18,7 @@ use Drupal\smart_date_recur\SmartDateRecurPluginTrait;
  *
  * @FieldFormatter(
  *   id = "smartdate_recurring",
- *   label = @Translation("Recurring"),
+ *   label = @Translation("Smart Date | Recurring"),
  *   field_types = {
  *     "smartdate"
  *   }
@@ -26,6 +27,7 @@ use Drupal\smart_date_recur\SmartDateRecurPluginTrait;
 class SmartDateRecurrenceFormatter extends SmartDateDefaultFormatter {
 
   use SmartDateRecurPluginTrait;
+  use MessengerTrait;
 
   /**
    * The formatter configuration.
@@ -199,7 +201,7 @@ class SmartDateRecurrenceFormatter extends SmartDateDefaultFormatter {
       else {
         // Uses a rule, so use a placeholder instead.
         if (!isset($rrules[$item->rrule])) {
-          $elements[$delta] = $item->rrule;
+          $elements[$delta]['#rrule'] = $item->rrule;
           $rrules[$item->rrule]['delta'] = $delta;
         }
         // Add this instance to our array of instances for the rule.
@@ -221,6 +223,17 @@ class SmartDateRecurrenceFormatter extends SmartDateDefaultFormatter {
       // Retrieve the text of the rrule.
       $rrule = SmartDateRule::load($rrid);
       if (empty($rrule)) {
+        $this->messenger()->addError($this->t('One or dates reference a missing recurring rule: %rrid', ['%rrid' => $rrid]));
+        // Unable to load the rrule, so render all the date instances directly.
+        // Flag that this is a "pseudo" render for preprocessors to work with.
+        $elements[$delta]['#smart_date_recur_no_rrule'] = TRUE;
+        foreach ($instances as $key => $instance) {
+          $elements[$delta][$key] = [
+            '#prefix' => '<div>',
+            '#suffix' => '</div>',
+            'content' => $this->buildOutput($delta, $instance, $settings),
+          ];
+        }
         continue;
       }
 

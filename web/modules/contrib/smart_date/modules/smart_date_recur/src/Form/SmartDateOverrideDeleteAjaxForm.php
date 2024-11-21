@@ -22,7 +22,7 @@ class SmartDateOverrideDeleteAjaxForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state, SmartDateOverride $entity = NULL) {
+  public function buildForm(array $form, FormStateInterface $form_state, ?SmartDateOverride $entity = NULL) {
     $cancelurl = new Url('smart_date_recur.instances', [
       'rrule' => (int) $entity->rrule->value,
       'modal' => TRUE,
@@ -36,7 +36,8 @@ class SmartDateOverrideDeleteAjaxForm extends FormBase {
     $form['message'] = [
       '#markup' => '<p>' . $this->t('Revert this Instance?') . '</p>',
     ];
-    $form['delete'] = [
+    $form['actions']['#type'] = 'actions';
+    $form['actions']['delete'] = [
       '#type' => 'link',
       '#title' => $this->t('Revert'),
       '#attributes' => [
@@ -44,6 +45,7 @@ class SmartDateOverrideDeleteAjaxForm extends FormBase {
           'button',
           'button--primary',
           'use-ajax',
+          'dialog-cancel',
         ],
       ],
       '#url' => $submiturl,
@@ -53,7 +55,7 @@ class SmartDateOverrideDeleteAjaxForm extends FormBase {
         ],
       ],
     ];
-    $form['cancel'] = [
+    $form['actions']['cancel'] = [
       '#type' => 'link',
       '#title' => $this->t('Cancel'),
       '#attributes' => [

@@ -86,7 +86,7 @@ class SmartDateRemoveInstanceForm extends ConfirmFormBase {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state, SmartDateRule $rrule = NULL, string $index = NULL, $ajax = FALSE) {
+  public function buildForm(array $form, FormStateInterface $form_state, ?SmartDateRule $rrule = NULL, ?string $index = NULL, $ajax = FALSE) {
     $this->rrule = $rrule;
     $this->index = $index;
     $query = $this->entityTypeManager->getStorage('smart_date_override')->getQuery();
