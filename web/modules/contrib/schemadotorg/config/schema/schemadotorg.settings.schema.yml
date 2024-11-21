@@ -105,6 +105,9 @@ schemadotorg.settings:
               name:
                 type: string
                 label: Name
+              machine_name:
+                type: string
+                label: Machine name
               label:
                 type: text
                 label: Label

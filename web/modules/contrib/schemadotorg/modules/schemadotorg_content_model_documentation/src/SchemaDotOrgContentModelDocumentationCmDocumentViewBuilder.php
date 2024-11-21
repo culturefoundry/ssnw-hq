@@ -2,8 +2,8 @@
 
 namespace Drupal\schemadotorg_content_model_documentation;
 
-use Drupal\content_model_documentation\CmDocumentViewBuilder;
 use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\content_model_documentation\CmDocumentViewBuilder;
 use Drupal\schemadotorg\SchemaDotOrgNamesInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 

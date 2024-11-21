@@ -9,6 +9,7 @@ use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Render\BubbleableMetadata;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\pathauto\AliasCleanerInterface;
 use Drupal\pathauto\Entity\PathautoPattern;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 use Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface;
@@ -29,6 +30,7 @@ class SchemaDotOrgPathautoManager implements SchemaDotOrgPathautoManagerInterfac
     protected ConfigFactoryInterface $configFactory,
     protected Token $token,
     protected EntityTypeManagerInterface $entityTypeManager,
+    protected AliasCleanerInterface $aliasCleaner,
     protected SchemaDotOrgSchemaTypeManagerInterface $schemaTypeManager,
   ) {}
 
@@ -139,7 +141,12 @@ class SchemaDotOrgPathautoManager implements SchemaDotOrgPathautoManagerInterfac
         case 'schemadotorg:base-path':
           $base_path = $this->getBasePath($entity);
           if ($base_path) {
-            $replacements[$original] = $this->token->replace($base_path, [$entity->getEntityTypeId() => $entity], $options, $bubbleable_metadata);
+            $replacements[$original] = $this->token->replace(
+              $base_path,
+              [$entity->getEntityTypeId() => $entity],
+              ['callback' => [$this->aliasCleaner, 'cleanTokenValues']] + $options,
+              $bubbleable_metadata
+            );
           }
           break;
 

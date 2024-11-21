@@ -28,6 +28,13 @@ schemadotorg_mapping_set.details.export:
   requirements:
     _permission: 'administer schemadotorg'
 
+schemadotorg_recipe.details.export:
+  path: '/admin/config/schemadotorg/recipe/{name}/export'
+  defaults:
+    _controller: '\Drupal\schemadotorg_export\Controller\SchemaDotOrgExportRecipeController::details'
+  requirements:
+    _permission: 'administer schemadotorg'
+
 schemadotorg_starterkit.details.export:
   path: '/admin/config/schemadotorg/starterkits/{name}/export'
   defaults:

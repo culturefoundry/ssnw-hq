@@ -278,15 +278,15 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
         $bubbleable_metadata
       );
 
-      // If there is more than 1 item, see if we need to its position.
-      if ($total_items > 1) {
-        $property_type = (is_array($property_value))
-          ? $property_value['@type'] ?? NULL
-          : NULL;
-        if ($property_type
-          && $this->schemaTypeManager->hasProperty($property_type, 'position')) {
-          $property_value['position'] = $position;
-          $position++;
+      // If there is more than 1 item, see if we need to set its position.
+      if ($total_items > 1 && is_array($property_value)) {
+        $property_schema_types = (array) ($property_value['@type'] ?? []);
+        foreach ($property_schema_types as $property_schema_type) {
+          if ($this->schemaTypeManager->hasProperty($property_schema_type, 'position')) {
+            $property_value['position'] = $position;
+            $position++;
+            break;
+          }
         }
       }
 
@@ -344,6 +344,8 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
         return NULL;
       }
 
+      $source_entity = $item->getEntity();
+
       // For Schema.org properties that can only contain a URL,
       // we need to return the entity's absolute URL.
       // @see https://schema.org/URL
@@ -356,12 +358,33 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
         return $target_entity->toUrl('canonical')->setAbsolute()->toString();
       }
 
-      $entity_reference_display = $this->schemaJsonLdManager->getSchemaTypeEntityReferenceDisplay($target_entity);
+      $entity_reference_display = $this->schemaJsonLdManager->getSchemaTypeEntityReferenceDisplay($source_entity, $schema_property, $target_entity);
       switch ($entity_reference_display) {
         case SchemaDotOrgJsonLdManagerInterface::ENTITY_REFERENCE_DISPLAY_NONE:
           return NULL;
 
         case SchemaDotOrgJsonLdManagerInterface::ENTITY_REFERENCE_DISPLAY_ENTITY:
+          // Track and prevent displayed entity reference recursions in JSON-LD.
+          static $recursion_tracker = [];
+          $cids = [
+            $source_entity->getEntityTypeId()
+            . '.' . $source_entity->id()
+            . '.' . $target_entity->getEntityTypeId()
+            . '.' . $target_entity->id(),
+            $target_entity->getEntityTypeId()
+            . '.' . $target_entity->id()
+            . '.' . $source_entity->getEntityTypeId()
+            . '.' . $source_entity->id(),
+          ];
+          foreach ($cids as $cid) {
+            if (isset($recursion_tracker[$cid])) {
+              return NULL;
+            }
+            else {
+              $recursion_tracker[$cid] = TRUE;
+            }
+          }
+
           return $this->buildEntity(
             entity: $item->entity,
             bubbleable_metadata: $bubbleable_metadata,

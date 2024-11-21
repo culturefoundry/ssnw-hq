@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\schemadotorg_office_hours\Kernel;
 
+use Drupal\Tests\schemadotorg_jsonld\Kernel\SchemaDotOrgJsonLdKernelTestBase;
 use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\node\Entity\Node;
-use Drupal\Tests\schemadotorg_jsonld\Kernel\SchemaDotOrgJsonLdKernelTestBase;
 
 require_once __DIR__ . '/../../../schemadotorg_office_hours.install';
 

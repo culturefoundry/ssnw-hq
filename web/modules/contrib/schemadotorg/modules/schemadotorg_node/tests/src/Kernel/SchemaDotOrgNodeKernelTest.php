@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\schemadotorg_metatag\Kernel;
 
-use Drupal\node\Entity\NodeType;
 use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgEntityKernelTestBase;
+use Drupal\node\Entity\NodeType;
 
 /**
  * Tests the functionality of the Schema.org node.

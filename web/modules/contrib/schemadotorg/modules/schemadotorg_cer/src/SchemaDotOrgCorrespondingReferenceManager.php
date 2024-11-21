@@ -13,7 +13,7 @@ use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 use Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface;
 
 /**
- * Schema.orgCorresponding Entity Reference manager.
+ * Schema.org Corresponding Entity Reference manager.
  */
 class SchemaDotOrgCorrespondingReferenceManager implements SchemaDotOrgCorrespondingReferenceManagerInterface {
   use StringTranslationTrait;

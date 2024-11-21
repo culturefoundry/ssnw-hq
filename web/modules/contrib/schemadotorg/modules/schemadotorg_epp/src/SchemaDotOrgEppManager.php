@@ -85,37 +85,20 @@ class SchemaDotOrgEppManager implements SchemaDotOrgEppManagerInterface {
       return;
     }
 
-    $node_links_dropdown = $this->configFactory->get('schemadotorg_epp.settings')
-      ->get('node_links_dropdown');
-    if ($node_links_dropdown) {
-      // Unset the default links wrapper.
-      // @see \Drupal\node\NodeViewBuilder::renderLinks
-      unset($links['#theme'], $links['#pre_render'], $links['#attributes']);
-
-      // Add button--action plus sing to all links.
-      foreach ($node_links as &$node_link) {
-        $node_link['attributes'] = ['class' => ['button--action']];
+    $display = $this->configFactory
+      ->get('schemadotorg_epp.settings')
+      ->get('node_links_display');
+    $build = $this->buildNodeLinks($node, $display);
+    if ($build) {
+      switch ($display) {
+        case static::DROPDOWN;
+          // Unset the default links wrapper.
+          // @see \Drupal\node\NodeViewBuilder::renderLinks
+          unset($links['#theme'], $links['#pre_render'], $links['#attributes']);
+          break;
       }
 
-      $links['schemadotorg_epp'] = [
-        '#type' => 'operations',
-        '#links' => $node_links,
-        '#weight' => -100,
-        '#prefix' => '<div class="schemadotorg-epp-node-links-dropdown">',
-        '#suffix' => '</div>',
-      ];
-    }
-    else {
-      // Style all links as action buttons.
-      foreach ($node_links as &$node_link) {
-        $node_link['attributes'] = ['class' => ['button', 'button-small', 'button--extrasmall', 'button--action']];
-      }
-
-      $links['schemadotorg_epp'] = [
-        '#theme' => 'links__node__schemadotorg_epp',
-        '#links' => $node_links,
-        '#attributes' => ['class' => ['links', 'inline']],
-      ];
+      $links += $build;
     }
   }
 
@@ -212,6 +195,52 @@ class SchemaDotOrgEppManager implements SchemaDotOrgEppManagerInterface {
       }
     }
     return $node_links;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function buildNodeLinks(NodeInterface $node, ?string $display = NULL): array {
+    if (!$display || $display === static::HIDDEN) {
+      return [];
+    }
+
+    $node_links = $this->getNodeLinks($node);
+    if (empty($node_links)) {
+      return [];
+    }
+
+    $build = [];
+    switch ($display) {
+      case static::DROPDOWN;
+        // Add button--action plus sig to all links.
+        foreach ($node_links as &$node_link) {
+          $node_link['attributes'] = ['class' => ['button--action']];
+        }
+
+        $build['schemadotorg_epp'] = [
+          '#type' => 'operations',
+          '#links' => $node_links,
+          '#weight' => -100,
+          '#prefix' => '<div class="schemadotorg-epp-node-links-dropdown">',
+          '#suffix' => '</div>',
+        ];
+        break;
+
+      case static::BUTTONS:
+        // Style all links as action buttons.
+        foreach ($node_links as &$node_link) {
+          $node_link['attributes'] = ['class' => ['button', 'button-small', 'button--extrasmall', 'button--primary', 'button--action']];
+        }
+
+        $build['schemadotorg_epp'] = [
+          '#theme' => 'links__node__schemadotorg_epp',
+          '#links' => $node_links,
+          '#attributes' => ['class' => ['links', 'inline']],
+        ];
+    }
+
+    return $build;
   }
 
   /**

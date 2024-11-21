@@ -64,31 +64,32 @@ schemadotorg.mermaid:
   dependencies:
     - core/drupal
     - core/once
+    - schemadotorg/schemadotorg.details
     - schemadotorg/mermaid
 
 jstree:
   remote: https://www.jstree.com
-  version: '3.3.16'
+  version: '3.3.17'
   license:
     name: MIT
     url: https://github.com/vakata/jstree/blob/master/LICENSE-MIT
     gpl-compatible: true
   css:
     component:
-      https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.16/themes/default/style.min.css: { type: external, minified: true }
+      https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.17/themes/default/style.min.css: { type: external, minified: true }
   js:
-    https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.16/jstree.min.js: { type: external, minified: true }
+    https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.17/jstree.min.js: { type: external, minified: true }
   dependencies:
     - core/jquery
 
 mermaid:
-  version: '10.5.0'
+  version: '11.3.0'
   remote: https://github.com/mermaid-js/mermaid
   license:
     name: MIT
     gpl-compatible: false
   js:
-    https://cdn.jsdelivr.net/npm/mermaid@10.5.0/dist/mermaid.min.js: { type: external, minified: true }
+    https://cdn.jsdelivr.net/npm/mermaid@11.3.0/dist/mermaid.min.js: { type: external, minified: true }
 
 svg-pan-zoom:
   remote: https://github.com/ariutta/svg-pan-zoom
@@ -102,18 +103,18 @@ svg-pan-zoom:
 
 codemirror:
   remote: http://codemirror.net
-  version: &webform_codemirror_version '5.65.15'
+  version: &webform_codemirror_version '5.65.18'
   license: &webform_codemirror_license
     name: MIT
     url: http://codemirror.net/LICENSE
     gpl-compatible: true
   css:
     component:
-      https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/codemirror.css: {}
+      https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/codemirror.css: {}
       css/schemadotorg.codemirror.css: {}
   js:
-    https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/codemirror.js: {}
-    https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/runmode/runmode.js: {}
+    https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/codemirror.js: {}
+    https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/addon/runmode/runmode.js: {}
     js/schemadotorg.codemirror.js: {}
   dependencies:
     - core/tabbable
@@ -123,7 +124,7 @@ codemirror.yaml:
   version: *webform_codemirror_version
   license: *webform_codemirror_license
   js:
-    https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/mode/yaml/yaml.js: {}
+    https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/mode/yaml/yaml.js: {}
   dependencies:
     - schemadotorg/codemirror
 
@@ -132,8 +133,8 @@ codemirror.javascript:
   version: *webform_codemirror_version
   license: *webform_codemirror_license
   js:
-    https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/mode/javascript/javascript.js: {}
-    https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/edit/matchbrackets.js: {}
-    https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/comment/continuecomment.js: {}
+    https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/mode/javascript/javascript.js: {}
+    https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/addon/edit/matchbrackets.js: {}
+    https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/addon/comment/continuecomment.js: {}
   dependencies:
     - schemadotorg/codemirror

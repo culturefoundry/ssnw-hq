@@ -38,7 +38,7 @@ function schemadotorg_taxonomy_schemadotorg_jsonld_schema_property_alter(mixed &
 function schemadotorg_taxonomy_schemadotorg_jsonld_schema_type_entity_load(array &$data, EntityInterface $entity, ?SchemaDotOrgMappingInterface $mapping, BubbleableMetadata $bubbleable_metadata): void {
   /** @var \Drupal\schemadotorg_taxonomy\SchemaDotOrgTaxonomyJsonLdManagerInterface $taxonomy_jsonld_manager */
   $taxonomy_jsonld_manager = \Drupal::service('schemadotorg_taxonomy.jsonld_manager');
-  $taxonomy_jsonld_manager->load($data, $entity, $mapping, $bubbleable_metadata);
+  $taxonomy_jsonld_manager->schemaTypeEntityLoad($data, $entity, $mapping, $bubbleable_metadata);
 }
 
 /**
@@ -47,7 +47,7 @@ function schemadotorg_taxonomy_schemadotorg_jsonld_schema_type_entity_load(array
 function schemadotorg_taxonomy_schemadotorg_jsonld_schema_type_entity_alter(array &$data, EntityInterface $entity, ?SchemaDotOrgMappingInterface $mapping): void {
   /** @var \Drupal\schemadotorg_taxonomy\SchemaDotOrgTaxonomyJsonLdManagerInterface $taxonomy_jsonld_manager */
   $taxonomy_jsonld_manager = \Drupal::service('schemadotorg_taxonomy.jsonld_manager');
-  $taxonomy_jsonld_manager->alter($data, $entity, $mapping);
+  $taxonomy_jsonld_manager->schemaTypeEntityAlter($data, $entity, $mapping);
 }
 
 /**

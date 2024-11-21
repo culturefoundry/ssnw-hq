@@ -5,16 +5,15 @@ declare(strict_types=1);
 namespace Drupal\schemadotorg_starterkit;
 
 use Drupal\Component\Serialization\Yaml;
-use Drupal\config_rewrite\ConfigRewriter;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Extension\ModuleExtensionList;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Extension\ModuleInstallerInterface;
 use Drupal\Core\File\FileSystemInterface;
+use Drupal\config_rewrite\ConfigRewriter;
 use Drupal\devel_generate\DevelGeneratePluginManager;
 use Drupal\schemadotorg\SchemaDotOrgConfigManagerInterface;
-use Drupal\schemadotorg\SchemaDotOrgEntityFieldManagerInterface;
 use Drupal\schemadotorg\SchemaDotOrgMappingManagerInterface;
 use Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface;
 use Drupal\schemadotorg\Traits\SchemaDotOrgDevelGenerateTrait;
@@ -35,7 +34,7 @@ class SchemaDotOrgStarterkitManager implements SchemaDotOrgStarterkitManagerInte
    *
    * @param \Drupal\Core\File\FileSystemInterface $fileSystem
    *   The file system service.
-   * @param \Drupal\Core\Extension\ModuleExtensionList $extensionListModule
+   * @param \Drupal\Core\Extension\ModuleExtensionList $moduleExtensionList
    *   The module extension list.
    * @param \Drupal\Core\Extension\ModuleInstallerInterface $moduleInstaller
    *   The module installer service.
@@ -58,7 +57,7 @@ class SchemaDotOrgStarterkitManager implements SchemaDotOrgStarterkitManagerInte
    */
   public function __construct(
     protected FileSystemInterface $fileSystem,
-    protected ModuleExtensionList $extensionListModule,
+    protected ModuleExtensionList $moduleExtensionList,
     protected ModuleInstallerInterface $moduleInstaller,
     protected ModuleHandlerInterface $moduleHandler,
     protected ConfigFactoryInterface $configFactory,
@@ -74,12 +73,12 @@ class SchemaDotOrgStarterkitManager implements SchemaDotOrgStarterkitManagerInte
    * {@inheritdoc}
    */
   public function isStarterkit(string $module): bool {
-    $extensions = $this->extensionListModule->getList();
+    $extensions = $this->moduleExtensionList->getList();
     if (!isset($extensions[$module])) {
       return FALSE;
     }
 
-    $module_path = $this->extensionListModule->getPath($module);
+    $module_path = $this->moduleExtensionList->getPath($module);
     $module_schemadotorg_path = "$module_path/$module.schemadotorg_starterkit.yml";
     return file_exists($module_schemadotorg_path);
   }
@@ -95,7 +94,7 @@ class SchemaDotOrgStarterkitManager implements SchemaDotOrgStarterkitManagerInte
    * {@inheritdoc}
    */
   public function getStarterkits(bool $installed = FALSE): array {
-    $modules = $this->extensionListModule->getAllAvailableInfo();
+    $modules = $this->moduleExtensionList->getAllAvailableInfo();
     foreach ($modules as $module_name => $module_info) {
       if (!$this->isStarterkit($module_name)) {
         unset($modules[$module_name]);
@@ -131,7 +130,7 @@ class SchemaDotOrgStarterkitManager implements SchemaDotOrgStarterkitManagerInte
    * {@inheritdoc}
    */
   public function getStarterkitSettingsData(string $module): FALSE|array {
-    $module_path = $this->extensionListModule->getPath($module);
+    $module_path = $this->moduleExtensionList->getPath($module);
     $module_schemadotorg_path = "$module_path/$module.schemadotorg_starterkit.yml";
     if (!file_exists($module_schemadotorg_path)) {
       return FALSE;
@@ -163,10 +162,7 @@ class SchemaDotOrgStarterkitManager implements SchemaDotOrgStarterkitManagerInte
   }
 
   /**
-   * Generate a Schema.org starter kit's content.
-   *
-   * @param string $module
-   *   A Schema.org starter kit module name.
+   * {@inheritdoc}
    */
   public function generate(string $module): void {
     $settings = $this->getStarterkitSettings($module);
@@ -175,10 +171,7 @@ class SchemaDotOrgStarterkitManager implements SchemaDotOrgStarterkitManagerInte
   }
 
   /**
-   * Kill a Schema.org starter kit's content.
-   *
-   * @param string $module
-   *   A Schema.org starter kit module name.
+   * {@inheritdoc}
    */
   public function kill(string $module): void {
     $settings = $this->getStarterkitSettings($module);
@@ -212,7 +205,7 @@ class SchemaDotOrgStarterkitManager implements SchemaDotOrgStarterkitManagerInte
       if (!$this->isStarterkit($module)) {
         continue;
       }
-      $module_path = $this->extensionListModule->getPath($module);
+      $module_path = $this->moduleExtensionList->getPath($module);
       $rewrite_dir = "$module_path/config/rewrite";
       $has_schema_config_rewrite = file_exists($rewrite_dir)
         && $this->fileSystem->scanDirectory($rewrite_dir, '/^schemadotorg.*\.yml$/i', ['recurse' => FALSE]);
@@ -246,7 +239,7 @@ class SchemaDotOrgStarterkitManager implements SchemaDotOrgStarterkitManagerInte
       return;
     }
 
-    $module_path = $this->extensionListModule->getPath($module);
+    $module_path = $this->moduleExtensionList->getPath($module);
     $rewrite_dir = "$module_path/config/rewrite";
     if (!file_exists($rewrite_dir)) {
       return;
@@ -319,42 +312,7 @@ class SchemaDotOrgStarterkitManager implements SchemaDotOrgStarterkitManagerInte
       return [];
     }
 
-    $mapping = $this->getMappingStorage()->loadByType($type);
-    if ($mapping) {
-      $bundle = $mapping->getTargetBundle();
-      // Don't allow properties to be unexpectedly removed.
-      if (!empty($type_defaults['properties'])) {
-        $type_defaults['properties'] = array_filter($type_defaults['properties']);
-      }
-    }
-
-    // Add properties that are explicitly set.
-    if (isset($type_defaults['properties'])) {
-      foreach ($type_defaults['properties'] as $property_name => $property) {
-        // Skip adding properties that are already mapped.
-        // @todo Skip custom fields.
-        if ($mapping && $mapping->getSchemaPropertyFieldName($property_name)) {
-          continue;
-        }
-
-        if (is_array($property)
-          && empty($type_defaults['properties'][$property_name]['name'])) {
-          if ($this->schemaTypeManager->hasProperty($schema_type, $property_name)) {
-            // Add new Schema.org property.
-            $type_defaults['properties'][$property_name]['name'] = SchemaDotOrgEntityFieldManagerInterface::ADD_FIELD;
-          }
-          elseif (preg_match('/^[_a-z0-9]*$/', $property_name)) {
-            // Add new custom field.
-            $type_defaults['properties'][$property_name]['name'] = $property_name;
-          }
-          else {
-            // Throw an exception for invalid property/field names.
-            throw new \Exception("Invalid property/field name: $property_name");
-          }
-        }
-      }
-    }
-
+    $type_defaults = $this->schemaMappingManager->prepareCustomMappingDefaults($entity_type_id, $bundle, $schema_type, $type_defaults);
     return $this->schemaMappingManager->getMappingDefaults($entity_type_id, $bundle, $schema_type, $type_defaults);
   }
 

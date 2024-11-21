@@ -15,7 +15,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @see \Drupal\Core\Entity\Plugin\Derivative\DefaultSelectionDeriver
  */
-final class SchemaDotOrgEntitySelectionDeriver extends DeriverBase implements ContainerDeriverInterface {
+class SchemaDotOrgEntitySelectionDeriver extends DeriverBase implements ContainerDeriverInterface {
 
   use StringTranslationTrait;
 

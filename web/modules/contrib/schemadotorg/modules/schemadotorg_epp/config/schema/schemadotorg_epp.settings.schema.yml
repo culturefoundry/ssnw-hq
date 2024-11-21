@@ -11,6 +11,6 @@ schemadotorg_epp.settings:
         sequence:
           type: string
           label: 'Schema.org type node link'
-    node_links_dropdown:
-      type: boolean
-      label: 'Display node links as a dropdown'
+    node_links_display:
+      type: string
+      label: 'Node links display'

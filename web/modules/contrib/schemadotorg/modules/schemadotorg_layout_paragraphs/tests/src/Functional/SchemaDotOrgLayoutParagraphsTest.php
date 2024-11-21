@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\schemadotorg_paragraphs\Functional;
 
+use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\node\Entity\NodeType;
-use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
 
 /**
  * Tests the functionality of the Schema.org layout paragraphs.
@@ -35,7 +35,7 @@ class SchemaDotOrgLayoutParagraphsTest extends SchemaDotOrgBrowserTestBase {
     // Create a Quotation paragraph.
     $this->createSchemaEntity('paragraph', 'Quotation');
 
-    // Add the the Quotation paragraph as a default type.
+    // Add the Quotation paragraph as a default type.
     $this->config('schemadotorg_layout_paragraphs.settings')
       ->set('default_paragraph_types', ['quotation'])
       ->save();

@@ -84,6 +84,7 @@ class SchemaDotOrgExportEventSubscriber extends ServiceProviderBase implements E
 
       case 'schemadotorg_mapping_set.overview':
       case 'schemadotorg_mapping_set.details':
+      case 'schemadotorg_recipe.details':
       case 'schemadotorg_starterkit.details':
       case 'schemadotorg_report.relationships.overview':
       case 'schemadotorg_report.relationships.targets':

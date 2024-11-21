@@ -24,7 +24,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   category = @Translation("Schema.org Blueprints")
  * )
  */
-final class SchemaDotOrgDiagramBlock extends BlockBase implements ContainerFactoryPluginInterface {
+class SchemaDotOrgDiagramBlock extends BlockBase implements ContainerFactoryPluginInterface {
   use StringTranslationTrait;
 
   /**

@@ -1,0 +1,76 @@
+<?php
+
+/**
+ * @file
+ * Installation hooks for the Schema.org Blueprints Physical module.
+ */
+
+declare(strict_types=1);
+
+/**
+ * Implements hook_install().
+ */
+function schemadotorg_physical_install(bool $is_syncing): void {
+  if ($is_syncing) {
+    return;
+  }
+
+  /** @var \Drupal\schemadotorg\SchemaDotOrgConfigManagerInterface $schema_config_manager */
+  $schema_config_manager = \Drupal::service('schemadotorg.config_manager');
+
+  // Add width, height and weight to Person's default properties.
+  $schema_config_manager->setSchemaTypeDefaultProperties('IndividualProduct', ['depth', 'height', 'width']);
+
+  // Add physical_dimensions and physical_measurement field to QuantitativeValue field types.
+  $config = \Drupal::configFactory()->getEditable('schemadotorg.settings');
+  $quantitative_value_config_key = 'schema_types.default_field_types.QuantitativeValue';
+  $config->set($quantitative_value_config_key, array_merge(
+    ['physical_dimensions', 'physical_measurement'],
+    $config->get($quantitative_value_config_key) ?: []
+  ));
+
+  // Default to physical_measurement field type for depth, height, weight and width properties.
+  $config->set('schema_properties.default_fields.depth.type', 'field_ui:physical_measurement:length');
+  $config->set('schema_properties.default_fields.height.type', 'field_ui:physical_measurement:length');
+  $config->set('schema_properties.default_fields.weight.type', 'field_ui:physical_measurement:weight');
+  $config->set('schema_properties.default_fields.width.type', 'field_ui:physical_measurement:length');
+
+  // Add length field to Distance field types.
+  $config->set('schema_types.default_field_types.Distance', ['field_ui:physical_measurement:length']);
+
+  $config->save();
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function schemadotorg_physical_uninstall(bool $is_syncing): void {
+  if ($is_syncing) {
+    return;
+  }
+
+  /** @var \Drupal\schemadotorg\SchemaDotOrgConfigManagerInterface $schema_config_manager */
+  $schema_config_manager = \Drupal::service('schemadotorg.config_manager');
+
+  // Remove width, height and weight to Person's default properties.
+  $schema_config_manager->unsetSchemaTypeDefaultProperties('IndividualProduct', ['depth', 'height', 'width']);
+
+  // Remove physical_dimensions and physical_measurement field from QuantitativeValue field types.
+  $config = \Drupal::configFactory()->getEditable('schemadotorg.settings');
+  $quantitative_value_config_key = 'schema_types.default_field_types.QuantitativeValue';
+  $config->set($quantitative_value_config_key, array_values(array_diff(
+    $config->get($quantitative_value_config_key) ?: [],
+    ['physical_dimensions', 'physical_measurement']
+  )));
+
+  // Restore field type for depth, height, weight and width properties.
+  $config->set('schema_properties.default_fields.depth.type', NULL);
+  $config->set('schema_properties.default_fields.height.type', 'string');
+  $config->set('schema_properties.default_fields.weight.type', NULL);
+  $config->set('schema_properties.default_fields.width.type', 'string');
+
+  // Remove length field from Distance field types.
+  $config->clear('schema_types.default_field_types.Distance');
+
+  $config->save();
+}

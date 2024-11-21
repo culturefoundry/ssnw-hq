@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\schemadotorg_geolocation\Kernel;
 
-use Drupal\node\Entity\Node;
 use Drupal\Tests\schemadotorg_jsonld\Kernel\SchemaDotOrgJsonLdKernelTestBase;
+use Drupal\node\Entity\Node;
 
 require_once __DIR__ . '/../../../schemadotorg_geolocation.install';
 

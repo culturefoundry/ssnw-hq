@@ -68,7 +68,7 @@ class SchemaDotOrgViewsSchemaTypeFilter extends InOperator {
    * {@inheritdoc}
    */
   public function getValueOptions() {
-    // @phpstan-ignore-next-line
+    // @phpstan-ignore-next-line isset.property
     if (!isset($this->valueOptions)) {
       $this->valueTitle = (string) $this->t('Schema.org type');
 

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\schemadotorg_media\Kernel;
 
+use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgEntityKernelTestBase;
 use Drupal\media\Entity\MediaType;
 use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
-use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgEntityKernelTestBase;
 
 /**
  * Tests the functionality of the Schema.org media installation.

@@ -25,7 +25,7 @@ function schemadotorg_requirements(string $phase): array {
 /**
  * Implements hook_install().
  */
-function schemadotorg_install(bool $is_syncing): void {
+function schemadotorg_install(): void {
   /** @var \Drupal\schemadotorg\SchemaDotOrgInstallerInterface $installer */
   $installer = \Drupal::service('schemadotorg.installer');
   $installer->install();
@@ -166,4 +166,13 @@ function schemadotorg_update_10009(): void {
     $data = Yaml::decode(file_get_contents($module_path . '/config/install/schemadotorg.settings.yml'));
     $config->set('schema_types.categories', $data['schema_types']['categories'])->save();
   }
+}
+
+/**
+ * Update to Schema.org v28.0.
+ */
+function schemadotorg_update_10010(): void {
+  /** @var \Drupal\schemadotorg\SchemaDotOrgInstallerInterface $installer */
+  $installer = \Drupal::service('schemadotorg.installer');
+  $installer->install();
 }

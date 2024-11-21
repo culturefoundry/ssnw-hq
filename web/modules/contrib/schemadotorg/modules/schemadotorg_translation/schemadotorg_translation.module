@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Field\FieldConfigInterface;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\field\FieldConfigInterface;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 
 /**
@@ -201,7 +201,7 @@ function schemadotorg_translation_form_schemadotorg_types_settings_form_submit(a
     foreach ($mappings as $mapping) {
       schemadotorg_translation_schemadotorg_mapping_insert($mapping);
 
-      /** @var \Drupal\field\FieldConfigInterface[] $field_configs */
+      /** @var \Drupal\Core\Field\FieldConfigInterface[] $field_configs */
       $field_configs = $field_config_storage->loadByProperties([
         'entity_type' => $mapping->getTargetEntityTypeId(),
         'bundle' => $mapping->getTargetBundle(),

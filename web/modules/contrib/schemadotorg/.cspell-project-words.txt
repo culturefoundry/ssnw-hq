@@ -324,3 +324,5 @@ webprofiler
 xmlsitemap
 Yoast
 writeln
+starterkit
+cids

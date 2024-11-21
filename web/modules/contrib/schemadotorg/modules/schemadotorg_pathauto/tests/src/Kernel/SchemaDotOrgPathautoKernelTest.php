@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\schemadotorg_pathauto\Kernel;
 
-use Drupal\node\Entity\Node;
 use Drupal\Tests\pathauto\Functional\PathautoTestHelperTrait;
 use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgEntityKernelTestBase;
+use Drupal\node\Entity\Node;
 
 /**
  * Tests the functionality of the Schema.org pathauto.

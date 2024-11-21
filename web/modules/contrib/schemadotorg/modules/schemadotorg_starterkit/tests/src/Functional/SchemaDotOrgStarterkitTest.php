@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\schemadotorg_starterkit\Functional;
 
-use Drupal\schemadotorg_starterkit\SchemaDotOrgStarterkitManagerInterface;
 use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
+use Drupal\schemadotorg_starterkit\SchemaDotOrgStarterkitManagerInterface;
 
 /**
  * Tests the functionality of the Schema.org Starter Kit module.

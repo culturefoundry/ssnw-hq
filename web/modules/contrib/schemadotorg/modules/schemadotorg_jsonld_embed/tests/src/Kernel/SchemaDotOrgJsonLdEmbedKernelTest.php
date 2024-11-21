@@ -6,13 +6,13 @@ namespace Drupal\Tests\schemadotorg_jsonld_embed\Kernel;
 
 use Drupal\Core\Datetime\DateFormatterInterface;
 use Drupal\Core\Session\UserSession;
+use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgEntityKernelTestBase;
+use Drupal\Tests\schemadotorg_jsonld\Traits\SchemaDotOrgJsonLdTestTrait;
 use Drupal\filter\Entity\FilterFormat;
 use Drupal\media\Entity\Media;
 use Drupal\node\Entity\Node;
 use Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdBuilderInterface;
 use Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdManagerInterface;
-use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgEntityKernelTestBase;
-use Drupal\Tests\schemadotorg_jsonld\Traits\SchemaDotOrgJsonLdTestTrait;
 
 /**
  * Tests the functionality of the Schema.org JSON-LD embed.

@@ -7,10 +7,10 @@
 
 declare(strict_types=1);
 
-use Drupal\block_content\BlockContentInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\BubbleableMetadata;
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\block_content\BlockContentInterface;
 use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
 
 /**

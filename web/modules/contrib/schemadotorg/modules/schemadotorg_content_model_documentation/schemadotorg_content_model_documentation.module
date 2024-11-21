@@ -7,12 +7,12 @@
 
 declare(strict_types=1);
 
-use Drupal\content_model_documentation\Entity\CMDocumentInterface;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Url;
+use Drupal\content_model_documentation\Entity\CMDocumentInterface;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 use Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface;
 

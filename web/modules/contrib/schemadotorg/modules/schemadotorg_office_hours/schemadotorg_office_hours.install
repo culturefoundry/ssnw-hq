@@ -19,7 +19,7 @@ function schemadotorg_office_hours_install(bool $is_syncing): void {
   $schema_config_manager = \Drupal::service('schemadotorg.config_manager');
 
   // Add openingHoursSpecification to Place's default properties.
-  $schema_config_manager->setSchemaTypeDefaultProperties('Place', 'openingHoursSpecification');
+  $schema_config_manager->setSchemaTypeDefaultProperties('Place', ['openingHoursSpecification', 'specialOpeningHoursSpecification']);
 
   $config = \Drupal::configFactory()->getEditable('schemadotorg.settings');
 
@@ -52,7 +52,7 @@ function schemadotorg_office_hours_uninstall(bool $is_syncing): void {
   $schema_config_manager = \Drupal::service('schemadotorg.config_manager');
 
   // Remove openingHoursSpecification to Place's default properties.
-  $schema_config_manager->unsetSchemaTypeDefaultProperties('Place', 'openingHoursSpecification');
+  $schema_config_manager->unsetSchemaTypeDefaultProperties('Place', ['openingHoursSpecification', 'specialOpeningHoursSpecification']);
 
   $config = \Drupal::configFactory()->getEditable('schemadotorg.settings');
 

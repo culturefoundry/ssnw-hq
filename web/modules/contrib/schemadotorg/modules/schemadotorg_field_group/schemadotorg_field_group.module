@@ -14,6 +14,7 @@ use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\field\FieldConfigInterface;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
+use Drupal\schemadotorg_field_group\SchemaDotOrgFieldGroupEntityDisplayBuilderInterface;
 
 /**
  * Implements hook_ENTITY_TYPE_presave().
@@ -136,10 +137,12 @@ group_name:
   description: Group description
   weight: 0
   properties:
-    - property01
-    - property02
-    - property03
-    - SchemaType01--property04
+    - schemaProperty
+    - SchemaType--schemaProperty
+    - entity_type_id--schemaProperty
+    - entity_type_id--SchemaType--schemaProperty
+    - entity_type_id--bundle--field_name
+    - entity_type_id--field_name
 ',
     ];
   }
@@ -169,16 +172,18 @@ group_name:
     '#options' => $type_options,
     '#required' => TRUE,
   ];
+  $patterns = SchemaDotOrgFieldGroupEntityDisplayBuilderInterface::PATTERNS;
+  $examples = [];
+  foreach ($patterns as $pattern) {
+    $example = implode('--', $pattern);
+    $example = str_replace('schema_type', 'SchemaType', $example);
+    $example = str_replace('schema_property', 'schemaProperty', $example);
+    $examples[] = $example;
+  }
   $form['schemadotorg_field_group']['disable_field_groups'] = [
     '#type' => 'schemadotorg_settings',
     '#title' => t('Disable field groups'),
     '#description' => t('Enter the Schema.org types and properties that should NOT have field groups.'),
-    '#example' => '
-- entity_type--display
-- entity_type--display--mode
-- entity_type--SchemaType
-- entity_type
-- SchemaType
-',
+    '#example' => '- ' . implode(PHP_EOL . '- ', $examples),
   ];
 }

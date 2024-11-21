@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\schemadotorg_block_content\Kernel;
 
-use Drupal\block_content\Entity\BlockContent;
 use Drupal\Tests\schemadotorg_jsonld\Kernel\SchemaDotOrgJsonLdKernelTestBase;
+use Drupal\block_content\Entity\BlockContent;
 
 /**
  * Tests the functionality of the Schema.org block content module JSON-LD integration.

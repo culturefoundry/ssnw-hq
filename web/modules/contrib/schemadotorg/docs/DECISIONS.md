@@ -4,6 +4,7 @@ Schema.org Blueprints Architecture Decisions Records (ADRs)
 The below document records the "technical" functional and 
 non-function decisions behind the Schema.org Blueprints module.
 
+
 # 1000 - Coding standards
 
 ##### Use minimal ADRs to track architecture decisions.
@@ -41,10 +42,7 @@ non-function decisions behind the Schema.org Blueprints module.
 
 # 2000 - Code architecture
 
-##### Follow [Drupal's coding standards](https://www.drupal.org/docs/develop/standards).
-- @see [RELEASE-NOTES.md](RELEASE-NOTES.md)
-
-##### Namespace everything with schemadotorg_* or SchemaDotOrg* prefix
+##### Namespace everything with schemadotorg_- or SchemaDotOrg- prefix
 - Sub-modules should be prefixed with schemadotorg_{module_name}
 - Ensures all Schema.org code is searchable and identifiable. 
 
@@ -56,6 +54,8 @@ non-function decisions behind the Schema.org Blueprints module.
 - Features include https://schema.org/Role, https://schema.org/identifier, and sub-typing
 
 ##### Use for simple sub-modules use hooks and use services for complex sub-modules.
+
+##### Track details about sub-modules in help section including, install hooks, required for production, and outputs or alters JSON-LD
 
 ##### Create dedicated projects for integration with other ecosystems (i.e, Next.js and Drupal Commerce)
 
@@ -72,7 +72,7 @@ non-function decisions behind the Schema.org Blueprints module.
 ##### Use contributed modules and configuration before writing custom code 
 
 ##### During Alpha releases only support the latest stable release of Drupal core.
-- TBD What versions of Drupal core should be supported.
+- TBD What versions of Drupal core should be supported?
 
 ##### Always use patch files uploaded to issues on Drupal.org. 
 - Do NOT use an MR's diff as a patch because the contents may change.
@@ -135,6 +135,7 @@ non-function decisions behind the Schema.org Blueprints module.
 - Use `member ↔ memberOf` instead of `worksFor ↔ employee`
 - Use `subOrganization ↔ parentOrganization` instead of `containedInPlace ↔ containsPlace`
 - Use [audience](https://schema.org/audience) with [WebPage](https://schema.org/WebPage) and [MedicalWebPage](https://schema.org/MedicalWebPage) and don't use [medicalAudience](https://schema.org/medicalAudience)
+- For [PodcastEpisode](https://schema.org/PodcastEpisode), reuse the [isPartOf]https://schema.org/isPartOf) `schema_is_part_of` field but map it to [partOfSeries](https://schema.org/partOfSeries)
 
 ##### Allow Schema.org mappings to have additional mappings.
 - The main/primary mapping is the equivalent the https://schema.org/mainEntityOfPage.
@@ -158,6 +159,23 @@ non-function decisions behind the Schema.org Blueprints module.
 
 #### Use a taxonomy vocabulary for property values that need to be update-able, field-able, filter-able, token-able, or hierarchical.
 
+#### Standardize content type properties and settings
+- Content type labels should use title case
+- Content types should include a description
+
+#### Standardize field properties and settings
+- Field names should be singular
+- Field labels should use sentence case
+- Field labels should attempt to match the field name
+- All fields should include a description
+- Content type specific field names can be prefixed with the content type's machine name
+- For options/lists, allowed values should use snake case for the internal value and sentence case for the displayed text
+- Fields should be required if the value is needed to support a feature or key information
+- Max lengths should be set for strings that require definitive max lengths
+- Set default values when applicable especially for boolean/checkboxes
+- Set default settings which required for a field type to work as expected
+
+
 # 4000 - User experience / Site building
 
 ##### Provide a demo of the ideal content authoring experience that can be created via Schema.org Blueprints
@@ -168,8 +186,8 @@ non-function decisions behind the Schema.org Blueprints module.
 
 ##### Use external JavasScript libraries as needed to improve UI/UX
 - [JsTree](https://www.jstree.com) to display hierarchical relationships
-- [MermaidJS](https://github.com/mermaid-js/mermaid) for diagrams
-- [CodeMirror](http://codemirror.net) for editing YAML and JSON
+- [MermaidJS](https://github.com/mermaid-js/mermaid) and [Svg-Pan-Zoom](https://github.com/ariutta/svg-pan-zoom) for diagrams
+- [CodeMirror](http://codemirror.net) for editing YAML and JSON \
 
 ##### Use a page builder (i.e., Layout Paragraphs) and an HTML editor (i.e., CKEditor5) depending on the use case.
 - Use an HTML Editor (CKEditor) for
@@ -184,7 +202,6 @@ non-function decisions behind the Schema.org Blueprints module.
 ##### Fields and field groups should be ordered from general to specific information.
 - Common and general fields should be first on node edit forms.
 - Uncommon and specific field should be last on node edit forms.
-
 
 # 5000 - Dependency management
 
@@ -216,7 +233,7 @@ for managing optional dependencies and patches.
 - @see [GraphQL Best Practices](https://graphql.org/learn/best-practices/#versioning)
 
 ##### Use snake case for API entities and properties.
-- Aligns with Drupal's naming conventions
+- This aligns with Drupal's naming conventions
 
 
 # 7000 - StarterKit and Demo
@@ -255,14 +272,15 @@ for managing optional dependencies and patches.
 - [Geolocation Field](https://www.drupal.org/project/geolocation) ⭐ for https://schema.org/GeoCoordinates.
   - [Geofield](https://www.drupal.org/project/geofield) an alternative for https://schema.org/GeoCoordinates. No integration is being provided.
 - [Office Hours](https://www.drupal.org/project/office_hours) ⭐ for https://schema.org/OpeningHoursSpecification
-- [Range](https://www.drupal.org/project/range) for https://schema.org/MonetaryAmount
+- [Physical Fields](https://www.drupal.org/project/physical) ⭐ for https://schema.org/QuantitativeValue
+- [Range](https://www.drupal.org/project/range) ⭐ for https://schema.org/MonetaryAmount
 - [SmartDate](https://www.drupal.org/project/smart_date) ⭐ for https://schema.org/Date and https://schema.org/Schedule
 - [Time Field](https://www.drupal.org/project/time_field) for https://schema.org/Time
 
 ##### Use entity reference-related modules for relationships
-- [Existing Values Autocomplete Widget](https://www.drupal.org/project/existing_values_autocomplete_widget) for text fields with common values
-- [Entity Reference Override](https://www.drupal.org/project/entity_reference_override) for https://schema.org/Role relationships.
-- [Entity Reference Tree Widget](https://www.drupal.org/project/entity_reference_tree) for selecting hierarchical taxonomy terms
+- [Existing Values Autocomplete Widget](https://www.drupal.org/project/existing_values_autocomplete_widget) ⭐ for text fields with common values
+- [Entity Reference Override](https://www.drupal.org/project/entity_reference_override) ⭐ for https://schema.org/Role relationships.
+- [Entity Reference Tree Widget](https://www.drupal.org/project/entity_reference_tree) ⭐ for selecting hierarchical taxonomy terms
 - [Inline Entity Form](https://www.drupal.org/project/inline_entity_form) ⭐ for editing concrete and key relations
 
 ##### Use embedded content for CKEditor
@@ -274,8 +292,15 @@ for managing optional dependencies and patches.
 - [Simple XML sitemap](https://www.drupal.org/project/simple_sitemap) ⭐ for generating sitemap.xml
   - [XML sitemap](https://www.drupal.org/project/xmlsitemap) an alternative which could be supported
 - [Metatag](https://www.drupal.org/project/metatag) ⭐ for providing meta tag support
-- [Pathauto](https://www.drupal.org/project/pathauto) ⭐for URL aliases
+- [Pathauto](https://www.drupal.org/project/pathauto) ⭐ for URL aliases
 - [Redirect](https://www.drupal.org/project/redirect) for redirects
+
+##### Use common API and Headless modules
+- [JSON:API Extras](https://www.drupal.org/project/jsonapi_extras) ⭐ to customize JSON:API
+- [OpenAPI UI](https://www.drupal.org/project/openapi_ui) for displaying OpenAPI specs.
+- [Consumer Image Styles](https://www.drupal.org/project/consumer_image_styles) provide image styles to APIs
+- [Decoupled Router](https://www.drupal.org/project/decoupled_router) improve an aliases and redirects for endpoints.
+- [Simple OAuth](https://www.drupal.org/project/simple_oauth) for OAuth 2.0 support.
 
 ##### For Demo & Starter Kits: Use config management module as needed
 - [Configuration Rewrite](https://www.drupal.org/project/config_rewrite) for tweaking existing configuration settings
@@ -285,7 +310,8 @@ for managing optional dependencies and patches.
 - [Convert Bundles](https://www.drupal.org/project/convert_bundles) for convert Schema.org types to more specific types
 - [Focal Point](https://www.drupal.org/project/focal_point) ⭐ for automated cropping of images
 - [Field Group](https://www.drupal.org/project/field_group) ⭐ for grouping related fields
-- [Entity Prepopulate](https://www.drupal.org/project/epp) for prepopulating entity reference via query string parameters
+- [Entity Browser](https://www.drupal.org/project/entity_browser) ⭐ with [Entity Browser Enhance(d|r)](https://www.drupal.org/project/entity_browser_enhanced) for providing an entity browser/picker/selector.
+- [Entity Prepopulate](https://www.drupal.org/project/epp) ⭐ for prepopulating entity reference via query string parameters
 - [Entity Print](https://www.drupal.org/project/entity_print) for printing entities as PDF documents
 - [Linkit](https://www.drupal.org/project/linkit) for managing internal links
 - [Markup](https://git.drupalcode.org/project/markup) for inline help text for entity forms
@@ -307,7 +333,7 @@ for managing optional dependencies and patches.
 - [Views Bulk Operations (VBO)](https://www.drupal.org/project/views_bulk_operations) of enhancing views bulk operations
 
 ##### For Demo & Starter Kits: Use content authoring UX/UI improvement modules as needed
-- [Allowed Formats](https://www.drupal.org/project/allowed_formats) for limiting and simplifying text formats
+- [Allowed Formats](https://www.drupal.org/project/allowed_formats) ⭐for limiting and simplifying text formats
 - [Autosave Form](https://www.drupal.org/project/autosave_form) preventing editors from losing data
 - [Chosen](https://www.drupal.org/project/chosen) improving multi-select UX
 - [DropzoneJS](https://www.drupal.org/project/dropzonejs) for drag-n-drop file uploads
@@ -316,33 +342,26 @@ for managing optional dependencies and patches.
     _(Bugs are creating an unexpected UX)_
 
 ##### For Demo & Starter Kits: Use CKEditor 5 feature and enhancement modules as needed
+- [CKEditor 5 Plugin Pack](https://www.drupal.org/project/ckeditor5_plugin_pack) adds find-and-replace, indent block, and more...
 - [CKEditor Anchor Link](https://www.drupal.org/project/anchor_link) adds the anchor link support
 - [CKEditor CodeMirror](https://www.drupal.org/project/ckeditor_codemirror) to improve source editing
 - [CKEditor Details Accordion](https://www.drupal.org/project/ckeditor_details) for simple accordions
-- [CKEditor Find/Replace](https://www.drupal.org/project/ckeditor_find) provides the find and replace functionality
-- [CKEditor IndentBlock](https://www.drupal.org/project/ckeditor_indentblock) adds the functionality of indenting text paragraphs
 - [CKEditor Link Styles](https://www.drupal.org/project/ckeditor_link_styles) for styling links as buttons
 - [CKEditor5 Embedded Content](https://www.drupal.org/project/ckeditor5_embedded_content) ⭐ allows rich content to be inserted into HTML
 - [CKEditor5 Fullscreen](https://www.drupal.org/project/ckeditor5_fullscreen) for fullscreen mode
 - [CKEditor5 Paste Filter](https://www.drupal.org/project/ckeditor5_paste_filter) to clean-up MS-Word HTML markup
-- Additional CKEditor plugins to be considered
-  - [CKEditor Div Manager](https://www.drupal.org/project/ckeditor_div_manager) for div containers
-    _(Not working as expected)_
-  - [CKEditor: Page Break](https://www.drupal.org/project/pagebreak) for page breaks for PDF
-    _(Unable to figure out how to set up npm-asset)_
-  - [CKEditor5 Template](https://www.drupal.org/project/ckeditor5_template) insert templates
-    _(Not sure this is needed)_
 
 ##### For Demo: Use administration improvement modules as needed.
 - [Admin Dialogs](https://www.drupal.org/project/admin_dialogs) for opening simple forms and tasks in a dialog (modal).
 - [Content Model Documentation](https://www.drupal.org/project/content_model_documentation) ⭐ for displaying entity relationship diagrams (ERD)
 - [Dashboards with Layout Builder](https://www.drupal.org/project/dashboards) for providing customizable dashboards to users
 - [Environment Indicator](https://www.drupal.org/project/environment_indicator) for displaying the current environment to administrators
-- [Type Tray](https://www.drupal.org/project/type_tray) for improving the 'Add content' UI/UX
+- [Type Tray](https://www.drupal.org/project/type_tray) ⭐ for improving the 'Add content' UI/UX
 - [Queue UI](https://www.drupal.org/project/queue_ui) for viewing and managing queues
 - [Ultimate Cron](https://www.drupal.org/project/ultimate_cron) for viewing and managing cron tasks
 - [File Delete](https://www.drupal.org/project/file_delete) for easily deleting files
 - [Media file delete](https://www.drupal.org/project/media_file_delete) for deleting the associated file when deleting a media entity.
+- [Media Library Media Modify](https://www.drupal.org/project/media_library_media_modify) ⭐ adds the ability to modify the referenced media items.
 - [Help Topics](https://www.drupal.org/node/2354963) for better documentation
 - [Field Compare](https://www.drupal.org/project/field_compare) for comparing field configuration across content types
 

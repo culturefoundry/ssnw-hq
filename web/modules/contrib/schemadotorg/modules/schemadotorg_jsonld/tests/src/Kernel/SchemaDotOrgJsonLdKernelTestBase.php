@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Drupal\Tests\schemadotorg_jsonld\Kernel;
 
 use Drupal\Core\Datetime\DateFormatterInterface;
-use Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdBuilderInterface;
-use Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdManagerInterface;
 use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgEntityKernelTestBase;
 use Drupal\Tests\schemadotorg_jsonld\Traits\SchemaDotOrgJsonLdTestTrait;
+use Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdBuilderInterface;
+use Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdManagerInterface;
 
 /**
  * Base class to testing Schema.org JSON-LD.

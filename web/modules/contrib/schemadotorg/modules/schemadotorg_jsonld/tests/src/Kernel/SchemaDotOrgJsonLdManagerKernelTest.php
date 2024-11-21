@@ -169,22 +169,31 @@ class SchemaDotOrgJsonLdManagerKernelTest extends SchemaDotOrgJsonLdKernelTestBa
     // Check getting how an entity reference should be included in JSON-LD.
     $this->assertEquals(
       SchemaDotOrgJsonLdManagerInterface::ENTITY_REFERENCE_DISPLAY_URL,
-      $this->manager->getSchemaTypeEntityReferenceDisplay($place_node)
+      $this->manager->getSchemaTypeEntityReferenceDisplay($place_node, '', $place_node)
     );
     $this->assertEquals(
       SchemaDotOrgJsonLdManagerInterface::ENTITY_REFERENCE_DISPLAY_ENTITY,
-      $this->manager->getSchemaTypeEntityReferenceDisplay($contact_point_node)
+      $this->manager->getSchemaTypeEntityReferenceDisplay($place_node, '', $contact_point_node)
     );
     $this->assertEquals(
       SchemaDotOrgJsonLdManagerInterface::ENTITY_REFERENCE_DISPLAY_LABEL,
-      $this->manager->getSchemaTypeEntityReferenceDisplay($page_node)
+      $this->manager->getSchemaTypeEntityReferenceDisplay($place_node, '', $page_node)
+    );
+    $this->assertEquals(
+      SchemaDotOrgJsonLdManagerInterface::ENTITY_REFERENCE_DISPLAY_LABEL,
+      $this->manager->getSchemaTypeEntityReferenceDisplay($place_node, 'containsPlace', $page_node)
     );
     $this->config('schemadotorg_jsonld.settings')
-      ->set('schema_type_entity_references_display.node--page', 'none')
+      ->set('schema_type_entity_references_display.place--containsPlace', SchemaDotOrgJsonLdManagerInterface::ENTITY_REFERENCE_DISPLAY_NONE)
+      ->set('schema_type_entity_references_display.node--page', SchemaDotOrgJsonLdManagerInterface::ENTITY_REFERENCE_DISPLAY_NONE)
       ->save();
     $this->assertEquals(
       SchemaDotOrgJsonLdManagerInterface::ENTITY_REFERENCE_DISPLAY_NONE,
-      $this->manager->getSchemaTypeEntityReferenceDisplay($page_node)
+      $this->manager->getSchemaTypeEntityReferenceDisplay($place_node, 'containsPlace', $place_node)
+    );
+    $this->assertEquals(
+      SchemaDotOrgJsonLdManagerInterface::ENTITY_REFERENCE_DISPLAY_NONE,
+      $this->manager->getSchemaTypeEntityReferenceDisplay($place_node, '', $page_node)
     );
 
     // Check determining if the entity's Schema should include an @url.

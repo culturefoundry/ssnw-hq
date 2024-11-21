@@ -437,33 +437,10 @@ class SchemaDotOrgFieldGroupEntityDisplayBuilder implements SchemaDotOrgFieldGro
       'display_mode' => $display->getMode(),
     ];
 
-    $patterns = [
-      ['entity_type_id'],
-      ['entity_type_id', 'display_type'],
-      ['entity_type_id', 'display_type', 'bundle'],
-      ['entity_type_id', 'display_type', 'bundle', 'field_name'],
-      ['entity_type_id', 'display_type', 'schema_type'],
-      ['entity_type_id', 'display_type', 'schema_type', 'schema_property'],
-      ['entity_type_id', 'display_type', 'schema_property'],
-      ['entity_type_id', 'display_type', 'field_name'],
-      ['entity_type_id', 'display_type', 'display_mode'],
-      ['entity_type_id', 'display_type', 'display_mode', 'bundle'],
-      ['entity_type_id', 'display_type', 'display_mode', 'bundle', 'field_name'],
-      ['entity_type_id', 'display_type', 'display_mode', 'schema_type'],
-      ['entity_type_id', 'display_type', 'display_mode', 'schema_type', 'schema_property'],
-      ['entity_type_id', 'display_type', 'display_mode', 'schema_property'],
-      ['entity_type_id', 'bundle'],
-      ['entity_type_id', 'bundle', 'field_name'],
-      ['entity_type_id', 'schema_type'],
-      ['entity_type_id', 'schema_type', 'schema_property'],
-      ['entity_type_id', 'schema_property'],
-      ['entity_type_id', 'field_name'],
-    ];
-
     return !$this->schemaTypeManager->getSetting(
       settings: $disable_field_groups,
       parts: $parts,
-      patterns: $patterns,
+      patterns: static::PATTERNS,
     );
   }
 

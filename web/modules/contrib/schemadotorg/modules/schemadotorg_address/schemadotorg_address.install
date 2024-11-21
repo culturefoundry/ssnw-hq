@@ -30,7 +30,7 @@ function schemadotorg_address_uninstall(bool $is_syncing): void {
     return;
   }
 
-  // Remove address field to PostalAddress field types.
+  // Remove address field from PostalAddress field types.
   $config = \Drupal::configFactory()->getEditable('schemadotorg.settings');
   $config_key = 'schema_types.default_field_types.PostalAddress';
   $config->set($config_key, array_values(array_diff($config->get($config_key) ?: [], ['address'])));

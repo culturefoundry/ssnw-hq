@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Drupal\Tests\schemadotorg_jsonapi\Kernel;
 
 use Drupal\Core\Config\Entity\ConfigEntityStorageInterface;
+use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgEntityKernelTestBase;
+use Drupal\Tests\schemadotorg_additional_type\Traits\SchemaDotOrgAdditionalTypeTestTrait;
 use Drupal\jsonapi_extras\Entity\JsonapiResourceConfig;
 use Drupal\schemadotorg\SchemaDotOrgInstallerInterface;
 use Drupal\schemadotorg_jsonapi\SchemaDotOrgJsonApiManagerInterface;
-use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgEntityKernelTestBase;
-use Drupal\Tests\schemadotorg_additional_type\Traits\SchemaDotOrgAdditionalTypeTestTrait;
 
 /**
  * Base test for the Schema.org JSON:API module.

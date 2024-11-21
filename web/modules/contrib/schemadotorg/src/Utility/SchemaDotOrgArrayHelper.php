@@ -55,4 +55,34 @@ class SchemaDotOrgArrayHelper {
     $array = $new;
   }
 
+  /**
+   * Removes a specific value from the array.
+   *
+   * @param array &$array
+   *   The array to remove the value from.
+   * @param mixed $value
+   *   The value to remove from the array.
+   */
+  public static function removeValue(array &$array, mixed $value): void {
+    $key = array_search($value, $array);
+    if ($key !== FALSE) {
+      unset($array[$key]);
+    }
+    $array = array_values($array);
+  }
+
+  /**
+   * Removes a specific values from the array.
+   *
+   * @param array &$array
+   *   The array to remove the value from.
+   * @param array $values
+   *   The values to remove from the array.
+   */
+  public static function removeValues(array &$array, array $values): void {
+    foreach ($values as $value) {
+      static::removeValue($array, $value);
+    }
+  }
+
 }

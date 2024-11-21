@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Drupal\Tests\schemadotorg_allowed_formats\Kernel;
 
 use Drupal\Core\Entity\EntityDisplayRepositoryInterface;
+use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgEntityKernelTestBase;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\filter\Entity\FilterFormat;
-use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgEntityKernelTestBase;
 
 /**
  * Tests the functionality of the Schema.org allowed formats.

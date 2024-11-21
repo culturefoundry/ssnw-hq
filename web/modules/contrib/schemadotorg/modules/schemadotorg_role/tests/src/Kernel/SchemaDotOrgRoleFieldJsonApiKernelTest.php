@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\schemadotorg_role\Kernel;
 
-use Drupal\schemadotorg\SchemaDotOrgMappingManagerInterface;
 use Drupal\Tests\schemadotorg_jsonapi\Kernel\SchemaDotOrgJsonApiKernelTestBase;
+use Drupal\schemadotorg\SchemaDotOrgMappingManagerInterface;
 
 /**
  * Tests the functionality of the Schema.org role JSON:API support.

@@ -6,6 +6,8 @@ namespace Drupal\schemadotorg_additional_mappings;
 
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Field\FieldItemInterface;
+use Drupal\Core\Field\Plugin\Field\FieldType\EntityReferenceItem;
 use Drupal\Core\Render\BubbleableMetadata;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
@@ -114,6 +116,63 @@ class SchemaDotOrgAdditionalMappingsJsonLdManager implements SchemaDotOrgAdditio
       $data['schemadotorg_jsonld_entity'] = $this->schemaJsonLdManager->sortProperties(
         $data['schemadotorg_jsonld_entity']
       );
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function schemaPropertyAlter(mixed &$value, FieldItemInterface $item, BubbleableMetadata $bubbleable_metadata): void {
+    // Check that this this is an entity reference field.
+    if (!$item instanceof EntityReferenceItem) {
+      return;
+    }
+
+    // Check that the entity reference value includes as a Schema.org type.
+    if (!is_array($value) || !isset($value['@type'])) {
+      return;
+    }
+
+    $field_storage = $item->getFieldDefinition()->getFieldStorageDefinition();
+    $source_mapping = $this->getMappingStorage()->loadByEntity($item->getEntity());
+    $source_field_name = $field_storage->getName();
+    $source_schema_property = $source_mapping->getSchemaPropertyMapping($source_field_name);
+    if (!$source_schema_property) {
+      return;
+    }
+
+    // Get the target's entity, mapping, and types.
+    $target_entity = $item->entity;
+    $target_mapping = $this->getMappingStorage()->loadByEntity($target_entity);
+    $target_additional_mappings = $target_mapping->getAdditionalMappings();
+    $target_schema_types = (array) $value['@type'];
+    if ($target_additional_mappings) {
+      $target_schema_types = array_merge($target_schema_types, array_keys($target_additional_mappings));
+    }
+
+    // Remove target Schema.org types are not subtype of
+    // the Schema.org property's range includes.
+    $source_range_includes = $this->schemaTypeManager->getPropertyRangeIncludes($source_schema_property);
+    foreach ($target_schema_types as $index => $target_schema_type) {
+      if (!$this->schemaTypeManager->isSubTypeOf($target_schema_type, $source_range_includes)) {
+        unset($target_schema_types[$index]);
+      }
+    }
+    $target_schema_types = array_values($target_schema_types);
+
+    // Update the @type to include the updated target Schema.org types.
+    switch (count($target_schema_types)) {
+      case 0;
+        $value = NULL;
+        break;
+
+      case 1;
+        $value['@type'] = reset($target_schema_types);
+        break;
+
+      default:
+        $value['@type'] = $target_schema_types;
+        break;
     }
   }
 

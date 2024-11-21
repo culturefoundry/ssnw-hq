@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Drupal\schemadotorg_content_model_documentation;
 
 use Drupal\Component\Serialization\Json;
-use Drupal\content_model_documentation\Entity\CMDocumentInterface;
 use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\Core\Entity\EntityInterface;
@@ -17,6 +16,7 @@ use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Template\Attribute;
 use Drupal\Core\Url;
+use Drupal\content_model_documentation\Entity\CMDocumentInterface;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\node\NodeTypeInterface;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;

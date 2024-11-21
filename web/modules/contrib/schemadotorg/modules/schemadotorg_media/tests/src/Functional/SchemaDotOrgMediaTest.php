@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\schemadotorg_media\Functional;
 
+use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
 use Drupal\media\Entity\MediaType;
 use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
-use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
 
 /**
  * Tests the functionality of the Schema.org media module.

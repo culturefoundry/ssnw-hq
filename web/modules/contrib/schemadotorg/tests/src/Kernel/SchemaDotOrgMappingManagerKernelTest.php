@@ -36,6 +36,108 @@ class SchemaDotOrgMappingManagerKernelTest extends SchemaDotOrgEntityKernelTestB
     // Checking getting ignored Schema.org properties.
     $this->assertArrayHasKey('accessMode', $this->mappingManager->getIgnoredProperties());
 
+    /* ********************************************************************** */
+    // Prepare custom defaults.
+    /* ********************************************************************** */
+
+    // Check setting custom defaults entity and properties.
+    $defaults = $this->mappingManager->prepareCustomMappingDefaults(
+      entity_type_id: 'node',
+      schema_type: 'Event',
+    );
+    $expected = ['entity' => [], 'properties' => []];
+    $this->assertEquals($expected, $defaults);
+
+    // Check allowing for 'schema_properties' to be used with in custom mapping defaults.
+    $defaults = $this->mappingManager->prepareCustomMappingDefaults(
+      entity_type_id: 'node',
+      schema_type: 'Event',
+      defaults: [
+        'schema_properties' => ['name' => TRUE],
+      ],
+    );
+    $expected = [
+      'properties' => ['name' => TRUE],
+      'entity' => [],
+    ];
+    $this->assertEquals($expected, $defaults);
+
+    // Check Set the entity's bundle.
+    $defaults = $this->mappingManager->prepareCustomMappingDefaults(
+      entity_type_id: 'node',
+      bundle: 'event',
+      schema_type: 'Event',
+    );
+    $this->assertEquals('event', $defaults['entity']['id']);
+
+    // Check property set to FALSE for new mapping.
+    $defaults = $this->mappingManager->prepareCustomMappingDefaults(
+      entity_type_id: 'node',
+      schema_type: 'Thing',
+      defaults: [
+        'properties' => ['name' => FALSE],
+      ],
+    );
+    $this->assertFalse($defaults['properties']['name']);
+
+    // Check property set to FALSE is remove for existing mapping.
+    $this->mappingManager->createType('node', 'Thing');
+    $defaults = $this->mappingManager->prepareCustomMappingDefaults(
+      entity_type_id: 'node',
+      schema_type: 'Thing',
+      defaults: [
+        'properties' => ['name' => FALSE],
+      ],
+    );
+    $this->assertArrayNotHasKey('name', $defaults['properties']);
+    SchemaDotOrgMapping::load('node.thing')->delete();
+
+    // Check preparing a custom field without settings.
+    $defaults = $this->mappingManager->prepareCustomMappingDefaults(
+      entity_type_id: 'node',
+      schema_type: 'Event',
+      defaults: [
+        'properties' => [
+          'custom' => [],
+        ],
+      ],
+    );
+    $expected = [
+      'type' => 'string',
+      'label' => 'custom',
+      'description' => '',
+      'name' => 'custom',
+      'unlimited' => FALSE,
+      'required' => FALSE,
+    ];
+    $this->assertEquals($expected, $defaults['properties']['custom']);
+
+    // Check preparing a custom field with settings.
+    $defaults = $this->mappingManager->prepareCustomMappingDefaults(
+      entity_type_id: 'node',
+      schema_type: 'Event',
+      defaults: [
+        'properties' => [
+          'custom' => [
+            'label' => 'Custom label',
+          ],
+        ],
+      ],
+    );
+    $expected = [
+      'type' => 'string',
+      'label' => 'Custom label',
+      'description' => '',
+      'name' => 'custom',
+      'unlimited' => FALSE,
+      'required' => FALSE,
+    ];
+    $this->assertEquals($expected, $defaults['properties']['custom']);
+
+    /* ********************************************************************** */
+    // Get mappings defaults.
+    /* ********************************************************************** */
+
     // Check getting Schema.org mapping default values.
     $mapping_defaults = $this->mappingManager->getMappingDefaults(
       entity_type_id: 'node',
@@ -115,47 +217,6 @@ class SchemaDotOrgMappingManagerKernelTest extends SchemaDotOrgEntityKernelTestB
     catch (\Exception $exception) {
       $this->assertEquals($exception->getMessage(), "Custom 'custom' property/field is not defined or does not exist.");
     }
-    $defaults = [
-      'properties' => [
-        'custom' => [],
-      ],
-    ];
-    $mapping_defaults = $this->mappingManager->getMappingDefaults(
-      entity_type_id: 'node',
-      schema_type: 'Event',
-      defaults: $defaults,
-    );
-    $expected = [
-      'type' => 'string',
-      'label' => 'custom',
-      'description' => '',
-      'name' => 'custom',
-      'unlimited' => FALSE,
-      'required' => FALSE,
-    ];
-    $this->assertEquals($expected, $mapping_defaults['properties']['custom']);
-
-    $defaults = [
-      'properties' => [
-        'custom' => [
-          'label' => 'Custom label',
-        ],
-      ],
-    ];
-    $mapping_defaults = $this->mappingManager->getMappingDefaults(
-      entity_type_id: 'node',
-      schema_type: 'Event',
-      defaults: $defaults,
-    );
-    $expected = [
-      'type' => 'string',
-      'label' => 'Custom label',
-      'description' => '',
-      'name' => 'custom',
-      'unlimited' => FALSE,
-      'required' => FALSE,
-    ];
-    $this->assertEquals($expected, $mapping_defaults['properties']['custom']);
 
     // Check getting Schema.org mapping default values for entity w/o bundles.
     $mapping_defaults = $this->mappingManager->getMappingDefaults(
@@ -305,24 +366,25 @@ class SchemaDotOrgMappingManagerKernelTest extends SchemaDotOrgEntityKernelTestB
         ],
       ],
     ];
-    $mapping_defaults = $this->mappingManager->getMappingDefaults(
+    $defaults = $this->mappingManager->prepareCustomMappingDefaults(
       entity_type_id: 'node',
       schema_type: 'Thing',
       defaults: $defaults,
     );
-    $this->mappingManager->createType('node', 'Thing', $mapping_defaults);
+    $this->mappingManager->createType('node', 'Thing', $defaults);
     $field_storage_config_storage = $this->entityTypeManager->getStorage('field_storage_config');
     $field_config_storage = $this->entityTypeManager->getStorage('field_config');
     $this->assertNotNull($field_storage_config_storage->load('node.custom'));
     $field_config = $field_config_storage->load('node.thing.custom');
     $this->assertEquals('Custom label', $field_config->label());
 
+    // Check preparing an existing custom field.
     $defaults = [
       'properties' => [
         'custom' => TRUE,
       ],
     ];
-    $mapping_defaults = $this->mappingManager->getMappingDefaults(
+    $defaults = $this->mappingManager->prepareCustomMappingDefaults(
       entity_type_id: 'node',
       bundle: 'another_thing',
       schema_type: 'Thing',
@@ -336,7 +398,7 @@ class SchemaDotOrgMappingManagerKernelTest extends SchemaDotOrgEntityKernelTestB
       'description' => '',
       'required' => FALSE,
     ];
-    $this->assertEquals($expected_values, $mapping_defaults['properties']['custom']);
+    $this->assertEquals($expected_values, $defaults['properties']['custom']);
 
     /* ********************************************************************** */
     // Delete.

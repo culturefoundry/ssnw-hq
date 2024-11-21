@@ -33,10 +33,13 @@ class SchemaDotOrgJsonApiPreviewController extends ControllerBase {
    *   A node.
    *
    * @return array
-   *   A renderable array containing the the Schema.org JSON:API preview.
+   *   A renderable array containing the Schema.org JSON:API preview.
    */
   public function index(NodeInterface $node): array {
-    return $this->builder->build($node);
+    /** @var \Drupal\node\NodeTypeInterface $node_type */
+    $node_type = $this->entityTypeManager()->getStorage('node_type')->load($node->getType());
+    return $this->builder->build($node)
+      ?? ['#markup' => $this->t('A JSON:API endpoint is not enabled for the %label content type', ['%label' => $node_type->label()])];
   }
 
   /**

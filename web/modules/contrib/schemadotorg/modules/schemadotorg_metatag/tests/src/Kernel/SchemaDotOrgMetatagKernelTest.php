@@ -6,10 +6,10 @@ namespace Drupal\Tests\schemadotorg_metatag\Kernel;
 
 use Drupal\Core\Datetime\Entity\DateFormat;
 use Drupal\Core\Entity\EntityDisplayRepositoryInterface;
+use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgEntityKernelTestBase;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\metatag\Entity\MetatagDefaults;
-use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgEntityKernelTestBase;
 
 /**
  * Tests the functionality of the Schema.org metatag.

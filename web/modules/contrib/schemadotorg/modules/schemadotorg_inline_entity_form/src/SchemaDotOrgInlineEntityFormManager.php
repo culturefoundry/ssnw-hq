@@ -139,7 +139,8 @@ class SchemaDotOrgInlineEntityFormManager implements SchemaDotOrgInlineEntityFor
       return;
     }
 
-    if (empty($widget_id)) {
+    // @see entity_browser_schemadotorg_property_field_alter()
+    if (empty($widget_id) || $widget_id === 'entity_browser_entity_reference') {
       $widget_id = 'inline_entity_form_complex';
       $widget_settings = [
         'allow_existing' => TRUE,
@@ -157,11 +158,19 @@ class SchemaDotOrgInlineEntityFormManager implements SchemaDotOrgInlineEntityFor
         $widget_settings['form_mode'] = 'inline_entity_form';
       }
 
-      // If the 'content browser' module is installed, use it.
-      if ($this->moduleHandler->moduleExists('content_browser')) {
+      // If '{entity_type_id}_browser' entity or 'content browser' module
+      // exists, use it.
+      $entity_browser_storage = $this->entityTypeManager
+        ->getStorage('entity_browser');
+      $target_type = $field_storage_values['settings']['target_type'];
+      $entity_browser = $entity_browser_storage->load($target_type . '_browser');
+      if (!$entity_browser && $target_type === 'node') {
+        $entity_browser = $entity_browser_storage->load('browse_content');
+      }
+      if ($entity_browser) {
         $widget_settings['third_party_settings'] = [
           'entity_browser_entity_form' => [
-            'entity_browser_id' => 'browse_content',
+            'entity_browser_id' => $entity_browser->id(),
           ],
         ];
       }

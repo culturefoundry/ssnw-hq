@@ -15,6 +15,7 @@ recommended_schema_types:
       - NutritionInformation
       - Offer
       - Question
+      - WebContent
   common:
     label: Common
     types:
@@ -30,6 +31,7 @@ recommended_schema_types:
   content:
     label: Content
     types:
+      - WebContent
       - Question
       - HowToSupply
       - HowToTool

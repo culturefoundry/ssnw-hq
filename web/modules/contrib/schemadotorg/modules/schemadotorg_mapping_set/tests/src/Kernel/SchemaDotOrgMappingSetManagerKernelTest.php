@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\mapping_set\Kernel;
 
-use Drupal\schemadotorg_mapping_set\SchemaDotOrgMappingSetManagerInterface;
 use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgEntityKernelTestBase;
+use Drupal\schemadotorg_mapping_set\SchemaDotOrgMappingSetManagerInterface;
 
 /**
  * Tests the functionality of the Schema.org mapping set manager.

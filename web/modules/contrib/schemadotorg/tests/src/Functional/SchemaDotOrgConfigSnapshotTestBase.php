@@ -6,6 +6,7 @@ namespace Drupal\Tests\schemadotorg\Functional;
 
 use Drupal\Component\Serialization\Yaml;
 use Drupal\Core\File\FileSystemInterface;
+use Drupal\FunctionalTests\Core\Recipe\RecipeTestTrait;
 
 /**
  * Base tests for Schema.org Blueprints config snapshot.
@@ -21,9 +22,18 @@ use Drupal\Core\File\FileSystemInterface;
  * - Re-run the test and confirm that config snapshot passes as expected.
  * - Commit the test and the config snapshot.
  *
- * @see \Drupal\Tests\schemadotorg\Functional\SchemaDotOrgConfigSnapshotTest
+ * To update a config snapshot (../../schemadotorg/config/snapshot).
+ *
+ * - Delete the config snapshot (../../schemadotorg/config/snapshot)
+ * - Re-run the test to re-create the snapshot.
+ *   This test will fail because snapshot files are being generated
+ * - Re-run the test and confirm that config snapshot passes as expected.
+ * - Re-commit the config snapshot.
+ *
+ * @see \Drupal\Tests\schemadotorg\Functional\SchemaDotOrgConfigSnapshotEntityTypesTest
  */
 abstract class SchemaDotOrgConfigSnapshotTestBase extends SchemaDotOrgBrowserTestBase {
+  use RecipeTestTrait;
 
   // phpcs:disable
   /**
@@ -31,6 +41,11 @@ abstract class SchemaDotOrgConfigSnapshotTestBase extends SchemaDotOrgBrowserTes
    */
   protected $strictConfigSchema = FALSE;
   // phpcs:enable
+
+  /**
+   * Recipes to be applied.
+   */
+  protected array $recipes = [];
 
   /**
    * The Schema.org Blueprints config snapshot directory.
@@ -55,7 +70,7 @@ abstract class SchemaDotOrgConfigSnapshotTestBase extends SchemaDotOrgBrowserTes
     'node.type',
     'media.type',
     'paragraphs.paragraphs_type.',
-    'schemadotorg.schemadotorg_mapping.',
+    'schemadotorg.',
     'taxonomy.vocabulary.',
   ];
 
@@ -77,6 +92,11 @@ abstract class SchemaDotOrgConfigSnapshotTestBase extends SchemaDotOrgBrowserTes
    */
   protected function setUp(): void {
     parent::setUp();
+
+    // Apply recipes.
+    foreach ($this->recipes as $recipe) {
+      $this->applyRecipe($recipe);
+    }
 
     $this->fileSystem = \Drupal::service('file_system');
 
@@ -125,6 +145,7 @@ abstract class SchemaDotOrgConfigSnapshotTestBase extends SchemaDotOrgBrowserTes
           $config_data['icon_uuid'],
           $config_data['_core'],
           $config_data['dependencies']['content'],
+          $config_data['selection_criteria'],
         );
 
         // Create config snapshot if it does not exist.

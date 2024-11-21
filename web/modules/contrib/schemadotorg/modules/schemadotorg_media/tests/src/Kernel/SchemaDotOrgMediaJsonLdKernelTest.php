@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\schemadotorg_media\Kernel;
 
+use Drupal\Tests\schemadotorg_jsonld\Kernel\SchemaDotOrgJsonLdKernelTestBase;
 use Drupal\image\Entity\ImageStyle;
 use Drupal\media\Entity\Media;
-use Drupal\Tests\schemadotorg_jsonld\Kernel\SchemaDotOrgJsonLdKernelTestBase;
 
 /**
  * Tests the functionality of the Schema.org media module JSON-LD integration.

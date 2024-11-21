@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\schemadotorg\Unit;
 
-use Drupal\schemadotorg\Utility\SchemaDotOrgStringHelper;
 use Drupal\Tests\UnitTestCase;
+use Drupal\schemadotorg\Utility\SchemaDotOrgStringHelper;
 
 /**
  * @coversDefaultClass \Drupal\schemadotorg\Utility\SchemaDotOrgStringHelper

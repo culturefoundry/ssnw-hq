@@ -29,13 +29,13 @@ class SchemaDotOrgExportStarterKitController extends SchemaDotOrgExportMappingDe
   }
 
   /**
-   * Returns response for Schema.org mapping set CSV export request.
+   * Returns response for Schema.org recipe CSV export request.
    *
    * @param string $name
    *   The name of the Schema.org mapping set.
    *
    * @return \Symfony\Component\HttpFoundation\StreamedResponse
-   *   A streamed HTTP response containing a Schema.org mapping set CSV export.
+   *   A streamed HTTP response containing a Schema.org recipe CSV export.
    */
   public function details(string $name): StreamedResponse {
     $settings = $this->schemaStarterKitManager->getStarterkitSettings($name);

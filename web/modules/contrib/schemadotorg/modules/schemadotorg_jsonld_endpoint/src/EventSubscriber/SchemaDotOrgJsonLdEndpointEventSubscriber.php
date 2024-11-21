@@ -32,10 +32,10 @@ class SchemaDotOrgJsonLdEndpointEventSubscriber extends ServiceProviderBase impl
    * @param \Drupal\jsonapi\Events\CollectResourceObjectMetaEvent $event
    *   The event used for collecting resource object metadata.
    *
-   * @phpstan-ignore-next-line
+   * @phpstan-ignore-next-line class.notFound
    */
   public function addResourceObjectMeta(CollectResourceObjectMetaEvent $event): void {
-
+    // @phpstan-ignore-next-line class.notFound
     $resource_object = $event->getResourceObject();
     $resource_type = $resource_object->getResourceType();
 
@@ -54,6 +54,7 @@ class SchemaDotOrgJsonLdEndpointEventSubscriber extends ServiceProviderBase impl
 
     $uri = Url::fromRoute($route_name, $route_parameters, $route_options)->toString();
 
+    // @phpstan-ignore-next-line class.notFound
     $event->setMeta('json-ld', $uri);
   }
 

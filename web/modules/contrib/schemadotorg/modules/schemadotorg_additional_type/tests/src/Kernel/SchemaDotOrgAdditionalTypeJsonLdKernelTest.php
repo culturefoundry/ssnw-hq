@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\schemadotorg_additional_type\Kernel;
 
-use Drupal\node\Entity\Node;
 use Drupal\Tests\schemadotorg_jsonld\Kernel\SchemaDotOrgJsonLdKernelTestBase;
+use Drupal\node\Entity\Node;
 
 /**
  * Tests the functionality of the Schema.org Subtype JSON-LD.

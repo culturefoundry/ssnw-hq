@@ -326,8 +326,26 @@ function schemadotorg_node_presave(NodeInterface $node): void {
   // Warning: Undefined array key "add_statistics" in
   // Drupal\devel_generate\Plugin\DevelGenerate\ContentDevelGenerate->insertNodeData()
   // (line 790 of modules/contrib/devel/devel_generate/src/Plugin/DevelGenerate/ContentDevelGenerate.php).
-  // @phpstan-ignore-next-line
   if (isset($node->devel_generate) && is_array($node->devel_generate)) {
     $node->devel_generate += ['add_statistics' => FALSE];
   }
+}
+
+/**
+ * Implements hook_modules_uninstalled().
+ *
+ * Remove installed hooks that are trackED via the
+ * executeInstallHook config action.
+ *
+ * @see \Drupal\schemadotorg\Plugin\ConfigAction\SchemaDotOrgExecuteInstallHook
+ */
+function schemadotorg_modules_uninstalled(array $modules): void {
+  $installed_hooks = \Drupal::state()->get('schemadotorg.installed_hooks') ?? [];
+  if (empty($installed_hooks)) {
+    return;
+  }
+
+  $modules = array_combine($modules, $modules);
+  $installed_hooks = array_diff_key($installed_hooks, $modules);
+  \Drupal::state()->set('schemadotorg.installed_hooks', $installed_hooks);
 }

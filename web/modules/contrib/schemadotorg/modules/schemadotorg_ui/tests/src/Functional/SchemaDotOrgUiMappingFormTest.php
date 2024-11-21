@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\schemadotorg_ui\Functional;
 
-use Drupal\paragraphs\Entity\ParagraphsType;
-use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
 use Drupal\Tests\media\Traits\MediaTypeCreationTrait;
 use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
+use Drupal\paragraphs\Entity\ParagraphsType;
+use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
 
 /**
  * Tests the functionality of the Schema.org mapping form.

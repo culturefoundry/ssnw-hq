@@ -1,0 +1,5 @@
+schemadotorg_recipe:
+  title: 'Recipes'
+  route_name: schemadotorg_recipe.overview
+  base_route: entity.schemadotorg_mapping.collection
+  weight: 30

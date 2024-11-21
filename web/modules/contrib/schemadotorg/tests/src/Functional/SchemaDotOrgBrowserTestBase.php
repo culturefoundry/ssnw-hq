@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\schemadotorg\Functional;
 
+use Drupal\Tests\BrowserTestBase;
+use Drupal\Tests\schemadotorg\Traits\SchemaDotOrgTestTrait;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 use Drupal\schemadotorg\SchemaDotOrgMappingManagerInterface;
 use Drupal\schemadotorg\SchemaDotOrgMappingStorage;
-use Drupal\Tests\BrowserTestBase;
-use Drupal\Tests\schemadotorg\Traits\SchemaDotOrgTestTrait;
 
 /**
  * Defines an abstract test base for Schema.org tests.

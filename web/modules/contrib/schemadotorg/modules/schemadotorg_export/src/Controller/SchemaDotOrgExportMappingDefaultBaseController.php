@@ -44,7 +44,7 @@ class SchemaDotOrgExportMappingDefaultBaseController extends ControllerBase {
    * @param array $types
    *   An associative array of Schema.org types mapping defaults.
    * @param string $name
-   *   The Schema.org mapping default CSV export file name.
+   *   The Schema.org CSV export file name.
    *
    * @return \Symfony\Component\HttpFoundation\StreamedResponse
    *   A streamed HTTP response containing Schema.org types mapping defaults
@@ -155,7 +155,7 @@ class SchemaDotOrgExportMappingDefaultBaseController extends ControllerBase {
     });
 
     $response->headers->set('Content-Type', 'application/force-download');
-    $response->headers->set('Content-Disposition', 'attachment; filename="schemadotorg_mapping_set_' . $name . '.csv"');
+    $response->headers->set('Content-Disposition', 'attachment; filename="' . $name . '.csv"');
     return $response;
   }
 

@@ -73,8 +73,11 @@ Contributed Modules
 
 - **[Duration](https://www.drupal.org/project/duration_field)**  
   Sets duration granularity to hours and minutes.
-- **[Content Browser](https://www.drupal.org/project/content_browser)**  
-  Uses the content browser for node entity references.
+- **[Entity Browser](https://www.drupal.org/project/entity_browser)**  
+  Uses the content browser for node entity references.  
+  Looks for either the content_browse.module (via browse_content) or
+  Entity type specific browsers using `{entity_type_id}_browser` 
+  (i.e., node_browser, media_browser, etc...) entity browsers.
 - **[Focal Point](https://www.drupal.org/project/focal_point)**
   Ensures that existing entity image fields use focal point.  
 - **[Linkit](https://www.drupal.org/project/linkit)**  

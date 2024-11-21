@@ -29,13 +29,13 @@ function duration_field_schemadotorg_jsonld_schema_property_alter(mixed &$value,
 }
 
 /* ************************************************************************** */
-// Content browser.
+// Entity browser.
 /* ************************************************************************** */
 
 /**
- * Implements hook_schemadotorg_property_field_alter() for the content_browser.module.
+ * Implements hook_schemadotorg_property_field_alter() for the entity_browser.module.
  */
-function content_browser_schemadotorg_property_field_alter(
+function entity_browser_schemadotorg_property_field_alter(
   string $schema_type,
   string $schema_property,
   array &$field_storage_values,
@@ -52,11 +52,20 @@ function content_browser_schemadotorg_property_field_alter(
 
   // Use the content browser for node entity references.
   if (empty($widget_id)) {
+    $entity_browser_storage = \Drupal::entityTypeManager()
+      ->getStorage('entity_browser');
     $target_type = $field_storage_values['settings']['target_type'];
-    if ($target_type === 'node') {
+    $entity_browser = $entity_browser_storage->load($target_type . '_browser');
+    // Support the content_browser.module by looking for the 'browse_content'
+    // entity browser.
+    if (!$entity_browser && $target_type === 'node') {
+      $entity_browser = $entity_browser_storage->load('browse_content');
+    }
+
+    if ($entity_browser) {
       $widget_id = 'entity_browser_entity_reference';
       $widget_settings = [
-        'entity_browser' => 'browse_content',
+        'entity_browser' => $entity_browser->id(),
         'field_widget_display' => 'label',
         'field_widget_edit' => TRUE,
         'field_widget_remove' => TRUE,

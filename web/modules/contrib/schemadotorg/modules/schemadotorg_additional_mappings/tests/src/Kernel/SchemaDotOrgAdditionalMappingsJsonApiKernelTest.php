@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\schemadotorg_additional_mappings\Kernel;
 
+use Drupal\Tests\schemadotorg_jsonapi\Kernel\SchemaDotOrgJsonApiKernelTestBase;
 use Drupal\jsonapi_extras\Entity\JsonapiResourceConfig;
 use Drupal\schemadotorg\SchemaDotOrgMappingManagerInterface;
-use Drupal\Tests\schemadotorg_jsonapi\Kernel\SchemaDotOrgJsonApiKernelTestBase;
 
 /**
  * Tests the functionality of the Schema.org additional mappings JSON:API support.

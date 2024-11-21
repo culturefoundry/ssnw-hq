@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Drupal\Tests\schemadotorg_role\Kernel;
 
 use Drupal\Core\Entity\EntityDisplayRepositoryInterface;
+use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgEntityKernelTestBase;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
 use Drupal\schemadotorg_role\SchemaDotOrgRoleFieldManagerInterface;
-use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgEntityKernelTestBase;
 
 /**
  * Tests the functionality of the Schema.org role field.

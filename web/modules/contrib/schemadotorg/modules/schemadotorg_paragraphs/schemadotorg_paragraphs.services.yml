@@ -1,4 +1,7 @@
 services:
   schemadotorg_paragraphs.manager:
     class: Drupal\schemadotorg_paragraphs\SchemaDotOrgParagraphsManager
-    arguments: ['@config.factory', '@module_handler', '@entity_type.manager', '@schemadotorg.schema_type_manager']
+    arguments: ['@file_system', '@config.factory', '@extension.list.module', '@module_handler', '@entity_type.manager', '@schemadotorg.schema_type_manager']
+  schemadotorg_paragraphs.jsonld_manager:
+    class: Drupal\schemadotorg_paragraphs\SchemaDotOrgParagraphsJsonLdManager
+    arguments: ['@module_handler', '@?schemadotorg_jsonld.builder']

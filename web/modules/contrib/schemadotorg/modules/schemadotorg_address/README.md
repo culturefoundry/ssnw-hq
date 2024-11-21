@@ -3,13 +3,14 @@ Table of contents
 
 * Introduction
 * Features
+* Requirements
 * Configuration
 
 
 Introduction
 ------------
 
-The **Schema.org Blueprints Address module** allows an address field to be 
+The **Schema.org Blueprints Address module** allows an address field to be
 used to create a http://schema.org/PostalAddress.
 
 

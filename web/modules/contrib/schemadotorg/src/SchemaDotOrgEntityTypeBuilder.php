@@ -82,9 +82,9 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     /** @var \Drupal\Core\Entity\Sql\SqlContentEntityStorage $bundle_entity_storage */
     $bundle_entity_storage = $this->entityTypeManager->getStorage($entity_type_id);
     $bundle_entity = $bundle_entity_storage->create($entity_values);
-    // @phpstan-ignore-next-line
+    // @phpstan-ignore-next-line assign.propertyType
     $bundle_entity->schemaDotOrgType = $schema_type;
-    // @phpstan-ignore-next-line
+    // @phpstan-ignore-next-line assign.propertyType
     $bundle_entity->schemaDotOrgValues =& $values;
     $bundle_entity->save();
 

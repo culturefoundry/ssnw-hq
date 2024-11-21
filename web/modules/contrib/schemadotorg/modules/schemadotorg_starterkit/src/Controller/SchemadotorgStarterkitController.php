@@ -26,7 +26,7 @@ class SchemadotorgStarterkitController extends ControllerBase {
   /**
    * The module list service.
    */
-  protected ModuleExtensionList $moduleList;
+  protected ModuleExtensionList $moduleExtensionList;
 
   /**
    * The Schema.org names manager.
@@ -58,7 +58,7 @@ class SchemadotorgStarterkitController extends ControllerBase {
    */
   public static function create(ContainerInterface $container): static {
     $instance = parent::create($container);
-    $instance->moduleList = $container->get('extension.list.module');
+    $instance->moduleExtensionList = $container->get('extension.list.module');
     $instance->schemaNames = $container->get('schemadotorg.names');
     $instance->schemaTypeManager = $container->get('schemadotorg.schema_type_manager');
     $instance->schemaTypeBuilder = $container->get('schemadotorg.schema_type_builder');
@@ -80,7 +80,7 @@ class SchemadotorgStarterkitController extends ControllerBase {
       'operations' => ['data' => $this->t('Operations'), 'width' => '10%'],
     ];
 
-    $module_data = $this->moduleList->getList();
+    $module_data = $this->moduleExtensionList->getList();
 
     // Rows.
     $rows = [];
@@ -222,7 +222,7 @@ class SchemadotorgStarterkitController extends ControllerBase {
    */
   public function buildDependencies(string $name): array {
     $settings = $this->schemaStarterkitManager->getStarterkitSettings($name);
-    $module_info = $this->moduleList->getAllAvailableInfo();
+    $module_info = $this->moduleExtensionList->getAllAvailableInfo();
 
     $rows = [];
     foreach ($settings['dependencies'] as $dependency) {

@@ -1,0 +1,14 @@
+name: 'Schema.org Blueprints Physical'
+type: module
+description: 'Allows an physical fields to be used to create a https://schema.org/QuantitativeValue.'
+package: 'Schema.org Blueprints Fields'
+core_version_requirement: ^10.3 || ^11
+schemadotorg_production: true
+dependencies:
+  - 'schemadotorg:schemadotorg'
+  - 'physical:physical'
+
+# Information added by Drupal.org packaging script on 2024-11-05
+version: '1.0.0-alpha27'
+project: 'schemadotorg'
+datestamp: 1730827908

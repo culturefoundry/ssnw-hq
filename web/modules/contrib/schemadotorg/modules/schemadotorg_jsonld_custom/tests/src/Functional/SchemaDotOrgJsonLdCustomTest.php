@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\schemadotorg_jsonld_custom\Functional;
 
-use Drupal\path_alias\Entity\PathAlias;
 use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
+use Drupal\path_alias\Entity\PathAlias;
 
 /**
  * Tests the functionality of the Schema.org JSON-LD custom.

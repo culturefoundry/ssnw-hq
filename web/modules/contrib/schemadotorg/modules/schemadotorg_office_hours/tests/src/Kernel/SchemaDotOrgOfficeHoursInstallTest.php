@@ -55,7 +55,7 @@ class SchemaDotOrgOfficeHoursInstallTest extends TokenKernelTestBase {
 
     // Check adding openingHoursSpecification to Place's default properties.
     $this->assertEquals(
-      ['address', 'description', 'image', 'latitude', 'longitude', 'name', 'openingHoursSpecification', 'telephone'],
+      ['address', 'description', 'image', 'latitude', 'longitude', 'name', 'openingHoursSpecification', 'specialOpeningHoursSpecification', 'telephone'],
       \Drupal::config('schemadotorg.settings')->get('schema_types.default_properties.Place')
     );
 

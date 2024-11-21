@@ -16,4 +16,4 @@ node_links:
   Place:
     'Place?containsPlace': 'Add @label'
     'Person?workLocation': 'Add @label'
-node_links_dropdown: true
+node_links_display: dropdown

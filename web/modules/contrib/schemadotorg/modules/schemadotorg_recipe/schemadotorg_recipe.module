@@ -1,0 +1,38 @@
+<?php
+
+/**
+ * @file
+ * Provides tools for Schema.org Blueprint specific recipes.
+ */
+
+declare(strict_types=1);
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function schemadotorg_recipe_help(string $route_name, RouteMatchInterface $route_match): string|NULL {
+  return match ($route_name) {
+    'schemadotorg_recipe.overview' =>
+      '<p>' . t('The <strong>Schema.org recipe</strong> page lists Schema.org recipes that can be applied and managed using the below admin UI or <a href=":href">Drush</a>.', [':href' => 'https://git.drupalcode.org/project/schemadotorg/-/blob/1.0.x/docs/DRUSH.md']) . '<p>',
+    'schemadotorg_recipe.details' =>
+      '<p>' . t('The <strong>Schema.org recipe details</strong> page provides an overview of what entity types and fields will be created when the recipe is applied.') . '<p>',
+    default => NULL
+  };
+}
+
+/**
+ * Checks if a recipe is being applied.
+ *
+ * @return bool
+ *   TRUE if a recipe is being applied.
+ *
+ * @see \Drupal\Core\Recipe\RecipeRunner::installModule
+ */
+function schemadotorg_recipe_is_applying(): bool {
+  return isset($_SERVER['argv'])
+    && count($_SERVER['argv']) > 1
+    && $_SERVER['argv'][0] === 'core/scripts/drupal'
+    && $_SERVER['argv'][1] === 'recipe';
+}

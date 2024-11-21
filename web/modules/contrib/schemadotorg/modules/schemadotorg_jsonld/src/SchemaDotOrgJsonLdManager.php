@@ -22,6 +22,7 @@ use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\image\ImageStyleInterface;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 use Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface;
+use Drupal\schemadotorg\Traits\SchemaDotOrgMappingStorageTrait;
 use Symfony\Component\Routing\RouterInterface;
 
 /**
@@ -29,6 +30,7 @@ use Symfony\Component\Routing\RouterInterface;
  */
 class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
   use StringTranslationTrait;
+  use SchemaDotOrgMappingStorageTrait;
 
   /**
    * Constructs a SchemaDotOrgJsonLdManager object.
@@ -94,7 +96,7 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
   public function getRouteMatchEntity(?RouteMatchInterface $route_match = NULL): EntityInterface|NULL {
     $route_match = $route_match ?: $this->routeMatch;
     $route_name = $route_match->getRouteName();
-    if (preg_match('/entity\.(.*)\.(latest[_-]version|canonical)/', $route_name, $matches)) {
+    if (preg_match('/entity\.(.*)\.(latest[_-]version|canonical|schemadotorg_data|schemadotorg_jsonld)/', $route_name, $matches)) {
       return $route_match->getParameter($matches[1]);
     }
     else {
@@ -140,9 +142,7 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
     $field_type = $field_storage->getType();
     switch ($field_type) {
       case 'text_with_summary';
-        /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
-        $mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
-        $mapping = $mapping_storage->loadByEntity($items->getEntity());
+        $mapping = $this->getMappingStorage()->loadByEntity($items->getEntity());
         $field_name = $field_storage->getName();
         $cardinality = $field_storage->getCardinality();
         $schema_property = $mapping->getSchemaPropertyMapping($field_name);
@@ -190,9 +190,7 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
         return $this->getImageDerivativeUrl($item) ?: $this->getFileUrl($item);
 
       case 'daterange':
-        /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
-        $mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
-        $mapping = $mapping_storage->loadByEntity($item->getEntity());
+        $mapping = $this->getMappingStorage()->loadByEntity($item->getEntity());
         $field_name = $item->getFieldDefinition()->getName();
         $schema_property = $mapping->getSchemaPropertyMapping($field_name);
         if ($schema_property === 'eventSchedule') {
@@ -335,30 +333,60 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
   /**
    * {@inheritdoc}
    */
-  public function getSchemaTypeEntityReferenceDisplay(EntityInterface $entity): string {
-    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
-    $mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
-
-    $schema_type_entity_references_display = $this->configFactory
+  public function getSchemaTypeEntityReferenceDisplay(EntityInterface $source_entity, string $schema_property, EntityInterface $target_entity): string {
+    $settings = $this->configFactory
       ->get('schemadotorg_jsonld.settings')
       ->get('schema_type_entity_references_display');
 
-    $mapping = $mapping_storage->loadByEntity($entity);
-    if ($mapping) {
-      $parts = [
-        'entity_type_id' => $mapping->getTargetEntityTypeId(),
-        'bundle' => $mapping->getTargetBundle(),
-        'schema_type' => $mapping->getSchemaType(),
+    $source_mapping = $this->getMappingStorage()->loadByEntity($source_entity);
+    $source_parts = [
+      'entity_type_id' => $source_mapping->getTargetEntityTypeId(),
+      'bundle' => $source_mapping->getTargetBundle(),
+      'schema_type' => $source_mapping->getSchemaType(),
+      'schema_property' => $schema_property,
+      'field_name' => $source_mapping->getSchemaPropertyFieldName($schema_property),
+    ];
+    $source_pattern = [
+      ['entity_type_id', 'bundle', 'schema_property'],
+      ['entity_type_id', 'schema_type', 'schema_property'],
+      ['bundle', 'schema_property'],
+      ['schema_type', 'schema_property'],
+      ['entity_type_id', 'bundle', 'field_name'],
+      ['entity_type_id', 'schema_type', 'field_name'],
+      ['bundle', 'field_name'],
+      ['schema_type', 'field_name'],
+    ];
+    $setting = $this->schemaTypeManager->getSetting($settings, $source_parts, [], $source_pattern);
+    if ($setting) {
+      return $setting;
+    }
+
+    $target_mapping = $this->getMappingStorage()->loadByEntity($target_entity);
+    if ($target_mapping) {
+      $target_parts = [
+        'entity_type_id' => $target_mapping->getTargetEntityTypeId(),
+        'bundle' => $target_mapping->getTargetBundle(),
+        'schema_type' => $target_mapping->getSchemaType(),
       ];
     }
     else {
-      $parts = [
-        'entity_type_id' => $entity->getEntityTypeId(),
-        'bundle' => $entity->bundle(),
+      $target_parts = [
+        'entity_type_id' => $target_entity->getEntityTypeId(),
+        'bundle' => $target_entity->bundle(),
       ];
     }
-    return $this->schemaTypeManager->getSetting($schema_type_entity_references_display, $parts)
-      ?? static::ENTITY_REFERENCE_DISPLAY_LABEL;
+    $target_pattern = [
+      ['entity_type_id', 'bundle'],
+      ['entity_type_id', 'schema_type'],
+      ['bundle'],
+      ['schema_type'],
+    ];
+    $setting = $this->schemaTypeManager->getSetting($settings, $target_parts, [], $target_pattern);
+    if ($setting) {
+      return $setting;
+    }
+
+    return static::ENTITY_REFERENCE_DISPLAY_LABEL;
   }
 
   /**
@@ -455,9 +483,7 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
     $entity = $item->getEntity();
     $field_name = $item->getFieldDefinition()->getName();
 
-    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
-    $mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
-    $mapping = $mapping_storage->loadByEntity($entity);
+    $mapping = $this->getMappingStorage()->loadByEntity($entity);
     return $mapping->getSchemaPropertyMapping($field_name);
   }
 

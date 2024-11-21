@@ -33,7 +33,7 @@ class SchemaDotOrgDiagramController extends ControllerBase {
    *   A node.
    *
    * @return array
-   *   A renderable array containing the the Schema.org diagrams.
+   *   A renderable array containing the Schema.org diagrams.
    */
   public function index(NodeInterface $node): array {
     $diagrams = $this->schemaDiagram->buildDiagrams($node);

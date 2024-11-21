@@ -16,9 +16,9 @@ with the Schema.org Blueprints module.
 Features
 --------
 
-- Set a content type's default menu settings based on Schema.org type.
-- Set a content type's default display submitted setting based on Schema.org type.
-- Merge multiple local tasks for nodes under a Schema.org parent task.
+- Sets a content type's default menu settings based on Schema.org type.
+- Sets a content type's default display submitted setting based on Schema.org type.
+- Merges multiple local tasks for nodes under a Schema.org parent task.
 
 
 Configuration

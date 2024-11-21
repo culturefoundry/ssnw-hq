@@ -102,6 +102,9 @@ and field configuration settings.
 - **[Schema.org Blueprints Options](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_options)**  
   Set allowed values for list (options) fields.
 
+- **[Schema.org Blueprints Physical Fields](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_physical)**  
+  Allows an Physical fields to be used to create a http://schema.org/QuantitativeValue.
+
 - **[Schema.org Blueprints Smart Date](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_smart_date)**  
   Allows a Smart date field to be used to create date ranges and event schedules included in a site's Schema.org JSON-LD.
 
@@ -222,4 +225,3 @@ The below API related modules creates APIs based on Schema.org types
 
 - **[Schema.org Blueprints Demo](https://git.drupalcode.org/project/schemadotorg_demo/-/tree/1.0.x/README.md)**  
   Provides an opinionated demo of the Schema.org Blueprints built on top of Drupal's standard profile with default content and translations.
-

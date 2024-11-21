@@ -21,13 +21,16 @@ parameters:
       ##########################################################################
 
       - "#^Unable to resolve the template type Current in call to method static method Drupal\\\\Component\\\\Utility\\\\DeprecationHelper\\:\\:backwardsCompatibleCall\\(\\)#"
+
       - "#^Call to an undefined method Drupal\\\\Core\\\\Render\\\\RendererInterface\\:\\:renderInIsolation\\(\\)\\.$#"
 
       ##########################################################################
       # Global: Undefined property.
       ##########################################################################
 
-      - "#^Access to an undefined property Drupal\\\\Core\\\\Field\\\\FieldItemInterface\\:\\:\\$entity\\.$#"
+      - "#^Access to an undefined property Drupal\\\\Core\\\\Field\\\\FieldItem(List)?Interface\\:\\:\\$(comment|day|duration|end_value|endhours|entity|format|from|lat|limit|lng|override|override_format|starthours|summary|timezone|to|uri|value)\\.$#"
+
+      - "#^Access to an undefined property.*\\:\\:\\$devel_generate\\.$#"
 
       ##########################################################################
       # Global: Dependency inject ::create method.
@@ -50,6 +53,12 @@ parameters:
       - "#^Call to method (writeln|confirm|select|choice)\\(\\) on an unknown class Drush\\\\Style\\\\DrushStyle\\.#"
 
       ##########################################################################
+      # Global: SchemaDotOrg custom entity properties.
+      ##########################################################################
+
+      - "#^Access to an undefined property.*(schemaDotOrgType|schemaDotOrgProperty|schemaDotOrgField)\\.$#"
+
+      ##########################################################################
       # Global: Tests.
       ##########################################################################
 
@@ -65,18 +74,8 @@ parameters:
           - src/Plugin/EntityReferenceSelection/SchemaDotOrgEntityReferenceSelection.php
 
       ##########################################################################
-      # SchemaDotOrg custom entity properties.
-      ##########################################################################
-
-      - "#^Access to an undefined property.*(schemaDotOrgType|schemaDotOrgProperty|schemaDotOrgField)\\.$#"
-
-      ##########################################################################
       # Access to an undefined property for fields.
       ##########################################################################
-
-      - message: "#^Access to an undefined property Drupal\\\\Core\\\\Field\\\\FieldItemInterface\\:\\:\\$duration\\.$#"
-        count: 1
-        path: schemadotorg.schemadotorg.inc
 
       - message: "#^Access to an undefined property Drupal\\\\taxonomy\\\\TermInterface\\:\\:\\$(parent|depth)\\.$#"
         count: 3
@@ -86,49 +85,17 @@ parameters:
         count: 11
         path: modules/schemadotorg_content_model_documentation/tests/src/Kernel/SchemaDotOrgContentModelDocumentationKernelTest.php
 
-      - message: "#^Access to an undefined property Drupal\\\\Core\\\\Field\\\\FieldItemListInterface\\:\\:\\$format\\.$#"
-        count: 3
-        path: modules/schemadotorg_content_model_documentation/tests/src/Kernel/SchemaDotOrgContentModelDocumentationKernelTest.php
-
-      - message: "#^Access to an undefined property Drupal\\\\Core\\\\Field\\\\FieldItemInterface::\\$(override|override_format)\\.$#"
-        count: 2
-        path: modules/schemadotorg_entity_reference_override/src/SchemaDotOrgEntityReferenceOverrideManager.php
-
-      - message: "#^Access to an undefined property Drupal\\\\Core\\\\Field\\\\FieldItemInterface\\:\\:\\$(lat|lng)\\.$#"
-        count: 2
-        path: modules/schemadotorg_geolocation/schemadotorg_geolocation.module
-
-      - message: "#^Access to an undefined property Drupal\\\\Core\\\\Field\\\\FieldItemInterface\\:\\:\\$(from|to)\\.$#"
-        count: 6
-        path: modules/schemadotorg_jsonld/schemadotorg_jsonld.schemadotorg.inc
-
-      - message: "#^Access to an undefined property Drupal\\\\Core\\\\Field\\\\FieldItem(List)?Interface\\:\\:\\$(value|summary|format|uri|end_value|entity)\\.$#"
-        count: 15
-        path: modules/schemadotorg_jsonld/src/SchemaDotOrgJsonLdManager.php
-
       - message: "#^Access to an undefined property Drupal\\\\link\\\\LinkItemInterface\\:\\:\\$uri\\.$#"
         count: 1
         path: modules/schemadotorg_jsonld/src/SchemaDotOrgJsonLdManager.php
 
-      - message: "#^Access to an undefined property Drupal\\\\Core\\\\Field\\\\FieldItemInterface\\:\\:\\$(day|starthours|endhours|comment)\\.$#"
-        count: 5
-        path: modules/schemadotorg_office_hours/schemadotorg_office_hours.module
-
-      - message: "#^Access to an undefined property Drupal\\\\paragraphs_library\\\\LibraryItemInterface\\:\\:\\$paragraphs\\.$#"
-        count: 5
-        path: modules/schemadotorg_paragraphs/schemadotorg_paragraphs.module
-
-      - message: "#^Access to an undefined property Drupal\\\\Core\\\\Field\\\\FieldItemInterface\\:\\:\\$(override_format|override)\\.$#"
-        count: 2
-        path: modules/schemadotorg_role/schemadotorg_role.module
-
-      - message: "#^Access to an undefined property Drupal\\\\Core\\\\Field\\\\FieldItemInterface\\:\\:\\$(value|duration|end_value|timezone|limit)\\.$#"
-        count: 7
-        path: modules/schemadotorg_smart_date/src/SchemaDotOrgSmartDateJsonLdManager.php
-
-      - message: "#^Access to an undefined property Drupal\\\\Core\\\\Field\\\\FieldItemListInterface\\:\\:\\$duration\\.$#"
+      - message: "#^Access to protected property Drupal\\\\smart_date_recur\\\\Entity\\\\SmartDateRule\\:\\:\\$limit\\.$#"
         count: 1
         path: modules/schemadotorg_smart_date/src/SchemaDotOrgSmartDateJsonLdManager.php
+
+      - message: "#^Access to an undefined property Drupal\\\\physical\\\\Plugin\\\\Field\\\\FieldType\\\\(Measurement|Dimensions)Item\\:\\:\\$(number|unit|height|width|length)\\.$#"
+        count: 6
+        path: modules/schemadotorg_physical/schemadotorg_physical.module
 
       ##########################################################################
       # Fields.
@@ -137,14 +104,6 @@ parameters:
       - message: "#^Parameter \\#1 \\$item of method Drupal\\\\schemadotorg_jsonld\\\\SchemaDotOrgJsonLdManagerInterface\\:\\:getSchemaPropertyValue\\(\\) expects Drupal\\\\Core\\\\Field\\\\FieldItemInterface, Drupal\\\\Core\\\\TypedData\\\\TypedDataInterface\\|null given\\.$#"
         count: 5
         path: modules/schemadotorg_jsonld/tests/src/Kernel/SchemaDotOrgJsonLdManagerKernelTest.php
-
-      - message: "#^Parameter \\#1 \\$field_config of method Drupal\\\\schemadotorg_translation\\\\SchemaDotOrgTranslationManagerInterface\\:\\:enableMappingField\\(\\) expects Drupal\\\\Core\\\\Field\\\\FieldConfigBase, Drupal\\\\field\\\\FieldConfigInterface given\\.$#"
-        count: 1
-        path: modules/schemadotorg_translation/schemadotorg_translation.module
-
-      - message: "#^Parameter \\#1 \\$field_config of method Drupal\\\\schemadotorg_translation\\\\SchemaDotOrgTranslationManager\\:\\:enableMappingField\\(\\) expects Drupal\\\\Core\\\\Field\\\\FieldConfigBase, Drupal\\\\Core\\\\Field\\\\FieldConfigInterface given\\.$#"
-        count: 1
-        path: modules/schemadotorg_translation/src/SchemaDotOrgTranslationManager.php
 
       - message: "#^Parameter \\#2 \\$times of function str_repeat expects int, Drupal\\\\Core\\\\Field\\\\FieldItemListInterface given.$#"
         count: 1
@@ -157,33 +116,3 @@ parameters:
       - message: "#^Call to an undefined method Drupal\\\\Core\\\\Entity\\\\FieldableEntityInterface::getParentEntity\\(\\)\\.$#"
         count: 2
         path:  modules/schemadotorg_paragraphs/schemadotorg_paragraphs.module
-
-      ##########################################################################
-      # Smart date.
-      ##########################################################################
-
-      - message: "#^Access to protected property Drupal\\\\smart_date_recur\\\\Entity\\\\SmartDateRule\\:\\:\\$limit\\.$#"
-        count: 1
-        path: modules/schemadotorg_smart_date/src/SchemaDotOrgSmartDateJsonLdManager.php
-
-      - message: "#^Cannot access property \\$value on string\\.$#"
-        count: 2
-        path: modules/schemadotorg_smart_date/src/SchemaDotOrgSmartDateJsonLdManager.php
-
-      ##########################################################################
-      # Other.
-      ##########################################################################
-
-      - message: "#^If condition is always true\\.#"
-        count: 1
-        path: modules/schemadotorg_report/src/Controller/SchemaDotOrgReportRelationshipsController.php
-
-      - message: "#^Ternary operator condition is always true\\.#"
-        count: 1
-        path: modules/schemadotorg_report/src/Controller/SchemaDotOrgReportItemController.php
-
-      # Drupal's JSON:API now supports adding metadata programmatically
-      # @see https://www.drupal.org/node/3280569
-      - message: "#^Call to method (setMeta|getResourceObject)\\(\\) on an unknown class Drupal\\\\jsonapi\\\\Events\\\\CollectResourceObjectMetaEvent\\.$#"
-        count: 2
-        path: modules/schemadotorg_jsonld_endpoint/src/EventSubscriber/SchemaDotOrgJsonLdEndpointEventSubscriber.php

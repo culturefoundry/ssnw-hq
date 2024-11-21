@@ -2,13 +2,13 @@ name: 'Schema.org Blueprints JSON-LD Endpoint'
 type: module
 description: "Provides an endpoint to get an entity's Schema.org JSON-LD."
 package: 'Schema.org Blueprints JSON-LD'
-core_version_requirement: ^10.2
+core_version_requirement: ^10.3 || ^11
 configure: schemadotorg_jsonld.settings
 schemadotorg_production: false
 dependencies:
   - 'schemadotorg:schemadotorg_jsonld'
 
-# Information added by Drupal.org packaging script on 2024-09-17
-version: '1.0.0-alpha26'
+# Information added by Drupal.org packaging script on 2024-11-05
+version: '1.0.0-alpha27'
 project: 'schemadotorg'
-datestamp: 1726607459
+datestamp: 1730827908

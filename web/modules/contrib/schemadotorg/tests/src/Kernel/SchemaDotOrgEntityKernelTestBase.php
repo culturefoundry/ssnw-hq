@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\schemadotorg\Kernel;
 
+use Drupal\Tests\TestFileCreationTrait;
+use Drupal\Tests\media\Traits\MediaTypeCreationTrait;
 use Drupal\file\Entity\File;
 use Drupal\media\MediaTypeInterface;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
@@ -11,8 +13,6 @@ use Drupal\schemadotorg\SchemaDotOrgMappingManagerInterface;
 use Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface;
 use Drupal\schemadotorg\SchemaDotOrgMappingTypeStorageInterface;
 use Drupal\schemadotorg\Traits\SchemaDotOrgMappingStorageTrait;
-use Drupal\Tests\media\Traits\MediaTypeCreationTrait;
-use Drupal\Tests\TestFileCreationTrait;
 
 /**
  * Base class to testing entity type/bundle that are mapped to Schema.org types.

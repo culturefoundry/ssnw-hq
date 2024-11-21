@@ -6,9 +6,9 @@ namespace Drupal\Tests\schemadotorg\Unit;
 
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\Tests\UnitTestCase;
 use Drupal\schemadotorg\SchemaDotOrgSchemaTypeBuilder;
 use Drupal\schemadotorg\SchemaDotOrgSchemaTypeManager;
-use Drupal\Tests\UnitTestCase;
 
 /**
  * @coversDefaultClass \Drupal\schemadotorg\SchemaDotOrgSchemaTypeBuilder::getItemUrl

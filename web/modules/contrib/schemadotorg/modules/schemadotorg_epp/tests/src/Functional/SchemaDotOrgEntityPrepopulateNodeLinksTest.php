@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\schemadotorg_epp\Functional;
 
-use Drupal\field\Entity\FieldConfig;
 use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
+use Drupal\field\Entity\FieldConfig;
+use Drupal\schemadotorg_epp\SchemaDotOrgEppManagerInterface;
 
 /**
  * Tests the functionality of the Schema.org Entity Prepopulate node links.
@@ -81,10 +82,10 @@ class SchemaDotOrgEntityPrepopulateNodeLinksTest extends SchemaDotOrgBrowserTest
     $assert->responseContains('<div class="schemadotorg-epp-node-links-dropdown">');
     $assert->responseNotContains('<ul class="links inline">');
 
-    // Check node links dropdown via the UI to trigger cache clear.
+    // Check node links display as buttons via the UI triggers a cache clear.
     // @see schemadotorg_epp_schemadotorg_properties_settings_submit()
     $this->drupalGet('admin/config/schemadotorg/settings/properties');
-    $this->submitForm(['schemadotorg_epp[node_links_dropdown]' => FALSE], 'Save configuration');
+    $this->submitForm(['schemadotorg_epp[node_links_display]' => SchemaDotOrgEppManagerInterface::BUTTONS], 'Save configuration');
 
     // Check that node links are NOT displayed as dropdown.
     $this->drupalGet($organization_node->toUrl());

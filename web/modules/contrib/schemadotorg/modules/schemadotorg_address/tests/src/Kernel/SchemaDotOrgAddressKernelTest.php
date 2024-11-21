@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\schemadotorg_address\Kernel;
 
-use Drupal\field\Entity\FieldConfig;
 use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgEntityKernelTestBase;
+use Drupal\field\Entity\FieldConfig;
 
 /**
  * Tests the functionality of the Schema.org address module.
  *
- * @covers address_schemadotorg_jsonld_schema_property_alter(()
+ * @covers schemadotorg_address_install()
+ * @covers schemadotorg_address_uninstall()
  * @group schemadotorg
  */
 class SchemaDotOrgAddressKernelTest extends SchemaDotOrgEntityKernelTestBase {

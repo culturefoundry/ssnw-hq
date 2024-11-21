@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.schema_name
+    - node.type.custom_thing
+id: node.custom_thing.schema_name
+field_name: schema_name
+entity_type: node
+bundle: custom_thing
+label: Name
+description: 'The name of the item.'
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

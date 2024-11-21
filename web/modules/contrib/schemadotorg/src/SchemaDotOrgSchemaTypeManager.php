@@ -270,7 +270,7 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
       $table_name = 'schemadotorg_' . $table;
       $item = $this->database->select($table_name, 't')
         ->fields('t', $fields)
-        ->condition('label', (array) $id)
+        ->condition('label', (array) $id, 'IN')
         ->execute()
         ->fetchAssoc();
       $this->itemsCache[$table][$cid] = $this->setItemDrupalFields($table, $item);

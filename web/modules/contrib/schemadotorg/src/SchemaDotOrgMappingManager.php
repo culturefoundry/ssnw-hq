@@ -75,36 +75,41 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
   /**
    * {@inheritdoc}
    */
-  public function getMappingDefaults(string $entity_type_id = '', ?string $bundle = NULL, string $schema_type = '', array $defaults = []): array {
-    // Validate entity type id.
-    if (!$this->getMappingTypeStorage()->load($entity_type_id)) {
-      throw new \Exception(sprintf("A mapping type for '%s' does not exist and is required to create a Schema.org '%s'.", $entity_type_id, $schema_type));
+  public function prepareCustomMappingDefaults(string $entity_type_id = '', ?string $bundle = NULL, string $schema_type = '', array $defaults = []): array {
+    // Allow for 'schema_properties' to be used with in custom mapping defaults.
+    if (isset($defaults['schema_properties'])) {
+      $defaults['properties'] = $defaults['schema_properties'];
+      unset($defaults['schema_properties']);
     }
 
-    // Validate schema type.
-    if (!$this->schemaTypeManager->isType($schema_type)) {
-      throw new \Exception(sprintf("A Schema.org type for '%s' does not exist.", $schema_type));
+    // Set custom defaults entity and properties.
+    $defaults += ['entity' => [], 'properties' => []];
+
+    // Set the entity's bundle.
+    if (!isset($defaults['entity']['id']) && $bundle) {
+      $defaults['entity']['id'] = $bundle;
     }
 
-    $mapping_defaults = [];
+    // Load the existing mapping by bundle or Schema.org type.
+    $mapping = ($bundle)
+      ? $this->getMappingStorage()->loadByBundle($entity_type_id, $bundle)
+      : $this->getMappingStorage()->loadBySchemaType($entity_type_id, $schema_type);
 
-    // Get entity, properties, third_party_settings defaults.
-    $mapping_defaults['entity'] = $this->getMappingEntityDefaults($entity_type_id, $bundle, $schema_type);
-    $mapping_defaults['properties'] = $this->getMappingPropertiesFieldDefaults($entity_type_id, $bundle, $schema_type);
-    $mapping_defaults['third_party_settings'] = $this->getMappingThirdPartySettingsDefaults($entity_type_id, $bundle, $schema_type);
-
-    // Apply custom entity defaults.
-    if (isset($defaults['entity'])) {
-      $mapping_defaults['entity'] = $defaults['entity'] + $mapping_defaults['entity'];
+    // Don't allow properties to be unexpectedly removed.
+    if ($mapping && !empty($defaults['properties'])) {
+      $defaults['properties'] = array_filter($defaults['properties']);
     }
 
-    // Apply properties (or schema_properties) defaults.
-    $properties = $defaults['properties'] ?? $defaults['schema_properties'] ?? NULL;
-    if ($properties) {
-      foreach ($properties as $property_name => &$property) {
+    // Add properties that are explicitly set.
+    if (isset($defaults['properties'])) {
+      foreach ($defaults['properties'] as $property_name => &$property) {
+        // Skip adding properties that are already mapped fields.
+        if ($mapping && $mapping->getSchemaPropertyFieldName($property_name)) {
+          continue;
+        }
+
         // Check custom properties/fields and set defaults values.
         if (!$this->schemaTypeManager->hasProperty($schema_type, $property_name)) {
-
           // Make sure that a Schema.org property is not being applied to
           // the wrong Schema.org type.
           if ($this->schemaTypeManager->isProperty($property_name)) {
@@ -124,6 +129,7 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
           if (!is_array($property)) {
             throw new \Exception(sprintf("Custom '%s' property/field is not defined or does not exist.", $property_name));
           }
+
           $property += [
             'type' => 'string',
             'name' => strtolower($property_name),
@@ -134,33 +140,62 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
           ];
         }
 
-        // Make sure an ignored property is not being defined.
-        $ignored_properties = $this->getIgnoredProperties();
-        if (isset($ignored_properties[$property_name])) {
-          throw new \Exception(sprintf("Schema.org property '%s' for Schema.org type '%s' is ignored. Please update your Schema.org settings. (/admin/config/schemadotorg/settings)", $property_name, $schema_type));
+        // Skip properties that have a boolean as the value because these
+        // the boolean is used when the custom defaults are applied.
+        // @see \Drupal\schemadotorg\SchemaDotOrgMappingManager::applyCustomDefaultsToMappingDefaults
+        if (is_bool($property)) {
+          continue;
         }
 
-        if ($property === FALSE) {
-          // Unset the name to not have the property added.
-          $mapping_defaults['properties'][$property_name]['name'] = '';
-        }
-        elseif ($property === TRUE) {
-          // Make sure the property is being added.
-          if (empty($mapping_defaults['properties'][$property_name]['name'])) {
-            $mapping_defaults['properties'][$property_name]['name'] = SchemaDotOrgEntityFieldManagerInterface::ADD_FIELD;
+        // Set the Schema.org property to ensure the property is added.
+        if (empty($property['name'])) {
+          if ($this->schemaTypeManager->hasProperty($schema_type, $property_name)) {
+            // Add new Schema.org property.
+            $property['name'] = SchemaDotOrgEntityFieldManagerInterface::ADD_FIELD;
           }
-        }
-        elseif (is_array($property)) {
-          // Merge the custom defaults with the property's defaults.
-          $mapping_defaults['properties'][$property_name] = $property
-            + ($mapping_defaults['properties'][$property_name] ?? []);
+          elseif (preg_match('/^[_a-z0-9]*$/', $property_name)) {
+            // Add new custom field.
+            $property['name'] = $property_name;
+          }
+          else {
+            // Throw an exception for invalid property/field names.
+            throw new \Exception("Invalid property/field name: $property_name");
+          }
         }
       }
     }
+    return $defaults;
+  }
 
-    // Apply additional mappings defaults.
-    // @see \Drupal\schemadotorg_additional_mappings\SchemaDotOrgAdditionalMappingsManager::mappingDefaultsAlter
-    $mapping_defaults['additional_mappings'] = $defaults['additional_mappings'] ?? [];
+  /**
+   * {@inheritdoc}
+   */
+  public function getMappingDefaults(string $entity_type_id = '', ?string $bundle = NULL, string $schema_type = '', array $defaults = []): array {
+    // Validate entity type id.
+    if (!$this->getMappingTypeStorage()->load($entity_type_id)) {
+      throw new \Exception(sprintf("A mapping type for '%s' does not exist and is required to create a Schema.org '%s'.", $entity_type_id, $schema_type));
+    }
+
+    // Validate schema type.
+    if (!$this->schemaTypeManager->isType($schema_type)) {
+      throw new \Exception(sprintf("A Schema.org type for '%s' does not exist.", $schema_type));
+    }
+
+    $mapping_defaults = [];
+
+    // Get entity, properties, third_party_settings mapping defaults.
+    $mapping_defaults['entity'] = $this->getMappingEntityDefaults($entity_type_id, $bundle, $schema_type);
+    $mapping_defaults['properties'] = $this->getMappingPropertiesFieldDefaults($entity_type_id, $bundle, $schema_type);
+    $mapping_defaults['third_party_settings'] = $this->getMappingThirdPartySettingsDefaults($entity_type_id, $bundle, $schema_type);
+
+    // Apply defaults to mapping defaults.
+    $this->applyCustomDefaultsToMappingDefaults(
+      $mapping_defaults,
+      $entity_type_id,
+      $bundle,
+      $schema_type,
+      $defaults
+    );
 
     // Allow modules to alter the mapping defaults via a hook.
     $this->moduleHandler->invokeAllWith(
@@ -370,7 +405,7 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
           continue;
         }
 
-        // Set new mappings to add the the field.
+        // Set new mappings to add the field.
         $property_defaults['name'] = SchemaDotOrgEntityFieldManagerInterface::ADD_FIELD;
 
         // Check for existing base field name and Schema.org property field storage.
@@ -451,6 +486,59 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
       $defaults['default_value'] = $default_field['default_value'];
     }
     return $defaults;
+  }
+
+  /**
+   * Apply custom defaults to Schema.org mapping default values.
+   *
+   * @param array $mapping_defaults
+   *   Mapping defaults for the entity and properties.
+   * @param string $entity_type_id
+   *   The entity type ID.
+   * @param string|null $bundle
+   *   The bundle.
+   * @param string $schema_type
+   *   The Schema.org type.
+   * @param array $defaults
+   *   The custom defaults to be applied to the mapping defaults.
+   */
+  protected function applyCustomDefaultsToMappingDefaults(array &$mapping_defaults, string $entity_type_id, ?string $bundle, string $schema_type, array $defaults): void {
+    // Apply custom entity defaults.
+    if (isset($defaults['entity'])) {
+      $mapping_defaults['entity'] = $defaults['entity']
+        + $mapping_defaults['entity'];
+    }
+
+    // Apply custom properties defaults.
+    $properties = $defaults['properties'] ?? [];
+    foreach ($properties as $property_name => &$property) {
+      // Make sure an ignored property is not being defined.
+      $ignored_properties = $this->getIgnoredProperties();
+      if (isset($ignored_properties[$property_name])) {
+        throw new \Exception(sprintf("Schema.org property '%s' for Schema.org type '%s' is ignored. Please update your Schema.org settings. (/admin/config/schemadotorg/settings)", $property_name, $schema_type));
+      }
+
+      // Unset/set custom default properties that are booleans.
+      if (is_bool($property)) {
+        if ($property === FALSE) {
+          // Unset the property's name to not add the field.
+          $mapping_defaults['properties'][$property_name]['name'] = '';
+        }
+        elseif (empty($mapping_defaults['properties'][$property_name]['name'])) {
+          // Set the new property's name to add the field.
+          $mapping_defaults['properties'][$property_name]['name'] = SchemaDotOrgEntityFieldManagerInterface::ADD_FIELD;
+        }
+      }
+      elseif (is_array($property)) {
+        // Merge the custom defaults with the property's defaults.
+        $mapping_defaults['properties'][$property_name] = $property
+          + ($mapping_defaults['properties'][$property_name] ?? []);
+      }
+    }
+
+    // Apply additional mappings defaults.
+    // @see \Drupal\schemadotorg_additional_mappings\SchemaDotOrgAdditionalMappingsManager::mappingDefaultsAlter
+    $mapping_defaults['additional_mappings'] = $defaults['additional_mappings'] ?? [];
   }
 
   /**

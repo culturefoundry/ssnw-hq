@@ -45,6 +45,7 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
     $instance = parent::create($container);
     $instance->schemaMappingManager = $container->get('schemadotorg.mapping_manager');
     $instance->schemaEntityFieldManager = $container->get('schemadotorg.entity_field_manager');
+    // @phpstan-ignore-next-line ternary.alwaysTrue
     $instance->additionalMappingsManager = $container->has('schemadotorg_additional_mappings.manager')
       ? $container->get('schemadotorg_additional_mappings.manager')
       : NULL;
@@ -661,9 +662,14 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
     // Add the default operation.
     $default_entity_type = $this->getDefaultEntityTypeId($type);
     if (isset($operations[$default_entity_type])) {
+      $entity_operation = $operations[$default_entity_type];
+      $entity_operation['title'] .= ' ⭐';
       $default_operation = $operations[$default_entity_type];
       $default_operation['title'] = $this->t('Add Schema.org type');
-      $operations = ['default' => $default_operation] + $operations;
+      $operations = [
+        'default' => $default_operation,
+        $default_entity_type => $entity_operation,
+      ] + $operations;
     }
 
     return [

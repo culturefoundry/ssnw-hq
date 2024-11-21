@@ -1,0 +1,13 @@
+services:
+  schemadotorg_recipe.manager:
+    class: Drupal\schemadotorg_recipe\SchemaDotOrgRecipeManager
+    arguments: ['@service_container', '@file_system', '@extension.list.module',  '@entity_type.manager', '@schemadotorg.mapping_manager', '@?plugin.manager.develgenerate']
+  schemadotorg_recipe.breadcrumb:
+    class: Drupal\schemadotorg_recipe\Breadcrumb\SchemaDotOrgRecipeBreadcrumbBuilder
+    tags:
+      - { name: breadcrumb_builder, priority: 1000 }
+  schemadotorg_recipe.event_subscriber:
+    class: Drupal\schemadotorg_recipe\EventSubscriber\SchemaDotOrgRecipeEventSubscriber
+    arguments: ['@current_route_match', '@entity_type.manager', '@schemadotorg.schema_type_manager',  '@schemadotorg.mapping_manager']
+    tags:
+      - { name: event_subscriber }

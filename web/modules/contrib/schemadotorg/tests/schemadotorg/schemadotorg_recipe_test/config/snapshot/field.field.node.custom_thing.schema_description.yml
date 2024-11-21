@@ -1,0 +1,21 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.schema_description
+    - node.type.custom_thing
+  module:
+    - text
+id: node.custom_thing.schema_description
+field_name: schema_description
+entity_type: node
+bundle: custom_thing
+label: Description
+description: 'A description of the item.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats: {  }
+field_type: text_long

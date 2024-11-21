@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\schemadotorg_taxonomy\Kernel;
 
-use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
-use Drupal\taxonomy\Entity\Vocabulary;
 use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgEntityKernelTestBase;
 
 /**
@@ -21,6 +19,7 @@ class SchemaDotOrgTaxonomyInstallKernelTest extends SchemaDotOrgEntityKernelTest
    */
   protected static $modules = [
     'taxonomy',
+    'schemadotorg_jsonld_endpoint',
     'schemadotorg_taxonomy',
   ];
 
@@ -32,34 +31,23 @@ class SchemaDotOrgTaxonomyInstallKernelTest extends SchemaDotOrgEntityKernelTest
 
     $this->installEntitySchema('taxonomy_vocabulary');
     $this->installEntitySchema('taxonomy_term');
-    $this->installConfig(['schemadotorg_taxonomy']);
-
-    Vocabulary::create(['name' => 'Tags', 'vid' => 'tags'])->save();
+    $this->installConfig(['schemadotorg_jsonld_endpoint', 'schemadotorg_taxonomy']);
   }
 
   /**
    * Test Schema.org taxonomy installation.
    */
   public function testInstall(): void {
+    $config = $this->config('schemadotorg_jsonld_endpoint.settings');
+    $this->assertNull($config->get('entity_type_endpoints.taxonomy_term'));
+    $this->assertNull($config->get('entity_type_endpoints.taxonomy_vocabulary'));
+
     \Drupal::moduleHandler()->loadInclude('schemadotorg_taxonomy', 'install');
     schemadotorg_taxonomy_install(FALSE);
 
-    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface|null $mapping */
-    $mapping = SchemaDotOrgMapping::load('taxonomy_term.tags');
-
-    // Confirm that Add tags to all content types.
-    $this->assertEquals(
-      [
-        'id' => 'tags',
-        'label' => 'Tags',
-        'description' => 'Use tags to group articles on similar topics into categories.',
-        'auto_create' => TRUE,
-      ],
-      $this->config('schemadotorg_taxonomy.settings')->get('default_vocabularies.tags')
-    );
-
-    // Confirm taxonomy term mapping is created and mapped to DefinedTerm.
-    $this->assertEquals('DefinedTerm', $mapping->getSchemaType());
+    $config = $this->config('schemadotorg_jsonld_endpoint.settings');
+    $this->assertEquals('term', $config->get('entity_type_endpoints.taxonomy_term'));
+    $this->assertEquals('vocabulary', $config->get('entity_type_endpoints.taxonomy_vocabulary'));
   }
 
 }

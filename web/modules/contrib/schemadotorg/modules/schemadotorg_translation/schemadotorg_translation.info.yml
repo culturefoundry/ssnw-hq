@@ -2,7 +2,7 @@ name: 'Schema.org Blueprints Translation'
 type: module
 description: 'Manages translations for Schema.org types and properties as they are created.'
 package: 'Schema.org Blueprints Core'
-core_version_requirement: ^10.2
+core_version_requirement: ^10.3 || ^11
 configure: schemadotorg.settings.general
 schemadotorg_production: true
 dependencies:
@@ -11,7 +11,7 @@ dependencies:
   - 'drupal:language'
   - 'drupal:locale'
 
-# Information added by Drupal.org packaging script on 2024-09-17
-version: '1.0.0-alpha26'
+# Information added by Drupal.org packaging script on 2024-11-05
+version: '1.0.0-alpha27'
 project: 'schemadotorg'
-datestamp: 1726607459
+datestamp: 1730827908

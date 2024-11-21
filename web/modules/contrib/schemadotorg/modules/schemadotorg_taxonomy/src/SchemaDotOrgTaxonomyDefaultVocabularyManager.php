@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Drupal\schemadotorg_taxonomy;
 
-use Drupal\content_translation\ContentTranslationManagerInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\content_translation\ContentTranslationManagerInterface;
 use Drupal\schemadotorg\SchemaDotOrgEntityTypeBuilderInterface;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 use Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface;

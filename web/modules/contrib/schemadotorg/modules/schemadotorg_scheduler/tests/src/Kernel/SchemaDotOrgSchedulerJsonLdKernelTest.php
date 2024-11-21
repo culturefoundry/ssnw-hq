@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Drupal\Tests\schemadotorg_scheduler\Kernel;
 
 use Drupal\Core\Datetime\Entity\DateFormat;
-use Drupal\node\Entity\Node;
 use Drupal\Tests\schemadotorg_jsonld\Kernel\SchemaDotOrgJsonLdKernelTestBase;
+use Drupal\node\Entity\Node;
 
 /**
  * Tests the functionality of the Schema.org Scheduler module JSON-LD integration.
  *
- * @covers scheduler_schemadotorg_jsonld_schema_property_alter(()
+ * @covers schemadotorg_scheduler_schemadotorg_jsonld_schema_type_entity_load()
  * @group schemadotorg
  */
 class SchemaDotOrgSchedulerJsonLdKernelTest extends SchemaDotOrgJsonLdKernelTestBase {
@@ -35,7 +35,7 @@ class SchemaDotOrgSchedulerJsonLdKernelTest extends SchemaDotOrgJsonLdKernelTest
   /**
    * Test Schema.org scheduler JSON-LD.
    */
-  public function testJsonLdAddress(): void {
+  public function testJsonLdScheduler(): void {
     \Drupal::currentUser()->setAccount($this->createUser(['access content']));
 
     DateFormat::create([

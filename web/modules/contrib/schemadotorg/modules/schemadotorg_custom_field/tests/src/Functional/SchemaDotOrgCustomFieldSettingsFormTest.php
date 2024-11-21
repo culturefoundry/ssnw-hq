@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\schemadotorg_custom_field\Functional;
 
-use Drupal\filter\Entity\FilterFormat;
 use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
+use Drupal\filter\Entity\FilterFormat;
 
 /**
  * Tests the functionality of the Schema.org custom field settings form.

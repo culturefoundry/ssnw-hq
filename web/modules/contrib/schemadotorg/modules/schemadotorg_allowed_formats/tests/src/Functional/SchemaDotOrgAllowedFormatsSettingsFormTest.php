@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\schemadotorg_allowed_formats\Functional;
 
-use Drupal\filter\Entity\FilterFormat;
 use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
+use Drupal\filter\Entity\FilterFormat;
 
 /**
  * Tests the functionality of the Schema.org allowed formats settings form.

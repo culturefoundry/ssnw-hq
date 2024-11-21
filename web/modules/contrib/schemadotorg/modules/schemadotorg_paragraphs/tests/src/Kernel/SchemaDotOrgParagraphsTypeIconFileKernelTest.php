@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\schemadotorg_paragraphs\Kernel;
 
+use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgEntityKernelTestBase;
 use Drupal\paragraphs\Entity\ParagraphsType;
 use Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdBuilderInterface;
-use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgEntityKernelTestBase;
 
 /**
  * Tests the functionality of the Schema.org paragraphs type icon file.

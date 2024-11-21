@@ -1,4 +1,4 @@
 services:
   schemadotorg_pathauto.manager:
     class: Drupal\schemadotorg_pathauto\SchemaDotOrgPathautoManager
-    arguments: ['@config.factory', '@token', '@entity_type.manager', '@schemadotorg.schema_type_manager']
+    arguments: ['@config.factory', '@token', '@entity_type.manager', '@pathauto.alias_cleaner', '@schemadotorg.schema_type_manager']

@@ -6,10 +6,10 @@ namespace Drupal\Tests\schemadotorg_translation\Kernel;
 
 use Drupal\Core\Language\LanguageDefault;
 use Drupal\Core\Language\LanguageManager;
+use Drupal\Tests\schemadotorg_jsonld\Kernel\SchemaDotOrgJsonLdKernelTestBase;
 use Drupal\language\Entity\ConfigurableLanguage;
 use Drupal\language\LanguageNegotiatorInterface;
 use Drupal\node\Entity\Node;
-use Drupal\Tests\schemadotorg_jsonld\Kernel\SchemaDotOrgJsonLdKernelTestBase;
 
 /**
  * Tests the functionality of the Schema.org translation JSON-LD.

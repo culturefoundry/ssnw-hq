@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\schemadotorg_paragraphs\Kernel;
 
+use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgEntityKernelTestBase;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\node\Entity\Node;
 use Drupal\paragraphs\Entity\Paragraph;
 use Drupal\paragraphs\Entity\ParagraphsType;
 use Drupal\paragraphs_library\Entity\LibraryItem;
 use Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdBuilderInterface;
-use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgEntityKernelTestBase;
 
 /**
  * Tests the functionality of the Schema.org paragraphs.

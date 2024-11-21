@@ -1,0 +1,7 @@
+block.settings.schemadotorg_epp_node_links:
+  type: block_settings
+  label: 'Schema.org Blueprint Entity Prepopulate Node Links'
+  mapping:
+    display:
+      type: string
+      label: 'Display as'

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\schemadotorg_auto_entitylabel\Kernel;
 
-use Drupal\node\Entity\Node;
 use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgEntityKernelTestBase;
+use Drupal\node\Entity\Node;
 
 /**
  * Tests the functionality of the Schema.org auto entity label.

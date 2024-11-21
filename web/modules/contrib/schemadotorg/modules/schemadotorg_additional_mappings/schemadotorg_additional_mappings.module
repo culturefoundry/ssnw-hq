@@ -8,6 +8,8 @@
 declare(strict_types=1);
 
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Field\FieldItemInterface;
+use Drupal\Core\Field\Plugin\Field\FieldType\EntityReferenceItem;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\BubbleableMetadata;
 use Drupal\Core\Routing\RouteMatchInterface;
@@ -89,6 +91,18 @@ function schemadotorg_additional_mappings_schemadotorg_jsonld_alter(array &$data
   /** @var \Drupal\schemadotorg_additional_mappings\SchemaDotOrgAdditionalMappingsJsonLdManagerInterface $manager */
   $manager = \Drupal::service('schemadotorg_additional_mapping.jsonld_manager');
   $manager->alter($data, $route_match, $bubbleable_metadata);
+}
+
+/**
+ * Implements hook_schemadotorg_jsonld_schema_property_alter().
+ */
+function schemadotorg_additional_mappings_schemadotorg_jsonld_schema_property_alter(mixed &$value, FieldItemInterface $item, BubbleableMetadata $bubbleable_metadata): void {
+  // Make sure we have an entity reference item to improve performance.
+  if ($item instanceof EntityReferenceItem) {
+    /** @var \Drupal\schemadotorg_additional_mappings\SchemaDotOrgAdditionalMappingsJsonLdManagerInterface $manager */
+    $manager = \Drupal::service('schemadotorg_additional_mapping.jsonld_manager');
+    $manager->schemaPropertyAlter($value, $item, $bubbleable_metadata);
+  }
 }
 
 /* ************************************************************************** */

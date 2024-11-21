@@ -18,6 +18,27 @@ interface SchemaDotOrgMappingManagerInterface {
   public function getIgnoredProperties(): array;
 
   /**
+   * Prepares the custom defaults for a Schema.org mapping.
+   *
+   * This method prepares the Schema.org mapping's properties to added
+   * as expected. This method should only be called once before a Schema.org
+   * mapping is inserted or updated.
+   *
+   * @param string $entity_type_id
+   *   The entity type ID.
+   * @param string|null $bundle
+   *   The bundle (optional).
+   * @param string $schema_type
+   *   The schema type.
+   * @param array $defaults
+   *   The custom defaults for a Schema.org mapping.
+   *
+   * @return array
+   *   The prepared custom defaults for a Schema.org mapping.
+   */
+  public function prepareCustomMappingDefaults(string $entity_type_id = '', ?string $bundle = NULL, string $schema_type = '', array $defaults = []): array;
+
+  /**
    * Get Schema.org mapping default values.
    *
    * @param string $entity_type_id

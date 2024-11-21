@@ -10,6 +10,7 @@ declare(strict_types=1);
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\node\NodeInterface;
+use Drupal\schemadotorg_epp\SchemaDotOrgEppManagerInterface;
 
 /**
  * Implements hook_schemadotorg_property_field_alter().
@@ -74,10 +75,17 @@ bundle:
   'bundle?schemaProperty01': 'Add @label as something'
 ",
   ];
-  $form['schemadotorg_epp']['node_links_dropdown'] = [
-    '#type' => 'checkbox',
-    '#title' => t('Display node links as a dropdown'),
-    '#description' => t('If checked, the entity prepopulation node links will be displayed as an operation dropdown menu.'),
+  $form['schemadotorg_epp']['node_links_display'] = [
+    '#type' => 'select',
+    '#title' => t('Display node links as'),
+    '#options' => [
+      SchemaDotOrgEppManagerInterface::HIDDEN => t('Hidden'),
+      SchemaDotOrgEppManagerInterface::DROPDOWN => t('Dropdown'),
+      SchemaDotOrgEppManagerInterface::BUTTONS => t('Buttons'),
+    ],
+    '#description' => t('Select how entity prepopulate node links will be displayed on a node.')
+      . ' '
+      . t('Please note that entity prepopulate node links can be displayed via a block.'),
   ];
 
   $form['#submit'][] = 'schemadotorg_epp_schemadotorg_properties_settings_submit';

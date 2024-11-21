@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\schemadotorg_entity_reference_override\Functional;
 
-use Drupal\node\Entity\Node;
 use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
+use Drupal\node\Entity\Node;
 
 /**
  * Tests the functionality of the Schema.org role entity reference override support.

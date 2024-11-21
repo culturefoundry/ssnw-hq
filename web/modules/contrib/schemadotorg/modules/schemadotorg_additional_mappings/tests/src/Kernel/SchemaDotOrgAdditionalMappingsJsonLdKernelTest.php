@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\schemadotorg_additional_mappings\Kernel;
 
+use Drupal\Tests\schemadotorg_jsonld\Kernel\SchemaDotOrgJsonLdKernelTestBase;
 use Drupal\node\Entity\Node;
 use Drupal\paragraphs\Entity\Paragraph;
-use Drupal\Tests\schemadotorg_jsonld\Kernel\SchemaDotOrgJsonLdKernelTestBase;
 
 /**
  * Tests the functionality of the Schema.org additional mappings JSON-LD.
@@ -48,6 +48,11 @@ class SchemaDotOrgAdditionalMappingsJsonLdKernelTest extends SchemaDotOrgJsonLdK
    */
   public function testJsonLd(): void {
     \Drupal::currentUser()->setAccount($this->createUser(['access content']));
+
+    $this->appendSchemaTypeDefaultProperties('WebPage', ['isPartOf', '-dateCreated', '-dateModified']);
+    $this->config('schemadotorg.settings')
+      ->set('schema_properties.default_fields.isPartOf.type', 'field_ui:entity_reference:node')
+      ->save();
 
     /* ********************************************************************** */
     // WebPage.
@@ -131,15 +136,15 @@ class SchemaDotOrgAdditionalMappingsJsonLdKernelTest extends SchemaDotOrgJsonLdK
 
     $this->createSchemaEntity('paragraph', 'Quotation');
 
-    $quotation = Paragraph::create([
+    $quotation_paragraph = Paragraph::create([
       'type' => 'quotation',
       'schema_text' => ['value' => 'Some quote', 'format' => 'empty_format'],
       'schema_name' => 'Some person',
       'schema_job_title' => 'Some job title',
     ]);
-    $quotation->save();
+    $quotation_paragraph->save();
 
-    $jsonld = $this->builder->buildEntity($quotation);
+    $jsonld = $this->builder->buildEntity($quotation_paragraph);
     $expected_jsonld = [
       '@type' => 'Quotation',
       'inLanguage' => 'en',
@@ -148,6 +153,43 @@ class SchemaDotOrgAdditionalMappingsJsonLdKernelTest extends SchemaDotOrgJsonLdK
         '@type' => 'Person',
         'name' => 'Some person',
         'jobTitle' => 'Some job title',
+      ],
+    ];
+    $this->assertEquals($expected_jsonld, $jsonld);
+
+    /* ********************************************************************** */
+    // Entity references with additional mappings.
+    /* ********************************************************************** */
+
+    // Create Organization and WebPage Schema.org mappings.
+    $this->createSchemaEntity('node', 'Organization');
+    $this->createSchemaEntity('node', 'WebPage');
+
+    // Create an organization node.
+    $organization_node = Node::create(['type' => 'organization', 'title' => 'Organization']);
+    $organization_node->save();
+
+    // Create a page node that has organization is part of.
+    $page_node = Node::create([
+      'type' => 'page',
+      'title' => 'Page',
+      'schema_is_part_of' => [
+        'target_id' => $organization_node->id(),
+      ],
+    ]);
+    $page_node->save();
+
+    // Check that the isPartOf entity reference has a valid @type.
+    $jsonld = $this->builder->buildEntity($page_node);
+    $expected_jsonld = [
+      '@type' => 'WebPage',
+      '@url' => $page_node->toUrl()->setAbsolute()->toString(),
+      'inLanguage' => 'en',
+      'name' => 'Page',
+      'isPartOf' => [
+        '@type' => 'WebPage',
+        'name' => 'Organization',
+        '@url' => $organization_node->toUrl()->setAbsolute()->toString(),
       ],
     ];
     $this->assertEquals($expected_jsonld, $jsonld);

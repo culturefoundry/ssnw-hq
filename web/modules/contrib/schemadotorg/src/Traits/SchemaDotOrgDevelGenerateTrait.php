@@ -48,6 +48,18 @@ trait SchemaDotOrgDevelGenerateTrait {
       throw new \Exception('The devel_generate.module needs to be enabled.');
     }
 
+    // Make sure published media images are created if no image exist.
+    if ($this->entityTypeManager->hasDefinition('media')) {
+      $media_ids = $this->entityTypeManager->getStorage('media')
+        ->getQuery()
+        ->accessCheck(FALSE)
+        ->condition('bundle', 'image')
+        ->execute();
+      if (empty($media_ids)) {
+        $types = array_unique(array_merge(['media:ImageObject'], $types));
+      }
+    }
+
     // Collect the entity type and bundles to be generated.
     $entity_types = $this->getEntityTypeBundles($types);
 

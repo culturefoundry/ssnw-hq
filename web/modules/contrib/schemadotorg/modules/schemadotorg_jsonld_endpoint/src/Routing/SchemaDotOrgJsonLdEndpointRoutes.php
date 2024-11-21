@@ -14,7 +14,7 @@ use Symfony\Component\Routing\RouteCollection;
 /**
  * Defines dynamic routes for Schema.org JSON-LD endpoint module.
  */
-final class SchemaDotOrgJsonLdEndpointRoutes implements ContainerInjectionInterface {
+class SchemaDotOrgJsonLdEndpointRoutes implements ContainerInjectionInterface {
 
   /**
    * A key with which to flag a route as belonging to the Schema.org JSON-LD endpoint module.

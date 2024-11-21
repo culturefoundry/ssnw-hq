@@ -18,7 +18,7 @@
         return;
       }
 
-      const closedDetails = [];
+      let closedDetails = [];
       mermaids.forEach((element) => {
         // Track closed details and open them to after diagram is rendered.
         let parentElement = element.parentNode;
@@ -36,7 +36,16 @@
       mermaid.run({
         querySelector: '.mermaid, .language-mermaid',
         postRenderCallback: () => {
-          closedDetails.forEach((element) => element.removeAttribute('open'));
+          // Use set timeout to delay closing details until all diagrams are rendered.
+          window.setTimeout(function closeDetails() {
+            if (closedDetails) {
+              closedDetails.forEach((element) =>
+                element.removeAttribute('open'),
+              );
+            }
+            // Set closed details to null to only trigger closing details once.
+            closedDetails = null;
+          });
 
           // @see https://github.com/ariutta/svg-pan-zoom
           if (window.svgPanZoom) {

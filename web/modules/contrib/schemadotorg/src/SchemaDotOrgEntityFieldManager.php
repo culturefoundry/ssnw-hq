@@ -38,11 +38,6 @@ class SchemaDotOrgEntityFieldManager implements SchemaDotOrgEntityFieldManagerIn
   protected array $propertyDefaultFieldsCache = [];
 
   /**
-   * Property field type options cache.
-   */
-  protected array $propertyFieldTypeOptionsCache = [];
-
-  /**
    * Constructs a SchemaDotOrgEntityFieldManager object.
    *
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $moduleHandler
@@ -166,11 +161,6 @@ class SchemaDotOrgEntityFieldManager implements SchemaDotOrgEntityFieldManagerIn
    * {@inheritdoc}
    */
   public function getPropertyFieldTypeOptions(string $entity_type_id, string $schema_type, string $schema_property): array {
-    $cid = "$entity_type_id.$schema_type.$schema_property";
-    if (isset($this->propertyFieldTypeOptionsCache[$cid])) {
-      return $this->propertyFieldTypeOptionsCache[$cid];
-    }
-
     $recommended_field_types = $this->getSchemaPropertyFieldTypes($entity_type_id, $schema_type, $schema_property);
     $recommended_category = (string) $this->t('Recommended');
 
@@ -197,7 +187,6 @@ class SchemaDotOrgEntityFieldManager implements SchemaDotOrgEntityFieldManagerIn
       $options[$recommended_category] = array_replace($recommended_field_types, $options[$recommended_category]);
     }
 
-    $this->propertyFieldTypeOptionsCache[$cid] = $options;
     return $options;
   }
 

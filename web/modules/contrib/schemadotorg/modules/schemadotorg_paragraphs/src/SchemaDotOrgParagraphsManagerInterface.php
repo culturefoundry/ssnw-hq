@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Drupal\schemadotorg_paragraphs;
 
 use Drupal\Core\Field\FieldConfigInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\paragraphs\ParagraphsTypeInterface;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 
 /**
@@ -58,5 +60,31 @@ interface SchemaDotOrgParagraphsManagerInterface {
    *   The field config.
    */
   public function fieldConfigPresave(FieldConfigInterface $field_config): void;
+
+  /**
+   * Alter the complete form for field widgets.
+   *
+   * @param array $field_widget_complete_form
+   *   The field widget form element as constructed by
+   *   \Drupal\Core\Field\WidgetBaseInterface::form().
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The current state of the form.
+   * @param array $context
+   *   An associative array. See hook_field_widget_complete_form_alter()
+   *   for the structure and content of the array.
+   *
+   * @see hook_field_widget_complete_form_alter()
+   */
+  public function fieldWidgetCompleteFormAlter(array &$field_widget_complete_form, FormStateInterface $form_state, array $context): void;
+
+  /**
+   * Set paragraphs type icon before it is saved..
+   *
+   * @param \Drupal\paragraphs\ParagraphsTypeInterface $paragraphs_type
+   *   The paragraphs type.
+   *
+   * @see \Drupal\paragraphs\Form\ParagraphsTypeForm::validateForm
+   */
+  public function paragraphsTypePresave(ParagraphsTypeInterface $paragraphs_type): void;
 
 }

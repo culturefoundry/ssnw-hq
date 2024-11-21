@@ -112,14 +112,18 @@ interface SchemaDotOrgJsonLdManagerInterface {
   /**
    * Get how an entity reference should be included in JSON-LD.
    *
-   * @param \Drupal\Core\Entity\EntityInterface $entity
-   *   An entity.
+   * @param \Drupal\Core\Entity\EntityInterface $source_entity
+   *   The source entity.
+   * @param string $schema_property
+   *   The source entity's Schema.org property.
+   * @param \Drupal\Core\Entity\EntityInterface $target_entity
+   *   The target entity.
    *
    * @return string
    *   How an entity reference should be included in JSON-LD, which can be
    *   by 'label', 'url', or 'data'.
    */
-  public function getSchemaTypeEntityReferenceDisplay(EntityInterface $entity): string;
+  public function getSchemaTypeEntityReferenceDisplay(EntityInterface $source_entity, string $schema_property, EntityInterface $target_entity): string;
 
   /**
    * Determine if the Schema.org mapping has a URL.

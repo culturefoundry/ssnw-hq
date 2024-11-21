@@ -12,6 +12,21 @@ use Drupal\node\NodeInterface;
 interface SchemaDotOrgEppManagerInterface {
 
   /**
+   * Do not display node links.
+   */
+  const HIDDEN = '';
+
+  /**
+   * Display node links as dropdown menu.
+   */
+  const DROPDOWN = 'dropdown';
+
+  /**
+   * Display node links as buttons.
+   */
+  const BUTTONS = 'buttons';
+
+  /**
    * Alter field storage and field values before they are created.
    *
    * @param string $schema_type
@@ -65,5 +80,18 @@ interface SchemaDotOrgEppManagerInterface {
    *   An array of links with title and url.
    */
   public function getNodeLinks(NodeInterface $node): array;
+
+  /**
+   * Build node links.
+   *
+   * @param \Drupal\node\NodeInterface $node
+   *   The node to build links for.
+   * @param string|null $display
+   *   How node links should be displayed.
+   *
+   * @return array
+   *   A renderable array containing node links.
+   */
+  public function buildNodeLinks(NodeInterface $node, ?string $display = NULL): array;
 
 }

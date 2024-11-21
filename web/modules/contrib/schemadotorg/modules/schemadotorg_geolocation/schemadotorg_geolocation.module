@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Allows an Office hours field to be used to create OpeningHoursSpecification.
+ * Allows an Geolocation field to be used to create GeoCoordinates.
  */
 
 declare(strict_types=1);

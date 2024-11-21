@@ -7,8 +7,8 @@
 
 declare(strict_types=1);
 
-use Drupal\auto_entitylabel\AutoEntityLabelManager;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\auto_entitylabel\AutoEntityLabelManager;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 
 /**

@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Drupal\Tests\schemadotorg_field_group\Kernel;
 
 use Drupal\Core\Entity\EntityDisplayRepositoryInterface;
+use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgEntityKernelTestBase;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\schemadotorg\SchemaDotOrgEntityDisplayBuilderInterface;
 use Drupal\schemadotorg_field_group\SchemaDotOrgFieldGroupEntityDisplayBuilderInterface;
-use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgEntityKernelTestBase;
 
 /**
  * Tests the Schema.org entity display field group builder service.

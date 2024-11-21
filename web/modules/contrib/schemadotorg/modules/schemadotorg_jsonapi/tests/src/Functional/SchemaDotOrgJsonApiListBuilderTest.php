@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\schemadotorg_jsonapi\Functional;
 
-use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
 use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
+use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
 
 /**
  * Tests the functionality of the Schema.org JSON:API list builder enhancements.

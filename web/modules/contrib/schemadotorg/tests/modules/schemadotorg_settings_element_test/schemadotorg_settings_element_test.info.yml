@@ -1,15 +1,13 @@
 name: 'Schema.org Blueprints Settings Element test'
 type: module
 description: 'Support module for Schema.org Blueprints Settings element testing.'
-package: 'Schema.org Blueprints Test'
-core_version_requirement: ^10.2
-schemadotorg_production: false
+package: Testing
 dependencies:
   - 'token:token'
   - 'schemadotorg:schemadotorg'
   - 'schemadotorg:schemadotorg_report'
 
-# Information added by Drupal.org packaging script on 2024-09-17
-version: '1.0.0-alpha26'
+# Information added by Drupal.org packaging script on 2024-11-05
+version: '1.0.0-alpha27'
 project: 'schemadotorg'
-datestamp: 1726607459
+datestamp: 1730827908

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Drupal\schemadotorg_translation;
 
-use Drupal\Core\Field\FieldConfigBase;
+use Drupal\Core\Field\FieldConfigInterface;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 
 /**
@@ -23,9 +23,9 @@ interface SchemaDotOrgTranslationManagerInterface {
   /**
    * Enable translation for a Schema.org mapping field.
    *
-   * @param \Drupal\Core\Field\FieldConfigBase $field_config
+   * @param \Drupal\Core\Field\FieldConfigInterface $field_config
    *   The field.
    */
-  public function enableMappingField(FieldConfigBase $field_config): void;
+  public function enableMappingField(FieldConfigInterface $field_config): void;
 
 }

@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\schemadotorg_translation\Kernel;
 
-use Drupal\content_translation\ContentTranslationManagerInterface;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
+use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgEntityKernelTestBase;
+use Drupal\Tests\schemadotorg\Traits\SchemaDotOrgTestTrait;
+use Drupal\Tests\schemadotorg_translation\Traits\SchemaDotOrgTranslationTestTrait;
+use Drupal\content_translation\ContentTranslationManagerInterface;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\language\Entity\ContentLanguageSettings;
 use Drupal\schemadotorg_translation\SchemaDotOrgTranslationManagerInterface;
-use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgEntityKernelTestBase;
-use Drupal\Tests\schemadotorg\Traits\SchemaDotOrgTestTrait;
-use Drupal\Tests\schemadotorg_translation\Traits\SchemaDotOrgTranslationTestTrait;
 
 /**
  * Tests the functionality of the Schema.org translation manager.

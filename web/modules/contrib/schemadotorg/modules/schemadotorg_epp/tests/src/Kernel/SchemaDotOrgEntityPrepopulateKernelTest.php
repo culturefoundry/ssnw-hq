@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\schemadotorg_epp\Kernel;
 
+use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgEntityKernelTestBase;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\node\Entity\Node;
 use Drupal\schemadotorg_epp\SchemaDotOrgEppManagerInterface;
-use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgEntityKernelTestBase;
 
 /**
  * Tests the functionality of the Schema.org Entity Prepopulate.

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\schemadotorg_cer\Kernel;
 
+use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgEntityKernelTestBase;
 use Drupal\cer\Entity\CorrespondingReference;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\schemadotorg\SchemaDotOrgMappingManagerInterface;
-use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgEntityKernelTestBase;
 
 /**
  * Tests the functionality of the Schema.org Corresponding Entity References manager.

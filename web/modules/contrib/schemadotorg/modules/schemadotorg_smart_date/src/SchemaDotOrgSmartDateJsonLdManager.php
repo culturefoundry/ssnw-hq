@@ -281,7 +281,7 @@ class SchemaDotOrgSmartDateJsonLdManager implements SchemaDotOrgSmartDateJsonLdM
     }
 
     // If present, process a limit string.
-    $limit_string = $rule->limit->value;
+    $limit_string = $rule->get('limit')->value;
     if ($limit_string) {
       $limit_parts = explode('=', $limit_string);
       if ($limit_parts[0] === 'COUNT') {
@@ -354,7 +354,7 @@ class SchemaDotOrgSmartDateJsonLdManager implements SchemaDotOrgSmartDateJsonLdM
    * @see https://en.wikipedia.org/wiki/ISO_8601#Repeating_intervals
    */
   protected function formatInterval(SmartDateRule $rule): string {
-    $freq = $rule->freq->value ?? '';
+    $freq = $rule->get('freq')->value ?? '';
     if (empty($freq)) {
       return '';
     }

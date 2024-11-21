@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Drupal\Tests\schemadotorg_jsonld_breadcrumb\Kernel;
 
 use Drupal\Core\Url;
+use Drupal\Tests\schemadotorg_jsonld\Kernel\SchemaDotOrgJsonLdKernelTestBase;
 use Drupal\node\Entity\Node;
 use Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdBuilderInterface;
 use Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdManagerInterface;
-use Drupal\Tests\schemadotorg_jsonld\Kernel\SchemaDotOrgJsonLdKernelTestBase;
 
 /**
  * Tests the functionality of the Schema.org JSON-LD breadcrumb.

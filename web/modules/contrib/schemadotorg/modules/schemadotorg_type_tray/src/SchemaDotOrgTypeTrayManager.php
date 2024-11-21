@@ -24,7 +24,7 @@ class SchemaDotOrgTypeTrayManager implements SchemaDotOrgTypeTrayManagerInterfac
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $configFactory
    *   The config factory service.
-   * @param \Drupal\Core\Extension\ModuleExtensionList $extensionListModule
+   * @param \Drupal\Core\Extension\ModuleExtensionList $moduleExtensionList
    *   The module extension list.
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $moduleHandler
    *   The module handler service.
@@ -35,7 +35,7 @@ class SchemaDotOrgTypeTrayManager implements SchemaDotOrgTypeTrayManagerInterfac
    */
   public function __construct(
     protected ConfigFactoryInterface $configFactory,
-    protected ModuleExtensionList $extensionListModule,
+    protected ModuleExtensionList $moduleExtensionList,
     protected ModuleHandlerInterface $moduleHandler,
     protected SchemaDotOrgNamesInterface $schemaNames,
     protected SchemaDotOrgSchemaTypeManagerInterface $schemaTypeManager,
@@ -123,8 +123,6 @@ class SchemaDotOrgTypeTrayManager implements SchemaDotOrgTypeTrayManagerInterfac
    *   A file path for a Schema.org type by breadcrumb and module.
    */
   protected function getFilePath(SchemaDotOrgMappingInterface $mapping, string $type): string {
-    global $base_path;
-
     // Get installed module names with the 'schemadotorg_type_tray' module last.
     $module_names = array_keys($this->moduleHandler->getModuleList());
     $module_names = array_combine($module_names, $module_names);
@@ -134,9 +132,9 @@ class SchemaDotOrgTypeTrayManager implements SchemaDotOrgTypeTrayManagerInterfac
     // Look for the file path by bundle.
     $bundle = $mapping->getTargetBundle();
     foreach ($module_names as $module_name) {
-      $file_path = $this->extensionListModule->getPath($module_name) . "/images/schemadotorg_type_tray/$type/$bundle.png";
+      $file_path = $this->moduleExtensionList->getPath($module_name) . "/images/schemadotorg_type_tray/$type/$bundle.png";
       if (file_exists($file_path)) {
-        return $base_path . $file_path;
+        return $this->getBasePath() . $file_path;
       }
     }
 
@@ -147,14 +145,27 @@ class SchemaDotOrgTypeTrayManager implements SchemaDotOrgTypeTrayManagerInterfac
       foreach ($breadcrumb_types as $breadcrumb_type) {
         $file_name = $this->schemaNames->camelCaseToSnakeCase($breadcrumb_type);
         foreach ($module_names as $module_name) {
-          $file_path = $this->extensionListModule->getPath($module_name) . "/images/schemadotorg_type_tray/$type/$file_name.png";
+          $file_path = $this->moduleExtensionList->getPath($module_name) . "/images/schemadotorg_type_tray/$type/$file_name.png";
           if (file_exists($file_path)) {
-            return $base_path . $file_path;
+            return $this->getBasePath() . $file_path;
           }
         }
       }
     }
     return '';
+  }
+
+  /**
+   * Get the base path.
+   *
+   * This method accounts for recipes that set '/core/scripts' as the base path.
+   *
+   * @return string
+   *   The base path.
+   */
+  protected function getBasePath(): string {
+    global $base_path;
+    return ($base_path === 'core/scripts/') ? '/' : $base_path;
   }
 
   /**

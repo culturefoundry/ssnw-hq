@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\schemadotorg_jsonld\Unit;
 
-use Drupal\schemadotorg_jsonld\Utility\SchemaDotOrgJsonLdHelper;
 use Drupal\Tests\UnitTestCase;
+use Drupal\schemadotorg_jsonld\Utility\SchemaDotOrgJsonLdHelper;
 
 /**
  * @coversDefaultClass \Drupal\schemadotorg_jsonld\Utility\SchemaDotOrgJsonLdHelper

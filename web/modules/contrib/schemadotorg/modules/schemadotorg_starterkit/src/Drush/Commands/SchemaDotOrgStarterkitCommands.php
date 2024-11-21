@@ -6,6 +6,7 @@ namespace Drupal\schemadotorg_starterkit\Drush\Commands;
 
 use Consolidation\AnnotatedCommand\CommandData;
 use Drupal\Component\DependencyInjection\ContainerInterface;
+use Drupal\schemadotorg_starterkit\SchemaDotOrgStarterkitConverterInterface;
 use Drupal\schemadotorg_starterkit\SchemaDotOrgStarterkitManagerInterface;
 use Drush\Commands\DrushCommands;
 use Drush\Exceptions\UserAbortException;
@@ -19,11 +20,14 @@ class SchemaDotOrgStarterkitCommands extends DrushCommands {
   /**
    * Constructs a SchemaDotOrgStarterkitCommands object.
    *
-   * @param \Drupal\schemadotorg_starterkit\SchemaDotOrgStarterkitManagerInterface $starterKitManager
+   * @param \Drupal\schemadotorg_starterkit\SchemaDotOrgStarterkitManagerInterface $starterkitManager
    *   The Schema.org starter kit manager.
+   * @param \Drupal\schemadotorg_starterkit\SchemaDotOrgStarterkitConverterInterface $starterkitConverter
+   *   The Schema.org starter kit converter.
    */
   public function __construct(
-    protected SchemaDotOrgStarterkitManagerInterface $starterKitManager,
+    protected SchemaDotOrgStarterkitManagerInterface $starterkitManager,
+    protected SchemaDotOrgStarterkitConverterInterface $starterkitConverter,
   ) {}
 
   /**
@@ -31,7 +35,8 @@ class SchemaDotOrgStarterkitCommands extends DrushCommands {
    */
   public static function create(ContainerInterface $container): self {
     return new static(
-      $container->get('schemadotorg_starterkit.manager')
+      $container->get('schemadotorg_starterkit.manager'),
+      $container->get('schemadotorg_starterkit.converter')
     );
   }
 
@@ -68,7 +73,7 @@ class SchemaDotOrgStarterkitCommands extends DrushCommands {
    * @usage drush schemadotorg:starterkit-info schemadotorg_starterkit_events
    */
   public function info(string $name): void {
-    $settings = $this->starterKitManager->getStarterkitSettings($name);
+    $settings = $this->starterkitManager->getStarterkitSettings($name);
     $this->output()->writeln('Types');
     $this->output()->writeln('');
     foreach ($settings['types'] as $type => $mapping_defaults) {
@@ -89,7 +94,7 @@ class SchemaDotOrgStarterkitCommands extends DrushCommands {
   /* ************************************************************************ */
 
   /**
-   * Allow users to choose the starter kit to be install.
+   * Allow users to choose the starter kit to be installed.
    *
    * @hook interact schemadotorg:starterkit-install
    */
@@ -120,7 +125,7 @@ class SchemaDotOrgStarterkitCommands extends DrushCommands {
    */
   public function install(string $name): void {
     $this->confirmStarterkit($name, dt('install'), TRUE);
-    $this->starterKitManager->install($name);
+    $this->starterkitManager->install($name);
   }
 
   /* ************************************************************************ */
@@ -159,7 +164,7 @@ class SchemaDotOrgStarterkitCommands extends DrushCommands {
    */
   public function update(string $name): void {
     $this->confirmStarterkit($name, dt('update'), TRUE);
-    $this->starterKitManager->update($name);
+    $this->starterkitManager->update($name);
   }
 
   /* ************************************************************************ */
@@ -198,7 +203,7 @@ class SchemaDotOrgStarterkitCommands extends DrushCommands {
    */
   public function generate(string $name): void {
     $this->confirmStarterkit($name, dt('generate'));
-    $this->starterKitManager->generate($name);
+    $this->starterkitManager->generate($name);
   }
 
   /* ************************************************************************ */
@@ -237,7 +242,45 @@ class SchemaDotOrgStarterkitCommands extends DrushCommands {
    */
   public function kill(string $name): void {
     $this->confirmStarterkit($name, dt('kill'));
-    $this->starterKitManager->kill($name);
+    $this->starterkitManager->kill($name);
+  }
+
+  /* ************************************************************************ */
+  // Convert.
+  /* ************************************************************************ */
+
+  /**
+   * Allow users to choose the starter kit to convert.
+   *
+   * @hook interact schemadotorg:starterkit-convert
+   */
+  public function convertInteract(InputInterface $input): void {
+    $this->interactChooseStarterkit($input, dt('convert'));
+  }
+
+  /**
+   * Validates the Schema.org starter kit convert.
+   *
+   * @hook validate schemadotorg:starterkit-convert
+   */
+  public function convertValidate(CommandData $commandData): void {
+    $this->validateStarterkit($commandData);
+  }
+
+  /**
+   * Convert a Schema.org starter kit to a recipe.
+   *
+   * @param string $name
+   *   The name of starter kit.
+   *
+   * @command schemadotorg:starterkit-convert
+   *
+   * @usage drush schemadotorg:starterkit-convert schemadotorg_starterkit_events
+   */
+  public function convert(string $name): void {
+    $this->confirmStarterkit($name, dt('convert'));
+    $this->starterkitConverter->convert($name);
+    $this->output()->writeln("Created $name/recipe.yml");
   }
 
   /* ************************************************************************ */
@@ -258,14 +301,21 @@ class SchemaDotOrgStarterkitCommands extends DrushCommands {
       return;
     }
 
-    if ($action === 'install') {
-      $starterkits = array_diff_key(
-        $this->starterKitManager->getStarterkits(),
-        $this->starterKitManager->getStarterkits(TRUE)
-      );
-    }
-    else {
-      $starterkits = $this->starterKitManager->getStarterkits(TRUE);
+    switch ($action) {
+      case 'install':
+        $starterkits = array_diff_key(
+          $this->starterkitManager->getStarterkits(),
+          $this->starterkitManager->getStarterkits(TRUE)
+        );
+        break;
+
+      case 'convert':
+        $starterkits = $this->starterkitManager->getStarterkits();
+        break;
+
+      default:
+        $starterkits = $this->starterkitManager->getStarterkits(TRUE);
+        break;
     }
 
     if (empty($starterkits)) {
@@ -284,7 +334,7 @@ class SchemaDotOrgStarterkitCommands extends DrushCommands {
   protected function validateStarterkit(CommandData $commandData): void {
     $arguments = $commandData->getArgsWithoutAppName();
     $name = $arguments['name'] ?? '';
-    $starterkit = $this->starterKitManager->getStarterkit($name);
+    $starterkit = $this->starterkitManager->getStarterkit($name);
     if (!$starterkit) {
       throw new \Exception(dt("Schema.org starter kit '@name' not found.", ['@name' => $name]));
     }

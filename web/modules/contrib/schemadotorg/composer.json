@@ -17,7 +17,7 @@
         "source": "https://git.drupalcode.org/project/schemadotorg"
     },
     "require": {
-        "drupal/core": "^10.3",
+        "drupal/core": "^10.3 || ^11",
         "drush/drush": "^12.0 || ^13.0"
     },
     "require-dev": {
@@ -27,7 +27,6 @@
         "drupal/cer": "^5.0",
         "drupal/ckeditor5_embedded_content": "^1.0",
         "drupal/config_rewrite": "^1.0",
-        "drupal/content_browser": "^1.0",
         "drupal/content_model_documentation": "^1.0",
         "drupal/custom_field": "^3.0",
         "drupal/devel": "^5.0",
@@ -51,6 +50,7 @@
         "drupal/office_hours": "^1.0",
         "drupal/paragraphs": "^1.0",
         "drupal/pathauto": "^1.0",
+        "drupal/physical": "^1.4",
         "drupal/range": "^1.0",
         "drupal/rdf": "^2.0",
         "drupal/scheduler": "^2.0",

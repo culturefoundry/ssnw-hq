@@ -23,7 +23,6 @@
     "drupal/auto_entitylabel": "^3.0",
     "drupal/cer": "^5.0",
     "drupal/config_rewrite": "^1.0",
-    "drupal/content_browser": "^1.0",
     "drupal/content_model_documentation": "^1.0",
     "drupal/custom_field": "^3.0",
     "drupal/embed": "^1.0",
@@ -47,6 +46,7 @@
     "drupal/office_hours": "^1.0",
     "drupal/paragraphs": "^1.0",
     "drupal/pathauto": "^1.0",
+    "drupal/physical": "^1.0",
     "drupal/scheduler": "^2.0",
     "drupal/simple_sitemap": "^4.0",
     "drupal/smart_date": "^4.1",
@@ -71,13 +71,23 @@
       "drupal/cer": {
         "Issue #2998138: Could support Remove field name prefix module?": "https://www.drupal.org/files/issues/2018-09-17/support_fields_without_prefix-2998138-4-D8.patch"
       },
+      "drupal/entity_reference_revisions": {
+        "Issue #3265084: EntityReferenceRevisionsItem:generateSampleValue can break when all bundle types are allowed": "https://www.drupal.org/files/issues/2022-02-18/treat-no-selection-as-all-3265084-2.patch"
+      },
+      "drupal/entity_browser": {
+        "Issue #2914385: Warning: key() expects parameter 1 to be array, null given in Drupal\\entity_browser\\Plugin\\Field\\FieldWidget\\EntityReferenceBrowserWidget::processEntityBrowser()": "https://www.drupal.org/files/issues/2024-06-12/2914385-35.patch",
+        "Issue #3012432: Broken views exposed form in modals": "https://www.drupal.org/files/issues/2020-04-29/3012432-4_remove_enctype_on_views_widget.patch",
+        "Issue #3130748: Exposed filter's JS events not attached on initial load": "https://www.drupal.org/files/issues/2022-12-07/entity_browser-3130748-3.patch",
+        "Issue #2946829: Make submit button on modal always visible": "https://www.drupal.org/files/issues/2020-10-19/2946829-submit-button-always-visible-on-modals-4.patch"
+      },
       "drupal/config_views": {
         "Issue #3378687: Dynamic property issue in ConfigEntityQuery with PHP 8.2": "https://www.drupal.org/files/issues/2023-08-02/config_views-fix-dynamic-property-3378687-2.patch"
       },
       "drupal/mercury_editor": {
         "Issue #3468130: Allow query string parameters to be passed to node form to mercury editor": "https://www.drupal.org/files/issues/2024-08-27/mercury_editor-issue-3468130-comment-6.patch",
         "Issue #3468531: Allow fields that do not start with 'field_' to be included the edit component 'Content' tab": "https://www.drupal.org/files/issues/2024-08-16/mercury_editor-issues-3468531-comment-3.patch",
-        "Issue #3468995: Hide 'Layout' tab when there is only one available layout for a component": "https://www.drupal.org/files/issues/2024-08-19/mercury_editor-issue-3468995-comment-3.patch"
+        "Issue #3468995: Hide 'Layout' tab when there is only one available layout for a component": "https://www.drupal.org/files/issues/2024-08-19/mercury_editor-issue-3468995-comment-3.patch",
+        "Issue #3401444: Entity Browsers within paragraphs don't reliably select entities": "https://www.drupal.org/files/issues/2024-10-23/mercury_editor-issue-3401444-mr-24.patch"
       },
       "drupal/type_tray": {
         "Issue #3417679: Add type tray icon to node edit and related tasks": "https://www.drupal.org/files/issues/2024-01-28/issue-3417679-mr-22.patch"

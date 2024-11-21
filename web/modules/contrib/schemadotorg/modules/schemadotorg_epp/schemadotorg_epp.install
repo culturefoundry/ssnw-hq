@@ -7,7 +7,7 @@
 
 declare(strict_types=1);
 
-use Drupal\Component\Serialization\Yaml;
+use Drupal\schemadotorg_epp\SchemaDotOrgEppManagerInterface;
 
 /**
  * Implements hook_install().
@@ -30,13 +30,11 @@ function schemadotorg_epp_install(bool $is_syncing): void {
 }
 
 /**
- * Issue #3454315: Improve Schema.org Blueprints Entity Prepopulate module node links support.
+ * Reset node links display to a dropdown.
  */
-function schemadotorg_epp_update_10000(): void {
-  $module_path = \Drupal::service('extension.list.module')->getPath('schemadotorg_epp');
-  $data = Yaml::decode(file_get_contents($module_path . '/config/install/schemadotorg_epp.settings.yml'));
-  \Drupal::configFactory()
-    ->getEditable('schemadotorg_epp.settings')
-    ->set('node_links', $data['node_links'])
+function schemadotorg_epp_update_10002(): void {
+  \Drupal::configFactory()->getEditable('schemadotorg_epp.settings')
+    ->set('node_links_display', SchemaDotOrgEppManagerInterface::DROPDOWN)
+    ->clear('node_links_dropdown')
     ->save();
 }

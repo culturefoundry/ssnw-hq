@@ -43,7 +43,7 @@ class SchemaDotOrgTaxonomyJsonLdManager implements SchemaDotOrgTaxonomyJsonLdMan
   /**
    * {@inheritdoc}
    */
-  public function load(array &$data, EntityInterface $entity, ?SchemaDotOrgMappingInterface $mapping, BubbleableMetadata $bubbleable_metadata): void {
+  public function schemaTypeEntityLoad(array &$data, EntityInterface $entity, ?SchemaDotOrgMappingInterface $mapping, BubbleableMetadata $bubbleable_metadata): void {
     if (!$entity instanceof VocabularyInterface) {
       return;
     }
@@ -70,7 +70,7 @@ class SchemaDotOrgTaxonomyJsonLdManager implements SchemaDotOrgTaxonomyJsonLdMan
   /**
    * {@inheritdoc}
    */
-  public function alter(array &$data, EntityInterface $entity, ?SchemaDotOrgMappingInterface $mapping): void {
+  public function schemaTypeEntityAlter(array &$data, EntityInterface $entity, ?SchemaDotOrgMappingInterface $mapping): void {
     // Make sure this is a term with a mapping.
     if (!$entity instanceof TermInterface
       || !$mapping) {

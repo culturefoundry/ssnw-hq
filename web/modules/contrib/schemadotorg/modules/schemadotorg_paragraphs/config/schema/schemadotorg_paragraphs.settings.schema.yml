@@ -8,12 +8,3 @@ schemadotorg_paragraphs.settings:
       sequence:
         type: string
         label: 'Schema.org type'
-    schema_property_access:
-      type: sequence
-      label: 'Schema.org type property access'
-      sequence:
-        type: sequence
-        label: 'Schema.org type'
-        sequence:
-          type: string
-          label: 'Schema.org property'

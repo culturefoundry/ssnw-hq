@@ -27,7 +27,7 @@ interface SchemaDotOrgTaxonomyJsonLdManagerInterface {
    *
    * @see hook_schemadotorg_jsonld_schema_type_entity_load()
    */
-  public function load(array &$data, EntityInterface $entity, ?SchemaDotOrgMappingInterface $mapping, BubbleableMetadata $bubbleable_metadata): void;
+  public function schemaTypeEntityLoad(array &$data, EntityInterface $entity, ?SchemaDotOrgMappingInterface $mapping, BubbleableMetadata $bubbleable_metadata): void;
 
   /**
    * Alter Schema.org JSON-LD for an entity.
@@ -41,7 +41,7 @@ interface SchemaDotOrgTaxonomyJsonLdManagerInterface {
    *
    * @see hook_schemadotorg_jsonld_schema_type_entity_alter()
    */
-  public function alter(array &$data, EntityInterface $entity, ?SchemaDotOrgMappingInterface $mapping): void;
+  public function schemaTypeEntityAlter(array &$data, EntityInterface $entity, ?SchemaDotOrgMappingInterface $mapping): void;
 
   /**
    * Preprocess block alter JSON-LD preview Term endpoint.

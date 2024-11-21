@@ -83,6 +83,22 @@ Intangible: entity
 node--Thing: url
 media--image: '[media:field_media_image:1x1:url], [media:field_media_image:4x3:url], [media:field_media_image:16x9:url]'
 paragraph--layout: none
+
+# Source patterns (must include the Schema.property or field name)
+source_entity_type_id--source_bundle--schemaProperty: none
+source_entity_type_id--SourceSchemaType--schemaProperty: none
+source_bundle--schemaProperty: none
+SourceSchemaType--schemaProperty: none
+source_entity_type_id--source_bundle--field_name: none
+source_entity_type_id--SourceSchemaType--field_name: none
+source_bundle--field_name: none
+SourceSchemaType--field_name: none
+
+# Target patterns
+target_entity_type_id--target_bundle: none
+target_entity_type_id--TargetSchemaType: none
+target_bundle: none
+TargetSchemaType: none
 ",
     ];
     $form['schemadotorg_jsonld']['exclude_url'] = [

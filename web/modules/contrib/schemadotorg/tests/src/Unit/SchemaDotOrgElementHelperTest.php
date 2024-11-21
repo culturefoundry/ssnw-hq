@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\schemadotorg\Unit;
 
-use Drupal\schemadotorg\Utility\SchemaDotOrgElementHelper;
 use Drupal\Tests\UnitTestCase;
+use Drupal\schemadotorg\Utility\SchemaDotOrgElementHelper;
 
 /**
  * @coversDefaultClass \Drupal\schemadotorg\Utility\SchemaDotOrgElementHelper

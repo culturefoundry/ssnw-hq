@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\schemadotorg_address\Kernel;
 
+use Drupal\Tests\schemadotorg_jsonld\Kernel\SchemaDotOrgJsonLdKernelTestBase;
 use Drupal\node\Entity\Node;
 use Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdBuilderInterface;
-use Drupal\Tests\schemadotorg_jsonld\Kernel\SchemaDotOrgJsonLdKernelTestBase;
 
 /**
  * Tests the functionality of the Schema.org address module JSON-LD integration.
  *
- * @covers address_schemadotorg_jsonld_schema_property_alter(()
+ * @covers schemadotorg_address_schemadotorg_jsonld_schema_property_alter(()
  * @group schemadotorg
  */
 class SchemaDotOrgAddressJsonLdKernelTest extends SchemaDotOrgJsonLdKernelTestBase {

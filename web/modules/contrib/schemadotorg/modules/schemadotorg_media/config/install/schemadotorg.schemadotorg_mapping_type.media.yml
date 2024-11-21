@@ -5,7 +5,7 @@ dependencies:
     - media
 id: media
 target_entity_type_id: media
-multiple: false
+multiple: true
 label_prefix: ''
 id_prefix: ''
 recommended_schema_types:

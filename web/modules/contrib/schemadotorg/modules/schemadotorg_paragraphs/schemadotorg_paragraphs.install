@@ -20,3 +20,12 @@ function schemadotorg_paragraphs_install(): void {
     $paragraphs_type->save();
   }
 }
+
+/**
+ * Remove Schema.org type property access support.
+ */
+function schemadotorg_paragraphs_update_10000(): void {
+  \Drupal::configFactory()->getEditable('schemadotorg_paragraphs.settings')
+    ->clear('schema_property_access')
+    ->save();
+}

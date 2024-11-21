@@ -7,10 +7,10 @@
 
 declare(strict_types=1);
 
-use Drupal\address\AddressInterface;
 use Drupal\Core\Field\FieldItemInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\BubbleableMetadata;
+use Drupal\address\AddressInterface;
 
 /**
  * Implements hook_schemadotorg_property_field_alter().
@@ -52,7 +52,7 @@ function schemadotorg_address_schemadotorg_property_field_alter(
 }
 
 /**
- * Implements hook_schemadotorg_jsonld_schema_property_alter() for the address.module.
+ * Implements hook_schemadotorg_jsonld_schema_property_alter() for the address module.
  */
 function schemadotorg_address_schemadotorg_jsonld_schema_property_alter(mixed &$value, FieldItemInterface $item, BubbleableMetadata $bubbleable_metadata): void {
   $field_type = $item->getFieldDefinition()->getType();

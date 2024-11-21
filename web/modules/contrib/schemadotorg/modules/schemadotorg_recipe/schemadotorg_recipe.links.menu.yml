@@ -1,0 +1,6 @@
+schemadotorg.recipe:
+  title: 'Recipes'
+  parent: schemadotorg.overview
+  description: 'List of recipes that can be installed and managed using the below admin UI or Drush.'
+  route_name: schemadotorg_recipe.overview
+  weight: 30

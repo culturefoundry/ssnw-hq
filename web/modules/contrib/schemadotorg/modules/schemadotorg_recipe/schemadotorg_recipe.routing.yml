@@ -1,0 +1,23 @@
+schemadotorg_recipe.overview:
+  path: /admin/config/schemadotorg/recipes
+  defaults:
+    _title: 'Schema.org recipes'
+    _controller: '\Drupal\schemadotorg_recipe\Controller\SchemadotorgRecipeController::overview'
+  requirements:
+    _permission: 'administer schemadotorg'
+
+schemadotorg_recipe.details:
+  path: '/admin/config/schemadotorg/recipes/{name}'
+  defaults:
+    _title: 'Schema.org recipe'
+    _controller: '\Drupal\schemadotorg_recipe\Controller\SchemadotorgRecipeController::details'
+  requirements:
+    _permission: 'administer schemadotorg'
+
+schemadotorg_recipe.confirm_form:
+  path: '/admin/config/schemadotorg/recipes/{name}/{operation}'
+  defaults:
+    _title: 'Schema.org recipe confirm'
+    _form: Drupal\schemadotorg_recipe\Form\SchemaDotOrgRecipeConfirmForm
+  requirements:
+    _permission: 'administer schemadotorg'

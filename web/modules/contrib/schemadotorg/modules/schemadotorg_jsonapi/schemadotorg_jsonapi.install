@@ -10,7 +10,11 @@ declare(strict_types=1);
 /**
  * Implements hook_install().
  */
-function schemadotorg_jsonapi_install(): void {
+function schemadotorg_jsonapi_install(bool $is_syncing): void {
+  if ($is_syncing) {
+    return;
+  }
+
   // Setting weight to 1 so that JSON:API resource is created after the
   // Schema.org mapping and related fields are inserted.
   // @see schemadotorg_jsonapi_schemadotorg_mapping_insert()

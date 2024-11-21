@@ -244,8 +244,8 @@ schema_types:
     Statement:
       - text
     Thesis:
-      - name
       - associatedMedia
+      - name
     VisualArtwork:
       - artMedium
       - artform
@@ -367,10 +367,10 @@ schema_types:
       - ratingValue
     Schedule:
       - duration
-      - repeatFrequency
-      - repeatCount
-      - startDate
       - endDate
+      - repeatCount
+      - repeatFrequency
+      - startDate
     Service:
       - availableChannel
       - description
@@ -437,8 +437,8 @@ schema_types:
       - '-value'
       - '-valueReference'
       - description
-      - image
       - hoursAvailable
+      - image
       - validFrom
       - validThrough
     QuantitativeValue:
@@ -687,7 +687,6 @@ schema_types:
       - vehicleInteriorColor
       - vehicleInteriorType
       - vehicleModelDate
-      - vehicleSeatingCapacity
       - vehicleSeatingCapacity
       - vehicleTransmission
     PronounceableText:

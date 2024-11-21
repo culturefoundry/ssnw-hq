@@ -30,7 +30,6 @@
         const description = element.parentNode;
         description.after(element);
 
-
         // Define the toggle event handler.
         function toggle(event) {
           const expanded = a.getAttribute('aria-expanded') === 'true';

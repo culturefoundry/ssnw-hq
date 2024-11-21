@@ -30,6 +30,7 @@ class SchemaDotOrgInlineEntityFormKernelTest extends SchemaDotOrgEntityKernelTes
    */
   protected static $modules = [
     'inline_entity_form',
+    'entity_browser',
     'schemadotorg_inline_entity_form',
   ];
 
@@ -51,6 +52,19 @@ class SchemaDotOrgInlineEntityFormKernelTest extends SchemaDotOrgEntityKernelTes
     // Clear the default type for alumniOf.
     $this->config('schemadotorg.settings')
       ->clear('schema_properties.default_fields.alumniOf.type')
+      ->save();
+
+    $this->installConfig('entity_browser');
+
+    \Drupal::entityTypeManager()
+      ->getStorage('entity_browser')
+      ->create([
+        'name' => 'browse_content',
+        'label' => 'browse_content',
+        'display' => 'modal',
+        'selection_display' => 'no_display',
+        'widget_selector' => 'tabs',
+      ])
       ->save();
 
     $this->entityDisplayRepository = $this->container->get('entity_display.repository');

@@ -42,7 +42,7 @@ class SchemaDotOrgJsonLdPreviewController extends ControllerBase {
    *   A node.
    *
    * @return array
-   *   A renderable array containing the the Schema.org JSON-LD preview.
+   *   A renderable array containing the Schema.org JSON-LD preview.
    */
   public function index(string $format, NodeInterface $node): array {
     $route_match = $this->manager->getEntityRouteMatch($node);

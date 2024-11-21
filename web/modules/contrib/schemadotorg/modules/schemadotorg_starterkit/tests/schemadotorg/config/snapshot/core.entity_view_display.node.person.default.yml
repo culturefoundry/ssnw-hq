@@ -27,11 +27,11 @@ third_party_settings:
     group_general:
       children:
         - schema_additional_name
-        - body
         - schema_family_name
         - schema_given_name
         - schema_image
         - schema_knows_language
+        - body
         - title
       label: General
       parent_name: ''

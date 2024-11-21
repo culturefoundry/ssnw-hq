@@ -13,7 +13,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * Provides local task definitions for all entity bundles.
  */
-final class SchemaDotOrgUiLocalTask extends DeriverBase implements ContainerDeriverInterface {
+class SchemaDotOrgUiLocalTask extends DeriverBase implements ContainerDeriverInterface {
   use StringTranslationTrait;
 
   /**
