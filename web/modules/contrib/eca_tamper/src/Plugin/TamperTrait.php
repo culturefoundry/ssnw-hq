@@ -129,13 +129,27 @@ trait TamperTrait {
       if (in_array($key, [$dataKey, $tokenKey], TRUE)) {
         continue;
       }
-      $config[$key] = $regexPlugin && $key === FindReplaceRegex::SETTING_FIND ?
-        $this->tokenService->replace($this->configuration[$key]) :
-        $this->tokenService->replaceClear($this->configuration[$key]);
+      $configValue = $this->configuration[$key];
+      if (is_array($configValue)) {
+        $token = $this->tokenService;
+        array_walk_recursive($configValue, static function (&$value) use ($token) {
+          if (!empty($value) && is_string($value)) {
+            $value = (string) $token->replaceClear($value);
+          }
+        });
+        $config[$key] = $configValue;
+      }
+      elseif ($regexPlugin && $key === FindReplaceRegex::SETTING_FIND) {
+        $config[$key] = $this->tokenService->replace($configValue);
+      }
+      else {
+        $config[$key] = $this->tokenService->replaceClear($configValue);
+      }
     }
     $tamperPlugin->setConfiguration($config);
     if (empty($tamperPlugin->getPluginDefinition()['handle_multiples']) ||
       ($tamperPlugin instanceof Encode && in_array($config[Encode::SETTING_MODE], [
+        'base64_encode',
         'unserialize',
         'json_decode',
         'base64_decode',

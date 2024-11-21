@@ -7,7 +7,7 @@ dependencies:
   - eca:eca (^2)
   - tamper:tamper
 
-# Information added by Drupal.org packaging script on 2024-10-11
-version: '2.0.1'
+# Information added by Drupal.org packaging script on 2024-11-12
+version: '2.0.2'
 project: 'eca_tamper'
-datestamp: 1728647735
+datestamp: 1731415295
