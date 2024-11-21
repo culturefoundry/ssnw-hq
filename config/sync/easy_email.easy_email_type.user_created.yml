@@ -15,10 +15,10 @@ replyToAddress: ''
 subject: 'Your account at SSNW has been created'
 inboxPreview: ''
 bodyHtml:
-  value: '<p>[easy_email:field_new_account:entity:field_first_name] [easy_email:field_new_account:entity:field_last_name]</p><p>A site administrator at [site:name] has created an account for you. You may now log in by visiting the <a href="[easy_email:field_new_account:entity:one-time-login-url]">Reset Link</a> and setting up your account.</p><p>This link can only be used once to log in and will lead you to a page where you can set your password.</p><p>After setting your password, you will be able to log in at [site:login-url] in the future using:</p><p>username: [user:name]<br>password: Your password</p><p>-- &nbsp;[site:name] team</p>'
+  value: '<p>[easy_email:field_new_account:entity:field_first_name] [easy_email:field_new_account:entity:field_last_name]</p><p>A site administrator at [site:name] has created an account for you. You may now log in by visiting the <a href="[easy_email:field_new_account:entity:one-time-login-url]">Reset Link</a> and setting up your account.</p><p>This link can only be used once to log in and will lead you to a page where you can set your password.</p><p>After setting your password, you will be able to log in at [site:login-url] in the future using:</p><p>username: [easy_email:field_new_account:entity:name]<br>password: Your password</p><p>-- &nbsp;[site:name] team</p>'
   format: full_html
 bodyPlain: ''
-generateBodyPlain: false
+generateBodyPlain: true
 attachment: {  }
 saveAttachment: false
 attachmentScheme: private

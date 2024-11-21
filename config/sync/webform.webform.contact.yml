@@ -47,16 +47,19 @@ elements: |-
     '#placeholder': (City/State)
   select_services_interested_in:
     '#type': select
-    '#title': '- Select Services Interested In -'
+    '#title': 'How can we help?'
     '#title_display': none
     '#options':
       'Security Officers & Patrol': 'Security Officers & Patrol'
-      'Alarm Systems': 'Alarm Systems'
+      'Alarm & Camera Systems': 'Alarm & Camera Systems'
       'Remote Monitoring': 'Remote Monitoring'
       'Robots & Drones': 'Robots & Drones'
       'Maritime Security': 'Maritime Security'
       'Answering Services': 'Answering Services'
-    '#empty_option': '- Select Services Interested In -'
+      Employment: Employment
+      Other: Other
+    '#empty_option': '- How can we help? -'
+    '#required': true
   message:
     '#title': Message
     '#type': textarea
@@ -68,6 +71,9 @@ elements: |-
     '#type': webform_actions
     '#title': 'Submit button(s)'
     '#submit__label': 'Send message'
+  footer:
+    '#type': webform_markup
+    '#markup': '<p><em>By submitting this form, you consent to be contacted by Security Services Northwest, Inc. via phone or email regarding the contents of this form.</em></p>'
 css: ''
 javascript: ''
 settings:
@@ -257,7 +263,7 @@ handlers:
     handler_id: email_confirmation
     label: 'Email confirmation'
     notes: ''
-    status: true
+    status: false
     conditions: {  }
     weight: 1
     settings:
@@ -277,7 +283,7 @@ handlers:
       sender_mail: ''
       sender_name: ''
       subject: 'Thank you for contacting Security Services Northwest'
-      body: '<p>Thank you for contacting Security Services Northwest. We will get back to you as soon as we can. Here is a copy of the information you submitted:</p><p>Submitted on [webform_submission:created]</p><p>[webform_submission:values]</p>'
+      body: '<p>Thank you for contacting Security Services Northwest. Here is a copy of the information you submitted:</p><p>Submitted on [webform_submission:created]</p><p>[webform_submission:values]</p>'
       excluded_elements:
         captcha: captcha
       ignore_access: false
@@ -296,7 +302,10 @@ handlers:
     label: 'Email notification'
     notes: ''
     status: true
-    conditions: {  }
+    conditions:
+      enabled:
+        ':input[name="select_services_interested_in"]':
+          '!value': Employment
     weight: 2
     settings:
       states:
@@ -315,6 +324,47 @@ handlers:
       sender_mail: ''
       sender_name: ''
       subject: 'New Contact from SSNW Website'
+      body: '<p>Submitted on [webform_submission:created]</p><p>[webform_submission:values]</p>'
+      excluded_elements:
+        captcha: captcha
+      ignore_access: false
+      exclude_empty: false
+      exclude_empty_checkbox: false
+      exclude_attachments: false
+      html: true
+      attachments: false
+      twig: false
+      theme_name: ''
+      parameters: {  }
+      debug: false
+  email:
+    id: email
+    handler_id: email
+    label: 'Employment Email'
+    notes: 'sends email to HR and Director of HR for people are interested in employment'
+    status: true
+    conditions:
+      enabled:
+        ':input[name="select_services_interested_in"]':
+          value: Employment
+    weight: 2
+    settings:
+      states:
+        - completed
+      to_mail: hr@ssnwhq.com
+      to_options: {  }
+      bcc_mail: 'cordi@ssnwhq.com, marketing@ssnwhq.com'
+      bcc_options: {  }
+      cc_mail: ''
+      cc_options: {  }
+      from_mail: _default
+      from_options: {  }
+      from_name: '[webform_submission:values:name:raw]'
+      reply_to: '[webform_submission:values:email:raw]'
+      return_path: ''
+      sender_mail: ''
+      sender_name: ''
+      subject: 'Employment Inquiry from SSNW Website'
       body: '<p>Submitted on [webform_submission:created]</p><p>[webform_submission:values]</p>'
       excluded_elements:
         captcha: captcha
