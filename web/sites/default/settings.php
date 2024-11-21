@@ -8,13 +8,14 @@ $settings['update_free_access'] = FALSE;
 
 $settings['container_yamls'][] = $app_root . '/' . $site_path . '/services.yml';
 
-/*$settings['trusted_host_patterns'] = [
-  '^programminglibrarian\.org$',
-  '^.*\.programminglibrarian\.org$',
-  '^.*\.plib\.freelock\.net$',
-  '^plib\.freelock\.com$',
-  'plib\.ddev\.site$',
-];*/
+$settings['trusted_host_patterns'] = [
+  '^ssnwhq\.com$',
+  '^.*\.ssnwhq\.com$',
+  '^.*\.ssnw\.freelock\.net$',
+  '^ssnw\.freelock\.com$',
+  'ssnw\.ddev\.site$',
+  '*-ssnw-hq-pantheonsite.io',
+];
 $settings['file_private_path'] = '/var/www/conf/ssnw/private';
 
 $settings['file_scan_ignore_directories'] = [
