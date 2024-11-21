@@ -9,6 +9,7 @@ import {
 } from 'bpmn-js-element-templates';
 import CamundaBpmnModdle from 'camunda-bpmn-moddle/resources/camunda.json'
 import ElementTemplateChooserModule from '@bpmn-io/element-template-chooser';
+import { layoutProcess } from 'bpmn-auto-layout';
 
 window.modeller = new BpmnModeler({
     container: '#bpmn-io .canvas',
@@ -30,3 +31,5 @@ window.modeller = new BpmnModeler({
     },
     elementTemplates: [],
   });
+
+window.layoutProcess = layoutProcess;

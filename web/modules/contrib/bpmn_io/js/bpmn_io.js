@@ -33,11 +33,20 @@
         }
 
         Drupal.bpmn_io.modeller = window.modeller;
+        Drupal.bpmn_io.layoutProcess = window.layoutProcess;
         Drupal.bpmn_io.loader = Drupal.bpmn_io.modeller.get('elementTemplatesLoader');
         Drupal.bpmn_io.loader.setTemplates(settings.bpmn_io.templates);
         Drupal.bpmn_io.open(settings.bpmn_io.bpmn, !settings.bpmn_io.isnew);
         $('input.button.eca-save').click(function () {
           Drupal.bpmn_io.export();
+          return false;
+        });
+        $('input.button.eca-export-svg').click(function () {
+          Drupal.bpmn_io.saveSVG();
+          return false;
+        });
+        $('input.button.eca-layout-process').click(function () {
+          Drupal.bpmn_io.autoLayout();
           return false;
         });
         $('input.button.eca-close').click(function () {
@@ -121,6 +130,36 @@
     document.addEventListener('mouseup', function () {
       document.removeEventListener('mousemove', resize, false);
     }, false);
+  };
+
+  Drupal.bpmn_io.saveSVG = function () {
+    Drupal.bpmn_io.modeller.saveSVG({ format: true }, function (error, svg) {
+      if (error) {
+        return;
+      }
+      let svgBlob = new Blob([svg], {
+        type: 'image/svg+xml'
+      });
+      let downloadLink = document.createElement('a');
+      downloadLink.download = drupalSettings.bpmn_io.id + '.svg';
+      downloadLink.innerHTML = 'Get BPMN SVG';
+      downloadLink.href = window.URL.createObjectURL(svgBlob);
+      downloadLink.onclick = function (event) {
+        document.body.removeChild(event.target);
+      };
+      downloadLink.style.visibility = 'hidden';
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+    });
+  };
+
+  Drupal.bpmn_io.autoLayout = async function () {
+    // Export and auto-layout the model.
+    const result = await Drupal.bpmn_io.modeller.saveXML({ format: true });
+    const diagramWithLayoutXML = await Drupal.bpmn_io.layoutProcess(result.xml);
+
+    Drupal.bpmn_io.open(diagramWithLayoutXML, !drupalSettings.bpmn_io.isnew);
+    Drupal.ginStickyFormActions?.hideMoreActions();
   };
 
 })(jQuery, Drupal, drupalSettings);

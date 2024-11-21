@@ -32,3 +32,9 @@ ui:
     - core/drupal.message
     - core/drupalSettings
     - core/jquery
+convert:
+  js:
+    js/bpmn_io.convert.js: {}
+  dependencies:
+    - bpmn_io/ui
+    - core/once

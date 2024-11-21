@@ -2,9 +2,9 @@
 
 namespace Drupal\bpmn_io\Plugin\ECA\Modeller;
 
-use Drupal\bpmn_io\Form\Modeller;
 use Drupal\Core\Form\FormBuilder;
 use Drupal\Core\Url;
+use Drupal\bpmn_io\Form\Modeller;
 use Drupal\eca_modeller_bpmn\ModellerBpmnBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -53,7 +53,7 @@ class BpmnIo extends ModellerBpmnBase {
    * {@inheritdoc}
    */
   public function edit(): array {
-    $form = $this->formBuilder->getForm(Modeller::class);
+    $form = $this->formBuilder->getForm(Modeller::class, $this->eca->id());
     if (isset($form['gin_sidebar'])) {
       $form['gin_sidebar']['property_panel'] = ['#markup' => '<div class="property-panel"></div>'];
       $form['gin_sidebar']['token_browser'] = $this->tokenBrowserService->getTokenBrowserMarkup();
